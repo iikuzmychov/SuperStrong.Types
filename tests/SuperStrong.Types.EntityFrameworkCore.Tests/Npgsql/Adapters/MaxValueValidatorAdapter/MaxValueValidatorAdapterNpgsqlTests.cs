@@ -1,10 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
-using SuperStrong.Types.EntityFrameworkCore;
 using SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql;
-using System.ComponentModel;
-using System.Globalization;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MaxValueValidatorAdapter;
 

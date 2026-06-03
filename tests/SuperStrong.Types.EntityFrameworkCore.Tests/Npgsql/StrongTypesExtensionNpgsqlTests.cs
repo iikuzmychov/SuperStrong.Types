@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using SuperStrong.Tests.ExampleTypes;
-using SuperStrong.Types.EntityFrameworkCore;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql;
 

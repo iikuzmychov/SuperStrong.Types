@@ -1,5 +1,4 @@
 using SuperStrong.Types.EntityFrameworkCore.Adapters;
-using SuperStrong.Types.EntityFrameworkCore.Internal;
 using System.Reflection;
 
 namespace SuperStrong.Types.EntityFrameworkCore;

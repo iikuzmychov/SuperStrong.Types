@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SuperStrong.Types.EntityFrameworkCore;
 using SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
 using System.Globalization;
 
