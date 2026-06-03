@@ -1,11 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using Npgsql;
 using SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
 
-namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MaxValueValidatorAdapter;
+namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MaxValueValidatorAdapterTests;
 
-public sealed class MaxValueValidatorAdapterNpgsqlTests(ITestOutputHelper testOutputHelper)
-    : NpgsqlValidationAdapterTest<MaxValueValidatorAdapterNpgsqlTests.TestDbContext>(testOutputHelper)
+public sealed class MaxValueValidatorAdapterViewMappedEntityNpgsqlTests(ITestOutputHelper testOutputHelper)
+    : NpgsqlValidationAdapterTest<MaxValueValidatorAdapterViewMappedEntityNpgsqlTests.TestDbContext>(testOutputHelper)
 {
     [StrongType<int>]
     public sealed partial class Score : IHasStrongTypeDefinition<int>
@@ -13,9 +12,8 @@ public sealed class MaxValueValidatorAdapterNpgsqlTests(ITestOutputHelper testOu
         public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMaxValue(100);
     }
 
-    public sealed class Player
+    public sealed class PlayerView
     {
-        public required int Id { get; init; }
         public required Score Score { get; init; }
     }
 
@@ -23,7 +21,10 @@ public sealed class MaxValueValidatorAdapterNpgsqlTests(ITestOutputHelper testOu
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Player>();
+            modelBuilder
+                .Entity<PlayerView>()
+                .HasNoKey()
+                .ToView("PlayerView");
         }
     }
 
@@ -35,34 +36,22 @@ public sealed class MaxValueValidatorAdapterNpgsqlTests(ITestOutputHelper testOu
     protected override TestDbContext CreateDbContext(DbContextOptions<TestDbContext> options) => new(options);
 
     [Fact]
-    public async Task Score_greater_than_max_value_violates_check_constraint()
+    public async Task No_check_constraint_is_emitted_when_entity_is_mapped_to_a_view()
     {
-        var exception = await Assert.ThrowsAsync<PostgresException>(
-            () => Context.Database.ExecuteSqlAsync(
-                $"""insert into "Player" ("Score") values (101)""",
-                TestContext.Current.CancellationToken));
+        await using var connection = Context.Database.GetDbConnection();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
-        Assert.Equal(PostgresErrorCodes.CheckViolation, exception.SqlState);
-    }
+        await using var command = connection.CreateCommand();
+        command.CommandText = """
+            select count(*)
+            from pg_constraint constraint_
+            join pg_class table_ on constraint_.conrelid = table_.oid
+            where table_.relname = 'PlayerView' and constraint_.contype = 'c'
+            """;
 
-    [Fact]
-    public async Task Score_equal_to_max_value_satisfies_check_constraint()
-    {
-        var rows = await Context.Database.ExecuteSqlAsync(
-            $"""insert into "Player" ("Score") values (100)""",
-            TestContext.Current.CancellationToken);
+        var count = (long)(await command.ExecuteScalarAsync(TestContext.Current.CancellationToken))!;
 
-        Assert.Equal(1, rows);
-    }
-
-    [Fact]
-    public async Task Score_less_than_max_value_satisfies_check_constraint()
-    {
-        var rows = await Context.Database.ExecuteSqlAsync(
-            $"""insert into "Player" ("Score") values (99)""",
-            TestContext.Current.CancellationToken);
-
-        Assert.Equal(1, rows);
+        Assert.Equal(0, count);
     }
 
     // todo: delete manual implementation once source generators is implemented

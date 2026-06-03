@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql;
 
@@ -15,6 +16,7 @@ public abstract class NpgsqlValidationAdapterTest<TDbContext>(ITestOutputHelper 
         var options = new DbContextOptionsBuilder<TDbContext>()
             .UseNpgsql($"{Container.GetConnectionString()};Include Error Detail=true")
             .UseStrongTypes(ConfigureOptions)
+            .ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.ManyServiceProvidersCreatedWarning))
             .Options;
 
         Context = CreateDbContext(options);

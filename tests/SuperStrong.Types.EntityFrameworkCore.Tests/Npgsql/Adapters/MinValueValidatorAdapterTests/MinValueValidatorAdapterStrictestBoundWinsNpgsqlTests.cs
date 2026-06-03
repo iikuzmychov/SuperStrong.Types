@@ -2,47 +2,21 @@ using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
 
-namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters;
+namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MinValueValidatorAdapterTests;
 
-public sealed class MinValueValidatorAdapterNpgsqlTests(ITestOutputHelper testOutputHelper)
-    : NpgsqlValidationAdapterTest<MinValueValidatorAdapterNpgsqlTests.TestDbContext>(testOutputHelper)
+public sealed class MinValueValidatorAdapterStrictestBoundWinsNpgsqlTests(ITestOutputHelper testOutputHelper)
+    : NpgsqlValidationAdapterTest<MinValueValidatorAdapterStrictestBoundWinsNpgsqlTests.TestDbContext>(testOutputHelper)
 {
-    protected override void ConfigureOptions(StrongTypeOptionsBuilder options)
+    [StrongType<int>]
+    public sealed partial class Age : IHasStrongTypeDefinition<int>
     {
-        options.AddValidatorAdapter(typeof(MinValueValidatorAdapterFactory));
+        public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMinValue(0).HasMinValue(18);
     }
 
-    protected override TestDbContext CreateDbContext(DbContextOptions<TestDbContext> options) => new(options);
-
-    [Fact]
-    public async Task Age_less_than_min_value_violates_check_constraint()
+    public sealed class Person
     {
-        var exception = await Assert.ThrowsAsync<PostgresException>(
-            () => Context.Database.ExecuteSqlAsync(
-                $"""insert into "Person" ("Id", "Age") values (1, -1)""",
-                TestContext.Current.CancellationToken));
-
-        Assert.Equal(PostgresErrorCodes.CheckViolation, exception.SqlState);
-    }
-
-    [Fact]
-    public async Task Age_equal_to_min_value_satisfies_check_constraint()
-    {
-        var rows = await Context.Database.ExecuteSqlAsync(
-            $"""insert into "Person" ("Id", "Age") values (2, 0)""",
-            TestContext.Current.CancellationToken);
-
-        Assert.Equal(1, rows);
-    }
-
-    [Fact]
-    public async Task Age_greater_than_min_value_satisfies_check_constraint()
-    {
-        var rows = await Context.Database.ExecuteSqlAsync(
-            $"""insert into "Person" ("Id", "Age") values (3, 25)""",
-            TestContext.Current.CancellationToken);
-
-        Assert.Equal(1, rows);
+        public required int Id { get; init; }
+        public required Age Age { get; init; }
     }
 
     public sealed class TestDbContext(DbContextOptions<TestDbContext> options) : DbContext(options)
@@ -53,16 +27,32 @@ public sealed class MinValueValidatorAdapterNpgsqlTests(ITestOutputHelper testOu
         }
     }
 
-    public sealed class Person
+    protected override void ConfigureOptions(StrongTypeOptionsBuilder options)
     {
-        public required int Id { get; init; }
-        public required Age Age { get; init; }
+        options.AddValidatorAdapter(typeof(MinValueValidatorAdapterFactory));
     }
 
-    [StrongType<int>]
-    public sealed partial class Age : IHasStrongTypeDefinition<int>
+    protected override TestDbContext CreateDbContext(DbContextOptions<TestDbContext> options) => new(options);
+
+    [Fact]
+    public async Task Age_below_strictest_min_value_violates_check_constraint()
     {
-        public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMinValue(0);
+        var exception = await Assert.ThrowsAsync<PostgresException>(
+            () => Context.Database.ExecuteSqlAsync(
+                $"""insert into "Person" ("Age") values (17)""",
+                TestContext.Current.CancellationToken));
+
+        Assert.Equal(PostgresErrorCodes.CheckViolation, exception.SqlState);
+    }
+
+    [Fact]
+    public async Task Age_at_strictest_min_value_satisfies_check_constraint()
+    {
+        var rows = await Context.Database.ExecuteSqlAsync(
+            $"""insert into "Person" ("Age") values (18)""",
+            TestContext.Current.CancellationToken);
+
+        Assert.Equal(1, rows);
     }
 
     // todo: delete manual implementation once source generators is implemented

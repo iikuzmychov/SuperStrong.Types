@@ -2,15 +2,15 @@ using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
 
-namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MaxValueValidatorAdapter;
+namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MaxValueValidatorAdapterTests;
 
-public sealed class MaxValueValidatorAdapterStrictestBoundWinsNpgsqlTests(ITestOutputHelper testOutputHelper)
-    : NpgsqlValidationAdapterTest<MaxValueValidatorAdapterStrictestBoundWinsNpgsqlTests.TestDbContext>(testOutputHelper)
+public sealed class MaxValueValidatorAdapterNpgsqlTests(ITestOutputHelper testOutputHelper)
+    : NpgsqlValidationAdapterTest<MaxValueValidatorAdapterNpgsqlTests.TestDbContext>(testOutputHelper)
 {
     [StrongType<int>]
     public sealed partial class Score : IHasStrongTypeDefinition<int>
     {
-        public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMaxValue(100).HasMaxValue(50);
+        public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMaxValue(100);
     }
 
     public sealed class Player
@@ -35,21 +35,31 @@ public sealed class MaxValueValidatorAdapterStrictestBoundWinsNpgsqlTests(ITestO
     protected override TestDbContext CreateDbContext(DbContextOptions<TestDbContext> options) => new(options);
 
     [Fact]
-    public async Task Score_above_strictest_max_value_violates_check_constraint()
+    public async Task Score_greater_than_max_value_violates_check_constraint()
     {
         var exception = await Assert.ThrowsAsync<PostgresException>(
             () => Context.Database.ExecuteSqlAsync(
-                $"""insert into "Player" ("Score") values (51)""",
+                $"""insert into "Player" ("Score") values (101)""",
                 TestContext.Current.CancellationToken));
 
         Assert.Equal(PostgresErrorCodes.CheckViolation, exception.SqlState);
     }
 
     [Fact]
-    public async Task Score_at_strictest_max_value_satisfies_check_constraint()
+    public async Task Score_equal_to_max_value_satisfies_check_constraint()
     {
         var rows = await Context.Database.ExecuteSqlAsync(
-            $"""insert into "Player" ("Score") values (50)""",
+            $"""insert into "Player" ("Score") values (100)""",
+            TestContext.Current.CancellationToken);
+
+        Assert.Equal(1, rows);
+    }
+
+    [Fact]
+    public async Task Score_less_than_max_value_satisfies_check_constraint()
+    {
+        var rows = await Context.Database.ExecuteSqlAsync(
+            $"""insert into "Player" ("Score") values (99)""",
             TestContext.Current.CancellationToken);
 
         Assert.Equal(1, rows);

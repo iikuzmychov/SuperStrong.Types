@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
 
-namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters;
+namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MinLengthValidatorAdapterTests;
 
 public sealed class MinLengthValidatorAdapterNpgsqlTests(ITestOutputHelper testOutputHelper)
     : NpgsqlValidationAdapterTest<MinLengthValidatorAdapterNpgsqlTests.TestDbContext>(testOutputHelper)

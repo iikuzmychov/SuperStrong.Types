@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
 
-namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MaxValueValidatorAdapter;
+namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MaxValueValidatorAdapterTests;
 
-public sealed class MaxValueValidatorAdapterCustomConversionNpgsqlTests(ITestOutputHelper testOutputHelper)
-    : NpgsqlValidationAdapterTest<MaxValueValidatorAdapterCustomConversionNpgsqlTests.TestDbContext>(testOutputHelper)
+public sealed class MaxValueValidatorAdapterOwnedJsonNpgsqlTests(ITestOutputHelper testOutputHelper)
+    : NpgsqlValidationAdapterTest<MaxValueValidatorAdapterOwnedJsonNpgsqlTests.TestDbContext>(testOutputHelper)
 {
     [StrongType<int>]
     public sealed partial class Score : IHasStrongTypeDefinition<int>
@@ -12,10 +12,15 @@ public sealed class MaxValueValidatorAdapterCustomConversionNpgsqlTests(ITestOut
         public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMaxValue(100);
     }
 
+    public sealed class Stats
+    {
+        public required Score Score { get; init; }
+    }
+
     public sealed class Player
     {
         public required int Id { get; init; }
-        public required Score Score { get; init; }
+        public required Stats Stats { get; init; }
     }
 
     public sealed class TestDbContext(DbContextOptions<TestDbContext> options) : DbContext(options)
@@ -23,10 +28,7 @@ public sealed class MaxValueValidatorAdapterCustomConversionNpgsqlTests(ITestOut
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Player>()
-                .Property(player => player.Score)
-                .HasConversion(
-                    score => score.AsPrimitive() * 10,
-                    stored => Score.Create(stored / 10));
+                .OwnsOne(player => player.Stats, stats => stats.ToJson());
         }
     }
 
@@ -38,7 +40,7 @@ public sealed class MaxValueValidatorAdapterCustomConversionNpgsqlTests(ITestOut
     protected override TestDbContext CreateDbContext(DbContextOptions<TestDbContext> options) => new(options);
 
     [Fact]
-    public async Task No_check_constraint_is_emitted_when_property_has_user_supplied_value_converter()
+    public async Task No_check_constraint_is_emitted_when_property_lives_in_json_owned_entity()
     {
         await using var connection = Context.Database.GetDbConnection();
         await connection.OpenAsync(TestContext.Current.CancellationToken);

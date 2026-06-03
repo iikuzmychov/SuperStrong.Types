@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SuperStrong.Types.EntityFrameworkCore.Adapters;
 
-namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters;
+namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MaxLengthValidatorAdapterTests;
 
 public sealed class MaxLengthValidatorAdapterNpgsqlTests(ITestOutputHelper testOutputHelper)
     : NpgsqlValidationAdapterTest<MaxLengthValidatorAdapterNpgsqlTests.TestDbContext>(testOutputHelper)
@@ -25,7 +25,6 @@ public sealed class MaxLengthValidatorAdapterNpgsqlTests(ITestOutputHelper testO
             modelBuilder.Entity<Account>();
         }
     }
-
 
     protected override void ConfigureOptions(StrongTypeOptionsBuilder options)
     {

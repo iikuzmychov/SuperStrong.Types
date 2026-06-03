@@ -1,35 +1,35 @@
 using Microsoft.EntityFrameworkCore;
-using SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
 
-namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MaxValueValidatorAdapter;
+namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MinLengthValidatorAdapterTests;
 
-public sealed class MaxValueValidatorAdapterViewMappedEntityNpgsqlTests(ITestOutputHelper testOutputHelper)
-    : NpgsqlValidationAdapterTest<MaxValueValidatorAdapterViewMappedEntityNpgsqlTests.TestDbContext>(testOutputHelper)
+public sealed class MinLengthValidatorAdapterViewMappedEntityNpgsqlTests(ITestOutputHelper testOutputHelper)
+    : NpgsqlValidationAdapterTest<MinLengthValidatorAdapterViewMappedEntityNpgsqlTests.TestDbContext>(testOutputHelper)
 {
-    [StrongType<int>]
-    public sealed partial class Score : IHasStrongTypeDefinition<int>
+    [StrongType<string>]
+    public sealed partial class TagLabel : IHasStrongTypeDefinition<string>
     {
-        public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMaxValue(100);
+        public static StrongTypeDefinition<string> Definition => StrongType.Define<string>().HasMinLength(3);
     }
 
-    public sealed class PlayerView
+    public sealed class TagView
     {
-        public required Score Score { get; init; }
+        public required TagLabel Label { get; init; }
     }
 
     public sealed class TestDbContext(DbContextOptions<TestDbContext> options) : DbContext(options)
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<PlayerView>()
+            modelBuilder
+                .Entity<TagView>()
                 .HasNoKey()
-                .ToView("PlayerView");
+                .ToView("TagView");
         }
     }
 
     protected override void ConfigureOptions(StrongTypeOptionsBuilder options)
     {
-        options.AddValidatorAdapter(typeof(MaxValueValidatorAdapterFactory));
+        options.AddValidatorAdapter(new EntityFrameworkCore.Npgsql.Adapters.MinLengthValidatorAdapter());
     }
 
     protected override TestDbContext CreateDbContext(DbContextOptions<TestDbContext> options) => new(options);
@@ -45,7 +45,7 @@ public sealed class MaxValueValidatorAdapterViewMappedEntityNpgsqlTests(ITestOut
             select count(*)
             from pg_constraint constraint_
             join pg_class table_ on constraint_.conrelid = table_.oid
-            where table_.relname = 'PlayerView' and constraint_.contype = 'c'
+            where table_.relname = 'TagView' and constraint_.contype = 'c'
             """;
 
         var count = (long)(await command.ExecuteScalarAsync(TestContext.Current.CancellationToken))!;
@@ -54,28 +54,28 @@ public sealed class MaxValueValidatorAdapterViewMappedEntityNpgsqlTests(ITestOut
     }
 
     // todo: delete manual implementation once source generators is implemented
-    public sealed partial class Score : IStrongType<Score, int>
+    public sealed partial class TagLabel : IStrongType<TagLabel, string>
     {
-        private readonly int _value;
+        private readonly string _value;
 
-        public static StrongTypeLayout<int> Layout => StrongType.Layout<int>();
+        public static StrongTypeLayout<string> Layout => StrongType.Layout<string>();
 
-        private Score(int value)
+        private TagLabel(string value)
         {
             _value = value;
         }
 
-        public static Score Create(int value)
+        public static TagLabel Create(string value)
         {
             StrongType.EnsureValid(value, Definition);
 
-            return new Score(value);
+            return new TagLabel(value);
         }
 
-        public int AsPrimitive() => _value;
+        public string AsPrimitive() => _value;
 
         public override int GetHashCode() => _value.GetHashCode();
 
-        public override bool Equals(object? obj) => obj is Score other && _value == other._value;
+        public override bool Equals(object? obj) => obj is TagLabel other && _value == other._value;
     }
 }

@@ -1,11 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
-using System.Globalization;
 
-namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MaxValueValidatorAdapter;
+namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MaxValueValidatorAdapterTests;
 
-public sealed class MaxValueValidatorAdapterIncompatibleConversionNpgsqlTests(ITestOutputHelper testOutputHelper)
-    : NpgsqlValidationAdapterTest<MaxValueValidatorAdapterIncompatibleConversionNpgsqlTests.TestDbContext>(testOutputHelper)
+public sealed class MaxValueValidatorAdapterCustomConversionNpgsqlTests(ITestOutputHelper testOutputHelper)
+    : NpgsqlValidationAdapterTest<MaxValueValidatorAdapterCustomConversionNpgsqlTests.TestDbContext>(testOutputHelper)
 {
     [StrongType<int>]
     public sealed partial class Score : IHasStrongTypeDefinition<int>
@@ -23,11 +22,12 @@ public sealed class MaxValueValidatorAdapterIncompatibleConversionNpgsqlTests(IT
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Player>()
+            modelBuilder
+                .Entity<Player>()
                 .Property(player => player.Score)
                 .HasConversion(
-                    score => score.AsPrimitive().ToString(CultureInfo.InvariantCulture),
-                    stored => Score.Create(int.Parse(stored, CultureInfo.InvariantCulture)));
+                    score => score.AsPrimitive() * 10,
+                    stored => Score.Create(stored / 10));
         }
     }
 
@@ -39,7 +39,7 @@ public sealed class MaxValueValidatorAdapterIncompatibleConversionNpgsqlTests(IT
     protected override TestDbContext CreateDbContext(DbContextOptions<TestDbContext> options) => new(options);
 
     [Fact]
-    public async Task No_check_constraint_is_emitted_when_provider_type_differs_from_validator_primitive()
+    public async Task No_check_constraint_is_emitted_when_property_has_user_supplied_value_converter()
     {
         await using var connection = Context.Database.GetDbConnection();
         await connection.OpenAsync(TestContext.Current.CancellationToken);
