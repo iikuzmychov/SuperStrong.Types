@@ -1,0 +1,40 @@
+<Project>
+
+  <PropertyGroup>
+    <_ThisAssemblyMarkerFile>$(IntermediateOutputPath)ThisAssemblyMarker.g.cs</_ThisAssemblyMarkerFile>
+    <_ThisAssemblyMarkerContent>
+namespace Microsoft.CodeAnalysis
+{
+    [global::Microsoft.CodeAnalysis.Embedded]
+    internal sealed partial class EmbeddedAttribute : System.Attribute { }
+}
+
+namespace $(RootNamespace)
+{
+    [global::Microsoft.CodeAnalysis.Embedded]
+    internal sealed class ThisAssemblyMarker
+    {
+        private ThisAssemblyMarker() { }
+    }
+}
+</_ThisAssemblyMarkerContent>
+  </PropertyGroup>
+
+  <Target Name="GenerateThisAssemblyMarker"
+          BeforeTargets="CoreCompile"
+          Inputs="$(MSBuildProjectFile)"
+          Outputs="$(_ThisAssemblyMarkerFile)">
+
+    <WriteLinesToFile
+      File="$(_ThisAssemblyMarkerFile)"
+      Lines="$(_ThisAssemblyMarkerContent)"
+      Overwrite="true"
+      WriteOnlyWhenDifferent="true" />
+
+    <ItemGroup>
+      <Compile Include="$(_ThisAssemblyMarkerFile)" />
+      <FileWrites Include="$(_ThisAssemblyMarkerFile)" />
+    </ItemGroup>
+  </Target>
+
+</Project>

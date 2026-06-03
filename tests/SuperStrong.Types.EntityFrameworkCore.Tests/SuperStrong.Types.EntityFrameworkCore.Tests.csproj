@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1" />
+    <PackageReference Include="Testcontainers.PostgreSql" Version="4.12.0" />
+    <PackageReference Include="Testcontainers.XunitV3" Version="4.12.0" />
+    <PackageReference Include="xunit.v3.mtp-v2" Version="3.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\SuperStrong.Types.EntityFrameworkCore\SuperStrong.Types.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\src\SuperStrong.Types.EntityFrameworkCore.Npgsql\SuperStrong.Types.EntityFrameworkCore.Npgsql.csproj" />
+    <ProjectReference Include="..\..\src\SuperStrong.Types.EntityFrameworkCore.SqlServer\SuperStrong.Types.EntityFrameworkCore.SqlServer.csproj" />
+  </ItemGroup>
+
+</Project>

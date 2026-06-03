@@ -1,0 +1,20 @@
+<Solution>
+  <Folder Name="/items/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="draft.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <File Path="src/Directory.Build.props" />
+    <Project Path="src/SuperStrong.Types.EntityFrameworkCore.Npgsql/SuperStrong.Types.EntityFrameworkCore.Npgsql.csproj" />
+    <Project Path="src/SuperStrong.Types.EntityFrameworkCore.SqlServer/SuperStrong.Types.EntityFrameworkCore.SqlServer.csproj" />
+    <Project Path="src/SuperStrong.Types.EntityFrameworkCore/SuperStrong.Types.EntityFrameworkCore.csproj" />
+    <Project Path="src/SuperStrong.Types.Generators/SuperStrong.Types.Generators.csproj" />
+    <Project Path="src/SuperStrong.Types.HotChocolate/SuperStrong.Types.HotChocolate.csproj" />
+    <Project Path="src/SuperStrong.Types/SuperStrong.Types.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SuperStrong.Types.EntityFrameworkCore.Tests/SuperStrong.Types.EntityFrameworkCore.Tests.csproj" Id="9aea7318-a774-451c-897b-f10620918846" />
+    <Project Path="tests/SuperStrong.Types.Tests/SuperStrong.Types.Tests.csproj" />
+  </Folder>
+</Solution>
