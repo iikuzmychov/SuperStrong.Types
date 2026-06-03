@@ -1,0 +1,28 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+          
+      - name: Build solution
+        run: dotnet build SuperStrong.slnx --configuration Release
+
+      - name: Run tests
+        run: dotnet test SuperStrong.slnx --configuration Release --no-build

@@ -4,6 +4,9 @@
     <File Path="Directory.Build.targets" />
     <File Path="draft.md" />
   </Folder>
+  <Folder Name="/items/.github/workflows/">
+    <File Path=".github/workflows/ci.yml" />
+  </Folder>
   <Folder Name="/src/">
     <File Path="src/Directory.Build.props" />
     <Project Path="src/SuperStrong.Types.EntityFrameworkCore.Npgsql/SuperStrong.Types.EntityFrameworkCore.Npgsql.csproj" />
