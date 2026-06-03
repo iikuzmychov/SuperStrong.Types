@@ -81,7 +81,7 @@ public sealed class MaxValueValidatorAdapterNpgsqlTests(ITestOutputHelper testOu
             _value = value;
         }
 
-        public static Score From(int value)
+        public static Score Create(int value)
         {
             StrongType.EnsureValid(value, Definition);
 

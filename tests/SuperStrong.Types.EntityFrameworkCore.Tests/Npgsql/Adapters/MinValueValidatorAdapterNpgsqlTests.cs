@@ -79,7 +79,7 @@ public sealed class MinValueValidatorAdapterNpgsqlTests(ITestOutputHelper testOu
             _value = value;
         }
 
-        public static Age From(int value)
+        public static Age Create(int value)
         {
             StrongType.EnsureValid(value, Definition);
 

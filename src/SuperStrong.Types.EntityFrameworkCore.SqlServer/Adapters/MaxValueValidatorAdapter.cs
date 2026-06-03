@@ -15,7 +15,7 @@ public sealed class MaxValueValidatorAdapter<TPrimitive>
         IConventionProperty property)
     {
         var maxValue = validators.Min(validator => validator.MaxValue);
-        var modelValue = TStrongType.From(maxValue);
+        var modelValue = TStrongType.Create(maxValue);
 
         CheckConstraintRegistrar.TryRegister<TPrimitive>(
             property,

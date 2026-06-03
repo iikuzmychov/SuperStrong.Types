@@ -78,7 +78,7 @@ public sealed class MinLengthValidatorAdapterNpgsqlTests(ITestOutputHelper testO
             _value = value;
         }
 
-        public static TagLabel From(string value)
+        public static TagLabel Create(string value)
         {
             StrongType.EnsureValid(value, Definition);
 

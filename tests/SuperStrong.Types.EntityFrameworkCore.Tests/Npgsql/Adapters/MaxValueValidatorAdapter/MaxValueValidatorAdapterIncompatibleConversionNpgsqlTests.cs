@@ -28,7 +28,7 @@ public sealed class MaxValueValidatorAdapterIncompatibleConversionNpgsqlTests(IT
                 .Property(player => player.Score)
                 .HasConversion(
                     score => score.AsPrimitive().ToString(CultureInfo.InvariantCulture),
-                    stored => Score.From(int.Parse(stored, CultureInfo.InvariantCulture)));
+                    stored => Score.Create(int.Parse(stored, CultureInfo.InvariantCulture)));
         }
     }
 
@@ -70,7 +70,7 @@ public sealed class MaxValueValidatorAdapterIncompatibleConversionNpgsqlTests(IT
             _value = value;
         }
 
-        public static Score From(int value)
+        public static Score Create(int value)
         {
             StrongType.EnsureValid(value, Definition);
 

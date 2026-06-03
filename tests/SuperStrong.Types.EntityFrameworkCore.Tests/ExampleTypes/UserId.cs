@@ -29,7 +29,7 @@ partial class UserId :
         _value = value;
     }
 
-    public static UserId From(int value)
+    public static UserId Create(int value)
     {
         StrongType.EnsureValid(value, Definition);
 

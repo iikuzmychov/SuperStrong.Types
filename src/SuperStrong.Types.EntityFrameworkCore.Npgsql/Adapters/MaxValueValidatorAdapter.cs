@@ -6,8 +6,7 @@ using System.Numerics;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
 
-public sealed class MaxValueValidatorAdapter<TPrimitive>
-    : StrongTypeValidatorAdapter<MaxValueValidator<TPrimitive>, TPrimitive>
+public sealed class MaxValueValidatorAdapter<TPrimitive> : StrongTypeValidatorAdapter<MaxValueValidator<TPrimitive>, TPrimitive>
     where TPrimitive : IComparisonOperators<TPrimitive, TPrimitive, bool>
 {
     protected override void ApplyCore<TStrongType>(
@@ -15,7 +14,7 @@ public sealed class MaxValueValidatorAdapter<TPrimitive>
         IConventionProperty property)
     {
         var maxValue = validators.Min(validator => validator.MaxValue);
-        var modelValue = TStrongType.From(maxValue);
+        var modelValue = TStrongType.Create(maxValue);
 
         CheckConstraintRegistrar.TryRegister<TPrimitive>(
             property,

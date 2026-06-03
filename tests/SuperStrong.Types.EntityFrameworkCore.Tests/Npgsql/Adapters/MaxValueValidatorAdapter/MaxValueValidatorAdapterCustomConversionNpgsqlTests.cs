@@ -29,7 +29,7 @@ public sealed class MaxValueValidatorAdapterCustomConversionNpgsqlTests(ITestOut
                 .Property(player => player.Score)
                 .HasConversion(
                     score => score.AsPrimitive() * 10,
-                    stored => Score.From(stored / 10));
+                    stored => Score.Create(stored / 10));
         }
     }
 
@@ -83,7 +83,7 @@ public sealed class MaxValueValidatorAdapterCustomConversionNpgsqlTests(ITestOut
             _value = value;
         }
 
-        public static Score From(int value)
+        public static Score Create(int value)
         {
             StrongType.EnsureValid(value, Definition);
 

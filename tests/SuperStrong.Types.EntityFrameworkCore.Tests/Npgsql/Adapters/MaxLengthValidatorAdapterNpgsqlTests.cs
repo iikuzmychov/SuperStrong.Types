@@ -62,7 +62,7 @@ public sealed class MaxLengthValidatorAdapterNpgsqlTests(ITestOutputHelper testO
             _value = value;
         }
 
-        public static UserName From(string value)
+        public static UserName Create(string value)
         {
             StrongType.EnsureValid(value, Definition);
 

@@ -32,7 +32,7 @@ partial class Digit :
         _value = value;
     }
 
-    public static Digit From(int value)
+    public static Digit Create(int value)
     {
         StrongType.EnsureValid(value, Definition);
 

@@ -39,7 +39,7 @@ public sealed class StrongTypeVisitorTests
     {
         public static StrongTypeDefinition<int> Definition => throw new NotImplementedException();
         public static StrongTypeLayout<int> Layout => throw new NotImplementedException();
-        public static StrongTypedInt From(int value) => throw new NotImplementedException();
+        public static StrongTypedInt Create(int value) => throw new NotImplementedException();
         public int AsPrimitive() => throw new NotImplementedException();
     }
 }
