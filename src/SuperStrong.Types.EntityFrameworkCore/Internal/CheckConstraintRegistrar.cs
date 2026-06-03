@@ -31,7 +31,8 @@ internal static class CheckConstraintRegistrar
             return;
         }
 
-        if ((mapping.Converter?.ProviderClrType ?? mapping.ClrType) != typeof(TPrimitive))
+        if (mapping.Converter?.GetType() is not { IsGenericType: true } converterType ||
+            converterType.GetGenericTypeDefinition() != typeof(StrongTypeValueConverter<,>))
         {
             return;
         }

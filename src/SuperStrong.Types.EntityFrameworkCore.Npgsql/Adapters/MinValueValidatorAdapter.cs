@@ -14,14 +14,13 @@ public sealed class MinValueValidatorAdapter<TPrimitive> : StrongTypeValidatorAd
         IConventionProperty property)
     {
         var minValue = validators.Max(validator => validator.MinValue);
-        var modelValue = TStrongType.Create(minValue);
 
         CheckConstraintRegistrar.TryRegister<TPrimitive>(
             property,
             purpose: "MinValue",
             buildSql: (columnName, mapping) =>
             {
-                var literal = mapping.GenerateSqlLiteral(modelValue);
+                var literal = mapping.GenerateProviderValueSqlLiteral(minValue);
                 return $"\"{columnName}\" >= {literal}";
             });
     }

@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Npgsql;
 using SuperStrong.Types.EntityFrameworkCore;
 using SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
 using SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql;
@@ -41,34 +40,22 @@ public sealed class MaxValueValidatorAdapterCustomConversionNpgsqlTests(ITestOut
     protected override TestDbContext CreateDbContext(DbContextOptions<TestDbContext> options) => new(options);
 
     [Fact]
-    public async Task Scaled_provider_value_above_scaled_max_violates_check_constraint()
+    public async Task No_check_constraint_is_emitted_when_property_has_user_supplied_value_converter()
     {
-        var exception = await Assert.ThrowsAsync<PostgresException>(
-            () => Context.Database.ExecuteSqlAsync(
-                $"""insert into "Player" ("Score") values (1001)""",
-                TestContext.Current.CancellationToken));
+        await using var connection = Context.Database.GetDbConnection();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
-        Assert.Equal(PostgresErrorCodes.CheckViolation, exception.SqlState);
-    }
+        await using var command = connection.CreateCommand();
+        command.CommandText = """
+            select count(*)
+            from pg_constraint constraint_
+            join pg_class table_ on constraint_.conrelid = table_.oid
+            where table_.relname = 'Player' and constraint_.contype = 'c'
+            """;
 
-    [Fact]
-    public async Task Scaled_provider_value_at_scaled_max_satisfies_check_constraint()
-    {
-        var rows = await Context.Database.ExecuteSqlAsync(
-            $"""insert into "Player" ("Score") values (1000)""",
-            TestContext.Current.CancellationToken);
+        var count = (long)(await command.ExecuteScalarAsync(TestContext.Current.CancellationToken))!;
 
-        Assert.Equal(1, rows);
-    }
-
-    [Fact]
-    public async Task Scaled_provider_value_below_scaled_max_satisfies_check_constraint()
-    {
-        var rows = await Context.Database.ExecuteSqlAsync(
-            $"""insert into "Player" ("Score") values (999)""",
-            TestContext.Current.CancellationToken);
-
-        Assert.Equal(1, rows);
+        Assert.Equal(0, count);
     }
 
     // todo: delete manual implementation once source generators is implemented
