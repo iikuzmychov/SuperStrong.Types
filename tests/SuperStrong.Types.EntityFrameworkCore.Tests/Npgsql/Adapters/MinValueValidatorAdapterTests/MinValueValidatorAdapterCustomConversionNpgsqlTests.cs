@@ -33,7 +33,7 @@ public sealed class MinValueValidatorAdapterCustomConversionNpgsqlTests(Postgres
 
     protected override void ConfigureStrongTypes(StrongTypeOptionsBuilder options)
     {
-        options.AddValidatorAdapter(typeof(MinValueValidatorAdapterFactory));
+        options.AddValidatorAdapter(new MinValueValidatorAdapterFactory());
     }
 
     protected override TestDbContext CreateDbContext(DbContextOptions<TestDbContext> options) => new(options);
@@ -45,6 +45,7 @@ public sealed class MinValueValidatorAdapterCustomConversionNpgsqlTests(Postgres
         await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         await using var command = connection.CreateCommand();
+
         command.CommandText = """
             select count(*)
             from pg_constraint constraint_

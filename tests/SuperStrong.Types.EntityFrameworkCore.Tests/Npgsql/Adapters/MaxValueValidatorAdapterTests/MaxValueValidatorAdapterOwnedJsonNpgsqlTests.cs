@@ -34,7 +34,7 @@ public sealed class MaxValueValidatorAdapterOwnedJsonNpgsqlTests(PostgresDatabas
 
     protected override void ConfigureStrongTypes(StrongTypeOptionsBuilder options)
     {
-        options.AddValidatorAdapter(typeof(MaxValueValidatorAdapterFactory));
+        options.AddValidatorAdapter(new MaxValueValidatorAdapterFactory());
     }
 
     protected override TestDbContext CreateDbContext(DbContextOptions<TestDbContext> options) => new(options);

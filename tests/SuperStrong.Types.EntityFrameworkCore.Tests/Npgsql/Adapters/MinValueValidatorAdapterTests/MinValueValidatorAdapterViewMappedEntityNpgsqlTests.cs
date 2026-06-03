@@ -30,7 +30,7 @@ public sealed class MinValueValidatorAdapterViewMappedEntityNpgsqlTests(Postgres
 
     protected override void ConfigureStrongTypes(StrongTypeOptionsBuilder options)
     {
-        options.AddValidatorAdapter(typeof(MinValueValidatorAdapterFactory));
+        options.AddValidatorAdapter(new MinValueValidatorAdapterFactory());
     }
 
     protected override TestDbContext CreateDbContext(DbContextOptions<TestDbContext> options) => new(options);

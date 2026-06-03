@@ -35,7 +35,7 @@ public sealed class MinValueValidatorAdapterOwnedJsonNpgsqlTests(PostgresDatabas
 
     protected override void ConfigureStrongTypes(StrongTypeOptionsBuilder options)
     {
-        options.AddValidatorAdapter(typeof(MinValueValidatorAdapterFactory));
+        options.AddValidatorAdapter(new MinValueValidatorAdapterFactory());
     }
 
     protected override TestDbContext CreateDbContext(DbContextOptions<TestDbContext> options) => new(options);
