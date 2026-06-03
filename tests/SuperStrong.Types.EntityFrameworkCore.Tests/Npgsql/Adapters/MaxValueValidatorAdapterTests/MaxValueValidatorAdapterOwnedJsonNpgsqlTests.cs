@@ -3,8 +3,8 @@ using SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MaxValueValidatorAdapterTests;
 
-public sealed class MaxValueValidatorAdapterOwnedJsonNpgsqlTests(ITestOutputHelper testOutputHelper)
-    : NpgsqlValidationAdapterTest<MaxValueValidatorAdapterOwnedJsonNpgsqlTests.TestDbContext>(testOutputHelper)
+public sealed class MaxValueValidatorAdapterOwnedJsonNpgsqlTests(PostgresDatabaseFixture database)
+    : NpgsqlValidationAdapterTest<MaxValueValidatorAdapterOwnedJsonNpgsqlTests.TestDbContext>(database)
 {
     [StrongType<int>]
     public sealed partial class Score : IHasStrongTypeDefinition<int>
@@ -32,7 +32,7 @@ public sealed class MaxValueValidatorAdapterOwnedJsonNpgsqlTests(ITestOutputHelp
         }
     }
 
-    protected override void ConfigureOptions(StrongTypeOptionsBuilder options)
+    protected override void ConfigureStrongTypes(StrongTypeOptionsBuilder options)
     {
         options.AddValidatorAdapter(typeof(MaxValueValidatorAdapterFactory));
     }

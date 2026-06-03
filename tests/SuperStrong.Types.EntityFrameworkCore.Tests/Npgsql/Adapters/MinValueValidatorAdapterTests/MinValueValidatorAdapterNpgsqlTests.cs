@@ -4,10 +4,10 @@ using SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MinValueValidatorAdapterTests;
 
-public sealed class MinValueValidatorAdapterNpgsqlTests(ITestOutputHelper testOutputHelper)
-    : NpgsqlValidationAdapterTest<MinValueValidatorAdapterNpgsqlTests.TestDbContext>(testOutputHelper)
+public sealed class MinValueValidatorAdapterNpgsqlTests(PostgresDatabaseFixture database)
+    : NpgsqlValidationAdapterTest<MinValueValidatorAdapterNpgsqlTests.TestDbContext>(database)
 {
-    protected override void ConfigureOptions(StrongTypeOptionsBuilder options)
+    protected override void ConfigureStrongTypes(StrongTypeOptionsBuilder options)
     {
         options.AddValidatorAdapter(typeof(MinValueValidatorAdapterFactory));
     }

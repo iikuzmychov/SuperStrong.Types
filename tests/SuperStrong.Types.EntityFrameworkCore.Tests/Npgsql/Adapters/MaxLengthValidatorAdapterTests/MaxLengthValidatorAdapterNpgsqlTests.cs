@@ -3,8 +3,8 @@ using SuperStrong.Types.EntityFrameworkCore.Adapters;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MaxLengthValidatorAdapterTests;
 
-public sealed class MaxLengthValidatorAdapterNpgsqlTests(ITestOutputHelper testOutputHelper)
-    : NpgsqlValidationAdapterTest<MaxLengthValidatorAdapterNpgsqlTests.TestDbContext>(testOutputHelper)
+public sealed class MaxLengthValidatorAdapterNpgsqlTests(PostgresDatabaseFixture database)
+    : NpgsqlValidationAdapterTest<MaxLengthValidatorAdapterNpgsqlTests.TestDbContext>(database)
 {
     [StrongType<string>]
     public sealed partial class UserName : IHasStrongTypeDefinition<string>
@@ -26,7 +26,7 @@ public sealed class MaxLengthValidatorAdapterNpgsqlTests(ITestOutputHelper testO
         }
     }
 
-    protected override void ConfigureOptions(StrongTypeOptionsBuilder options)
+    protected override void ConfigureStrongTypes(StrongTypeOptionsBuilder options)
     {
         options.AddValidatorAdapter(new MaxLengthValidatorAdapter());
     }

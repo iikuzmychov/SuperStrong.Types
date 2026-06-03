@@ -3,21 +3,21 @@ using SuperStrong.Tests.ExampleTypes;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql;
 
-public sealed class StrongTypesExtensionNpgsqlTests(ITestOutputHelper testOutputHelper)
-    : PostgresContainerTest(testOutputHelper)
+public sealed class StrongTypesExtensionNpgsqlTests(PostgresDatabaseFixture database)
+    : NpgsqlTest<StrongTypesExtensionNpgsqlTests.TestDbContext>(database)
 {
+    protected override void ConfigureDbContext(DbContextOptionsBuilder<TestDbContext> options)
+    {
+        options.UseStrongTypes();
+    }
+
+    protected override TestDbContext CreateDbContext(DbContextOptions<TestDbContext> options) => new(options);
+
     [Fact]
     public async Task Should_perform_query_with_strong_type_conversion()
     {
-        var options = new DbContextOptionsBuilder<TestDbContext>()
-            .UseNpgsql(Container.GetConnectionString())
-            .UseStrongTypes()
-            .Options;
-
-        using (var context = new TestDbContext(options))
+        await using (var context = CreateDbContext())
         {
-            await context.Database.EnsureCreatedAsync(TestContext.Current.CancellationToken);
-
             context.Set<User>().AddRange(
             [
                 new(UserId.Create(1)),
@@ -30,7 +30,7 @@ public sealed class StrongTypesExtensionNpgsqlTests(ITestOutputHelper testOutput
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 
-        using (var context = new TestDbContext(options))
+        await using (var context = CreateDbContext())
         {
             var users = await context
                 .Set<User>()
@@ -44,12 +44,12 @@ public sealed class StrongTypesExtensionNpgsqlTests(ITestOutputHelper testOutput
         }
     }
 
-    private sealed class TestDbContext(DbContextOptions<TestDbContext> options) : DbContext(options)
+    public sealed class TestDbContext(DbContextOptions<TestDbContext> options) : DbContext(options)
     {
         public DbSet<User> Users => Set<User>();
     }
 
-    private sealed class User(UserId id)
+    public sealed class User(UserId id)
     {
         public UserId Id { get; private set; } = id ?? throw new ArgumentNullException(nameof(id));
     }

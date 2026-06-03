@@ -2,8 +2,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MinLengthValidatorAdapterTests;
 
-public sealed class MinLengthValidatorAdapterViewMappedEntityNpgsqlTests(ITestOutputHelper testOutputHelper)
-    : NpgsqlValidationAdapterTest<MinLengthValidatorAdapterViewMappedEntityNpgsqlTests.TestDbContext>(testOutputHelper)
+public sealed class MinLengthValidatorAdapterViewMappedEntityNpgsqlTests(PostgresDatabaseFixture database)
+    : NpgsqlValidationAdapterTest<MinLengthValidatorAdapterViewMappedEntityNpgsqlTests.TestDbContext>(database)
 {
     [StrongType<string>]
     public sealed partial class TagLabel : IHasStrongTypeDefinition<string>
@@ -27,7 +27,7 @@ public sealed class MinLengthValidatorAdapterViewMappedEntityNpgsqlTests(ITestOu
         }
     }
 
-    protected override void ConfigureOptions(StrongTypeOptionsBuilder options)
+    protected override void ConfigureStrongTypes(StrongTypeOptionsBuilder options)
     {
         options.AddValidatorAdapter(new EntityFrameworkCore.Npgsql.Adapters.MinLengthValidatorAdapter());
     }

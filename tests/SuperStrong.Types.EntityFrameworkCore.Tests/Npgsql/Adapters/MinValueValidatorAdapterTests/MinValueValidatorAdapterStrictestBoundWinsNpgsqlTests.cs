@@ -4,8 +4,8 @@ using SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MinValueValidatorAdapterTests;
 
-public sealed class MinValueValidatorAdapterStrictestBoundWinsNpgsqlTests(ITestOutputHelper testOutputHelper)
-    : NpgsqlValidationAdapterTest<MinValueValidatorAdapterStrictestBoundWinsNpgsqlTests.TestDbContext>(testOutputHelper)
+public sealed class MinValueValidatorAdapterStrictestBoundWinsNpgsqlTests(PostgresDatabaseFixture database)
+    : NpgsqlValidationAdapterTest<MinValueValidatorAdapterStrictestBoundWinsNpgsqlTests.TestDbContext>(database)
 {
     [StrongType<int>]
     public sealed partial class Age : IHasStrongTypeDefinition<int>
@@ -27,7 +27,7 @@ public sealed class MinValueValidatorAdapterStrictestBoundWinsNpgsqlTests(ITestO
         }
     }
 
-    protected override void ConfigureOptions(StrongTypeOptionsBuilder options)
+    protected override void ConfigureStrongTypes(StrongTypeOptionsBuilder options)
     {
         options.AddValidatorAdapter(typeof(MinValueValidatorAdapterFactory));
     }
