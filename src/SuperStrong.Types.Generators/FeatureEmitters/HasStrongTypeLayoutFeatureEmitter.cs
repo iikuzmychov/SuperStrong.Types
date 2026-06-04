@@ -10,7 +10,7 @@ internal sealed class HasStrongTypeLayoutFeatureEmitter : IStrongTypeFeatureEmit
 
     public void Emit(IndentedWriter writer, StrongTypeModel model)
     {
-        var interfaceTypeName = $"{TypeNames.IHasStrongTypeLayout.FullyQualifiedName}<{model.PrimitiveType}>";
+        var interfaceTypeName = $"{TypeNames.IHasStrongTypeLayout}<{model.PrimitiveType}>";
         var layoutTypeName = $"{TypeNames.StrongTypeLayout}<{model.PrimitiveType}>";
 
         using (writer.Block($"partial class {model.TypeName} : {interfaceTypeName}"))

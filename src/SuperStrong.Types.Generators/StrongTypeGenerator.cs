@@ -121,7 +121,7 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
                     Location: LocationInfo.From(context.Node)));
         }
 
-        var model = BuildModel(typeSymbol, strongTypeAttributes.Single());
+        var model = BuildModel(typeSymbol, strongTypeAttributes.Single(), context.SemanticModel.Compilation);
 
         return GeneratorOutput.FromModel(model);
 
@@ -134,10 +134,11 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
         }
     }
 
-    private static StrongTypeModel BuildModel(INamedTypeSymbol typeSymbol, AttributeData attribute)
+    private static StrongTypeModel BuildModel(INamedTypeSymbol typeSymbol, AttributeData attribute, Compilation compilation)
     {
         var typeArguments = attribute.AttributeClass!.TypeArguments;
-        var primitiveType = typeArguments[0].ToDisplayString(FullyQualifiedFormatWithKeywords);
+        var primitiveTypeSymbol = typeArguments[0];
+        var primitiveType = primitiveTypeSymbol.ToDisplayString(FullyQualifiedFormatWithKeywords);
 
         var templateType = typeArguments.Length == 2
             ? typeArguments[1].ToDisplayString(FullyQualifiedFormatWithKeywords)
@@ -156,17 +157,23 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             ? null
             : typeSymbol.ContainingNamespace.ToDisplayString();
 
-        var userImplementsDefinition = typeSymbol
-            .Interfaces
-            .Any(@interface => @interface
-                .ToDisplayString(FullyQualifiedFormatWithKeywords)
-                .Equals($"{TypeNames.IHasStrongTypeDefinition.FullyQualifiedName}<{primitiveType}>"));
+        var hasDefinitionInterface = compilation
+            .GetTypeByMetadataName(TypeNames.IHasStrongTypeDefinition.MetadataName(arity: 1))
+            ?.Construct(primitiveTypeSymbol);
 
-        var userImplementsLayout = typeSymbol
-            .Interfaces
-            .Any(@interface => @interface
-                .ToDisplayString(FullyQualifiedFormatWithKeywords)
-                .Equals($"{TypeNames.IHasStrongTypeLayout.FullyQualifiedName}<{primitiveType}>"));
+        var hasLayoutInterface = compilation
+            .GetTypeByMetadataName(TypeNames.IHasStrongTypeLayout.MetadataName(arity: 1))
+            ?.Construct(primitiveTypeSymbol);
+
+        var userImplementsDefinition =
+            hasDefinitionInterface is not null &&
+            typeSymbol.AllInterfaces.Any(
+                @interface => SymbolEqualityComparer.Default.Equals(@interface, hasDefinitionInterface));
+
+        var userImplementsLayout =
+            hasLayoutInterface is not null &&
+            typeSymbol.AllInterfaces.Any(
+                @interface => SymbolEqualityComparer.Default.Equals(@interface, hasLayoutInterface));
 
         return new StrongTypeModel(
             Namespace: namespaceName,

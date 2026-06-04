@@ -10,7 +10,7 @@ internal sealed class HasStrongTypeDefinitionFeatureEmitter : IStrongTypeFeature
 
     public void Emit(IndentedWriter writer, StrongTypeModel model)
     {
-        var interfaceTypeName = $"{TypeNames.IHasStrongTypeDefinition.FullyQualifiedName}<{model.PrimitiveType}>";
+        var interfaceTypeName = $"{TypeNames.IHasStrongTypeDefinition}<{model.PrimitiveType}>";
         var definitionTypeName = $"{TypeNames.StrongTypeDefinition}<{model.PrimitiveType}>";
 
         using (writer.Block($"partial class {model.TypeName} : {interfaceTypeName}"))
