@@ -1,5 +1,6 @@
 using SuperStrong.Types.Generators.FeatureEmitters;
 using SuperStrong.Types.Generators.Helpers;
+using SuperStrong.Types.Generators.Models;
 using System.Collections.Immutable;
 using System.Text;
 
@@ -28,15 +29,11 @@ internal static class SourceBuilder
         {
             ancestorScopes.Push(writer.Block($"partial class {ancestor}"));
         }
-
-        for (var i = 0; i < features.Length; i++)
+        
+        foreach (var feature in features.Where(feature => feature.ShouldEmit(model)))
         {
-            features[i].Emit(writer, model);
-
-            if (i < features.Length - 1)
-            {
-                writer.Line();
-            }
+            feature.Emit(writer, model);
+            writer.Line();
         }
 
         while (ancestorScopes.Count > 0)

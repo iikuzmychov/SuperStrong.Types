@@ -1,11 +1,26 @@
 using Microsoft.EntityFrameworkCore;
-using SuperStrong.Tests.ExampleTypes;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql;
 
-public sealed class StrongTypesExtensionNpgsqlTests(PostgresDatabaseFixture database)
+public sealed partial class StrongTypesExtensionNpgsqlTests(PostgresDatabaseFixture database)
     : NpgsqlTest<StrongTypesExtensionNpgsqlTests.TestDbContext>(database)
 {
+    [StrongType<int>]
+    public sealed partial class UserId;
+
+    public sealed class User(UserId id)
+    {
+        public UserId Id { get; private set; } = id ?? throw new ArgumentNullException(nameof(id));
+    }
+
+    public sealed class TestDbContext(DbContextOptions<TestDbContext> options) : DbContext(options)
+    {
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>();
+        }
+    }
+
     protected override void ConfigureDbContext(DbContextOptionsBuilder<TestDbContext> options)
     {
         options.UseStrongTypes();
@@ -42,15 +57,5 @@ public sealed class StrongTypesExtensionNpgsqlTests(PostgresDatabaseFixture data
                 user => Assert.Equal(UserId.Create(4), user.Id),
                 user => Assert.Equal(UserId.Create(5), user.Id));
         }
-    }
-
-    public sealed class TestDbContext(DbContextOptions<TestDbContext> options) : DbContext(options)
-    {
-        public DbSet<User> Users => Set<User>();
-    }
-
-    public sealed class User(UserId id)
-    {
-        public UserId Id { get; private set; } = id ?? throw new ArgumentNullException(nameof(id));
     }
 }

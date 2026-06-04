@@ -8,10 +8,9 @@ public sealed partial class MaxValueValidatorAdapterNpgsqlTests(PostgresDatabase
     : NpgsqlValidationAdapterTest<MaxValueValidatorAdapterNpgsqlTests.TestDbContext>(database)
 {
     [StrongType<int>]
-    public sealed partial class Score : IHasStrongTypeDefinition<int>, IHasStrongTypeLayout<int>
+    public sealed partial class Score : IHasStrongTypeDefinition<int>
     {
         public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMaxValue(100);
-        public static StrongTypeLayout<int> Layout => StrongType.Layout<int>();
     }
 
     public sealed class Player

@@ -1,10 +1,13 @@
 using SuperStrong.Types.Generators.Constants;
 using SuperStrong.Types.Generators.Helpers;
+using SuperStrong.Types.Generators.Models;
 
 namespace SuperStrong.Types.Generators.FeatureEmitters;
 
 internal sealed class StrongTypeInterfaceFeatureEmitter : IStrongTypeFeatureEmitter
 {
+    public bool ShouldEmit(StrongTypeModel model) => true;
+
     public void Emit(IndentedWriter writer, StrongTypeModel model)
     {
         using (writer.Block($"partial class {model.TypeName} : {TypeNames.IStrongType}<{model.TypeName}, {model.PrimitiveType}>"))

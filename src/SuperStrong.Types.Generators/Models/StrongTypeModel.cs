@@ -1,14 +1,16 @@
 using System.Collections.Immutable;
 using System.Text;
 
-namespace SuperStrong.Types.Generators;
+namespace SuperStrong.Types.Generators.Models;
 
 internal sealed record StrongTypeModel(
     string? Namespace,
     string TypeName,
     ImmutableArray<string> AncestorTypeNames,
     string PrimitiveType,
-    string? TemplateType)
+    string? TemplateType,
+    bool UserImplementsDefinition,
+    bool UserImplementsLayout)
 {
     public string HintName
     {

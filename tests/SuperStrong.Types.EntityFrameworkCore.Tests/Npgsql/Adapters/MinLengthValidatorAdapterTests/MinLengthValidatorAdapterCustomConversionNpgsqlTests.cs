@@ -7,10 +7,9 @@ public sealed partial class MinLengthValidatorAdapterCustomConversionNpgsqlTests
     : NpgsqlValidationAdapterTest<MinLengthValidatorAdapterCustomConversionNpgsqlTests.TestDbContext>(database)
 {
     [StrongType<string>]
-    public sealed partial class TagLabel : IHasStrongTypeDefinition<string>, IHasStrongTypeLayout<string>
+    public sealed partial class TagLabel : IHasStrongTypeDefinition<string>
     {
         public static StrongTypeDefinition<string> Definition => StrongType.Define<string>().HasMinLength(3);
-        public static StrongTypeLayout<string> Layout => StrongType.Layout<string>();
     }
 
     public sealed class Tag

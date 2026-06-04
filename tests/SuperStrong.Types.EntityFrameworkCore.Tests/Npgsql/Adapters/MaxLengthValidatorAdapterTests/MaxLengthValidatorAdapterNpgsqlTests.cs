@@ -7,10 +7,9 @@ public sealed partial class MaxLengthValidatorAdapterNpgsqlTests(PostgresDatabas
     : NpgsqlValidationAdapterTest<MaxLengthValidatorAdapterNpgsqlTests.TestDbContext>(database)
 {
     [StrongType<string>]
-    public sealed partial class UserName : IHasStrongTypeDefinition<string>, IHasStrongTypeLayout<string>
+    public sealed partial class UserName : IHasStrongTypeDefinition<string>
     {
         public static StrongTypeDefinition<string> Definition => StrongType.Define<string>().HasMaxLength(10);
-        public static StrongTypeLayout<string> Layout => StrongType.Layout<string>();
     }
 
     public sealed class Account

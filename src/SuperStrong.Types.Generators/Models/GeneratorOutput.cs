@@ -1,4 +1,4 @@
-namespace SuperStrong.Types.Generators;
+namespace SuperStrong.Types.Generators.Models;
 
 internal sealed class GeneratorOutput
 {

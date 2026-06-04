@@ -1,5 +1,3 @@
-using SuperStrong.Types.Generators.Models;
-
-namespace SuperStrong.Types.Generators;
+namespace SuperStrong.Types.Generators.Models;
 
 internal sealed record ConflictingAttributesInfo(string TypeFullName, LocationInfo? Location);

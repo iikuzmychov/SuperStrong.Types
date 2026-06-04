@@ -39,7 +39,7 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
         var outputs = context.SyntaxProvider
             .CreateSyntaxProvider(
                 predicate: static (node, _) => IsCandidate(node),
-                transform: static (syntaxContext, _) => Build(syntaxContext))
+                transform: static (syntaxContext, _) => BuildOutput(syntaxContext))
             .Where(static output => output is not null);
 
         context.RegisterSourceOutput(outputs, Emit!);
@@ -56,7 +56,7 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
         {
             foreach (var attribute in attributeList.Attributes)
             {
-                if (IsStrongTypeAttributeName(attribute.Name))
+                if (isStrongTypeAttributeName(attribute.Name))
                 {
                     return true;
                 }
@@ -64,9 +64,28 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
         }
 
         return false;
+
+        static bool isStrongTypeAttributeName(NameSyntax name)
+        {
+            var simpleName = name switch
+            {
+                QualifiedNameSyntax qualified => qualified.Right.Identifier.ValueText,
+                SimpleNameSyntax simple => simple.Identifier.ValueText,
+                _ => null,
+            };
+
+            if (simpleName is null)
+            {
+                return false;
+            }
+
+            return
+                simpleName == TypeNames.StrongTypeAttribute.Name ||
+                simpleName + nameof(Attribute) == TypeNames.StrongTypeAttribute.Name;
+        }
     }
 
-    private static GeneratorOutput? Build(GeneratorSyntaxContext context)
+    private static GeneratorOutput? BuildOutput(GeneratorSyntaxContext context)
     {
         if (context.SemanticModel.GetDeclaredSymbol(context.Node) is not INamedTypeSymbol typeSymbol)
         {
@@ -75,7 +94,7 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
 
         var strongTypeAttributes = typeSymbol
             .GetAttributes()
-            .Where(IsStrongTypeAttribute)
+            .Where(isStrongTypeAttribute)
             .ToList();
 
         if (strongTypeAttributes.Count == 0)
@@ -105,40 +124,21 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
         var model = BuildModel(typeSymbol, strongTypeAttributes.Single());
 
         return GeneratorOutput.FromModel(model);
-    }
 
-    private static bool IsStrongTypeAttributeName(NameSyntax name)
-    {
-        var simpleName = name switch
+        static bool isStrongTypeAttribute(AttributeData attribute)
         {
-            QualifiedNameSyntax qualified => qualified.Right.Identifier.ValueText,
-            SimpleNameSyntax simple => simple.Identifier.ValueText,
-            _ => null,
-        };
-
-        if (simpleName is null)
-        {
-            return false;
+            return
+                attribute.AttributeClass is { } attributeClass &&
+                attributeClass.Name == TypeNames.StrongTypeAttribute.Name &&
+                attributeClass.ContainingNamespace.ToDisplayString() == Namespaces.SuperStrong_Types;
         }
-
-        return
-            simpleName == TypeNames.StrongTypeAttribute.Name ||
-            simpleName + nameof(Attribute) == TypeNames.StrongTypeAttribute.Name;
-    }
-
-    private static bool IsStrongTypeAttribute(AttributeData attribute)
-    {
-        return
-            attribute.AttributeClass is { } attributeClass &&
-            attributeClass.Name == TypeNames.StrongTypeAttribute.Name &&
-            attributeClass.ContainingNamespace.ToDisplayString() == Namespaces.SuperStrong_Types;
     }
 
     private static StrongTypeModel BuildModel(INamedTypeSymbol typeSymbol, AttributeData attribute)
     {
         var typeArguments = attribute.AttributeClass!.TypeArguments;
         var primitiveType = typeArguments[0].ToDisplayString(FullyQualifiedFormatWithKeywords);
-        
+
         var templateType = typeArguments.Length == 2
             ? typeArguments[1].ToDisplayString(FullyQualifiedFormatWithKeywords)
             : null;
@@ -156,12 +156,26 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             ? null
             : typeSymbol.ContainingNamespace.ToDisplayString();
 
+        var userImplementsDefinition = typeSymbol
+            .Interfaces
+            .Any(@interface => @interface
+                .ToDisplayString(FullyQualifiedFormatWithKeywords)
+                .Equals($"{TypeNames.IHasStrongTypeDefinition.FullyQualifiedName}<{primitiveType}>"));
+
+        var userImplementsLayout = typeSymbol
+            .Interfaces
+            .Any(@interface => @interface
+                .ToDisplayString(FullyQualifiedFormatWithKeywords)
+                .Equals($"{TypeNames.IHasStrongTypeLayout.FullyQualifiedName}<{primitiveType}>"));
+
         return new StrongTypeModel(
             Namespace: namespaceName,
             TypeName: typeSymbol.Name,
             AncestorTypeNames: ancestors.ToImmutable(),
             PrimitiveType: primitiveType,
-            TemplateType: templateType);
+            TemplateType: templateType,
+            UserImplementsDefinition: userImplementsDefinition,
+            UserImplementsLayout: userImplementsLayout);
     }
 
     private static void Emit(SourceProductionContext context, GeneratorOutput output)
@@ -172,6 +186,8 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
                 var featues = ImmutableArray.Create<IStrongTypeFeatureEmitter>(
                 [
                     new CoreFeatureEmitter(),
+                    new HasStrongTypeDefinitionFeatureEmitter(),
+                    new HasStrongTypeLayoutFeatureEmitter(),
                     new StrongTypeInterfaceFeatureEmitter(),
                     new EqualityFeatureEmitter(),
                 ]);

@@ -16,7 +16,7 @@ public sealed class PostgresDatabaseFixture(PostgresContainerFixture container) 
         await adminConnection.OpenAsync();
 
         await using var createCommand = adminConnection.CreateCommand();
-        createCommand.CommandText = $"""create database "{_databaseName}" """;
+        createCommand.CommandText = @$"create database ""{_databaseName}""";
 
         await createCommand.ExecuteNonQueryAsync();
 
@@ -64,7 +64,7 @@ public sealed class PostgresDatabaseFixture(PostgresContainerFixture container) 
         await adminConnection.OpenAsync();
 
         await using var dropCommand = adminConnection.CreateCommand();
-        dropCommand.CommandText = $"""drop database "{_databaseName}" with (force)""";
+        dropCommand.CommandText = @$"drop database ""{_databaseName}"" with (force)";
 
         await dropCommand.ExecuteNonQueryAsync();
     }

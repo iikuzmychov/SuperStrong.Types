@@ -51,38 +51,33 @@ public sealed partial class TypeExtensionsTests
     private sealed class NotAStrongType;
 
     [StrongType<int>]
-    private sealed partial class StrongIntClass : IHasStrongTypeDefinition<int>, IHasStrongTypeLayout<int>
+    private sealed partial class StrongIntClass : IHasStrongTypeDefinition<int>
     {
         public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMinValue(1);
-        public static StrongTypeLayout<int> Layout => StrongType.Layout<int>();
     }
 
     [StrongType<int>]
-    private readonly partial struct StrongIntStruct : IHasStrongTypeDefinition<int>, IHasStrongTypeLayout<int>
+    private readonly partial struct StrongIntStruct : IHasStrongTypeDefinition<int>
     {
         public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMinValue(2);
-        public static StrongTypeLayout<int> Layout => StrongType.Layout<int>();
     }
 
     [StrongType<string>]
-    private sealed partial class StrongStringClass : IHasStrongTypeDefinition<string>, IHasStrongTypeLayout<string>
+    private sealed partial class StrongStringClass : IHasStrongTypeDefinition<string>
     {
         public static StrongTypeDefinition<string> Definition => StrongType.Define<string>().HasMinLength(1);
-        public static StrongTypeLayout<string> Layout => StrongType.Layout<string>();
     }
 
     [StrongType<int, StrongIntTemplate>]
-    private sealed partial class StrongTemplatedIntClass : IHasStrongTypeDefinition<int>, IHasStrongTypeLayout<int>
+    private sealed partial class StrongTemplatedIntClass : IHasStrongTypeDefinition<int>
     {
         public static StrongTypeDefinition<int> Definition => StrongIntTemplate.Definition;
-        public static StrongTypeLayout<int> Layout => StrongType.Layout<int>();
     }
 
     [StrongType<int, StrongIntTemplate>]
-    private readonly partial struct StrongTemplatedIntStruct : IHasStrongTypeDefinition<int>, IHasStrongTypeLayout<int>
+    private readonly partial struct StrongTemplatedIntStruct : IHasStrongTypeDefinition<int>
     {
         public static StrongTypeDefinition<int> Definition => StrongIntTemplate.Definition;
-        public static StrongTypeLayout<int> Layout => StrongType.Layout<int>();
     }
 
     private sealed class StrongStringTemplate : IStrongTypeTemplate<string>
