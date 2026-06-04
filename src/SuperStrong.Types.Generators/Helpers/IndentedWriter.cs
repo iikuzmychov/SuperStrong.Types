@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace SuperStrong.Types.Generators;
+namespace SuperStrong.Types.Generators.Helpers;
 
 internal sealed class IndentedWriter(StringBuilder builder)
 {

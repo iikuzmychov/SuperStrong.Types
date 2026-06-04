@@ -2,7 +2,11 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
+using SuperStrong.Types.Generators.Constants;
+using SuperStrong.Types.Generators.FeatureEmitters;
+using SuperStrong.Types.Generators.Models;
 using System.Collections.Immutable;
+using System.Reflection.Metadata;
 using System.Text;
 
 namespace SuperStrong.Types.Generators;
@@ -25,6 +29,10 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
         category: "SuperStrong",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
+
+    private static readonly SymbolDisplayFormat FullyQualifiedFormatWithKeywords =
+        SymbolDisplayFormat.FullyQualifiedFormat.WithMiscellaneousOptions(
+            SymbolDisplayFormat.FullyQualifiedFormat.MiscellaneousOptions | SymbolDisplayMiscellaneousOptions.UseSpecialTypes);
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -114,23 +122,26 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
         }
 
         return
-            simpleName == Constants.StrongTypeAttributeName ||
-            simpleName + nameof(Attribute) == Constants.StrongTypeAttributeName;
+            simpleName == TypeNames.StrongTypeAttribute.Name ||
+            simpleName + nameof(Attribute) == TypeNames.StrongTypeAttribute.Name;
     }
 
     private static bool IsStrongTypeAttribute(AttributeData attribute)
     {
         return
             attribute.AttributeClass is { } attributeClass &&
-            attributeClass.Name == Constants.StrongTypeAttributeName &&
-            attributeClass.ContainingNamespace.ToDisplayString() == Constants.StrongTypeAttributeNamespace;
+            attributeClass.Name == TypeNames.StrongTypeAttribute.Name &&
+            attributeClass.ContainingNamespace.ToDisplayString() == Namespaces.SuperStrong_Types;
     }
 
     private static StrongTypeModel BuildModel(INamedTypeSymbol typeSymbol, AttributeData attribute)
     {
         var typeArguments = attribute.AttributeClass!.TypeArguments;
-        var primitiveType = typeArguments[0].ToDisplayString();
-        var templateType = typeArguments.Length == 2 ? typeArguments[1].ToDisplayString() : null;
+        var primitiveType = typeArguments[0].ToDisplayString(FullyQualifiedFormatWithKeywords);
+        
+        var templateType = typeArguments.Length == 2
+            ? typeArguments[1].ToDisplayString(FullyQualifiedFormatWithKeywords)
+            : null;
 
         var ancestors = ImmutableArray.CreateBuilder<string>();
 
@@ -158,7 +169,14 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
         output.Switch(
             onModel: model =>
             {
-                var source = SourceBuilder.Build(model);
+                var featues = ImmutableArray.Create<IStrongTypeFeatureEmitter>(
+                [
+                    new CoreFeatureEmitter(),
+                    new StrongTypeInterfaceFeatureEmitter(),
+                    new EqualityFeatureEmitter(),
+                ]);
+
+                var source = SourceBuilder.Build(model, featues);
                 context.AddSource(model.HintName, SourceText.From(source, Encoding.UTF8));
             },
             onConflict: conflict =>
