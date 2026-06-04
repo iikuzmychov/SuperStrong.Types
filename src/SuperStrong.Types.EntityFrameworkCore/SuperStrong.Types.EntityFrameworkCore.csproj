@@ -10,12 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>SuperStrong.Types.EntityFrameworkCore.Npgsql</_Parameter1>
-    </AssemblyAttribute>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>SuperStrong.Types.EntityFrameworkCore.SqlServer</_Parameter1>
-    </AssemblyAttribute>
+    <InternalsVisibleTo Include="SuperStrong.Types.EntityFrameworkCore.Npgsql" />
+    <InternalsVisibleTo Include="SuperStrong.Types.EntityFrameworkCore.SqlServer" />
   </ItemGroup>
 
 </Project>

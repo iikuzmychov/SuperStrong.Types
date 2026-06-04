@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\SuperStrong.Types\SuperStrong.Types.csproj" />
+    <ProjectReference Include="..\..\src\SuperStrong.Types.Generators\SuperStrong.Types.Generators.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.3.0" />
+    <PackageReference Include="Verify.SourceGenerators" Version="2.5.0" />
+    <PackageReference Include="Verify.XunitV3" Version="31.19.0" />
+  </ItemGroup>
+
+</Project>

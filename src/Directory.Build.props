@@ -1,16 +1,11 @@
 <Project>
 
-  <Import Project="$([MSBuild]::GetPathOfFileAbove(
-          'Directory.Build.props',
-          '$([System.IO.Path]::Combine($(MSBuildThisFileDirectory), ..))'))" />
-
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+  
   <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>SuperStrong.Types.Tests</_Parameter1>
-    </AssemblyAttribute>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>SuperStrong.Types.EntityFrameworkCore.Tests</_Parameter1>
-    </AssemblyAttribute>
+    <InternalsVisibleTo Include="SuperStrong.Types.Tests" />
+    <InternalsVisibleTo Include="SuperStrong.Types.Generators.Tests" />
+    <InternalsVisibleTo Include="SuperStrong.Types.EntityFrameworkCore.Tests" />
   </ItemGroup>
 
 </Project>

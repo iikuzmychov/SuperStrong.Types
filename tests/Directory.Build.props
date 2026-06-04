@@ -4,11 +4,17 @@
           'Directory.Build.props',
           '$([System.IO.Path]::Combine($(MSBuildThisFileDirectory), ..))'))" />
 
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+  </PropertyGroup>
+
   <ItemGroup>
-    <ProjectReference
-      Include="$(MSBuildThisFileDirectory)..\src\SuperStrong.Types.Generators\SuperStrong.Types.Generators.csproj"
-      OutputItemType="Analyzer"
-      ReferenceOutputAssembly="false" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3.mtp-v2" Version="3.2.2" />
   </ItemGroup>
 
 </Project>

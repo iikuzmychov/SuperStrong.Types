@@ -1,25 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Using Include="Xunit" />
-  </ItemGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.2" />
     <PackageReference Include="Respawn" Version="7.0.0" />
     <PackageReference Include="Testcontainers.PostgreSql" Version="4.12.0" />
-    <PackageReference Include="xunit.v3.mtp-v2" Version="3.2.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\SuperStrong.Types.EntityFrameworkCore\SuperStrong.Types.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\src\SuperStrong.Types.EntityFrameworkCore.Npgsql\SuperStrong.Types.EntityFrameworkCore.Npgsql.csproj" />
     <ProjectReference Include="..\..\src\SuperStrong.Types.EntityFrameworkCore.SqlServer\SuperStrong.Types.EntityFrameworkCore.SqlServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference
+      Include="..\..\src\SuperStrong.Types.Generators\SuperStrong.Types.Generators.csproj"
+      OutputItemType="Analyzer"
+      ReferenceOutputAssembly="false" />
   </ItemGroup>
 
 </Project>
