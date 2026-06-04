@@ -3,13 +3,14 @@ using SuperStrong.Types.EntityFrameworkCore.Adapters;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MaxLengthValidatorAdapterTests;
 
-public sealed class MaxLengthValidatorAdapterNpgsqlTests(PostgresDatabaseFixture database)
+public sealed partial class MaxLengthValidatorAdapterNpgsqlTests(PostgresDatabaseFixture database)
     : NpgsqlValidationAdapterTest<MaxLengthValidatorAdapterNpgsqlTests.TestDbContext>(database)
 {
     [StrongType<string>]
-    public sealed partial class UserName : IHasStrongTypeDefinition<string>
+    public sealed partial class UserName : IHasStrongTypeDefinition<string>, IHasStrongTypeLayout<string>
     {
         public static StrongTypeDefinition<string> Definition => StrongType.Define<string>().HasMaxLength(10);
+        public static StrongTypeLayout<string> Layout => StrongType.Layout<string>();
     }
 
     public sealed class Account
@@ -48,29 +49,4 @@ public sealed class MaxLengthValidatorAdapterNpgsqlTests(PostgresDatabaseFixture
         Assert.Equal(10, maxLength);
     }
         
-    // todo: delete manual implementation once source generators is implemented
-    public sealed partial class UserName : IStrongType<UserName, string>
-    {
-        private readonly string _value;
-
-        public static StrongTypeLayout<string> Layout => StrongType.Layout<string>();
-
-        private UserName(string value)
-        {
-            _value = value;
-        }
-
-        public static UserName Create(string value)
-        {
-            StrongType.EnsureValid(value, Definition);
-
-            return new UserName(value);
-        }
-
-        public string AsPrimitive() => _value;
-
-        public override int GetHashCode() => _value.GetHashCode();
-
-        public override bool Equals(object? obj) => obj is UserName other && _value == other._value;
-    }
 }

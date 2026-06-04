@@ -1,11 +1,179 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Text;
+using System.Collections.Immutable;
+using System.Text;
 
 namespace SuperStrong.Types.Generators;
 
 [Generator]
 internal sealed class StrongTypeGenerator : IIncrementalGenerator
 {
+    private static readonly DiagnosticDescriptor ConflictingAttributesDescriptor = new(
+        id: "SST001",
+        title: "Conflicting StrongType attributes",
+        messageFormat: "Type '{0}' is annotated with both [StrongType<TPrimitive>] and [StrongType<TPrimitive, TTemplate>]. Use only one.",
+        category: "SuperStrong",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true);
+
+    private static readonly DiagnosticDescriptor NotPartialDescriptor = new(
+        id: "SST002",
+        title: "Strong type must be partial",
+        messageFormat: "Type '{0}' is annotated with [StrongType<...>] but is not declared partial. Add the 'partial' modifier so the generator can extend it.",
+        category: "SuperStrong",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true);
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
+        var outputs = context.SyntaxProvider
+            .CreateSyntaxProvider(
+                predicate: static (node, _) => IsCandidate(node),
+                transform: static (syntaxContext, _) => Build(syntaxContext))
+            .Where(static output => output is not null);
+
+        context.RegisterSourceOutput(outputs, Emit!);
+    }
+
+    private static bool IsCandidate(SyntaxNode node)
+    {
+        if (node is not ClassDeclarationSyntax classDeclaration)
+        {
+            return false;
+        }
+
+        foreach (var attributeList in classDeclaration.AttributeLists)
+        {
+            foreach (var attribute in attributeList.Attributes)
+            {
+                if (IsStrongTypeAttributeName(attribute.Name))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static GeneratorOutput? Build(GeneratorSyntaxContext context)
+    {
+        if (context.SemanticModel.GetDeclaredSymbol(context.Node) is not INamedTypeSymbol typeSymbol)
+        {
+            return null;
+        }
+
+        var strongTypeAttributes = typeSymbol
+            .GetAttributes()
+            .Where(IsStrongTypeAttribute)
+            .ToList();
+
+        if (strongTypeAttributes.Count == 0)
+        {
+            return null;
+        }
+
+        if (strongTypeAttributes.Count > 1)
+        {
+            return GeneratorOutput.FromConflict(
+                new ConflictingAttributesInfo(
+                    TypeFullName: typeSymbol.ToDisplayString(),
+                    Location: LocationInfo.From(context.Node)));
+        }
+
+        var typeDeclaration = (TypeDeclarationSyntax)context.Node;
+        var isPartial = typeDeclaration.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.PartialKeyword));
+
+        if (!isPartial)
+        {
+            return GeneratorOutput.FromNotPartial(
+                new NotPartialInfo(
+                    TypeFullName: typeSymbol.ToDisplayString(),
+                    Location: LocationInfo.From(context.Node)));
+        }
+
+        var model = BuildModel(typeSymbol, strongTypeAttributes.Single());
+
+        return GeneratorOutput.FromModel(model);
+    }
+
+    private static bool IsStrongTypeAttributeName(NameSyntax name)
+    {
+        var simpleName = name switch
+        {
+            QualifiedNameSyntax qualified => qualified.Right.Identifier.ValueText,
+            SimpleNameSyntax simple => simple.Identifier.ValueText,
+            _ => null,
+        };
+
+        if (simpleName is null)
+        {
+            return false;
+        }
+
+        return
+            simpleName == Constants.StrongTypeAttributeName ||
+            simpleName + nameof(Attribute) == Constants.StrongTypeAttributeName;
+    }
+
+    private static bool IsStrongTypeAttribute(AttributeData attribute)
+    {
+        return
+            attribute.AttributeClass is { } attributeClass &&
+            attributeClass.Name == Constants.StrongTypeAttributeName &&
+            attributeClass.ContainingNamespace.ToDisplayString() == Constants.StrongTypeAttributeNamespace;
+    }
+
+    private static StrongTypeModel BuildModel(INamedTypeSymbol typeSymbol, AttributeData attribute)
+    {
+        var typeArguments = attribute.AttributeClass!.TypeArguments;
+        var primitiveType = typeArguments[0].ToDisplayString();
+        var templateType = typeArguments.Length == 2 ? typeArguments[1].ToDisplayString() : null;
+
+        var ancestors = ImmutableArray.CreateBuilder<string>();
+
+        for (var current = typeSymbol.ContainingType; current is not null; current = current.ContainingType)
+        {
+            ancestors.Add(current.Name);
+        }
+
+        ancestors.Reverse();
+
+        var namespaceName = typeSymbol.ContainingNamespace.IsGlobalNamespace
+            ? null
+            : typeSymbol.ContainingNamespace.ToDisplayString();
+
+        return new StrongTypeModel(
+            Namespace: namespaceName,
+            TypeName: typeSymbol.Name,
+            AncestorTypeNames: ancestors.ToImmutable(),
+            PrimitiveType: primitiveType,
+            TemplateType: templateType);
+    }
+
+    private static void Emit(SourceProductionContext context, GeneratorOutput output)
+    {
+        output.Switch(
+            onModel: model =>
+            {
+                var source = SourceBuilder.Build(model);
+                context.AddSource(model.HintName, SourceText.From(source, Encoding.UTF8));
+            },
+            onConflict: conflict =>
+            {
+                context.ReportDiagnostic(Diagnostic.Create(
+                    ConflictingAttributesDescriptor,
+                        location: conflict.Location?.ToLocation() ?? Location.None,
+                        messageArgs: conflict.TypeFullName));
+            },
+            onNotPartial: notPartial =>
+            {
+                context.ReportDiagnostic(Diagnostic.Create(
+                    NotPartialDescriptor,
+                        location: notPartial.Location?.ToLocation() ?? Location.None,
+                        messageArgs: notPartial.TypeFullName));
+            });
     }
 }

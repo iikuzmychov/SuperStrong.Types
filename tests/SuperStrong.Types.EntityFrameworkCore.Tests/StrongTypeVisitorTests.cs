@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests;
 
-public sealed class StrongTypeVisitorTests
+public sealed partial class StrongTypeVisitorTests
 {
     [Fact]
     public void Visitor_replaces_AsPrimitive_call_with_cast_to_underlying_type()
@@ -32,14 +32,9 @@ public sealed class StrongTypeVisitorTests
     }
 
     [StrongType<int>]
-    private sealed partial class StrongTypedInt;
-
-    // todo: delete manual implementation once source generators is implemented
-    private sealed partial class StrongTypedInt : IStrongType<StrongTypedInt, int>
+    private sealed partial class StrongTypedInt : IHasStrongTypeDefinition<int>, IHasStrongTypeLayout<int>
     {
-        public static StrongTypeDefinition<int> Definition => throw new NotImplementedException();
-        public static StrongTypeLayout<int> Layout => throw new NotImplementedException();
-        public static StrongTypedInt Create(int value) => throw new NotImplementedException();
-        public int AsPrimitive() => throw new NotImplementedException();
+        public static StrongTypeDefinition<int> Definition => StrongType.Define<int>();
+        public static StrongTypeLayout<int> Layout => StrongType.Layout<int>();
     }
 }

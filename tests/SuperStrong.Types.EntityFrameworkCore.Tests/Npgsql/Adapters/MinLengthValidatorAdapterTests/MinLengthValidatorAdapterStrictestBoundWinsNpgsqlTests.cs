@@ -3,13 +3,14 @@ using Npgsql;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MinLengthValidatorAdapterTests;
 
-public sealed class MinLengthValidatorAdapterStrictestBoundWinsNpgsqlTests(PostgresDatabaseFixture database)
+public sealed partial class MinLengthValidatorAdapterStrictestBoundWinsNpgsqlTests(PostgresDatabaseFixture database)
     : NpgsqlValidationAdapterTest<MinLengthValidatorAdapterStrictestBoundWinsNpgsqlTests.TestDbContext>(database)
 {
     [StrongType<string>]
-    public sealed partial class TagLabel : IHasStrongTypeDefinition<string>
+    public sealed partial class TagLabel : IHasStrongTypeDefinition<string>, IHasStrongTypeLayout<string>
     {
         public static StrongTypeDefinition<string> Definition => StrongType.Define<string>().HasMinLength(2).HasMinLength(5);
+        public static StrongTypeLayout<string> Layout => StrongType.Layout<string>();
     }
 
     public sealed class Tag
@@ -54,29 +55,4 @@ public sealed class MinLengthValidatorAdapterStrictestBoundWinsNpgsqlTests(Postg
         Assert.Equal(1, rows);
     }
 
-    // todo: delete manual implementation once source generators is implemented
-    public sealed partial class TagLabel : IStrongType<TagLabel, string>
-    {
-        private readonly string _value;
-
-        public static StrongTypeLayout<string> Layout => StrongType.Layout<string>();
-
-        private TagLabel(string value)
-        {
-            _value = value;
-        }
-
-        public static TagLabel Create(string value)
-        {
-            StrongType.EnsureValid(value, Definition);
-
-            return new TagLabel(value);
-        }
-
-        public string AsPrimitive() => _value;
-
-        public override int GetHashCode() => _value.GetHashCode();
-
-        public override bool Equals(object? obj) => obj is TagLabel other && _value == other._value;
-    }
 }

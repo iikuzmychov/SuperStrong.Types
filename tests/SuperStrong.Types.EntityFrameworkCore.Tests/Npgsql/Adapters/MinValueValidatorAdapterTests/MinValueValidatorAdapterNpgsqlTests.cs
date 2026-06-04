@@ -4,7 +4,7 @@ using SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MinValueValidatorAdapterTests;
 
-public sealed class MinValueValidatorAdapterNpgsqlTests(PostgresDatabaseFixture database)
+public sealed partial class MinValueValidatorAdapterNpgsqlTests(PostgresDatabaseFixture database)
     : NpgsqlValidationAdapterTest<MinValueValidatorAdapterNpgsqlTests.TestDbContext>(database)
 {
     protected override void ConfigureStrongTypes(StrongTypeOptionsBuilder options)
@@ -60,34 +60,10 @@ public sealed class MinValueValidatorAdapterNpgsqlTests(PostgresDatabaseFixture 
     }
 
     [StrongType<int>]
-    public sealed partial class Age : IHasStrongTypeDefinition<int>
+    public sealed partial class Age : IHasStrongTypeDefinition<int>, IHasStrongTypeLayout<int>
     {
         public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMinValue(0);
-    }
-
-    // todo: delete manual implementation once source generators is implemented
-    public sealed partial class Age : IStrongType<Age, int>
-    {
-        private readonly int _value;
-
         public static StrongTypeLayout<int> Layout => StrongType.Layout<int>();
-
-        private Age(int value)
-        {
-            _value = value;
-        }
-
-        public static Age Create(int value)
-        {
-            StrongType.EnsureValid(value, Definition);
-
-            return new Age(value);
-        }
-
-        public int AsPrimitive() => _value;
-
-        public override int GetHashCode() => _value.GetHashCode();
-
-        public override bool Equals(object? obj) => obj is Age other && _value == other._value;
     }
+
 }

@@ -2,7 +2,7 @@ using SuperStrong.Types.Reflection;
 
 namespace SuperStrong.Types.Tests;
 
-public sealed class TypeExtensionsTests
+public sealed partial class TypeExtensionsTests
 {
     [Fact]
     public void GetStrongTypeInfo_throws_for_null()
@@ -20,18 +20,6 @@ public sealed class TypeExtensionsTests
     public void GetStrongTypeInfo_returns_null_for_non_strong_type(Type type)
     {
         Assert.Null(type.GetStrongTypeInfo());
-    }
-
-    [Fact]
-    public void GetStrongTypeInfo_throws_when_strong_type_does_not_implement_IHasStrongTypeDefinition()
-    {
-        Assert.Throws<InvalidOperationException>(() => typeof(StrongTypeWithoutDefinition).GetStrongTypeInfo());
-    }
-
-    [Fact]
-    public void GetStrongTypeInfo_throws_when_type_has_multiple_StrongType_attributes()
-    {
-        Assert.Throws<InvalidOperationException>(() => typeof(StrongTypeWithMultipleAttributes).GetStrongTypeInfo());
     }
 
     public static TheoryData<Type, Type, Type?, StrongTypeDefinition> StrongTypeFixtures => new()
@@ -63,40 +51,38 @@ public sealed class TypeExtensionsTests
     private sealed class NotAStrongType;
 
     [StrongType<int>]
-    private sealed class StrongTypeWithoutDefinition;
-
-    [StrongType<int>]
-    [StrongType<string, StrongStringTemplate>]
-    private sealed class StrongTypeWithMultipleAttributes;
-
-    [StrongType<int>]
-    private sealed class StrongIntClass : IHasStrongTypeDefinition<int>
+    private sealed partial class StrongIntClass : IHasStrongTypeDefinition<int>, IHasStrongTypeLayout<int>
     {
         public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMinValue(1);
+        public static StrongTypeLayout<int> Layout => StrongType.Layout<int>();
     }
 
     [StrongType<int>]
-    private readonly partial struct StrongIntStruct : IHasStrongTypeDefinition<int>
+    private readonly partial struct StrongIntStruct : IHasStrongTypeDefinition<int>, IHasStrongTypeLayout<int>
     {
         public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMinValue(2);
+        public static StrongTypeLayout<int> Layout => StrongType.Layout<int>();
     }
 
     [StrongType<string>]
-    private sealed class StrongStringClass : IHasStrongTypeDefinition<string>
+    private sealed partial class StrongStringClass : IHasStrongTypeDefinition<string>, IHasStrongTypeLayout<string>
     {
         public static StrongTypeDefinition<string> Definition => StrongType.Define<string>().HasMinLength(1);
+        public static StrongTypeLayout<string> Layout => StrongType.Layout<string>();
     }
 
     [StrongType<int, StrongIntTemplate>]
-    private sealed class StrongTemplatedIntClass : IHasStrongTypeDefinition<int>
+    private sealed partial class StrongTemplatedIntClass : IHasStrongTypeDefinition<int>, IHasStrongTypeLayout<int>
     {
         public static StrongTypeDefinition<int> Definition => StrongIntTemplate.Definition;
+        public static StrongTypeLayout<int> Layout => StrongType.Layout<int>();
     }
 
     [StrongType<int, StrongIntTemplate>]
-    private readonly partial struct StrongTemplatedIntStruct : IHasStrongTypeDefinition<int>
+    private readonly partial struct StrongTemplatedIntStruct : IHasStrongTypeDefinition<int>, IHasStrongTypeLayout<int>
     {
         public static StrongTypeDefinition<int> Definition => StrongIntTemplate.Definition;
+        public static StrongTypeLayout<int> Layout => StrongType.Layout<int>();
     }
 
     private sealed class StrongStringTemplate : IStrongTypeTemplate<string>

@@ -3,13 +3,14 @@ using SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.MaxValueValidatorAdapterTests;
 
-public sealed class MaxValueValidatorAdapterOwnedJsonNpgsqlTests(PostgresDatabaseFixture database)
+public sealed partial class MaxValueValidatorAdapterOwnedJsonNpgsqlTests(PostgresDatabaseFixture database)
     : NpgsqlValidationAdapterTest<MaxValueValidatorAdapterOwnedJsonNpgsqlTests.TestDbContext>(database)
 {
     [StrongType<int>]
-    public sealed partial class Score : IHasStrongTypeDefinition<int>
+    public sealed partial class Score : IHasStrongTypeDefinition<int>, IHasStrongTypeLayout<int>
     {
         public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMaxValue(100);
+        public static StrongTypeLayout<int> Layout => StrongType.Layout<int>();
     }
 
     public sealed class Stats
@@ -58,29 +59,4 @@ public sealed class MaxValueValidatorAdapterOwnedJsonNpgsqlTests(PostgresDatabas
         Assert.Equal(0, count);
     }
 
-    // todo: delete manual implementation once source generators is implemented
-    public sealed partial class Score : IStrongType<Score, int>
-    {
-        private readonly int _value;
-
-        public static StrongTypeLayout<int> Layout => StrongType.Layout<int>();
-
-        private Score(int value)
-        {
-            _value = value;
-        }
-
-        public static Score Create(int value)
-        {
-            StrongType.EnsureValid(value, Definition);
-
-            return new Score(value);
-        }
-
-        public int AsPrimitive() => _value;
-
-        public override int GetHashCode() => _value.GetHashCode();
-
-        public override bool Equals(object? obj) => obj is Score other && _value == other._value;
-    }
 }

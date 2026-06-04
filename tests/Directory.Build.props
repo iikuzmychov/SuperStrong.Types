@@ -1,0 +1,14 @@
+<Project>
+
+  <Import Project="$([MSBuild]::GetPathOfFileAbove(
+          'Directory.Build.props',
+          '$([System.IO.Path]::Combine($(MSBuildThisFileDirectory), ..))'))" />
+
+  <ItemGroup>
+    <ProjectReference
+      Include="$(MSBuildThisFileDirectory)..\src\SuperStrong.Types.Generators\SuperStrong.Types.Generators.csproj"
+      OutputItemType="Analyzer"
+      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+</Project>
