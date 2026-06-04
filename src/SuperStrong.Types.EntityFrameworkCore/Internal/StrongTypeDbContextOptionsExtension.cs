@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using SuperStrong.Types.EntityFrameworkCore.Adapters;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Internal;
 

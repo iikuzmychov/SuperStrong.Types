@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using SuperStrong.Types.Validators;
 
-namespace SuperStrong.Types.EntityFrameworkCore.Adapters;
+namespace SuperStrong.Types.EntityFrameworkCore;
 
 public abstract class StrongTypeValidatorAdapterFactory : StrongTypeValidatorAdapter
 {

@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore.Metadata;
-using SuperStrong.Types.EntityFrameworkCore.Adapters;
 using SuperStrong.Types.EntityFrameworkCore.Internal;
 using SuperStrong.Types.Validators;
 

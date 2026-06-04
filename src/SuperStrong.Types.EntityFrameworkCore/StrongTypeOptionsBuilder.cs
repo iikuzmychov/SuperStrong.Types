@@ -1,4 +1,3 @@
-using SuperStrong.Types.EntityFrameworkCore.Adapters;
 using SuperStrong.Types.EntityFrameworkCore.Internal;
 
 namespace SuperStrong.Types.EntityFrameworkCore;

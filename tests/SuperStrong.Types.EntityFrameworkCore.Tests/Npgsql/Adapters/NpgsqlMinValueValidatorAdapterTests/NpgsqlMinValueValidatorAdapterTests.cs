@@ -7,6 +7,26 @@ namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.NpgsqlMinV
 public sealed partial class NpgsqlMinValueValidatorAdapterTests(PostgresDatabaseFixture database)
     : NpgsqlValidationAdapterTest<NpgsqlMinValueValidatorAdapterTests.TestDbContext>(database)
 {
+    [StrongType<int>]
+    public sealed partial class Age : IHasStrongTypeDefinition<int>
+    {
+        public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMinValue(0);
+    }
+
+    public sealed class Person
+    {
+        public required int Id { get; init; }
+        public required Age Age { get; init; }
+    }
+
+    public sealed class TestDbContext(DbContextOptions<TestDbContext> options) : DbContext(options)
+    {
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Person>();
+        }
+    }
+
     protected override void ConfigureStrongTypes(StrongTypeOptionsBuilder options)
     {
         options.AddValidatorAdapter(new NpgsqlMinValueValidatorAdapterFactory());
@@ -44,25 +64,4 @@ public sealed partial class NpgsqlMinValueValidatorAdapterTests(PostgresDatabase
 
         Assert.Equal(1, rows);
     }
-
-    public sealed class TestDbContext(DbContextOptions<TestDbContext> options) : DbContext(options)
-    {
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Person>();
-        }
-    }
-
-    public sealed class Person
-    {
-        public required int Id { get; init; }
-        public required Age Age { get; init; }
-    }
-
-    [StrongType<int>]
-    public sealed partial class Age : IHasStrongTypeDefinition<int>
-    {
-        public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMinValue(0);
-    }
-
 }

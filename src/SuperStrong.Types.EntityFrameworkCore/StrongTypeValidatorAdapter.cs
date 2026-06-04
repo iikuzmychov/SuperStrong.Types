@@ -4,7 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Reflection;
 
-namespace SuperStrong.Types.EntityFrameworkCore.Adapters;
+namespace SuperStrong.Types.EntityFrameworkCore;
 
 public abstract class StrongTypeValidatorAdapter
 {

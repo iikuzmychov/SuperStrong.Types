@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.EntityFrameworkCore.Storage;
-using SuperStrong.Types.EntityFrameworkCore.Adapters;
 using SuperStrong.Types.Reflection;
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
