@@ -6,8 +6,6 @@ public static class StrongTypeOptionsBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        return builder
-            .AddDefaultValidatorAdapters()
-            .AddValidatorAdaptersFromAssembly<ThisAssemblyMarker>();
+        return builder.AddValidatorAdaptersFromAssembly<ThisAssemblyMarker>();
     }
 }

@@ -5,13 +5,6 @@ namespace SuperStrong.Types.EntityFrameworkCore;
 
 public static class StrongTypeOptionsBuilderExtensions
 {
-    public static StrongTypeOptionsBuilder AddDefaultValidatorAdapters(this StrongTypeOptionsBuilder builder)
-    {
-        ArgumentNullException.ThrowIfNull(builder);
-
-        return builder.AddValidatorAdaptersFromAssembly<ThisAssemblyMarker>();
-    }
-
     public static StrongTypeOptionsBuilder AddValidatorAdaptersFromAssembly<TAssemblyMarker>(
         this StrongTypeOptionsBuilder builder)
     {
