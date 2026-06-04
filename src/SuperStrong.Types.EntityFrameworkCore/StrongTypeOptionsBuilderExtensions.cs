@@ -4,24 +4,6 @@ namespace SuperStrong.Types.EntityFrameworkCore;
 
 public static class StrongTypeOptionsBuilderExtensions
 {
-    public static StrongTypeOptionsBuilder AddValidatorAdaptersFromAssembly<TAssemblyMarker>(
-        this StrongTypeOptionsBuilder builder)
-    {
-        ArgumentNullException.ThrowIfNull(builder);
-
-        return builder.AddValidatorAdaptersFromAssembly(typeof(TAssemblyMarker).Assembly, _ => true);
-    }
-
-    public static StrongTypeOptionsBuilder AddValidatorAdaptersFromAssembly<TAssemblyMarker>(
-        this StrongTypeOptionsBuilder builder,
-        Func<Type, bool> filter)
-    {
-        ArgumentNullException.ThrowIfNull(builder);
-        ArgumentNullException.ThrowIfNull(filter);
-
-        return builder.AddValidatorAdaptersFromAssembly(typeof(TAssemblyMarker).Assembly, filter);
-    }
-
     public static StrongTypeOptionsBuilder AddValidatorAdaptersFromAssembly(
         this StrongTypeOptionsBuilder builder,
         Assembly assembly)
@@ -35,15 +17,15 @@ public static class StrongTypeOptionsBuilderExtensions
     public static StrongTypeOptionsBuilder AddValidatorAdaptersFromAssembly(
         this StrongTypeOptionsBuilder builder,
         Assembly assembly,
-        Func<Type, bool> filter)
+        Func<Type, bool> predicate)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(assembly);
-        ArgumentNullException.ThrowIfNull(filter);
+        ArgumentNullException.ThrowIfNull(predicate);
 
-        foreach (var type in assembly.GetTypes())
+        foreach (var type in assembly.DefinedTypes)
         {
-            if (type.IsAbstract || type.IsInterface || type.IsGenericTypeDefinition)
+            if (type.IsAbstract || type.IsGenericTypeDefinition)
             {
                 continue;
             }
@@ -53,17 +35,21 @@ public static class StrongTypeOptionsBuilderExtensions
                 continue;
             }
 
-            if (type.GetConstructor(Type.EmptyTypes) is null)
+            var parameterlessConstructor = type.GetConstructor(
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
+                Type.EmptyTypes);
+
+            if (parameterlessConstructor is null)
             {
                 continue;
             }
 
-            if (!filter(type))
+            if (!predicate(type))
             {
                 continue;
             }
 
-            var adapter = (StrongTypeValidatorAdapter)Activator.CreateInstance(type)!;
+            var adapter = (StrongTypeValidatorAdapter)Activator.CreateInstance(type, nonPublic: true)!;
             builder.AddValidatorAdapter(adapter);
         }
 
