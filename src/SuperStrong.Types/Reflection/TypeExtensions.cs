@@ -7,16 +7,16 @@ public static class TypeExtensions
 {
     private static readonly ConcurrentDictionary<Type, StrongTypeInfo?> _strongTypeInfoCache = new();
 
-    public static StrongTypeInfo? GetStrongTypeInfo(this Type strongType)
+    public static StrongTypeInfo? GetStrongTypeInfo(this Type type)
     {
-        ArgumentNullException.ThrowIfNull(strongType);
+        ArgumentNullException.ThrowIfNull(type);
 
-        return _strongTypeInfoCache.GetOrAdd(strongType, GetStrongTypeInfoCore);
+        return _strongTypeInfoCache.GetOrAdd(type, GetStrongTypeInfoCore);
     }
 
-    private static StrongTypeInfo? GetStrongTypeInfoCore(Type strongType)
+    private static StrongTypeInfo? GetStrongTypeInfoCore(Type type)
     {
-        var strongTypeAttributes = strongType
+        var strongTypeAttributes = type
             .CustomAttributes
             .Where(attribute => attribute.AttributeType.IsGenericType)
             .Where(attribute =>
@@ -31,7 +31,7 @@ public static class TypeExtensions
 
         if (strongTypeAttributes.Count > 1)
         {
-            throw new InvalidOperationException($"{strongType} has multiple [{nameof(StrongTypeAttribute<>)}] declarations.");
+            throw new InvalidOperationException($"{type} has multiple [{nameof(StrongTypeAttribute<>)}] declarations.");
         }
 
         var attributeGenericArguments = strongTypeAttributes[0].AttributeType.GetGenericArguments();
@@ -39,23 +39,16 @@ public static class TypeExtensions
         var templateType = attributeGenericArguments.Length == 2 ? attributeGenericArguments[1] : null;
         var hasDefinitionInterface = typeof(IHasStrongTypeDefinition<>).MakeGenericType(primitiveType);
 
-        if (!hasDefinitionInterface.IsAssignableFrom(strongType))
+        if (!hasDefinitionInterface.IsAssignableFrom(type))
         {
-            throw new InvalidOperationException($"{strongType} does not implement {hasDefinitionInterface}.");
+            throw new InvalidOperationException($"{type} does not implement {hasDefinitionInterface}.");
         }
 
-        var definition = (StrongTypeDefinition)typeof(TypeExtensions)
-            .GetMethod(nameof(GetDefinition), BindingFlags.NonPublic | BindingFlags.Static)!
-            .MakeGenericMethod(strongType, primitiveType)
+        var definition = (StrongTypeDefinition)typeof(StrongType)
+            .GetMethod(nameof(StrongType.GetDefinition), BindingFlags.Public | BindingFlags.Static)!
+            .MakeGenericMethod(type, primitiveType)
             .Invoke(null, null)!;
 
-        return new StrongTypeInfo(strongType, primitiveType, templateType, definition);
-    }
-
-    private static StrongTypeDefinition<TPrimitive> GetDefinition<TStrongType, TPrimitive>()
-        where TStrongType : IHasStrongTypeDefinition<TPrimitive>
-        where TPrimitive : notnull
-    {
-        return TStrongType.Definition;
+        return new StrongTypeInfo(type, primitiveType, templateType, definition);
     }
 }

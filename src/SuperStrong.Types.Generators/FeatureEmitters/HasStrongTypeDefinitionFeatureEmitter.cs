@@ -10,18 +10,18 @@ internal sealed class HasStrongTypeDefinitionFeatureEmitter : IStrongTypeFeature
 
     public void Emit(IndentedWriter writer, StrongTypeModel model)
     {
-        var interfaceTypeName = $"{TypeNames.IHasStrongTypeDefinition}<{model.PrimitiveType}>";
+        var hasDefinitionInterfaceTypeName = $"{TypeNames.IHasStrongTypeDefinition}<{model.PrimitiveType}>";
         var definitionTypeName = $"{TypeNames.StrongTypeDefinition}<{model.PrimitiveType}>";
 
-        using (writer.Block($"partial class {model.TypeName} : {interfaceTypeName}"))
+        using (writer.Block($"partial class {model.TypeName} : {hasDefinitionInterfaceTypeName}"))
         {
             var body = model.TemplateType is not null
-                ? $"{model.TemplateType}.Definition"
+                ? $"{TypeNames.StrongType}.GetTemplateDefinition<{model.TemplateType}, {model.PrimitiveType}>()"
                 : $"{TypeNames.StrongType}.Define<{model.PrimitiveType}>()";
 
             writer.Line($"public static {definitionTypeName} Definition => {body};");
             writer.Line();
-            writer.Line($"static {definitionTypeName} {interfaceTypeName}.Definition => Definition;");
+            writer.Line($"static {definitionTypeName} {hasDefinitionInterfaceTypeName}.Definition => Definition;");
         }
     }
 }

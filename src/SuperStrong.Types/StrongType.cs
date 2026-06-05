@@ -37,4 +37,18 @@ public static class StrongType
             validator.EnsureValid(value);
         }
     }
+
+    public static StrongTypeDefinition<TPrimitive> GetDefinition<TStrongType, TPrimitive>()
+        where TStrongType : IStrongType<TStrongType, TPrimitive>
+        where TPrimitive : notnull
+    {
+        return TStrongType.Definition;
+    }
+
+    public static StrongTypeDefinition<TPrimitive> GetTemplateDefinition<TTemplate, TPrimitive>()
+        where TTemplate : IStrongTypeTemplate<TPrimitive>
+        where TPrimitive : notnull
+    {
+        return TTemplate.Definition;
+    }
 }

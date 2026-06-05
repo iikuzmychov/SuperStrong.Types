@@ -161,10 +161,6 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             .GetTypeByMetadataName(TypeNames.IHasStrongTypeDefinition.MetadataName(arity: 1))
             ?.Construct(primitiveTypeSymbol);
 
-        var hasLayoutInterface = compilation
-            .GetTypeByMetadataName(TypeNames.IHasStrongTypeLayout.MetadataName(arity: 1))
-            ?.Construct(primitiveTypeSymbol);
-
         var userImplementsDefinition =
             hasDefinitionInterface is not null &&
             typeSymbol.AllInterfaces.Any(

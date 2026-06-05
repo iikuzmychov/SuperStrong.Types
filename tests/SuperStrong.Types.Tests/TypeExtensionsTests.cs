@@ -69,10 +69,7 @@ public sealed partial class TypeExtensionsTests
     }
 
     [StrongType<int, StrongIntTemplate>]
-    private sealed partial class StrongTemplatedIntClass : IHasStrongTypeDefinition<int>
-    {
-        public static StrongTypeDefinition<int> Definition => StrongIntTemplate.Definition;
-    }
+    private sealed partial class StrongTemplatedIntClass;
 
     [StrongType<int, StrongIntTemplate>]
     private readonly partial struct StrongTemplatedIntStruct : IHasStrongTypeDefinition<int>
@@ -82,7 +79,7 @@ public sealed partial class TypeExtensionsTests
 
     private sealed class StrongStringTemplate : IStrongTypeTemplate<string>
     {
-        public static StrongTypeDefinition<string> Definition => StrongType.Define<string>();
+        public static StrongTypeDefinition<string> Definition => StrongType.Define<string>().HasMinLength(5);
     }
 
     private sealed class StrongIntTemplate : IStrongTypeTemplate<int>
