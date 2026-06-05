@@ -21,13 +21,6 @@ namespace Sample
         static global::SuperStrong.Types.StrongTypeDefinition<int> global::SuperStrong.Types.IHasStrongTypeDefinition<int>.Definition => Definition;
     }
 
-    partial class UserId : global::SuperStrong.Types.IHasStrongTypeLayout<int>
-    {
-        public static global::SuperStrong.Types.StrongTypeLayout<int> Layout => global::SuperStrong.Types.StrongType.Layout<int>();
-
-        static global::SuperStrong.Types.StrongTypeLayout<int> global::SuperStrong.Types.IHasStrongTypeLayout<int>.Layout => Layout;
-    }
-
     partial class UserId : global::SuperStrong.Types.IStrongType<UserId, int>
     {
         public static UserId Create(int value)

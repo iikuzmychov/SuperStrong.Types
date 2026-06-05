@@ -1,6 +1,6 @@
 ﻿namespace SuperStrong.Types;
 
-public interface IStrongType<TSelf, TPrimitive> : IHasStrongTypeDefinition<TPrimitive>, IHasStrongTypeLayout<TPrimitive>
+public interface IStrongType<TSelf, TPrimitive> : IHasStrongTypeDefinition<TPrimitive>
     where TPrimitive : notnull
 {
     public static abstract TSelf Create(TPrimitive value);

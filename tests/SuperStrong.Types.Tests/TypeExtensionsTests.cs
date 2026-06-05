@@ -83,12 +83,10 @@ public sealed partial class TypeExtensionsTests
     private sealed class StrongStringTemplate : IStrongTypeTemplate<string>
     {
         public static StrongTypeDefinition<string> Definition => StrongType.Define<string>();
-        public static StrongTypeLayout<string> Layout => StrongType.Layout<string>();
     }
 
     private sealed class StrongIntTemplate : IStrongTypeTemplate<int>
     {
         public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMinValue(3);
-        public static StrongTypeLayout<int> Layout => StrongType.Layout<int>();
     }
 }

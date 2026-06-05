@@ -170,19 +170,13 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             typeSymbol.AllInterfaces.Any(
                 @interface => SymbolEqualityComparer.Default.Equals(@interface, hasDefinitionInterface));
 
-        var userImplementsLayout =
-            hasLayoutInterface is not null &&
-            typeSymbol.AllInterfaces.Any(
-                @interface => SymbolEqualityComparer.Default.Equals(@interface, hasLayoutInterface));
-
         return new StrongTypeModel(
             Namespace: namespaceName,
             TypeName: typeSymbol.Name,
             AncestorTypeNames: ancestors.ToImmutable(),
             PrimitiveType: primitiveType,
             TemplateType: templateType,
-            UserImplementsDefinition: userImplementsDefinition,
-            UserImplementsLayout: userImplementsLayout);
+            UserImplementsDefinition: userImplementsDefinition);
     }
 
     private static void Emit(SourceProductionContext context, GeneratorOutput output)
@@ -194,7 +188,6 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
                 [
                     new CoreFeatureEmitter(),
                     new HasStrongTypeDefinitionFeatureEmitter(),
-                    new HasStrongTypeLayoutFeatureEmitter(),
                     new StrongTypeInterfaceFeatureEmitter(),
                     new EqualityFeatureEmitter(),
                 ]);

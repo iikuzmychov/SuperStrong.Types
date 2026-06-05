@@ -8,12 +8,6 @@ public static class StrongType
         return StrongTypeDefinition<TPrimitive>.Empty;
     }
 
-    public static StrongTypeLayout<TPrimitive> Layout<TPrimitive>()
-        where TPrimitive : notnull
-    {
-        return StrongTypeLayout<TPrimitive>.Empty;
-    }
-
     public static bool IsValid<TPrimitive>(TPrimitive value, StrongTypeDefinition<TPrimitive> definition)
         where TPrimitive : notnull
     {
