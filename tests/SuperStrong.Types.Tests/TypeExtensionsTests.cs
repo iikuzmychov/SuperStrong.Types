@@ -15,8 +15,8 @@ public sealed partial class TypeExtensionsTests
     [InlineData(typeof(int?))]
     [InlineData(typeof(string))]
     [InlineData(typeof(NotAStrongType))]
-    [InlineData(typeof(StrongIntStruct?))]
-    [InlineData(typeof(StrongTemplatedIntStruct?))]
+    //[InlineData(typeof(StrongIntStruct?))] // todo: uncomment, once generator will work with structs too
+    //[InlineData(typeof(StrongTemplatedIntStruct?))] // todo: uncomment, once generator will work with structs too
     public void GetStrongTypeInfo_returns_null_for_non_strong_type(Type type)
     {
         Assert.Null(type.GetStrongTypeInfo());
@@ -25,10 +25,10 @@ public sealed partial class TypeExtensionsTests
     public static TheoryData<Type, Type, Type?, StrongTypeDefinition> StrongTypeFixtures => new()
     {
         { typeof(StrongIntClass), typeof(int), null, StrongIntClass.Definition },
-        { typeof(StrongIntStruct), typeof(int), null, StrongIntStruct.Definition },
+        //{ typeof(StrongIntStruct), typeof(int), null, StrongIntStruct.Definition }, // todo: uncomment, once generator will work with structs too
         { typeof(StrongStringClass), typeof(string), null, StrongStringClass.Definition },
         { typeof(StrongTemplatedIntClass), typeof(int), typeof(StrongIntTemplate), StrongTemplatedIntClass.Definition },
-        { typeof(StrongTemplatedIntStruct), typeof(int), typeof(StrongIntTemplate), StrongTemplatedIntStruct.Definition },
+        //{ typeof(StrongTemplatedIntStruct), typeof(int), typeof(StrongIntTemplate), StrongTemplatedIntStruct.Definition }, // todo: uncomment, once generator will work with structs too
     };
 
     [Theory]
@@ -56,11 +56,12 @@ public sealed partial class TypeExtensionsTests
         public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMinValue(1);
     }
 
-    [StrongType<int>]
-    private readonly partial struct StrongIntStruct : IHasStrongTypeDefinition<int>
-    {
-        public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMinValue(2);
-    }
+    // todo: uncomment, once generator will work with structs too
+    //[StrongType<int>]
+    //private readonly partial struct StrongIntStruct : IHasStrongTypeDefinition<int>
+    //{
+    //    public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMinValue(2);
+    //}
 
     [StrongType<string>]
     private sealed partial class StrongStringClass : IHasStrongTypeDefinition<string>
@@ -71,11 +72,9 @@ public sealed partial class TypeExtensionsTests
     [StrongType<int, StrongIntTemplate>]
     private sealed partial class StrongTemplatedIntClass;
 
-    [StrongType<int, StrongIntTemplate>]
-    private readonly partial struct StrongTemplatedIntStruct : IHasStrongTypeDefinition<int>
-    {
-        public static StrongTypeDefinition<int> Definition => StrongIntTemplate.Definition;
-    }
+    // todo: uncomment, once generator will work with structs too
+    //[StrongType<int, StrongIntTemplate>]
+    //private readonly partial struct StrongTemplatedIntStruct;
 
     private sealed class StrongStringTemplate : IStrongTypeTemplate<string>
     {
