@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters;
 
-public abstract class NpgsqlValidationAdapterTest<TDbContext>(PostgresDatabaseFixture database)
+public abstract class NpgsqlValidatorAdapterTest<TDbContext>(PostgresDatabaseFixture database)
     : NpgsqlTest<TDbContext>(database)
     where TDbContext : DbContext
 {

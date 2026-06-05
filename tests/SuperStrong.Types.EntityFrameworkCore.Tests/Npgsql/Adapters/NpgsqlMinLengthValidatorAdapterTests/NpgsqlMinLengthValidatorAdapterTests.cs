@@ -5,7 +5,7 @@ using SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.NpgsqlMinLengthValidatorAdapterTests;
 
 public sealed partial class NpgsqlMinLengthValidatorAdapterTests(PostgresDatabaseFixture database)
-    : NpgsqlValidationAdapterTest<NpgsqlMinLengthValidatorAdapterTests.TestDbContext>(database)
+    : NpgsqlValidatorAdapterTest<NpgsqlMinLengthValidatorAdapterTests.TestDbContext>(database)
 {
     [StrongType<string>]
     public sealed partial class TagLabel : IHasStrongTypeDefinition<string>

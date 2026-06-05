@@ -4,7 +4,7 @@ using SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.NpgsqlMinValueValidatorAdapterTests;
 
 public sealed partial class NpgsqlMinValueValidatorAdapterViewMappedEntityTests(PostgresDatabaseFixture database)
-    : NpgsqlValidationAdapterTest<NpgsqlMinValueValidatorAdapterViewMappedEntityTests.TestDbContext>(database)
+    : NpgsqlValidatorAdapterTest<NpgsqlMinValueValidatorAdapterViewMappedEntityTests.TestDbContext>(database)
 {
     [StrongType<int>]
     public sealed partial class Age : IHasStrongTypeDefinition<int>
@@ -38,20 +38,17 @@ public sealed partial class NpgsqlMinValueValidatorAdapterViewMappedEntityTests(
     [Fact]
     public async Task No_check_constraint_is_emitted_when_entity_is_mapped_to_a_view()
     {
-        await using var connection = Context.Database.GetDbConnection();
-        await connection.OpenAsync(TestContext.Current.CancellationToken);
+        var checkConstraintCount = await Context.Database
+            .SqlQuery<long>(
+                $"""
+                select count(*) as "Value"
+                from pg_constraint constraint_
+                join pg_class table_ on constraint_.conrelid = table_.oid
+                where table_.relname = 'PersonView' and constraint_.contype = 'c'
+                """)
+            .SingleAsync(TestContext.Current.CancellationToken);
 
-        await using var command = connection.CreateCommand();
-        command.CommandText = """
-            select count(*)
-            from pg_constraint constraint_
-            join pg_class table_ on constraint_.conrelid = table_.oid
-            where table_.relname = 'PersonView' and constraint_.contype = 'c'
-            """;
-
-        var count = (long)(await command.ExecuteScalarAsync(TestContext.Current.CancellationToken))!;
-
-        Assert.Equal(0, count);
+        Assert.Equal(0, checkConstraintCount);
     }
 
 }

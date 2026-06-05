@@ -4,7 +4,7 @@ using SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.NpgsqlMaxLengthValidatorAdapterTests;
 
 public sealed partial class NpgsqlMaxLengthValidatorAdapterTests(PostgresDatabaseFixture database)
-    : NpgsqlValidationAdapterTest<NpgsqlMaxLengthValidatorAdapterTests.TestDbContext>(database)
+    : NpgsqlValidatorAdapterTest<NpgsqlMaxLengthValidatorAdapterTests.TestDbContext>(database)
 {
     [StrongType<string>]
     public sealed partial class UserName : IHasStrongTypeDefinition<string>

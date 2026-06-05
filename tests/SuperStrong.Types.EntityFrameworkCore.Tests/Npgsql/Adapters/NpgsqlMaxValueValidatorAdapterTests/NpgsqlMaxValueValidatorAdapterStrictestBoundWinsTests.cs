@@ -5,7 +5,7 @@ using SuperStrong.Types.EntityFrameworkCore.Npgsql.Adapters;
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.NpgsqlMaxValueValidatorAdapterTests;
 
 public sealed partial class NpgsqlMaxValueValidatorAdapterStrictestBoundWinsTests(PostgresDatabaseFixture database)
-    : NpgsqlValidationAdapterTest<NpgsqlMaxValueValidatorAdapterStrictestBoundWinsTests.TestDbContext>(database)
+    : NpgsqlValidatorAdapterTest<NpgsqlMaxValueValidatorAdapterStrictestBoundWinsTests.TestDbContext>(database)
 {
     [StrongType<int>]
     public sealed partial class Score : IHasStrongTypeDefinition<int>

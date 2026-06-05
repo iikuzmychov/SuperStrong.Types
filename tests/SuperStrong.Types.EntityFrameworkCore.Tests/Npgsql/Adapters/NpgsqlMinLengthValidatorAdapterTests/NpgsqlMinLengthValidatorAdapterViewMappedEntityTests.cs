@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql.Adapters.NpgsqlMinLengthValidatorAdapterTests;
 
 public sealed partial class NpgsqlMinLengthValidatorAdapterViewMappedEntityTests(PostgresDatabaseFixture database)
-    : NpgsqlValidationAdapterTest<NpgsqlMinLengthValidatorAdapterViewMappedEntityTests.TestDbContext>(database)
+    : NpgsqlValidatorAdapterTest<NpgsqlMinLengthValidatorAdapterViewMappedEntityTests.TestDbContext>(database)
 {
     [StrongType<string>]
     public sealed partial class TagLabel : IHasStrongTypeDefinition<string>
@@ -37,20 +37,17 @@ public sealed partial class NpgsqlMinLengthValidatorAdapterViewMappedEntityTests
     [Fact]
     public async Task No_check_constraint_is_emitted_when_entity_is_mapped_to_a_view()
     {
-        await using var connection = Context.Database.GetDbConnection();
-        await connection.OpenAsync(TestContext.Current.CancellationToken);
+        var checkConstraintCount = await Context.Database
+            .SqlQuery<long>(
+                $"""
+                select count(*) as "Value"
+                from pg_constraint constraint_
+                join pg_class table_ on constraint_.conrelid = table_.oid
+                where table_.relname = 'TagView' and constraint_.contype = 'c'
+                """)
+            .SingleAsync(TestContext.Current.CancellationToken);
 
-        await using var command = connection.CreateCommand();
-        command.CommandText = """
-            select count(*)
-            from pg_constraint constraint_
-            join pg_class table_ on constraint_.conrelid = table_.oid
-            where table_.relname = 'TagView' and constraint_.contype = 'c'
-            """;
-
-        var count = (long)(await command.ExecuteScalarAsync(TestContext.Current.CancellationToken))!;
-
-        Assert.Equal(0, count);
+        Assert.Equal(0, checkConstraintCount);
     }
 
 }
