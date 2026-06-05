@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <PackageReference Include="HotChocolate.Types" Version="[16.0.0,17.0.0)" />
+    <PackageReference Include="HotChocolate.Types" />
   </ItemGroup>
 
   <ItemGroup>

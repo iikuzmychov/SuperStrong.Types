@@ -2,6 +2,7 @@
   <Folder Name="/items/">
     <File Path="Directory.Build.props" />
     <File Path="Directory.Build.targets" />
+    <File Path="Directory.Packages.props" />
     <File Path="draft.md" />
   </Folder>
   <Folder Name="/items/.github/" />
