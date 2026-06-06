@@ -191,4 +191,19 @@ namespace Sample
         }
     }
 
+    partial class UserId : global::System.Numerics.IEqualityOperators<UserId, UserId, bool>
+    {
+        public static bool operator ==(UserId? left, UserId? right)
+        {
+            if (left is null)
+            {
+                return right is null;
+            }
+
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(UserId? left, UserId? right) => !(left == right);
+    }
+
 }

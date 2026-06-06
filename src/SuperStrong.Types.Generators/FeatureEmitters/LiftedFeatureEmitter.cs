@@ -7,6 +7,8 @@ internal abstract class LiftedFeatureEmitter : OptionalFeatureEmitter<LiftedFeat
 {
     public abstract string TargetInterfaceMetadataName { get; }
 
+    protected virtual ITypeSymbol[] GetTypeArguments(ITypeSymbol primarySymbol, Compilation compilation) => [primarySymbol];
+
     public override LiftedFeatureState ResolveState(
         INamedTypeSymbol typeSymbol,
         ITypeSymbol primitiveTypeSymbol,
@@ -22,8 +24,8 @@ internal abstract class LiftedFeatureEmitter : OptionalFeatureEmitter<LiftedFeat
 
         if (openInterfaceSymbol is { IsGenericType: true })
         {
-            targetInterfaceSymbol = openInterfaceSymbol.Construct(typeSymbol);
-            sourceInterfaceSymbol = openInterfaceSymbol.Construct(primitiveTypeSymbol);
+            targetInterfaceSymbol = openInterfaceSymbol.Construct(GetTypeArguments(typeSymbol, compilation));
+            sourceInterfaceSymbol = openInterfaceSymbol.Construct(GetTypeArguments(primitiveTypeSymbol, compilation));
         }
         else
         {

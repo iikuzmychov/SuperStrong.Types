@@ -17,6 +17,7 @@ internal static class FeatureRegistry
         new SpanFormattableFeatureEmitter(),
         new Utf8SpanFormattableFeatureEmitter(),
         new ComparableFeatureEmitter(),
+        new EqualityOperatorsFeatureEmitter(),
     ]);
 
     public static readonly ImmutableArray<IOptionalFeatureEmitter> Optional = All
