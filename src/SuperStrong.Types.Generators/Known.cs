@@ -28,7 +28,6 @@ internal static class Known
         public static readonly TypeName SuperStrong_Types_StrongTypeSpanFormattableFeatureAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeSpanFormattableFeatureAttribute");
         public static readonly TypeName SuperStrong_Types_StrongTypeUtf8SpanFormattableFeatureAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeUtf8SpanFormattableFeatureAttribute");
         public static readonly TypeName SuperStrong_Types_StrongTypeComparableFeatureAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeComparableFeatureAttribute");
-        public static readonly TypeName SuperStrong_Types_StrongTypeEqualityOperatorsFeatureAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeEqualityOperatorsFeatureAttribute");
 
         public static readonly TypeName System_Span = new(Namespaces.System, "Span");
         public static readonly TypeName System_ReadOnlySpan = new(Namespaces.System, "ReadOnlySpan");

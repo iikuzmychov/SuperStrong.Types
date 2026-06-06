@@ -9,9 +9,11 @@ internal sealed class EqualityFeatureEmitter : IStrongTypeFeatureEmitter
 
     public void Emit(IndentedWriter writer, StrongTypeModel model)
     {
+        var equalityOperatorsInterface = $"{System_Numerics_IEqualityOperators}<{model.TypeName}, {model.TypeName}, bool>";
+
         var blockHeader = model.UserImplementsIEquatable
-            ? $"partial class {model.TypeName}"
-            : $"partial class {model.TypeName} : {System_IEquatable}<{model.TypeName}>";
+            ? $"partial class {model.TypeName} : {equalityOperatorsInterface}"
+            : $"partial class {model.TypeName} : {System_IEquatable}<{model.TypeName}>, {equalityOperatorsInterface}";
 
         using (writer.Block(blockHeader))
         {
@@ -32,6 +34,22 @@ internal sealed class EqualityFeatureEmitter : IStrongTypeFeatureEmitter
             {
                 writer.Line("public override int GetHashCode() => _value.GetHashCode();");
             }
+
+            writer.Line();
+
+            using (writer.Block($"public static bool operator ==({model.TypeName}? left, {model.TypeName}? right)"))
+            {
+                using (writer.Block("if (left is null)"))
+                {
+                    writer.Line("return right is null;");
+                }
+
+                writer.Line();
+                writer.Line("return left.Equals(right);");
+            }
+
+            writer.Line();
+            writer.Line($"public static bool operator !=({model.TypeName}? left, {model.TypeName}? right) => !(left == right);");
         }
     }
 }

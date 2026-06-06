@@ -30,13 +30,25 @@ namespace Sample
         static global::SuperStrong.Types.StrongTypeDefinition<int> global::SuperStrong.Types.IHasStrongTypeDefinition<int>.Definition => Definition;
     }
 
-    partial class UserId : global::System.IEquatable<UserId>
+    partial class UserId : global::System.IEquatable<UserId>, global::System.Numerics.IEqualityOperators<UserId, UserId, bool>
     {
         public bool Equals(UserId? other) => other is not null && _value.Equals(other._value);
 
         public override bool Equals(object? obj) => obj is UserId other && Equals(other);
 
         public override int GetHashCode() => _value.GetHashCode();
+
+        public static bool operator ==(UserId? left, UserId? right)
+        {
+            if (left is null)
+            {
+                return right is null;
+            }
+
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(UserId? left, UserId? right) => !(left == right);
     }
 
     partial class UserId
@@ -189,21 +201,6 @@ namespace Sample
                 return value.CompareTo(other);
             }
         }
-    }
-
-    partial class UserId : global::System.Numerics.IEqualityOperators<UserId, UserId, bool>
-    {
-        public static bool operator ==(UserId? left, UserId? right)
-        {
-            if (left is null)
-            {
-                return right is null;
-            }
-
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(UserId? left, UserId? right) => !(left == right);
     }
 
 }
