@@ -5,7 +5,7 @@ namespace SuperStrong.Types.Generators.FeatureEmitters;
 
 internal sealed class FormattableFeatureEmitter : LiftedFeatureEmitter
 {
-    public override string FeatureAttributeMetadataName => SuperStrong_Types_StrongTypeFormattableFeatureAttribute.MetadataName();
+    public override string FeatureAttributeMetadataName => SuperStrong_Types_StrongTypeFeatures_Lifting_FormattableAttribute.MetadataName();
     public override string TargetInterfaceMetadataName => System_IFormattable.MetadataName();
     public override bool IsEnabledByDefault => true;
 

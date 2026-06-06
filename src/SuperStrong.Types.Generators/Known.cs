@@ -21,13 +21,13 @@ internal static class Known
         public static readonly TypeName SuperStrong_Types_IHasStrongTypeDefinition = new(Namespaces.SuperStrong_Types, "IHasStrongTypeDefinition");
         public static readonly TypeName SuperStrong_Types_StrongTypeDefinition = new(Namespaces.SuperStrong_Types, "StrongTypeDefinition");
         public static readonly TypeName SuperStrong_Types_IStrongTypeTemplate = new(Namespaces.SuperStrong_Types, "IStrongTypeTemplate");
-        public static readonly TypeName SuperStrong_Types_StrongTypeParsableFeatureAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeParsableFeatureAttribute");
-        public static readonly TypeName SuperStrong_Types_StrongTypeSpanParsableFeatureAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeSpanParsableFeatureAttribute");
-        public static readonly TypeName SuperStrong_Types_StrongTypeUtf8SpanParsableFeatureAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeUtf8SpanParsableFeatureAttribute");
-        public static readonly TypeName SuperStrong_Types_StrongTypeFormattableFeatureAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeFormattableFeatureAttribute");
-        public static readonly TypeName SuperStrong_Types_StrongTypeSpanFormattableFeatureAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeSpanFormattableFeatureAttribute");
-        public static readonly TypeName SuperStrong_Types_StrongTypeUtf8SpanFormattableFeatureAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeUtf8SpanFormattableFeatureAttribute");
-        public static readonly TypeName SuperStrong_Types_StrongTypeComparableFeatureAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeComparableFeatureAttribute");
+        public static readonly TypeName SuperStrong_Types_StrongTypeFeatures_Lifting_ParsableAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeFeatures+Lifting+ParsableAttribute");
+        public static readonly TypeName SuperStrong_Types_StrongTypeFeatures_Lifting_SpanParsableAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeFeatures+Lifting+SpanParsableAttribute");
+        public static readonly TypeName SuperStrong_Types_StrongTypeFeatures_Lifting_Utf8SpanParsableAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeFeatures+Lifting+Utf8SpanParsableAttribute");
+        public static readonly TypeName SuperStrong_Types_StrongTypeFeatures_Lifting_FormattableAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeFeatures+Lifting+FormattableAttribute");
+        public static readonly TypeName SuperStrong_Types_StrongTypeFeatures_Lifting_SpanFormattableAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeFeatures+Lifting+SpanFormattableAttribute");
+        public static readonly TypeName SuperStrong_Types_StrongTypeFeatures_Lifting_Utf8SpanFormattableAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeFeatures+Lifting+Utf8SpanFormattableAttribute");
+        public static readonly TypeName SuperStrong_Types_StrongTypeFeatures_Lifting_ComparableAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeFeatures+Lifting+ComparableAttribute");
 
         public static readonly TypeName System_Span = new(Namespaces.System, "Span");
         public static readonly TypeName System_ReadOnlySpan = new(Namespaces.System, "ReadOnlySpan");

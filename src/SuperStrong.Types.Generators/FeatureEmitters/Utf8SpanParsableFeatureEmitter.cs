@@ -5,7 +5,7 @@ namespace SuperStrong.Types.Generators.FeatureEmitters;
 
 internal sealed class Utf8SpanParsableFeatureEmitter : LiftedFeatureEmitter
 {
-    public override string FeatureAttributeMetadataName => SuperStrong_Types_StrongTypeUtf8SpanParsableFeatureAttribute.MetadataName();
+    public override string FeatureAttributeMetadataName => SuperStrong_Types_StrongTypeFeatures_Lifting_Utf8SpanParsableAttribute.MetadataName();
     public override string TargetInterfaceMetadataName => System_IUtf8SpanParsable.MetadataName(arity: 1);
     public override bool IsEnabledByDefault => true;
 

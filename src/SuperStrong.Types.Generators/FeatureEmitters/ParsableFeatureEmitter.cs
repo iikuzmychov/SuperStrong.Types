@@ -5,7 +5,7 @@ namespace SuperStrong.Types.Generators.FeatureEmitters;
 
 internal sealed class ParsableFeatureEmitter : LiftedFeatureEmitter
 {
-    public override string FeatureAttributeMetadataName => SuperStrong_Types_StrongTypeParsableFeatureAttribute.MetadataName();
+    public override string FeatureAttributeMetadataName => SuperStrong_Types_StrongTypeFeatures_Lifting_ParsableAttribute.MetadataName();
     public override string TargetInterfaceMetadataName => System_IParsable.MetadataName(arity: 1);
     public override bool IsEnabledByDefault => true;
 
