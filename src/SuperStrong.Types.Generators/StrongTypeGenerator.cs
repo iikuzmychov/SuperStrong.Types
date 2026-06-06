@@ -206,6 +206,15 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             .OfType<IMethodSymbol>()
             .Any(method => method.IsOverride && method.Parameters.IsEmpty);
 
+        var equatableInterface = compilation
+            .GetTypeByMetadataName("System.IEquatable`1")
+            ?.Construct(typeSymbol);
+
+        var userImplementsIEquatable =
+            equatableInterface is not null &&
+            typeSymbol.AllInterfaces.Any(
+                @interface => SymbolEqualityComparer.Default.Equals(@interface, equatableInterface));
+
         return new StrongTypeModel(
             Namespace: namespaceName,
             TypeName: typeSymbol.Name,
@@ -213,7 +222,8 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             PrimitiveType: primitiveType,
             TemplateType: templateType,
             UserImplementsDefinition: userImplementsDefinition,
-            UserOverridesToString: userOverridesToString);
+            UserOverridesToString: userOverridesToString,
+            UserImplementsIEquatable: userImplementsIEquatable);
     }
 
     private static void Emit(SourceProductionContext context, GeneratorOutput output)

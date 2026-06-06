@@ -33,11 +33,13 @@ namespace Sample
         public int AsPrimitive() => _value;
     }
 
-    partial class UserId
+    partial class UserId : global::System.IEquatable<UserId>
     {
-        public override int GetHashCode() => _value.GetHashCode();
+        public bool Equals(UserId? other) => other is not null && _value.Equals(other._value);
 
-        public override bool Equals(object? obj) => obj is UserId other && _value.Equals(other._value);
+        public override bool Equals(object? obj) => obj is UserId other && Equals(other);
+
+        public override int GetHashCode() => _value.GetHashCode();
     }
 
     partial class UserId

@@ -10,7 +10,8 @@ internal sealed record StrongTypeModel(
     string PrimitiveType,
     string? TemplateType,
     bool UserImplementsDefinition,
-    bool UserOverridesToString)
+    bool UserOverridesToString,
+    bool UserImplementsIEquatable)
 {
     public string HintName
     {
