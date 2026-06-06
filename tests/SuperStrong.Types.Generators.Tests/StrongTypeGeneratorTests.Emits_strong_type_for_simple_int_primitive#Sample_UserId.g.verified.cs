@@ -173,4 +173,22 @@ namespace Sample
         }
     }
 
+    partial class UserId : global::System.IComparable<UserId>
+    {
+        public int CompareTo(UserId? other)
+        {
+            if (other is null)
+            {
+                return 1;
+            }
+
+            return InvokeCompareTo<int>(_value, other._value);
+
+            static int InvokeCompareTo<T>(T value, T other) where T : global::System.IComparable<T>
+            {
+                return value.CompareTo(other);
+            }
+        }
+    }
+
 }
