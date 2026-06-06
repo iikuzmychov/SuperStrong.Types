@@ -40,4 +40,9 @@ namespace Sample
         public override bool Equals(object? obj) => obj is UserId other && _value.Equals(other._value);
     }
 
+    partial class UserId
+    {
+        public override string ToString() => _value.ToString();
+    }
+
 }

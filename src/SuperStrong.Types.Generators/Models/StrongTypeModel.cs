@@ -9,7 +9,8 @@ internal sealed record StrongTypeModel(
     ImmutableArray<string> AncestorTypeNames,
     string PrimitiveType,
     string? TemplateType,
-    bool UserImplementsDefinition)
+    bool UserImplementsDefinition,
+    bool UserOverridesToString)
 {
     public string HintName
     {

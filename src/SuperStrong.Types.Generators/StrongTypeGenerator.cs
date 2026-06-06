@@ -201,13 +201,19 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             typeSymbol.AllInterfaces.Any(
                 @interface => SymbolEqualityComparer.Default.Equals(@interface, hasDefinitionInterface));
 
+        var userOverridesToString = typeSymbol
+            .GetMembers(nameof(ToString))
+            .OfType<IMethodSymbol>()
+            .Any(method => method.IsOverride && method.Parameters.IsEmpty);
+
         return new StrongTypeModel(
             Namespace: namespaceName,
             TypeName: typeSymbol.Name,
             AncestorTypeNames: ancestors.ToImmutable(),
             PrimitiveType: primitiveType,
             TemplateType: templateType,
-            UserImplementsDefinition: userImplementsDefinition);
+            UserImplementsDefinition: userImplementsDefinition,
+            UserOverridesToString: userOverridesToString);
     }
 
     private static void Emit(SourceProductionContext context, GeneratorOutput output)
@@ -221,6 +227,7 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
                     new HasStrongTypeDefinitionFeatureEmitter(),
                     new StrongTypeInterfaceFeatureEmitter(),
                     new EqualityFeatureEmitter(),
+                    new ToStringFeatureEmitter(),
                 ]);
 
                 var source = SourceBuilder.Build(model, featues);
