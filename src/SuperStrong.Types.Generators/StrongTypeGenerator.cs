@@ -30,6 +30,22 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
 
+    private static readonly DiagnosticDescriptor RecordDeclarationDescriptor = new(
+        id: "SST004",
+        title: "Strong type cannot be a record",
+        messageFormat: "Type '{0}' is annotated with [StrongType<...>] but is declared as a record. Declare it as a class instead.",
+        category: "SuperStrong",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true);
+
+    private static readonly DiagnosticDescriptor HasBaseTypeDescriptor = new(
+        id: "SST005",
+        title: "Strong type cannot inherit from another type",
+        messageFormat: "Type '{0}' is annotated with [StrongType<...>] but inherits from '{1}'. Remove the base type.",
+        category: "SuperStrong",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true);
+
     private static readonly SymbolDisplayFormat FullyQualifiedFormatWithKeywords =
         SymbolDisplayFormat.FullyQualifiedFormat.WithMiscellaneousOptions(
             SymbolDisplayFormat.FullyQualifiedFormat.MiscellaneousOptions | SymbolDisplayMiscellaneousOptions.UseSpecialTypes);
@@ -47,12 +63,14 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
 
     private static bool IsCandidate(SyntaxNode node)
     {
-        if (node is not ClassDeclarationSyntax classDeclaration)
+        if (node is not (ClassDeclarationSyntax or RecordDeclarationSyntax))
         {
             return false;
         }
 
-        foreach (var attributeList in classDeclaration.AttributeLists)
+        var typeDeclaration = (TypeDeclarationSyntax)node;
+
+        foreach (var attributeList in typeDeclaration.AttributeLists)
         {
             foreach (var attribute in attributeList.Attributes)
             {
@@ -110,6 +128,14 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
                     Location: LocationInfo.From(context.Node)));
         }
 
+        if (context.Node is RecordDeclarationSyntax)
+        {
+            return GeneratorOutput.FromRecord(
+                new RecordDeclarationInfo(
+                    TypeFullName: typeSymbol.ToDisplayString(),
+                    Location: LocationInfo.From(context.Node)));
+        }
+
         var typeDeclaration = (TypeDeclarationSyntax)context.Node;
         var isPartial = typeDeclaration.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.PartialKeyword));
 
@@ -118,6 +144,15 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             return GeneratorOutput.FromNotPartial(
                 new NotPartialInfo(
                     TypeFullName: typeSymbol.ToDisplayString(),
+                    Location: LocationInfo.From(context.Node)));
+        }
+
+        if (typeSymbol.BaseType is { SpecialType: not SpecialType.System_Object } baseType)
+        {
+            return GeneratorOutput.FromHasBaseType(
+                new HasBaseTypeInfo(
+                    TypeFullName: typeSymbol.ToDisplayString(),
+                    BaseTypeFullName: baseType.ToDisplayString(),
                     Location: LocationInfo.From(context.Node)));
         }
 
@@ -204,6 +239,20 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
                     NotPartialDescriptor,
                         location: notPartial.Location?.ToLocation() ?? Location.None,
                         messageArgs: notPartial.TypeFullName));
+            },
+            onRecord: record =>
+            {
+                context.ReportDiagnostic(Diagnostic.Create(
+                    RecordDeclarationDescriptor,
+                        location: record.Location?.ToLocation() ?? Location.None,
+                        messageArgs: record.TypeFullName));
+            },
+            onHasBaseType: hasBaseType =>
+            {
+                context.ReportDiagnostic(Diagnostic.Create(
+                    HasBaseTypeDescriptor,
+                        location: hasBaseType.Location?.ToLocation() ?? Location.None,
+                        messageArgs: [hasBaseType.TypeFullName, hasBaseType.BaseTypeFullName]));
             });
     }
 }
