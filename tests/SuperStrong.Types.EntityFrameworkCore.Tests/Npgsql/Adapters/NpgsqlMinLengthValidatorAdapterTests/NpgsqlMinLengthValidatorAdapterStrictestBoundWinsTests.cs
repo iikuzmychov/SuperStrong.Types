@@ -9,7 +9,7 @@ public sealed partial class NpgsqlMinLengthValidatorAdapterStrictestBoundWinsTes
     [StrongType<string>]
     public sealed partial class TagLabel : IHasStrongTypeDefinition<string>
     {
-        public static StrongTypeDefinition<string> Definition => StrongType.Define<string>().HasMinLength(2).HasMinLength(5);
+        public static StrongTypeDefinition<string> Definition { get; } = StrongType.Define<string>().HasMinLength(2).HasMinLength(5);
     }
 
     public sealed class Tag

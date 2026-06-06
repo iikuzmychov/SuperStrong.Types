@@ -2,11 +2,9 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
-using SuperStrong.Types.Generators.Constants;
 using SuperStrong.Types.Generators.FeatureEmitters;
 using SuperStrong.Types.Generators.Models;
 using System.Collections.Immutable;
-using System.Reflection.Metadata;
 using System.Text;
 
 namespace SuperStrong.Types.Generators;
@@ -98,8 +96,8 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             }
 
             return
-                simpleName == TypeNames.StrongTypeAttribute.Name ||
-                simpleName + nameof(Attribute) == TypeNames.StrongTypeAttribute.Name;
+                simpleName == SuperStrong_Types_StrongTypeAttribute.Name ||
+                simpleName + nameof(Attribute) == SuperStrong_Types_StrongTypeAttribute.Name;
         }
     }
 
@@ -164,8 +162,8 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
         {
             return
                 attribute.AttributeClass is { } attributeClass &&
-                attributeClass.Name == TypeNames.StrongTypeAttribute.Name &&
-                attributeClass.ContainingNamespace.ToDisplayString() == Namespaces.SuperStrong_Types;
+                attributeClass.Name == SuperStrong_Types_StrongTypeAttribute.Name &&
+                attributeClass.ContainingNamespace.ToDisplayString() == Known.Namespaces.SuperStrong_Types;
         }
     }
 
@@ -175,9 +173,11 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
         var primitiveTypeSymbol = typeArguments[0];
         var primitiveType = primitiveTypeSymbol.ToDisplayString(FullyQualifiedFormatWithKeywords);
 
-        var templateType = typeArguments.Length == 2
-            ? typeArguments[1].ToDisplayString(FullyQualifiedFormatWithKeywords)
+        var templateTypeSymbol = typeArguments.Length == 2
+            ? typeArguments[1] as INamedTypeSymbol
             : null;
+
+        var templateType = templateTypeSymbol?.ToDisplayString(FullyQualifiedFormatWithKeywords);
 
         var ancestors = ImmutableArray.CreateBuilder<string>();
 
@@ -193,7 +193,7 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             : typeSymbol.ContainingNamespace.ToDisplayString();
 
         var hasDefinitionInterface = compilation
-            .GetTypeByMetadataName(TypeNames.IHasStrongTypeDefinition.MetadataName(arity: 1))
+            .GetTypeByMetadataName(SuperStrong_Types_IHasStrongTypeDefinition.MetadataName(arity: 1))
             ?.Construct(primitiveTypeSymbol);
 
         var userImplementsDefinition =
@@ -215,15 +215,22 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             typeSymbol.AllInterfaces.Any(
                 @interface => SymbolEqualityComparer.Default.Equals(@interface, equatableInterface));
 
-        return new StrongTypeModel(
-            Namespace: namespaceName,
-            TypeName: typeSymbol.Name,
-            AncestorTypeNames: ancestors.ToImmutable(),
-            PrimitiveType: primitiveType,
-            TemplateType: templateType,
-            UserImplementsDefinition: userImplementsDefinition,
-            UserOverridesToString: userOverridesToString,
-            UserImplementsIEquatable: userImplementsIEquatable);
+        var optionalFeatures = FeatureRegistry.Optional
+            .Select(emitter => emitter.ResolveState(typeSymbol, primitiveTypeSymbol, templateTypeSymbol, compilation))
+            .ToImmutableArray();
+
+        return new StrongTypeModel
+        {
+            Namespace = namespaceName,
+            TypeName = typeSymbol.Name,
+            AncestorTypeNames = ancestors.ToImmutable(),
+            PrimitiveTypeName = primitiveType,
+            TemplateTypeName = templateType,
+            UserImplementsDefinition = userImplementsDefinition,
+            UserOverridesToString = userOverridesToString,
+            UserImplementsIEquatable = userImplementsIEquatable,
+            OptionalFeatures = optionalFeatures,
+        };
     }
 
     private static void Emit(SourceProductionContext context, GeneratorOutput output)
@@ -231,44 +238,43 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
         output.Switch(
             onModel: model =>
             {
-                var featues = ImmutableArray.Create<IStrongTypeFeatureEmitter>(
-                [
-                    new CoreFeatureEmitter(),
-                    new HasStrongTypeDefinitionFeatureEmitter(),
-                    new StrongTypeInterfaceFeatureEmitter(),
-                    new EqualityFeatureEmitter(),
-                    new ToStringFeatureEmitter(),
-                ]);
+                var activeFeatures = FeatureRegistry.All
+                    .Where(feature => feature.ShouldEmit(model))
+                    .ToImmutableArray();
 
-                var source = SourceBuilder.Build(model, featues);
+                var source = SourceBuilder.Build(model, activeFeatures);
                 context.AddSource(model.HintName, SourceText.From(source, Encoding.UTF8));
             },
             onConflict: conflict =>
             {
-                context.ReportDiagnostic(Diagnostic.Create(
-                    ConflictingAttributesDescriptor,
-                        location: conflict.Location?.ToLocation() ?? Location.None,
+                context.ReportDiagnostic(
+                    Diagnostic.Create(
+                        ConflictingAttributesDescriptor,
+                        location: conflict.Location?.ToLocation(),
                         messageArgs: conflict.TypeFullName));
             },
             onNotPartial: notPartial =>
             {
-                context.ReportDiagnostic(Diagnostic.Create(
-                    NotPartialDescriptor,
-                        location: notPartial.Location?.ToLocation() ?? Location.None,
+                context.ReportDiagnostic(
+                    Diagnostic.Create(
+                        NotPartialDescriptor,
+                        location: notPartial.Location?.ToLocation(),
                         messageArgs: notPartial.TypeFullName));
             },
             onRecord: record =>
             {
-                context.ReportDiagnostic(Diagnostic.Create(
-                    RecordDeclarationDescriptor,
-                        location: record.Location?.ToLocation() ?? Location.None,
+                context.ReportDiagnostic(
+                    Diagnostic.Create(
+                        RecordDeclarationDescriptor,
+                        location: record.Location?.ToLocation(),
                         messageArgs: record.TypeFullName));
             },
             onHasBaseType: hasBaseType =>
             {
-                context.ReportDiagnostic(Diagnostic.Create(
-                    HasBaseTypeDescriptor,
-                        location: hasBaseType.Location?.ToLocation() ?? Location.None,
+                context.ReportDiagnostic(
+                    Diagnostic.Create(
+                        HasBaseTypeDescriptor,
+                        location: hasBaseType.Location?.ToLocation(),
                         messageArgs: [hasBaseType.TypeFullName, hasBaseType.BaseTypeFullName]));
             });
     }

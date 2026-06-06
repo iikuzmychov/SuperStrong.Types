@@ -10,7 +10,7 @@ public sealed partial class NpgsqlMaxValueValidatorAdapterStrictestBoundWinsTest
     [StrongType<int>]
     public sealed partial class Score : IHasStrongTypeDefinition<int>
     {
-        public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMaxValue(100).HasMaxValue(50);
+        public static StrongTypeDefinition<int> Definition { get; } = StrongType.Define<int>().HasMaxValue(100).HasMaxValue(50);
     }
 
     public sealed class Player

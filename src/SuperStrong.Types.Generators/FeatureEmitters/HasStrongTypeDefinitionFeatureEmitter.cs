@@ -1,4 +1,3 @@
-using SuperStrong.Types.Generators.Constants;
 using SuperStrong.Types.Generators.Helpers;
 using SuperStrong.Types.Generators.Models;
 
@@ -10,16 +9,16 @@ internal sealed class HasStrongTypeDefinitionFeatureEmitter : IStrongTypeFeature
 
     public void Emit(IndentedWriter writer, StrongTypeModel model)
     {
-        var hasDefinitionInterfaceTypeName = $"{TypeNames.IHasStrongTypeDefinition}<{model.PrimitiveType}>";
-        var definitionTypeName = $"{TypeNames.StrongTypeDefinition}<{model.PrimitiveType}>";
+        var hasDefinitionInterfaceTypeName = $"{SuperStrong_Types_IHasStrongTypeDefinition}<{model.PrimitiveTypeName}>";
+        var definitionTypeName = $"{SuperStrong_Types_StrongTypeDefinition}<{model.PrimitiveTypeName}>";
 
         using (writer.Block($"partial class {model.TypeName} : {hasDefinitionInterfaceTypeName}"))
         {
-            var body = model.TemplateType is not null
-                ? $"{TypeNames.StrongType}.GetTemplateDefinition<{model.TemplateType}, {model.PrimitiveType}>()"
-                : $"{TypeNames.StrongType}.Define<{model.PrimitiveType}>()";
+            var body = model.TemplateTypeName is not null
+                ? $"{SuperStrong_Types_StrongType}.GetTemplateDefinition<{model.TemplateTypeName}, {model.PrimitiveTypeName}>()"
+                : $"{SuperStrong_Types_StrongType}.Define<{model.PrimitiveTypeName}>()";
 
-            writer.Line($"public static {definitionTypeName} Definition => {body};");
+            writer.Line($"public static {definitionTypeName} Definition {{ get; }} = {body};");
             writer.Line();
             writer.Line($"static {definitionTypeName} {hasDefinitionInterfaceTypeName}.Definition => Definition;");
         }

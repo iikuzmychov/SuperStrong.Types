@@ -37,11 +37,11 @@ public static class TypeExtensions
         var attributeGenericArguments = strongTypeAttributes[0].AttributeType.GetGenericArguments();
         var primitiveType = attributeGenericArguments[0];
         var templateType = attributeGenericArguments.Length == 2 ? attributeGenericArguments[1] : null;
-        var hasDefinitionInterface = typeof(IHasStrongTypeDefinition<>).MakeGenericType(primitiveType);
+        var strongTypeInterface = typeof(IStrongType<,>).MakeGenericType(type, primitiveType);
 
-        if (!hasDefinitionInterface.IsAssignableFrom(type))
+        if (!strongTypeInterface.IsAssignableFrom(type))
         {
-            throw new InvalidOperationException($"{type} does not implement {hasDefinitionInterface}.");
+            throw new InvalidOperationException($"{type} does not implement {strongTypeInterface}.");
         }
 
         var definition = (StrongTypeDefinition)typeof(StrongType)

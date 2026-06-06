@@ -30,7 +30,7 @@ internal static class SourceBuilder
             ancestorScopes.Push(writer.Block($"partial class {ancestor}"));
         }
         
-        foreach (var feature in features.Where(feature => feature.ShouldEmit(model)))
+        foreach (var feature in features)
         {
             feature.Emit(writer, model);
             writer.Line();

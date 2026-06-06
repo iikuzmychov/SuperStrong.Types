@@ -4,7 +4,7 @@
 
 namespace Sample
 {
-    partial class UserId
+    partial class UserId : global::SuperStrong.Types.IStrongType<UserId, int>
     {
         private readonly int _value;
 
@@ -12,17 +12,7 @@ namespace Sample
         {
             _value = value;
         }
-    }
 
-    partial class UserId : global::SuperStrong.Types.IHasStrongTypeDefinition<int>
-    {
-        public static global::SuperStrong.Types.StrongTypeDefinition<int> Definition => global::SuperStrong.Types.StrongType.Define<int>();
-
-        static global::SuperStrong.Types.StrongTypeDefinition<int> global::SuperStrong.Types.IHasStrongTypeDefinition<int>.Definition => Definition;
-    }
-
-    partial class UserId : global::SuperStrong.Types.IStrongType<UserId, int>
-    {
         public static UserId Create(int value)
         {
             global::SuperStrong.Types.StrongType.EnsureValid(value, Definition);
@@ -31,6 +21,13 @@ namespace Sample
         }
 
         public int AsPrimitive() => _value;
+    }
+
+    partial class UserId : global::SuperStrong.Types.IHasStrongTypeDefinition<int>
+    {
+        public static global::SuperStrong.Types.StrongTypeDefinition<int> Definition { get; } = global::SuperStrong.Types.StrongType.Define<int>();
+
+        static global::SuperStrong.Types.StrongTypeDefinition<int> global::SuperStrong.Types.IHasStrongTypeDefinition<int>.Definition => Definition;
     }
 
     partial class UserId : global::System.IEquatable<UserId>
@@ -45,6 +42,96 @@ namespace Sample
     partial class UserId
     {
         public override string ToString() => _value.ToString();
+    }
+
+    partial class UserId : global::System.IParsable<UserId>
+    {
+        public static UserId Parse(string s, global::System.IFormatProvider? provider)
+        {
+            return Create(InvokeParse<int>(s, provider));
+
+            static T InvokeParse<T>(string s, global::System.IFormatProvider? provider) where T : global::System.IParsable<T>
+            {
+                return T.Parse(s, provider);
+            }
+        }
+
+        public static bool TryParse([global::System.Diagnostics.CodeAnalysis.NotNullWhenAttribute(true)] string? s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out UserId result)
+        {
+            if (InvokeTryParse<int>(s, provider, out var primitive) && global::SuperStrong.Types.StrongType.IsValid(primitive, Definition))
+            {
+                result = new UserId(primitive);
+                return true;
+            }
+
+            result = null;
+            return false;
+
+            static bool InvokeTryParse<T>(string? s, global::System.IFormatProvider? provider, out T result) where T : global::System.IParsable<T>
+            {
+                return T.TryParse(s, provider, out result!);
+            }
+        }
+    }
+
+    partial class UserId : global::System.ISpanParsable<UserId>
+    {
+        public static UserId Parse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider)
+        {
+            return Create(InvokeParse<int>(s, provider));
+
+            static T InvokeParse<T>(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider) where T : global::System.ISpanParsable<T>
+            {
+                return T.Parse(s, provider);
+            }
+        }
+
+        public static bool TryParse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out UserId result)
+        {
+            if (InvokeTryParse<int>(s, provider, out var primitive) && global::SuperStrong.Types.StrongType.IsValid(primitive, Definition))
+            {
+                result = new UserId(primitive);
+                return true;
+            }
+
+            result = null;
+            return false;
+
+            static bool InvokeTryParse<T>(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider, out T result) where T : global::System.ISpanParsable<T>
+            {
+                return T.TryParse(s, provider, out result!);
+            }
+        }
+    }
+
+    partial class UserId : global::System.IUtf8SpanParsable<UserId>
+    {
+        public static UserId Parse(global::System.ReadOnlySpan<byte> utf8Text, global::System.IFormatProvider? provider)
+        {
+            return Create(InvokeParse<int>(utf8Text, provider));
+
+            static T InvokeParse<T>(global::System.ReadOnlySpan<byte> utf8Text, global::System.IFormatProvider? provider) where T : global::System.IUtf8SpanParsable<T>
+            {
+                return T.Parse(utf8Text, provider);
+            }
+        }
+
+        public static bool TryParse(global::System.ReadOnlySpan<byte> utf8Text, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out UserId result)
+        {
+            if (InvokeTryParse<int>(utf8Text, provider, out var primitive) && global::SuperStrong.Types.StrongType.IsValid(primitive, Definition))
+            {
+                result = new UserId(primitive);
+                return true;
+            }
+
+            result = null;
+            return false;
+
+            static bool InvokeTryParse<T>(global::System.ReadOnlySpan<byte> utf8Text, global::System.IFormatProvider? provider, out T result) where T : global::System.IUtf8SpanParsable<T>
+            {
+                return T.TryParse(utf8Text, provider, out result!);
+            }
+        }
     }
 
 }

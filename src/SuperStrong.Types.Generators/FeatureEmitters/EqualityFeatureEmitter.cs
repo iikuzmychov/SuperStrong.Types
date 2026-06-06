@@ -11,7 +11,7 @@ internal sealed class EqualityFeatureEmitter : IStrongTypeFeatureEmitter
     {
         var blockHeader = model.UserImplementsIEquatable
             ? $"partial class {model.TypeName}"
-            : $"partial class {model.TypeName} : global::System.IEquatable<{model.TypeName}>";
+            : $"partial class {model.TypeName} : {System_IEquatable}<{model.TypeName}>";
 
         using (writer.Block(blockHeader))
         {

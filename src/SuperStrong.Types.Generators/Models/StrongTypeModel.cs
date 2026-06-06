@@ -3,16 +3,18 @@ using System.Text;
 
 namespace SuperStrong.Types.Generators.Models;
 
-internal sealed record StrongTypeModel(
-    string? Namespace,
-    string TypeName,
-    ImmutableArray<string> AncestorTypeNames,
-    string PrimitiveType,
-    string? TemplateType,
-    bool UserImplementsDefinition,
-    bool UserOverridesToString,
-    bool UserImplementsIEquatable)
+internal sealed record StrongTypeModel
 {
+    public required string? Namespace { get; init; }
+    public required string TypeName { get; init; }
+    public required ImmutableArray<string> AncestorTypeNames { get; init; }
+    public required string PrimitiveTypeName { get; init; }
+    public required string? TemplateTypeName { get; init; }
+    public required bool UserImplementsDefinition { get; init; }
+    public required bool UserOverridesToString { get; init; }
+    public required bool UserImplementsIEquatable { get; init; }
+    public required ImmutableArray<OptionalFeatureState> OptionalFeatures { get; init; }
+
     public string HintName
     {
         get

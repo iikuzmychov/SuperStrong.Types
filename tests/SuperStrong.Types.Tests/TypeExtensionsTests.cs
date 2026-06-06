@@ -40,12 +40,12 @@ public sealed partial class TypeExtensionsTests
         StrongTypeDefinition expectedDefinition)
     {
         var info = type.GetStrongTypeInfo();
-
+        
         Assert.NotNull(info);
         Assert.Equal(type, info.StrongType);
         Assert.Equal(expectedPrimitiveType, info.PrimitiveType);
         Assert.Equal(expectedTemplateType, info.TemplateType);
-        Assert.Equivalent(expectedDefinition, info.Definition, strict: true);
+        Assert.Same(expectedDefinition, info.Definition);
     }
 
     private sealed class NotAStrongType;
@@ -53,20 +53,20 @@ public sealed partial class TypeExtensionsTests
     [StrongType<int>]
     private sealed partial class StrongIntClass : IHasStrongTypeDefinition<int>
     {
-        public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMinValue(1);
+        public static StrongTypeDefinition<int> Definition { get; } = StrongType.Define<int>().HasMinValue(1);
     }
 
     // todo: uncomment, once generator will work with structs too
     //[StrongType<int>]
     //private readonly partial struct StrongIntStruct : IHasStrongTypeDefinition<int>
     //{
-    //    public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMinValue(2);
+    //    public static StrongTypeDefinition<int> Definition { get; } = StrongType.Define<int>().HasMinValue(2);
     //}
 
     [StrongType<string>]
     private sealed partial class StrongStringClass : IHasStrongTypeDefinition<string>
     {
-        public static StrongTypeDefinition<string> Definition => StrongType.Define<string>().HasMinLength(1);
+        public static StrongTypeDefinition<string> Definition { get; } = StrongType.Define<string>().HasMinLength(1);
     }
 
     [StrongType<int, StrongIntTemplate>]
@@ -78,11 +78,11 @@ public sealed partial class TypeExtensionsTests
 
     private sealed class StrongStringTemplate : IStrongTypeTemplate<string>
     {
-        public static StrongTypeDefinition<string> Definition => StrongType.Define<string>().HasMinLength(5);
+        public static StrongTypeDefinition<string> Definition { get; } = StrongType.Define<string>().HasMinLength(5);
     }
 
     private sealed class StrongIntTemplate : IStrongTypeTemplate<int>
     {
-        public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMinValue(3);
+        public static StrongTypeDefinition<int> Definition { get; } = StrongType.Define<int>().HasMinValue(3);
     }
 }

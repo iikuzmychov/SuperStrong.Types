@@ -9,7 +9,7 @@ public sealed partial class NpgsqlMinValueValidatorAdapterOwnedJsonTests(Postgre
     [StrongType<int>]
     public sealed partial class Age : IHasStrongTypeDefinition<int>
     {
-        public static StrongTypeDefinition<int> Definition => StrongType.Define<int>().HasMinValue(0);
+        public static StrongTypeDefinition<int> Definition { get; } = StrongType.Define<int>().HasMinValue(0);
     }
 
     public sealed class Profile

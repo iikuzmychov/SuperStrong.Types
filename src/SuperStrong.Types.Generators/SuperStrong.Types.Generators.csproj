@@ -22,4 +22,10 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="SuperStrong.Types.Generators.Known.Types">
+      <Static>True</Static>
+    </Using>
+  </ItemGroup>
+
 </Project>
