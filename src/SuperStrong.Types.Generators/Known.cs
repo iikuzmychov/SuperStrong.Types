@@ -23,6 +23,9 @@ internal static class Known
         public static readonly TypeName SuperStrong_Types_StrongTypeParsableFeatureAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeParsableFeatureAttribute");
         public static readonly TypeName SuperStrong_Types_StrongTypeSpanParsableFeatureAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeSpanParsableFeatureAttribute");
         public static readonly TypeName SuperStrong_Types_StrongTypeUtf8SpanParsableFeatureAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeUtf8SpanParsableFeatureAttribute");
+        public static readonly TypeName SuperStrong_Types_StrongTypeFormattableFeatureAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeFormattableFeatureAttribute");
+        public static readonly TypeName SuperStrong_Types_StrongTypeSpanFormattableFeatureAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeSpanFormattableFeatureAttribute");
+        public static readonly TypeName SuperStrong_Types_StrongTypeUtf8SpanFormattableFeatureAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeUtf8SpanFormattableFeatureAttribute");
 
         public static readonly TypeName System_Span = new(Namespaces.System, "Span");
         public static readonly TypeName System_ReadOnlySpan = new(Namespaces.System, "ReadOnlySpan");
@@ -31,6 +34,9 @@ internal static class Known
         public static readonly TypeName System_IParsable = new(Namespaces.System, "IParsable");
         public static readonly TypeName System_ISpanParsable = new(Namespaces.System, "ISpanParsable");
         public static readonly TypeName System_IUtf8SpanParsable = new(Namespaces.System, "IUtf8SpanParsable");
+        public static readonly TypeName System_IFormattable = new(Namespaces.System, "IFormattable");
+        public static readonly TypeName System_ISpanFormattable = new(Namespaces.System, "ISpanFormattable");
+        public static readonly TypeName System_IUtf8SpanFormattable = new(Namespaces.System, "IUtf8SpanFormattable");
         public static readonly TypeName System_Diagnostics_CodeAnalysis_NotNullWhenAttribute = new (Namespaces.System_Diagnostics_CodeAnalysis, "NotNullWhenAttribute");
         public static readonly TypeName System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute = new(Namespaces.System_Diagnostics_CodeAnalysis, "MaybeNullWhenAttribute");
     }

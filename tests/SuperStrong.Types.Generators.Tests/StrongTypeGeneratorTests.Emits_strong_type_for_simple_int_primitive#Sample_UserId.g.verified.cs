@@ -134,4 +134,43 @@ namespace Sample
         }
     }
 
+    partial class UserId : global::System.IFormattable
+    {
+        public string ToString(string? format, global::System.IFormatProvider? formatProvider)
+        {
+            return InvokeToString<int>(_value, format, formatProvider);
+
+            static string InvokeToString<T>(T value, string? format, global::System.IFormatProvider? formatProvider) where T : global::System.IFormattable
+            {
+                return value.ToString(format, formatProvider);
+            }
+        }
+    }
+
+    partial class UserId : global::System.ISpanFormattable
+    {
+        public bool TryFormat(global::System.Span<char> destination, out int charsWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider)
+        {
+            return InvokeTryFormat<int>(_value, destination, out charsWritten, format, provider);
+
+            static bool InvokeTryFormat<T>(T value, global::System.Span<char> destination, out int charsWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider) where T : global::System.ISpanFormattable
+            {
+                return value.TryFormat(destination, out charsWritten, format, provider);
+            }
+        }
+    }
+
+    partial class UserId : global::System.IUtf8SpanFormattable
+    {
+        public bool TryFormat(global::System.Span<byte> utf8Destination, out int bytesWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider)
+        {
+            return InvokeTryFormat<int>(_value, utf8Destination, out bytesWritten, format, provider);
+
+            static bool InvokeTryFormat<T>(T value, global::System.Span<byte> utf8Destination, out int bytesWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider) where T : global::System.IUtf8SpanFormattable
+            {
+                return value.TryFormat(utf8Destination, out bytesWritten, format, provider);
+            }
+        }
+    }
+
 }

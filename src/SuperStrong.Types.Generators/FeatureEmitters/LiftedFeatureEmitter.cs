@@ -16,8 +16,20 @@ internal abstract class LiftedFeatureEmitter : OptionalFeatureEmitter<LiftedFeat
         var isEnabled = ResolveIsEnabled(typeSymbol, templateSymbol, compilation);
 
         var openInterfaceSymbol = compilation.GetTypeByMetadataName(TargetInterfaceMetadataName);
-        var targetInterfaceSymbol = openInterfaceSymbol?.Construct(typeSymbol);
-        var sourceInterfaceSymbol = openInterfaceSymbol?.Construct(primitiveTypeSymbol);
+
+        INamedTypeSymbol? targetInterfaceSymbol;
+        INamedTypeSymbol? sourceInterfaceSymbol;
+
+        if (openInterfaceSymbol is { IsGenericType: true })
+        {
+            targetInterfaceSymbol = openInterfaceSymbol.Construct(typeSymbol);
+            sourceInterfaceSymbol = openInterfaceSymbol.Construct(primitiveTypeSymbol);
+        }
+        else
+        {
+            targetInterfaceSymbol = openInterfaceSymbol;
+            sourceInterfaceSymbol = openInterfaceSymbol;
+        }
 
         var userImplements =
             targetInterfaceSymbol is not null &&
