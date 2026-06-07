@@ -1,7 +1,7 @@
 using DiffEngine;
 using System.Runtime.CompilerServices;
 
-namespace SuperStrong.Types.Generators.Tests;
+namespace SuperStrong.Types.Tests;
 
 internal static class ModuleInitializer
 {

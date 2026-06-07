@@ -8,7 +8,13 @@
     <ProjectReference
       Include="..\..\src\SuperStrong.Types.Generators\SuperStrong.Types.Generators.csproj"
       OutputItemType="Analyzer"
-      ReferenceOutputAssembly="false" />
+      ReferenceOutputAssembly="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <PackageReference Include="Verify.SourceGenerators" />
+    <PackageReference Include="Verify.XunitV3" />
   </ItemGroup>
 
 </Project>

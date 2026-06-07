@@ -21,7 +21,6 @@
   <Folder Name="/tests/">
     <File Path="tests/Directory.Build.props" />
     <Project Path="tests/SuperStrong.Types.EntityFrameworkCore.Tests/SuperStrong.Types.EntityFrameworkCore.Tests.csproj" Id="9aea7318-a774-451c-897b-f10620918846" />
-    <Project Path="tests/SuperStrong.Types.Generators.Tests/SuperStrong.Types.Generators.Tests.csproj" Id="cae24818-1bb5-4590-863c-b0f7b9ef5efc" />
     <Project Path="tests/SuperStrong.Types.Tests/SuperStrong.Types.Tests.csproj" />
   </Folder>
 </Solution>

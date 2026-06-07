@@ -1,6 +1,6 @@
 using System.Collections.Immutable;
 
-namespace SuperStrong.Types.Generators.Tests;
+namespace SuperStrong.Types.Tests.Generators;
 
 internal static class Constants
 {
@@ -19,11 +19,4 @@ internal static class Constants
     public static readonly ImmutableArray<string> LiftingFeatures = AllFeatures
         .Where(feature => feature.StartsWith("Lifting."))
         .ToImmutableArray();
-
-    public static string AllFeaturesDisabled()
-    {
-        return string.Join(
-            Environment.NewLine,
-            AllFeatures.Select(feature => $"[assembly: StrongTypeFeatures.{feature}(IsEnabled = false)]"));
-    }
 }

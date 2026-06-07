@@ -1,4 +1,4 @@
-namespace SuperStrong.Types.Generators.Tests.Features;
+namespace SuperStrong.Types.Tests.Generators.Features;
 
 public sealed class EqualityFeatureTests
 {
@@ -8,7 +8,7 @@ public sealed class EqualityFeatureTests
         var source = $$"""
             using SuperStrong.Types;
 
-            {{Constants.AllFeaturesDisabled()}}
+            {{Snippets.DisableAllFeatures()}}
 
             namespace Sample;
 
@@ -28,7 +28,7 @@ public sealed class EqualityFeatureTests
         var source = $$"""
             using SuperStrong.Types;
 
-            {{Constants.AllFeaturesDisabled()}}
+            {{Snippets.DisableAllFeatures()}}
 
             namespace Sample;
 

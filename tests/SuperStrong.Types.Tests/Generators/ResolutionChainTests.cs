@@ -1,4 +1,4 @@
-namespace SuperStrong.Types.Generators.Tests;
+namespace SuperStrong.Types.Tests.Generators;
 
 public sealed class ResolutionChainTests
 {

@@ -1,4 +1,4 @@
-namespace SuperStrong.Types.Generators.Tests.Features;
+namespace SuperStrong.Types.Tests.Generators.Features;
 
 public sealed class LiftingFeaturesTests
 {
@@ -13,7 +13,7 @@ public sealed class LiftingFeaturesTests
         var source = $$"""
             using SuperStrong.Types;
 
-            {{Constants.AllFeaturesDisabled()}}
+            {{Snippets.DisableAllFeatures()}}
 
             namespace Sample;
 
@@ -34,7 +34,7 @@ public sealed class LiftingFeaturesTests
         var source = $$"""
             using SuperStrong.Types;
 
-            {{Constants.AllFeaturesDisabled()}}
+            {{Snippets.DisableAllFeatures()}}
 
             namespace Sample;
 
@@ -55,7 +55,7 @@ public sealed class LiftingFeaturesTests
             using System;
             using SuperStrong.Types;
 
-            {{Constants.AllFeaturesDisabled()}}
+            {{Snippets.DisableAllFeatures()}}
 
             namespace Sample;
 

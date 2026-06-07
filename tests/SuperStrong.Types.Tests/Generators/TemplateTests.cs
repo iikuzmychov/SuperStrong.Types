@@ -1,4 +1,4 @@
-namespace SuperStrong.Types.Generators.Tests;
+namespace SuperStrong.Types.Tests.Generators;
 
 public sealed class TemplateTests
 {
@@ -8,7 +8,7 @@ public sealed class TemplateTests
         var source = $$"""
             using SuperStrong.Types;
 
-            {{Constants.AllFeaturesDisabled()}}
+            {{Snippets.DisableAllFeatures()}}
 
             namespace Sample;
 
@@ -32,7 +32,7 @@ public sealed class TemplateTests
         var source = $$"""
             using SuperStrong.Types;
 
-            {{Constants.AllFeaturesDisabled()}}
+            {{Snippets.DisableAllFeatures()}}
 
             namespace Sample;
 
@@ -57,7 +57,7 @@ public sealed class TemplateTests
         var source = $$"""
             using SuperStrong.Types;
 
-            {{Constants.AllFeaturesDisabled()}}
+            {{Snippets.DisableAllFeatures()}}
 
             namespace Sample;
 

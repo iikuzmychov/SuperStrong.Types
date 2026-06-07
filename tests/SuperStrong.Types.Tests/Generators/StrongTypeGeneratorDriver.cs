@@ -1,8 +1,9 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using SuperStrong.Types.Generators;
 using System.Collections.Immutable;
 
-namespace SuperStrong.Types.Generators.Tests;
+namespace SuperStrong.Types.Tests.Generators;
 
 internal static class StrongTypeGeneratorDriver
 {
