@@ -237,4 +237,92 @@ namespace Sample
         }
     }
 
+    partial class TestStrongType : global::System.IConvertible
+    {
+        global::System.TypeCode global::System.IConvertible.GetTypeCode()
+        {
+            return ((global::System.IConvertible)_value).GetTypeCode();
+        }
+
+        bool global::System.IConvertible.ToBoolean(global::System.IFormatProvider? provider)
+        {
+            return ((global::System.IConvertible)_value).ToBoolean(provider);
+        }
+
+        byte global::System.IConvertible.ToByte(global::System.IFormatProvider? provider)
+        {
+            return ((global::System.IConvertible)_value).ToByte(provider);
+        }
+
+        char global::System.IConvertible.ToChar(global::System.IFormatProvider? provider)
+        {
+            return ((global::System.IConvertible)_value).ToChar(provider);
+        }
+
+        global::System.DateTime global::System.IConvertible.ToDateTime(global::System.IFormatProvider? provider)
+        {
+            return ((global::System.IConvertible)_value).ToDateTime(provider);
+        }
+
+        decimal global::System.IConvertible.ToDecimal(global::System.IFormatProvider? provider)
+        {
+            return ((global::System.IConvertible)_value).ToDecimal(provider);
+        }
+
+        double global::System.IConvertible.ToDouble(global::System.IFormatProvider? provider)
+        {
+            return ((global::System.IConvertible)_value).ToDouble(provider);
+        }
+
+        short global::System.IConvertible.ToInt16(global::System.IFormatProvider? provider)
+        {
+            return ((global::System.IConvertible)_value).ToInt16(provider);
+        }
+
+        int global::System.IConvertible.ToInt32(global::System.IFormatProvider? provider)
+        {
+            return ((global::System.IConvertible)_value).ToInt32(provider);
+        }
+
+        long global::System.IConvertible.ToInt64(global::System.IFormatProvider? provider)
+        {
+            return ((global::System.IConvertible)_value).ToInt64(provider);
+        }
+
+        sbyte global::System.IConvertible.ToSByte(global::System.IFormatProvider? provider)
+        {
+            return ((global::System.IConvertible)_value).ToSByte(provider);
+        }
+
+        float global::System.IConvertible.ToSingle(global::System.IFormatProvider? provider)
+        {
+            return ((global::System.IConvertible)_value).ToSingle(provider);
+        }
+
+        string global::System.IConvertible.ToString(global::System.IFormatProvider? provider)
+        {
+            return ((global::System.IConvertible)_value).ToString(provider);
+        }
+
+        object global::System.IConvertible.ToType(global::System.Type conversionType, global::System.IFormatProvider? provider)
+        {
+            return ((global::System.IConvertible)_value).ToType(conversionType, provider);
+        }
+
+        ushort global::System.IConvertible.ToUInt16(global::System.IFormatProvider? provider)
+        {
+            return ((global::System.IConvertible)_value).ToUInt16(provider);
+        }
+
+        uint global::System.IConvertible.ToUInt32(global::System.IFormatProvider? provider)
+        {
+            return ((global::System.IConvertible)_value).ToUInt32(provider);
+        }
+
+        ulong global::System.IConvertible.ToUInt64(global::System.IFormatProvider? provider)
+        {
+            return ((global::System.IConvertible)_value).ToUInt64(provider);
+        }
+    }
+
 }

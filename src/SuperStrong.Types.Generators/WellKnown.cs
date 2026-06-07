@@ -28,6 +28,7 @@ internal static class WellKnown
         public static readonly TypeName SuperStrong_Types_StrongTypeFeatures_Lifting_SpanFormattableAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeFeatures+Lifting+SpanFormattableAttribute");
         public static readonly TypeName SuperStrong_Types_StrongTypeFeatures_Lifting_Utf8SpanFormattableAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeFeatures+Lifting+Utf8SpanFormattableAttribute");
         public static readonly TypeName SuperStrong_Types_StrongTypeFeatures_Lifting_ComparableAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeFeatures+Lifting+ComparableAttribute");
+        public static readonly TypeName SuperStrong_Types_StrongTypeFeatures_Lifting_ConvertibleAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeFeatures+Lifting+ConvertibleAttribute");
         public static readonly TypeName SuperStrong_Types_StrongTypeFeatures_Equality_PartialDefinitionAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeFeatures+Equality+PartialDefinitionAttribute");
 
         public static readonly TypeName System_Span = new(Namespaces.System, "Span");
@@ -41,6 +42,9 @@ internal static class WellKnown
         public static readonly TypeName System_ISpanFormattable = new(Namespaces.System, "ISpanFormattable");
         public static readonly TypeName System_IUtf8SpanFormattable = new(Namespaces.System, "IUtf8SpanFormattable");
         public static readonly TypeName System_IComparable = new(Namespaces.System, "IComparable");
+        public static readonly TypeName System_IConvertible = new(Namespaces.System, "IConvertible");
+        public static readonly TypeName System_TypeCode = new(Namespaces.System, "TypeCode");
+        public static readonly TypeName System_Type = new(Namespaces.System, "Type");
         public static readonly TypeName System_Numerics_IEqualityOperators = new(Namespaces.System_Numerics, "IEqualityOperators");
         public static readonly TypeName System_Diagnostics_CodeAnalysis_NotNullWhenAttribute = new (Namespaces.System_Diagnostics_CodeAnalysis, "NotNullWhenAttribute");
         public static readonly TypeName System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute = new(Namespaces.System_Diagnostics_CodeAnalysis, "MaybeNullWhenAttribute");

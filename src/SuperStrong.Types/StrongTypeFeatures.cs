@@ -11,6 +11,7 @@ public static class StrongTypeFeatures
         public sealed class SpanFormattableAttribute : StrongTypeFeatureAttribute;
         public sealed class Utf8SpanFormattableAttribute : StrongTypeFeatureAttribute;
         public sealed class ComparableAttribute : StrongTypeFeatureAttribute;
+        public sealed class ConvertibleAttribute : StrongTypeFeatureAttribute;
     }
 
     public static class Equality

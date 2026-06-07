@@ -14,6 +14,7 @@ internal static class Constants
         "Lifting.SpanFormattable",
         "Lifting.Utf8SpanFormattable",
         "Lifting.Comparable",
+        "Lifting.Convertible",
     ]);
 
     public static readonly ImmutableArray<string> LiftingFeatures = AllFeatures
