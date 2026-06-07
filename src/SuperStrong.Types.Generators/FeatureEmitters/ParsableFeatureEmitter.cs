@@ -28,10 +28,9 @@ internal sealed class ParsableFeatureEmitter : LiftedFeatureEmitter
 
             using (writer.Block($"public static bool TryParse([{System_Diagnostics_CodeAnalysis_NotNullWhenAttribute}(true)] string? s, {System_IFormatProvider}? provider, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
             {
-                using (writer.Block($"if (InvokeTryParse<{model.PrimitiveTypeName}>(s, provider, out var primitive) && {SuperStrong_Types_StrongType}.IsValid(primitive, Definition))"))
+                using (writer.Block($"if (InvokeTryParse<{model.PrimitiveTypeName}>(s, provider, out var primitive))"))
                 {
-                    writer.Line($"result = new {model.TypeName}(primitive);");
-                    writer.Line("return true;");
+                    writer.Line("return TryCreate(primitive, out result);");
                 }
 
                 writer.Line();

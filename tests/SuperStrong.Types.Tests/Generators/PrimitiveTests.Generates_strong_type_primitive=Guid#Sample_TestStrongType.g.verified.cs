@@ -20,6 +20,18 @@ namespace Sample
             return new TestStrongType(value);
         }
 
+        public static bool TryCreate(global::System.Guid value, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
+        {
+            if (global::SuperStrong.Types.StrongType.IsValid(value, Definition))
+            {
+                result = new TestStrongType(value);
+                return true;
+            }
+
+            result = null;
+            return false;
+        }
+
         public global::System.Guid AsPrimitive() => _value;
     }
 
@@ -70,10 +82,9 @@ namespace Sample
 
         public static bool TryParse([global::System.Diagnostics.CodeAnalysis.NotNullWhenAttribute(true)] string? s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
-            if (InvokeTryParse<global::System.Guid>(s, provider, out var primitive) && global::SuperStrong.Types.StrongType.IsValid(primitive, Definition))
+            if (InvokeTryParse<global::System.Guid>(s, provider, out var primitive))
             {
-                result = new TestStrongType(primitive);
-                return true;
+                return TryCreate(primitive, out result);
             }
 
             result = null;
@@ -100,10 +111,9 @@ namespace Sample
 
         public static bool TryParse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
-            if (InvokeTryParse<global::System.Guid>(s, provider, out var primitive) && global::SuperStrong.Types.StrongType.IsValid(primitive, Definition))
+            if (InvokeTryParse<global::System.Guid>(s, provider, out var primitive))
             {
-                result = new TestStrongType(primitive);
-                return true;
+                return TryCreate(primitive, out result);
             }
 
             result = null;
@@ -130,10 +140,9 @@ namespace Sample
 
         public static bool TryParse(global::System.ReadOnlySpan<byte> utf8Text, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
-            if (InvokeTryParse<global::System.Guid>(utf8Text, provider, out var primitive) && global::SuperStrong.Types.StrongType.IsValid(primitive, Definition))
+            if (InvokeTryParse<global::System.Guid>(utf8Text, provider, out var primitive))
             {
-                result = new TestStrongType(primitive);
-                return true;
+                return TryCreate(primitive, out result);
             }
 
             result = null;

@@ -20,6 +20,18 @@ namespace Sample
             return new TestStrongType(value);
         }
 
+        public static bool TryCreate(int value, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
+        {
+            if (global::SuperStrong.Types.StrongType.IsValid(value, Definition))
+            {
+                result = new TestStrongType(value);
+                return true;
+            }
+
+            result = null;
+            return false;
+        }
+
         public int AsPrimitive() => _value;
     }
 

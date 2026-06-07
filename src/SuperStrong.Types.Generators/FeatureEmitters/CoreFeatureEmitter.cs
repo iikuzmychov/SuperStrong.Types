@@ -30,6 +30,21 @@ internal sealed class CoreFeatureEmitter : IStrongTypeFeatureEmitter
 
             writer.Line();
 
+            using (writer.Block($"public static bool TryCreate({model.PrimitiveTypeName} value, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
+            {
+                using (writer.Block($"if ({SuperStrong_Types_StrongType}.IsValid(value, Definition))"))
+                {
+                    writer.Line($"result = new {model.TypeName}(value);");
+                    writer.Line("return true;");
+                }
+
+                writer.Line();
+                writer.Line("result = null;");
+                writer.Line("return false;");
+            }
+
+            writer.Line();
+
             writer.Line($"public {model.PrimitiveTypeName} AsPrimitive() => _value;");
         }
     }
