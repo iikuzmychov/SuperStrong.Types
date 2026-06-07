@@ -118,5 +118,10 @@ x86/
 
 # Publish Web Output
 *.[Pp]ublish.xml
+
+### Other
+# Claude Code
 .claude/*
+
+# Verify received files
 *.received.*
