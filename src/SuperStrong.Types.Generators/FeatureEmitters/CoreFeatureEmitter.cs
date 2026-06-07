@@ -46,6 +46,8 @@ internal sealed class CoreFeatureEmitter : IStrongTypeFeatureEmitter
             writer.Line();
 
             writer.Line($"public {model.PrimitiveTypeName} AsPrimitive() => _value;");
+            writer.Line();
+            writer.Line($"{model.PrimitiveTypeName} {SuperStrong_Types_IStrongType}<{model.TypeName}, {model.PrimitiveTypeName}>.AsPrimitive() => AsPrimitive();");
         }
     }
 }

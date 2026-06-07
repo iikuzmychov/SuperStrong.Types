@@ -23,6 +23,9 @@ internal sealed class FormattableFeatureEmitter : LiftedFeatureEmitter
                     writer.Line("return value.ToString(format, formatProvider);");
                 }
             }
+
+            writer.Line();
+            writer.Line($"string {System_IFormattable}.ToString(string? format, {System_IFormatProvider}? formatProvider) => ToString(format, formatProvider);");
         }
     }
 }

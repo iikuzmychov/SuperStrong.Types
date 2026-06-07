@@ -23,6 +23,8 @@ internal sealed class EqualityFeatureEmitter : IStrongTypeFeatureEmitter
             }
 
             writer.Line();
+            writer.Line($"bool {System_IEquatable}<{model.TypeName}>.Equals({model.TypeName}? other) => Equals(other);");
+            writer.Line();
             writer.Line($"public override bool Equals(object? obj) => obj is {model.TypeName} other && Equals(other);");
             writer.Line();
 

@@ -33,6 +33,8 @@ namespace Sample
         }
 
         public int AsPrimitive() => _value;
+
+        int global::SuperStrong.Types.IStrongType<TestStrongType, int>.AsPrimitive() => AsPrimitive();
     }
 
     partial class TestStrongType : global::SuperStrong.Types.IHasStrongTypeDefinition<int>
@@ -45,6 +47,8 @@ namespace Sample
     partial class TestStrongType : global::System.IEquatable<TestStrongType>, global::System.Numerics.IEqualityOperators<TestStrongType, TestStrongType, bool>
     {
         public bool Equals(TestStrongType? other) => other is not null && _value.Equals(other._value);
+
+        bool global::System.IEquatable<TestStrongType>.Equals(TestStrongType? other) => Equals(other);
 
         public override bool Equals(object? obj) => obj is TestStrongType other && Equals(other);
 
@@ -166,6 +170,8 @@ namespace Sample
                 return value.ToString(format, formatProvider);
             }
         }
+
+        string global::System.IFormattable.ToString(string? format, global::System.IFormatProvider? formatProvider) => ToString(format, formatProvider);
     }
 
     partial class TestStrongType : global::System.ISpanFormattable
@@ -179,6 +185,8 @@ namespace Sample
                 return value.TryFormat(destination, out charsWritten, format, provider);
             }
         }
+
+        bool global::System.ISpanFormattable.TryFormat(global::System.Span<char> destination, out int charsWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider) => TryFormat(destination, out charsWritten, format, provider);
     }
 
     partial class TestStrongType : global::System.IUtf8SpanFormattable
@@ -192,6 +200,8 @@ namespace Sample
                 return value.TryFormat(utf8Destination, out bytesWritten, format, provider);
             }
         }
+
+        bool global::System.IUtf8SpanFormattable.TryFormat(global::System.Span<byte> utf8Destination, out int bytesWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider) => TryFormat(utf8Destination, out bytesWritten, format, provider);
     }
 
     partial class TestStrongType : global::System.IComparable<TestStrongType>

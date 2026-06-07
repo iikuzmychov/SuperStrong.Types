@@ -23,6 +23,9 @@ internal sealed class SpanFormattableFeatureEmitter : LiftedFeatureEmitter
                     writer.Line("return value.TryFormat(destination, out charsWritten, format, provider);");
                 }
             }
+
+            writer.Line();
+            writer.Line($"bool {System_ISpanFormattable}.TryFormat({System_Span}<char> destination, out int charsWritten, {System_ReadOnlySpan}<char> format, {System_IFormatProvider}? provider) => TryFormat(destination, out charsWritten, format, provider);");
         }
     }
 }

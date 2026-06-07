@@ -23,6 +23,9 @@ internal sealed class Utf8SpanFormattableFeatureEmitter : LiftedFeatureEmitter
                     writer.Line("return value.TryFormat(utf8Destination, out bytesWritten, format, provider);");
                 }
             }
+
+            writer.Line();
+            writer.Line($"bool {System_IUtf8SpanFormattable}.TryFormat({System_Span}<byte> utf8Destination, out int bytesWritten, {System_ReadOnlySpan}<char> format, {System_IFormatProvider}? provider) => TryFormat(utf8Destination, out bytesWritten, format, provider);");
         }
     }
 }
