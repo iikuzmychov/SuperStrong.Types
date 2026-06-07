@@ -56,9 +56,17 @@ internal sealed class SpanParsableFeatureEmitter : LiftedFeatureEmitter
     {
         using (writer.Block($"partial class {model.TypeName} : {System_ISpanParsable}<{model.TypeName}>"))
         {
-            writer.Line($"static {model.TypeName} {System_ISpanParsable}<{model.TypeName}>.Parse({System_ReadOnlySpan}<char> s, {System_IFormatProvider}? provider) => Create(s.ToString());");
+            using (writer.Block($"static {model.TypeName} {System_ISpanParsable}<{model.TypeName}>.Parse({System_ReadOnlySpan}<char> s, {System_IFormatProvider}? provider)"))
+            {
+                writer.Line("return Create(s.ToString());");
+            }
+
             writer.Line();
-            writer.Line($"static bool {System_ISpanParsable}<{model.TypeName}>.TryParse({System_ReadOnlySpan}<char> s, {System_IFormatProvider}? provider, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result) => TryCreate(s.ToString(), out result);");
+
+            using (writer.Block($"static bool {System_ISpanParsable}<{model.TypeName}>.TryParse({System_ReadOnlySpan}<char> s, {System_IFormatProvider}? provider, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
+            {
+                writer.Line("return TryCreate(s.ToString(), out result);");
+            }
         }
     }
 }

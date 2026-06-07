@@ -34,7 +34,10 @@ namespace Sample
 
         public string AsPrimitive() => _value;
 
-        string global::SuperStrong.Types.IStrongType<TestStrongType, string>.AsPrimitive() => AsPrimitive();
+        string global::SuperStrong.Types.IStrongType<TestStrongType, string>.AsPrimitive()
+        {
+            return AsPrimitive();
+        }
     }
 
     partial class TestStrongType : global::SuperStrong.Types.IHasStrongTypeDefinition<string>
@@ -48,7 +51,10 @@ namespace Sample
     {
         public bool Equals(TestStrongType? other) => other is not null && _value.Equals(other._value);
 
-        bool global::System.IEquatable<TestStrongType>.Equals(TestStrongType? other) => Equals(other);
+        bool global::System.IEquatable<TestStrongType>.Equals(TestStrongType? other)
+        {
+            return Equals(other);
+        }
 
         public override bool Equals(object? obj) => obj is TestStrongType other && Equals(other);
 

@@ -34,7 +34,10 @@ namespace Sample
 
         public string AsPrimitive() => _value;
 
-        string global::SuperStrong.Types.IStrongType<TestStrongType, string>.AsPrimitive() => AsPrimitive();
+        string global::SuperStrong.Types.IStrongType<TestStrongType, string>.AsPrimitive()
+        {
+            return AsPrimitive();
+        }
     }
 
     partial class TestStrongType : global::SuperStrong.Types.IHasStrongTypeDefinition<string>
@@ -48,7 +51,10 @@ namespace Sample
     {
         public bool Equals(TestStrongType? other) => other is not null && _value.Equals(other._value);
 
-        bool global::System.IEquatable<TestStrongType>.Equals(TestStrongType? other) => Equals(other);
+        bool global::System.IEquatable<TestStrongType>.Equals(TestStrongType? other)
+        {
+            return Equals(other);
+        }
 
         public override bool Equals(object? obj) => obj is TestStrongType other && Equals(other);
 
@@ -74,7 +80,10 @@ namespace Sample
 
     partial class TestStrongType : global::System.IParsable<TestStrongType>
     {
-        static TestStrongType global::System.IParsable<TestStrongType>.Parse(string s, global::System.IFormatProvider? provider) => Create(s);
+        static TestStrongType global::System.IParsable<TestStrongType>.Parse(string s, global::System.IFormatProvider? provider)
+        {
+            return Create(s);
+        }
 
         static bool global::System.IParsable<TestStrongType>.TryParse(string? s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
@@ -90,9 +99,15 @@ namespace Sample
 
     partial class TestStrongType : global::System.ISpanParsable<TestStrongType>
     {
-        static TestStrongType global::System.ISpanParsable<TestStrongType>.Parse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider) => Create(s.ToString());
+        static TestStrongType global::System.ISpanParsable<TestStrongType>.Parse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider)
+        {
+            return Create(s.ToString());
+        }
 
-        static bool global::System.ISpanParsable<TestStrongType>.TryParse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result) => TryCreate(s.ToString(), out result);
+        static bool global::System.ISpanParsable<TestStrongType>.TryParse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
+        {
+            return TryCreate(s.ToString(), out result);
+        }
     }
 
     partial class TestStrongType : global::System.IComparable<TestStrongType>

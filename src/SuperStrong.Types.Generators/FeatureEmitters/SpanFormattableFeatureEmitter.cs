@@ -25,7 +25,10 @@ internal sealed class SpanFormattableFeatureEmitter : LiftedFeatureEmitter
             }
 
             writer.Line();
-            writer.Line($"bool {System_ISpanFormattable}.TryFormat({System_Span}<char> destination, out int charsWritten, {System_ReadOnlySpan}<char> format, {System_IFormatProvider}? provider) => TryFormat(destination, out charsWritten, format, provider);");
+            using (writer.Block($"bool {System_ISpanFormattable}.TryFormat({System_Span}<char> destination, out int charsWritten, {System_ReadOnlySpan}<char> format, {System_IFormatProvider}? provider)"))
+            {
+                writer.Line("return TryFormat(destination, out charsWritten, format, provider);");
+            }
         }
     }
 }

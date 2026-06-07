@@ -34,7 +34,10 @@ namespace Sample
 
         public int AsPrimitive() => _value;
 
-        int global::SuperStrong.Types.IStrongType<TestStrongType, int>.AsPrimitive() => AsPrimitive();
+        int global::SuperStrong.Types.IStrongType<TestStrongType, int>.AsPrimitive()
+        {
+            return AsPrimitive();
+        }
     }
 
     partial class TestStrongType : global::SuperStrong.Types.IHasStrongTypeDefinition<int>
@@ -48,7 +51,10 @@ namespace Sample
     {
         public bool Equals(TestStrongType? other) => other is not null && _value.Equals(other._value);
 
-        bool global::System.IEquatable<TestStrongType>.Equals(TestStrongType? other) => Equals(other);
+        bool global::System.IEquatable<TestStrongType>.Equals(TestStrongType? other)
+        {
+            return Equals(other);
+        }
 
         public override bool Equals(object? obj) => obj is TestStrongType other && Equals(other);
 
@@ -84,7 +90,10 @@ namespace Sample
             }
         }
 
-        bool global::System.IUtf8SpanFormattable.TryFormat(global::System.Span<byte> utf8Destination, out int bytesWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider) => TryFormat(utf8Destination, out bytesWritten, format, provider);
+        bool global::System.IUtf8SpanFormattable.TryFormat(global::System.Span<byte> utf8Destination, out int bytesWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider)
+        {
+            return TryFormat(utf8Destination, out bytesWritten, format, provider);
+        }
     }
 
 }

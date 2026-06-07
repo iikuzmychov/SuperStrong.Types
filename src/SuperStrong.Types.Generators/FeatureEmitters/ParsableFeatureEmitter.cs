@@ -56,7 +56,11 @@ internal sealed class ParsableFeatureEmitter : LiftedFeatureEmitter
     {
         using (writer.Block($"partial class {model.TypeName} : {System_IParsable}<{model.TypeName}>"))
         {
-            writer.Line($"static {model.TypeName} {System_IParsable}<{model.TypeName}>.Parse(string s, {System_IFormatProvider}? provider) => Create(s);");
+            using (writer.Block($"static {model.TypeName} {System_IParsable}<{model.TypeName}>.Parse(string s, {System_IFormatProvider}? provider)"))
+            {
+                writer.Line("return Create(s);");
+            }
+
             writer.Line();
 
             using (writer.Block($"static bool {System_IParsable}<{model.TypeName}>.TryParse(string? s, {System_IFormatProvider}? provider, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))

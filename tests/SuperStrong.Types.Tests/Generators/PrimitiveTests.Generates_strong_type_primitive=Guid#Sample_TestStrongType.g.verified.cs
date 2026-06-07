@@ -34,7 +34,10 @@ namespace Sample
 
         public global::System.Guid AsPrimitive() => _value;
 
-        global::System.Guid global::SuperStrong.Types.IStrongType<TestStrongType, global::System.Guid>.AsPrimitive() => AsPrimitive();
+        global::System.Guid global::SuperStrong.Types.IStrongType<TestStrongType, global::System.Guid>.AsPrimitive()
+        {
+            return AsPrimitive();
+        }
     }
 
     partial class TestStrongType : global::SuperStrong.Types.IHasStrongTypeDefinition<global::System.Guid>
@@ -48,7 +51,10 @@ namespace Sample
     {
         public bool Equals(TestStrongType? other) => other is not null && _value.Equals(other._value);
 
-        bool global::System.IEquatable<TestStrongType>.Equals(TestStrongType? other) => Equals(other);
+        bool global::System.IEquatable<TestStrongType>.Equals(TestStrongType? other)
+        {
+            return Equals(other);
+        }
 
         public override bool Equals(object? obj) => obj is TestStrongType other && Equals(other);
 
@@ -171,7 +177,10 @@ namespace Sample
             }
         }
 
-        string global::System.IFormattable.ToString(string? format, global::System.IFormatProvider? formatProvider) => ToString(format, formatProvider);
+        string global::System.IFormattable.ToString(string? format, global::System.IFormatProvider? formatProvider)
+        {
+            return ToString(format, formatProvider);
+        }
     }
 
     partial class TestStrongType : global::System.ISpanFormattable
@@ -186,7 +195,10 @@ namespace Sample
             }
         }
 
-        bool global::System.ISpanFormattable.TryFormat(global::System.Span<char> destination, out int charsWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider) => TryFormat(destination, out charsWritten, format, provider);
+        bool global::System.ISpanFormattable.TryFormat(global::System.Span<char> destination, out int charsWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider)
+        {
+            return TryFormat(destination, out charsWritten, format, provider);
+        }
     }
 
     partial class TestStrongType : global::System.IUtf8SpanFormattable
@@ -201,7 +213,10 @@ namespace Sample
             }
         }
 
-        bool global::System.IUtf8SpanFormattable.TryFormat(global::System.Span<byte> utf8Destination, out int bytesWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider) => TryFormat(utf8Destination, out bytesWritten, format, provider);
+        bool global::System.IUtf8SpanFormattable.TryFormat(global::System.Span<byte> utf8Destination, out int bytesWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider)
+        {
+            return TryFormat(utf8Destination, out bytesWritten, format, provider);
+        }
     }
 
     partial class TestStrongType : global::System.IComparable<TestStrongType>
