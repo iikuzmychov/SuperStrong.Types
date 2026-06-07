@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using SuperStrong.Types.Generators.FeatureEmitters;
+using SuperStrong.Types.Generators.Helpers;
 using SuperStrong.Types.Generators.Models;
 using System.Collections.Immutable;
 using System.Text;
@@ -163,7 +164,7 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             return
                 attribute.AttributeClass is { } attributeClass &&
                 attributeClass.Name == SuperStrong_Types_StrongTypeAttribute.Name &&
-                attributeClass.ContainingNamespace.ToDisplayString() == Known.Namespaces.SuperStrong_Types;
+                attributeClass.ContainingNamespace.ToDisplayString() == WellKnown.Namespaces.SuperStrong_Types;
         }
     }
 
@@ -206,14 +207,15 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             .OfType<IMethodSymbol>()
             .Any(method => method.IsOverride && method.Parameters.IsEmpty);
 
-        var equatableInterface = compilation
-            .GetTypeByMetadataName("System.IEquatable`1")
-            ?.Construct(typeSymbol);
+        var equalityPartialDefinitionAttributeSymbol = compilation
+            .GetTypeByMetadataName(SuperStrong_Types_StrongTypeFeatures_Equality_PartialDefinitionAttribute.MetadataName());
 
-        var userImplementsIEquatable =
-            equatableInterface is not null &&
-            typeSymbol.AllInterfaces.Any(
-                @interface => SymbolEqualityComparer.Default.Equals(@interface, equatableInterface));
+        var equalityPartialDefinition = FeatureAttributeResolver.ResolveIsEnabled(
+            equalityPartialDefinitionAttributeSymbol,
+            builtInDefault: false,
+            typeSymbol,
+            templateTypeSymbol,
+            compilation);
 
         var optionalFeatures = FeatureRegistry.Optional
             .Select(emitter => emitter.ResolveState(typeSymbol, primitiveTypeSymbol, templateTypeSymbol, compilation))
@@ -228,7 +230,7 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             TemplateTypeName = templateType,
             UserImplementsDefinition = userImplementsDefinition,
             UserOverridesToString = userOverridesToString,
-            UserImplementsIEquatable = userImplementsIEquatable,
+            EqualityPartialDefinition = equalityPartialDefinition,
             OptionalFeatures = optionalFeatures,
         };
     }

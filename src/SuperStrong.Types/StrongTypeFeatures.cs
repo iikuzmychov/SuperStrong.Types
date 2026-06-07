@@ -12,4 +12,9 @@ public static class StrongTypeFeatures
         public sealed class Utf8SpanFormattableAttribute : StrongTypeFeatureAttribute;
         public sealed class ComparableAttribute : StrongTypeFeatureAttribute;
     }
+
+    public static class Equality
+    {
+        public sealed class PartialDefinitionAttribute : StrongTypeFeatureAttribute;
+    }
 }

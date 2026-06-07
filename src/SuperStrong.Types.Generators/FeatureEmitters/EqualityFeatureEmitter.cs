@@ -11,22 +11,22 @@ internal sealed class EqualityFeatureEmitter : IStrongTypeFeatureEmitter
     {
         var equalityOperatorsInterface = $"{System_Numerics_IEqualityOperators}<{model.TypeName}, {model.TypeName}, bool>";
 
-        var blockHeader = model.UserImplementsIEquatable
-            ? $"partial class {model.TypeName} : {equalityOperatorsInterface}"
-            : $"partial class {model.TypeName} : {System_IEquatable}<{model.TypeName}>, {equalityOperatorsInterface}";
-
-        using (writer.Block(blockHeader))
+        using (writer.Block($"partial class {model.TypeName} : {System_IEquatable}<{model.TypeName}>, {equalityOperatorsInterface}"))
         {
-            if (!model.UserImplementsIEquatable)
+            if (model.EqualityPartialDefinition)
+            {
+                writer.Line($"public partial bool Equals({model.TypeName}? other);");
+            }
+            else
             {
                 writer.Line($"public bool Equals({model.TypeName}? other) => other is not null && _value.Equals(other._value);");
-                writer.Line();
             }
 
+            writer.Line();
             writer.Line($"public override bool Equals(object? obj) => obj is {model.TypeName} other && Equals(other);");
             writer.Line();
 
-            if (model.UserImplementsIEquatable)
+            if (model.EqualityPartialDefinition)
             {
                 writer.Line("public override partial int GetHashCode();");
             }

@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="SuperStrong.Types.Generators.Known.Types">
+    <Using Include="SuperStrong.Types.Generators.WellKnown.Types">
       <Static>True</Static>
     </Using>
   </ItemGroup>

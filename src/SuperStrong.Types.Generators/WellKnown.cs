@@ -2,7 +2,7 @@ using SuperStrong.Types.Generators.Models;
 
 namespace SuperStrong.Types.Generators;
 
-internal static class Known
+internal static class WellKnown
 {
     internal static class Namespaces
     {
@@ -28,6 +28,7 @@ internal static class Known
         public static readonly TypeName SuperStrong_Types_StrongTypeFeatures_Lifting_SpanFormattableAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeFeatures+Lifting+SpanFormattableAttribute");
         public static readonly TypeName SuperStrong_Types_StrongTypeFeatures_Lifting_Utf8SpanFormattableAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeFeatures+Lifting+Utf8SpanFormattableAttribute");
         public static readonly TypeName SuperStrong_Types_StrongTypeFeatures_Lifting_ComparableAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeFeatures+Lifting+ComparableAttribute");
+        public static readonly TypeName SuperStrong_Types_StrongTypeFeatures_Equality_PartialDefinitionAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeFeatures+Equality+PartialDefinitionAttribute");
 
         public static readonly TypeName System_Span = new(Namespaces.System, "Span");
         public static readonly TypeName System_ReadOnlySpan = new(Namespaces.System, "ReadOnlySpan");
