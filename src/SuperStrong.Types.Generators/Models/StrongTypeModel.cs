@@ -7,7 +7,7 @@ internal sealed record StrongTypeModel
 {
     public required string? Namespace { get; init; }
     public required string TypeName { get; init; }
-    public required ImmutableArray<string> AncestorTypeNames { get; init; }
+    public required ImmutableArray<AncestorInfo> Ancestors { get; init; }
     public required string PrimitiveTypeName { get; init; }
     public required string? TemplateTypeName { get; init; }
     public required bool UserImplementsDefinition { get; init; }
@@ -27,9 +27,9 @@ internal sealed record StrongTypeModel
                 builder.Append('_');
             }
 
-            foreach (var ancestor in AncestorTypeNames)
+            foreach (var ancestor in Ancestors)
             {
-                builder.Append(ancestor);
+                builder.Append(ancestor.Name);
                 builder.Append('_');
             }
 

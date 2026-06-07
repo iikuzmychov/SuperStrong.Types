@@ -180,11 +180,11 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
 
         var templateType = templateTypeSymbol?.ToDisplayString(FullyQualifiedFormatWithKeywords);
 
-        var ancestors = ImmutableArray.CreateBuilder<string>();
+        var ancestors = ImmutableArray.CreateBuilder<AncestorInfo>();
 
         for (var current = typeSymbol.ContainingType; current is not null; current = current.ContainingType)
         {
-            ancestors.Add(current.Name);
+            ancestors.Add(new AncestorInfo(current.Name, GetAncestorDeclarationKeyword(current)));
         }
 
         ancestors.Reverse();
@@ -225,13 +225,23 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
         {
             Namespace = namespaceName,
             TypeName = typeSymbol.Name,
-            AncestorTypeNames = ancestors.ToImmutable(),
+            Ancestors = ancestors.ToImmutable(),
             PrimitiveTypeName = primitiveType,
             TemplateTypeName = templateType,
             UserImplementsDefinition = userImplementsDefinition,
             UserOverridesToString = userOverridesToString,
             EqualityPartialDefinition = equalityPartialDefinition,
             OptionalFeatures = optionalFeatures,
+        };
+    }
+
+    private static string GetAncestorDeclarationKeyword(INamedTypeSymbol symbol)
+    {
+        return symbol.TypeKind switch
+        {
+            TypeKind.Struct => "struct",
+            TypeKind.Class => "class",
+            _ => throw new InvalidOperationException($"Unsupported type kind '{symbol.TypeKind}' for ancestor '{symbol.Name}'."),
         };
     }
 

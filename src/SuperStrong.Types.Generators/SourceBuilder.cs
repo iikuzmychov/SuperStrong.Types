@@ -25,9 +25,9 @@ internal static class SourceBuilder
 
         var ancestorScopes = new Stack<IDisposable>();
 
-        foreach (var ancestor in model.AncestorTypeNames)
+        foreach (var ancestor in model.Ancestors)
         {
-            ancestorScopes.Push(writer.Block($"partial class {ancestor}"));
+            ancestorScopes.Push(writer.Block($"partial {ancestor.Keyword} {ancestor.Name}"));
         }
         
         foreach (var feature in features)

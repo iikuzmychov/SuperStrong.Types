@@ -30,6 +30,32 @@ public sealed class GenericTests
         return Verify(driver).UseParameters(primitive);
     }
 
+    [Theory]
+    [InlineData("class")]
+    [InlineData("struct")]
+    [InlineData("record")]
+    [InlineData("record struct")]
+    public Task Generates_correct_keyword_for_nested_strong_type(string ancestorKeyword)
+    {
+        var source = $$"""
+            using SuperStrong.Types;
+
+            {{Snippets.DisableAllFeatures()}}
+
+            namespace Sample;
+
+            public partial {{ancestorKeyword}} Container
+            {
+                [StrongType<int>]
+                public sealed partial class TestStrongType;
+            }
+            """;
+
+        var driver = StrongTypeGeneratorDriver.Run(source);
+
+        return Verify(driver).UseParameters(ancestorKeyword.Replace(' ', '_'));
+    }
+
     [Fact]
     public Task Generates_definition_when_user_does_not_declare_interface()
     {

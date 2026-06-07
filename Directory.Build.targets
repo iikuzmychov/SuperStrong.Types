@@ -17,7 +17,7 @@ namespace $(RootNamespace)
         private ThisAssemblyMarker() { }
     }
 }
-</_ThisAssemblyMarkerContent>
+    </_ThisAssemblyMarkerContent>
   </PropertyGroup>
 
   <Target Name="GenerateThisAssemblyMarker"
