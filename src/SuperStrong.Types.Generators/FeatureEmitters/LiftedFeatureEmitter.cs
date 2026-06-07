@@ -19,33 +19,26 @@ internal abstract class LiftedFeatureEmitter : OptionalFeatureEmitter<LiftedFeat
 
         var openInterfaceSymbol = compilation.GetTypeByMetadataName(TargetInterfaceMetadataName);
 
-        INamedTypeSymbol? targetInterfaceSymbol;
         INamedTypeSymbol? sourceInterfaceSymbol;
 
         if (openInterfaceSymbol is { IsGenericType: true })
         {
-            targetInterfaceSymbol = openInterfaceSymbol.Construct(GetTypeArguments(typeSymbol, compilation));
             sourceInterfaceSymbol = openInterfaceSymbol.Construct(GetTypeArguments(primitiveTypeSymbol, compilation));
         }
         else
         {
-            targetInterfaceSymbol = openInterfaceSymbol;
             sourceInterfaceSymbol = openInterfaceSymbol;
         }
-
-        var userImplements =
-            targetInterfaceSymbol is not null &&
-            typeSymbol.AllInterfaces.Any(@interface => SymbolEqualityComparer.Default.Equals(@interface, targetInterfaceSymbol));
 
         var primitiveSupports =
             sourceInterfaceSymbol is not null &&
             primitiveTypeSymbol.AllInterfaces.Any(@interface => SymbolEqualityComparer.Default.Equals(@interface, sourceInterfaceSymbol));
 
-        return new LiftedFeatureState(FeatureName, isEnabled, userImplements, primitiveSupports);
+        return new LiftedFeatureState(FeatureName, isEnabled, primitiveSupports);
     }
 
     protected override bool ShouldEmit(LiftedFeatureState state)
     {
-        return !state.UserImplements && state.PrimitiveSupports;
+        return state.PrimitiveSupports;
     }
 }

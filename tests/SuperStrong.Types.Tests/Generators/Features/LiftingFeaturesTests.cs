@@ -49,27 +49,6 @@ public sealed class LiftingFeaturesTests
     }
 
     [Fact]
-    public Task Skips_feature_when_user_declared_target_interface()
-    {
-        var source = $$"""
-            using System;
-            using SuperStrong.Types;
-
-            {{Snippets.DisableAllFeatures()}}
-
-            namespace Sample;
-
-            [StrongType<int>]
-            [StrongTypeFeatures.Lifting.Parsable(IsEnabled = true)]
-            public sealed partial class TestStrongType : IParsable<TestStrongType>;
-            """;
-
-        var driver = StrongTypeGeneratorDriver.Run(source);
-
-        return Verify(driver);
-    }
-
-    [Fact]
     public Task Skips_feature_when_primitive_lacks_support()
     {
         // string does not implement IFormattable, so Formattable feature should be skipped for it, even if it's enabled
