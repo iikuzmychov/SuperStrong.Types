@@ -11,6 +11,12 @@ internal sealed class SpanParsableFeatureEmitter : LiftedFeatureEmitter
 
     public override void Emit(IndentedWriter writer, StrongTypeModel model)
     {
+        if (model.PrimitiveTypeName == "string")
+        {
+            EmitStringSpecialCase(writer, model);
+            return;
+        }
+
         using (writer.Block($"partial class {model.TypeName} : {System_ISpanParsable}<{model.TypeName}>"))
         {
             using (writer.Block($"public static {model.TypeName} Parse({System_ReadOnlySpan}<char> s, {System_IFormatProvider}? provider)"))
@@ -43,6 +49,16 @@ internal sealed class SpanParsableFeatureEmitter : LiftedFeatureEmitter
                     writer.Line("return T.TryParse(s, provider, out result!);");
                 }
             }
+        }
+    }
+
+    private static void EmitStringSpecialCase(IndentedWriter writer, StrongTypeModel model)
+    {
+        using (writer.Block($"partial class {model.TypeName} : {System_ISpanParsable}<{model.TypeName}>"))
+        {
+            writer.Line($"static {model.TypeName} {System_ISpanParsable}<{model.TypeName}>.Parse({System_ReadOnlySpan}<char> s, {System_IFormatProvider}? provider) => Create(s.ToString());");
+            writer.Line();
+            writer.Line($"static bool {System_ISpanParsable}<{model.TypeName}>.TryParse({System_ReadOnlySpan}<char> s, {System_IFormatProvider}? provider, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result) => TryCreate(s.ToString(), out result);");
         }
     }
 }

@@ -74,60 +74,25 @@ namespace Sample
 
     partial class TestStrongType : global::System.IParsable<TestStrongType>
     {
-        public static TestStrongType Parse(string s, global::System.IFormatProvider? provider)
+        static TestStrongType global::System.IParsable<TestStrongType>.Parse(string s, global::System.IFormatProvider? provider) => Create(s);
+
+        static bool global::System.IParsable<TestStrongType>.TryParse(string? s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
-            return Create(InvokeParse<string>(s, provider));
-
-            static T InvokeParse<T>(string s, global::System.IFormatProvider? provider) where T : global::System.IParsable<T>
+            if (s is null)
             {
-                return T.Parse(s, provider);
-            }
-        }
-
-        public static bool TryParse([global::System.Diagnostics.CodeAnalysis.NotNullWhenAttribute(true)] string? s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
-        {
-            if (InvokeTryParse<string>(s, provider, out var primitive))
-            {
-                return TryCreate(primitive, out result);
+                result = null;
+                return false;
             }
 
-            result = null;
-            return false;
-
-            static bool InvokeTryParse<T>(string? s, global::System.IFormatProvider? provider, out T result) where T : global::System.IParsable<T>
-            {
-                return T.TryParse(s, provider, out result!);
-            }
+            return TryCreate(s, out result);
         }
     }
 
     partial class TestStrongType : global::System.ISpanParsable<TestStrongType>
     {
-        public static TestStrongType Parse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider)
-        {
-            return Create(InvokeParse<string>(s, provider));
+        static TestStrongType global::System.ISpanParsable<TestStrongType>.Parse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider) => Create(s.ToString());
 
-            static T InvokeParse<T>(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider) where T : global::System.ISpanParsable<T>
-            {
-                return T.Parse(s, provider);
-            }
-        }
-
-        public static bool TryParse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
-        {
-            if (InvokeTryParse<string>(s, provider, out var primitive))
-            {
-                return TryCreate(primitive, out result);
-            }
-
-            result = null;
-            return false;
-
-            static bool InvokeTryParse<T>(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider, out T result) where T : global::System.ISpanParsable<T>
-            {
-                return T.TryParse(s, provider, out result!);
-            }
-        }
+        static bool global::System.ISpanParsable<TestStrongType>.TryParse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result) => TryCreate(s.ToString(), out result);
     }
 
     partial class TestStrongType : global::System.IComparable<TestStrongType>

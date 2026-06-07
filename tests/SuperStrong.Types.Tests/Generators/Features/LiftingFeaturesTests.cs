@@ -72,13 +72,16 @@ public sealed class LiftingFeaturesTests
     [Fact]
     public Task Skips_feature_when_primitive_lacks_support()
     {
-        // string doesn't implement IFormattable, ISpanFormattable, IUtf8SpanFormattable, IUtf8SpanParsable
-        var source = """
+        // string does not implement IFormattable, so Formattable feature should be skipped for it, even if it's enabled
+        var source = $$"""
             using SuperStrong.Types;
+
+            {{Snippets.DisableAllFeatures()}}
 
             namespace Sample;
 
             [StrongType<string>]
+            [StrongTypeFeatures.Lifting.Formattable(IsEnabled = true)]
             public sealed partial class TestStrongType;
             """;
 

@@ -11,6 +11,12 @@ internal sealed class ParsableFeatureEmitter : LiftedFeatureEmitter
 
     public override void Emit(IndentedWriter writer, StrongTypeModel model)
     {
+        if (model.PrimitiveTypeName == "string")
+        {
+            EmitStringSpecialCase(writer, model);
+            return;
+        }
+
         using (writer.Block($"partial class {model.TypeName} : {System_IParsable}<{model.TypeName}>"))
         {
             using (writer.Block($"public static {model.TypeName} Parse(string s, {System_IFormatProvider}? provider)"))
@@ -42,6 +48,27 @@ internal sealed class ParsableFeatureEmitter : LiftedFeatureEmitter
                 {
                     writer.Line("return T.TryParse(s, provider, out result!);");
                 }
+            }
+        }
+    }
+
+    private static void EmitStringSpecialCase(IndentedWriter writer, StrongTypeModel model)
+    {
+        using (writer.Block($"partial class {model.TypeName} : {System_IParsable}<{model.TypeName}>"))
+        {
+            writer.Line($"static {model.TypeName} {System_IParsable}<{model.TypeName}>.Parse(string s, {System_IFormatProvider}? provider) => Create(s);");
+            writer.Line();
+
+            using (writer.Block($"static bool {System_IParsable}<{model.TypeName}>.TryParse(string? s, {System_IFormatProvider}? provider, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
+            {
+                using (writer.Block("if (s is null)"))
+                {
+                    writer.Line("result = null;");
+                    writer.Line("return false;");
+                }
+
+                writer.Line();
+                writer.Line("return TryCreate(s, out result);");
             }
         }
     }
