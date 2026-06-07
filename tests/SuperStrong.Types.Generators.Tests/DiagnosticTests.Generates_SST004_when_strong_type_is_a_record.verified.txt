@@ -1,0 +1,17 @@
+﻿{
+  Diagnostics: [
+    {
+      Location: : (4,0)-(5,44),
+      Message: Type 'Sample.TestStrongType' is annotated with [StrongType<...>] but is declared as a record. Declare it as a class instead.,
+      Severity: Error,
+      Descriptor: {
+        Id: SST004,
+        Title: Strong type cannot be a record,
+        MessageFormat: Type '{0}' is annotated with [StrongType<...>] but is declared as a record. Declare it as a class instead.,
+        Category: SuperStrong,
+        DefaultSeverity: Error,
+        IsEnabledByDefault: true
+      }
+    }
+  ]
+}

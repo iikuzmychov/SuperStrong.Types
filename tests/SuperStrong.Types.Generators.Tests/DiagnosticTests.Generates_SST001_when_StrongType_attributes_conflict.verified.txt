@@ -1,0 +1,17 @@
+﻿{
+  Diagnostics: [
+    {
+      Location: : (9,0)-(11,43),
+      Message: Type 'Sample.TestStrongType' is annotated with both [StrongType<TPrimitive>] and [StrongType<TPrimitive, TTemplate>]. Use only one.,
+      Severity: Error,
+      Descriptor: {
+        Id: SST001,
+        Title: Conflicting StrongType attributes,
+        MessageFormat: Type '{0}' is annotated with both [StrongType<TPrimitive>] and [StrongType<TPrimitive, TTemplate>]. Use only one.,
+        Category: SuperStrong,
+        DefaultSeverity: Error,
+        IsEnabledByDefault: true
+      }
+    }
+  ]
+}
