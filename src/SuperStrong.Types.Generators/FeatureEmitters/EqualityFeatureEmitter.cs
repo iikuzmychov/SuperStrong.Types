@@ -13,30 +13,23 @@ internal sealed class EqualityFeatureEmitter : IStrongTypeFeatureEmitter
 
         using (writer.Block($"partial class {model.TypeName} : {System_IEquatable}<{model.TypeName}>, {equalityOperatorsInterface}"))
         {
-            if (model.EqualityPartialDefinition)
-            {
-                writer.Line($"public partial bool Equals({model.TypeName}? other);");
-            }
-            else
+            if (!model.UserOverridesEquals)
             {
                 writer.Line($"public bool Equals({model.TypeName}? other) => other is not null && _value.Equals(other._value);");
+                writer.Line();
             }
 
-            writer.Line();
             using (writer.Block($"bool {System_IEquatable}<{model.TypeName}>.Equals({model.TypeName}? other)"))
             {
                 writer.Line("return Equals(other);");
             }
+
             writer.Line();
             writer.Line($"public override bool Equals(object? obj) => obj is {model.TypeName} other && Equals(other);");
-            writer.Line();
 
-            if (model.EqualityPartialDefinition)
+            if (!model.UserOverridesGetHashCode)
             {
-                writer.Line("public override partial int GetHashCode();");
-            }
-            else
-            {
+                writer.Line();
                 writer.Line("public override int GetHashCode() => _value.GetHashCode();");
             }
 

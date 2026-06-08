@@ -1,4 +1,4 @@
 namespace SuperStrong.Types.Generators.Models;
 
-internal sealed record LiftedFeatureState(string FeatureName, bool IsEnabled, bool PrimitiveSupports)
-    : OptionalFeatureState(FeatureName, IsEnabled);
+internal sealed record LiftedFeatureState(string FeatureName, bool PrimitiveSupports)
+    : OptionalFeatureState(FeatureName);

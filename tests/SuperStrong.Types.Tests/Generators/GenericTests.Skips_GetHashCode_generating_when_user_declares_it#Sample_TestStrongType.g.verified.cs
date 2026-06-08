@@ -4,23 +4,24 @@
 
 namespace Sample
 {
-    partial class TestStrongType : global::SuperStrong.Types.IStrongType<TestStrongType, int>
+    [global::System.Diagnostics.DebuggerDisplayAttribute("{_value}")]
+    partial class TestStrongType : global::SuperStrong.Types.IStrongType<TestStrongType, string>
     {
-        private readonly int _value;
+        private readonly string _value;
 
-        private TestStrongType(int value)
+        private TestStrongType(string value)
         {
             _value = value;
         }
 
-        public static TestStrongType Create(int value)
+        public static TestStrongType Create(string value)
         {
             global::SuperStrong.Types.StrongType.EnsureValid(value, Definition);
 
             return new TestStrongType(value);
         }
 
-        public static bool TryCreate(int value, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
+        public static bool TryCreate(string value, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
             if (global::SuperStrong.Types.StrongType.IsValid(value, Definition))
             {
@@ -32,19 +33,19 @@ namespace Sample
             return false;
         }
 
-        public int AsPrimitive() => _value;
+        public string AsPrimitive() => _value;
 
-        int global::SuperStrong.Types.IStrongType<TestStrongType, int>.AsPrimitive()
+        string global::SuperStrong.Types.IStrongType<TestStrongType, string>.AsPrimitive()
         {
             return AsPrimitive();
         }
     }
 
-    partial class TestStrongType : global::SuperStrong.Types.IHasStrongTypeDefinition<int>
+    partial class TestStrongType : global::SuperStrong.Types.IHasStrongTypeDefinition<string>
     {
-        public static global::SuperStrong.Types.StrongTypeDefinition<int> Definition { get; } = global::SuperStrong.Types.StrongType.Define<int>();
+        public static global::SuperStrong.Types.StrongTypeDefinition<string> Definition { get; } = global::SuperStrong.Types.StrongType.Define<string>();
 
-        static global::SuperStrong.Types.StrongTypeDefinition<int> global::SuperStrong.Types.IHasStrongTypeDefinition<int>.Definition => Definition;
+        static global::SuperStrong.Types.StrongTypeDefinition<string> global::SuperStrong.Types.IHasStrongTypeDefinition<string>.Definition => Definition;
     }
 
     partial class TestStrongType : global::System.IEquatable<TestStrongType>, global::System.Numerics.IEqualityOperators<TestStrongType, TestStrongType, bool>
@@ -57,8 +58,6 @@ namespace Sample
         }
 
         public override bool Equals(object? obj) => obj is TestStrongType other && Equals(other);
-
-        public override int GetHashCode() => _value.GetHashCode();
 
         public static bool operator ==(TestStrongType? left, TestStrongType? right)
         {
@@ -76,6 +75,56 @@ namespace Sample
     partial class TestStrongType
     {
         public override string ToString() => _value.ToString();
+    }
+
+    partial class TestStrongType : global::System.IParsable<TestStrongType>
+    {
+        static TestStrongType global::System.IParsable<TestStrongType>.Parse(string s, global::System.IFormatProvider? provider)
+        {
+            return Create(s);
+        }
+
+        static bool global::System.IParsable<TestStrongType>.TryParse(string? s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
+        {
+            if (s is null)
+            {
+                result = null;
+                return false;
+            }
+
+            return TryCreate(s, out result);
+        }
+    }
+
+    partial class TestStrongType : global::System.ISpanParsable<TestStrongType>
+    {
+        static TestStrongType global::System.ISpanParsable<TestStrongType>.Parse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider)
+        {
+            return Create(s.ToString());
+        }
+
+        static bool global::System.ISpanParsable<TestStrongType>.TryParse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
+        {
+            return TryCreate(s.ToString(), out result);
+        }
+    }
+
+    partial class TestStrongType : global::System.IComparable<TestStrongType>
+    {
+        public int CompareTo(TestStrongType? other)
+        {
+            if (other is null)
+            {
+                return 1;
+            }
+
+            return InvokeCompareTo<string>(_value, other._value);
+
+            static int InvokeCompareTo<T>(T value, T other) where T : global::System.IComparable<T>
+            {
+                return value.CompareTo(other);
+            }
+        }
     }
 
     partial class TestStrongType : global::System.IConvertible

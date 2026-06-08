@@ -9,6 +9,8 @@ internal sealed class CoreFeatureEmitter : IStrongTypeFeatureEmitter
 
     public void Emit(IndentedWriter writer, StrongTypeModel model)
     {
+        writer.Line($"[{System_Diagnostics_DebuggerDisplayAttribute}(\"{{_value}}\")]");
+
         using (writer.Block($"partial class {model.TypeName} : {SuperStrong_Types_IStrongType}<{model.TypeName}, {model.PrimitiveTypeName}>"))
         {
             writer.Line($"private readonly {model.PrimitiveTypeName} _value;");

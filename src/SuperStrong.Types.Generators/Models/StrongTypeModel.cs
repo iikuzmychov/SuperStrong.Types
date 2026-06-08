@@ -12,7 +12,8 @@ internal sealed record StrongTypeModel
     public required string? TemplateTypeName { get; init; }
     public required bool UserImplementsDefinition { get; init; }
     public required bool UserOverridesToString { get; init; }
-    public required bool EqualityPartialDefinition { get; init; }
+    public required bool UserOverridesEquals { get; init; }
+    public required bool UserOverridesGetHashCode { get; init; }
     public required ImmutableArray<OptionalFeatureState> OptionalFeatures { get; init; }
 
     public string HintName

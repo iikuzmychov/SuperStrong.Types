@@ -207,15 +207,18 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             .OfType<IMethodSymbol>()
             .Any(method => method.IsOverride && method.Parameters.IsEmpty);
 
-        var equalityPartialDefinitionAttributeSymbol = compilation
-            .GetTypeByMetadataName(SuperStrong_Types_StrongTypeFeatures_Equality_PartialDefinitionAttribute.MetadataName());
+        var userOverridesEquals = typeSymbol
+            .GetMembers(nameof(Equals))
+            .OfType<IMethodSymbol>()
+            .Any(method =>
+                !method.IsStatic &&
+                method.Parameters.Length == 1 &&
+                SymbolEqualityComparer.Default.Equals(method.Parameters[0].Type, typeSymbol));
 
-        var equalityPartialDefinition = FeatureAttributeResolver.ResolveIsEnabled(
-            equalityPartialDefinitionAttributeSymbol,
-            builtInDefault: false,
-            typeSymbol,
-            templateTypeSymbol,
-            compilation);
+        var userOverridesGetHashCode = typeSymbol
+            .GetMembers(nameof(GetHashCode))
+            .OfType<IMethodSymbol>()
+            .Any(method => method.IsOverride && method.Parameters.IsEmpty);
 
         var optionalFeatures = FeatureRegistry.Optional
             .Select(emitter => emitter.ResolveState(typeSymbol, primitiveTypeSymbol, templateTypeSymbol, compilation))
@@ -230,7 +233,8 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             TemplateTypeName = templateType,
             UserImplementsDefinition = userImplementsDefinition,
             UserOverridesToString = userOverridesToString,
-            EqualityPartialDefinition = equalityPartialDefinition,
+            UserOverridesEquals = userOverridesEquals,
+            UserOverridesGetHashCode = userOverridesGetHashCode,
             OptionalFeatures = optionalFeatures,
         };
     }

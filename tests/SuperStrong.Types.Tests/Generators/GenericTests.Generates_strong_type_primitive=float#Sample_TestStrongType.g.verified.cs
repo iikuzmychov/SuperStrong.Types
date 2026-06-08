@@ -4,6 +4,7 @@
 
 namespace Sample
 {
+    [global::System.Diagnostics.DebuggerDisplayAttribute("{_value}")]
     partial class TestStrongType : global::SuperStrong.Types.IStrongType<TestStrongType, float>
     {
         private readonly float _value;

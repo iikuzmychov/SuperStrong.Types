@@ -5,9 +5,7 @@ namespace SuperStrong.Types.Generators.FeatureEmitters;
 
 internal sealed class ConvertibleFeatureEmitter : LiftedFeatureEmitter
 {
-    public override string FeatureAttributeMetadataName => SuperStrong_Types_StrongTypeFeatures_Lifting_ConvertibleAttribute.MetadataName();
     public override string TargetInterfaceMetadataName => System_IConvertible.MetadataName();
-    public override bool IsEnabledByDefault => true;
 
     public override void Emit(IndentedWriter writer, StrongTypeModel model)
     {

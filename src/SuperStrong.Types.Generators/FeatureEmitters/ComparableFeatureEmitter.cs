@@ -5,9 +5,7 @@ namespace SuperStrong.Types.Generators.FeatureEmitters;
 
 internal sealed class ComparableFeatureEmitter : LiftedFeatureEmitter
 {
-    public override string FeatureAttributeMetadataName => SuperStrong_Types_StrongTypeFeatures_Lifting_ComparableAttribute.MetadataName();
     public override string TargetInterfaceMetadataName => System_IComparable.MetadataName(arity: 1);
-    public override bool IsEnabledByDefault => true;
 
     public override void Emit(IndentedWriter writer, StrongTypeModel model)
     {

@@ -4,6 +4,7 @@
 
 namespace Sample
 {
+    [global::System.Diagnostics.DebuggerDisplayAttribute("{_value}")]
     partial class TestStrongType : global::SuperStrong.Types.IStrongType<TestStrongType, int>
     {
         private readonly int _value;
@@ -42,7 +43,7 @@ namespace Sample
 
     partial class TestStrongType : global::SuperStrong.Types.IHasStrongTypeDefinition<int>
     {
-        public static global::SuperStrong.Types.StrongTypeDefinition<int> Definition { get; } = global::SuperStrong.Types.StrongType.Define<int>();
+        public static global::SuperStrong.Types.StrongTypeDefinition<int> Definition { get; } = global::SuperStrong.Types.StrongType.GetTemplateDefinition<global::Sample.TestTemplate, int>();
 
         static global::SuperStrong.Types.StrongTypeDefinition<int> global::SuperStrong.Types.IHasStrongTypeDefinition<int>.Definition => Definition;
     }
@@ -76,6 +77,35 @@ namespace Sample
     partial class TestStrongType
     {
         public override string ToString() => _value.ToString();
+    }
+
+    partial class TestStrongType : global::System.IParsable<TestStrongType>
+    {
+        public static TestStrongType Parse(string s, global::System.IFormatProvider? provider)
+        {
+            return Create(InvokeParse<int>(s, provider));
+
+            static T InvokeParse<T>(string s, global::System.IFormatProvider? provider) where T : global::System.IParsable<T>
+            {
+                return T.Parse(s, provider);
+            }
+        }
+
+        public static bool TryParse([global::System.Diagnostics.CodeAnalysis.NotNullWhenAttribute(true)] string? s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
+        {
+            if (InvokeTryParse<int>(s, provider, out var primitive))
+            {
+                return TryCreate(primitive, out result);
+            }
+
+            result = null;
+            return false;
+
+            static bool InvokeTryParse<T>(string? s, global::System.IFormatProvider? provider, out T result) where T : global::System.IParsable<T>
+            {
+                return T.TryParse(s, provider, out result!);
+            }
+        }
     }
 
     partial class TestStrongType : global::System.ISpanParsable<TestStrongType>

@@ -50,8 +50,6 @@ namespace Sample
 
     partial class TestStrongType : global::System.IEquatable<TestStrongType>, global::System.Numerics.IEqualityOperators<TestStrongType, TestStrongType, bool>
     {
-        public bool Equals(TestStrongType? other) => other is not null && _value.Equals(other._value);
-
         bool global::System.IEquatable<TestStrongType>.Equals(TestStrongType? other)
         {
             return Equals(other);

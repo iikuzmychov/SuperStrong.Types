@@ -15,8 +15,6 @@ internal abstract class LiftedFeatureEmitter : OptionalFeatureEmitter<LiftedFeat
         INamedTypeSymbol? templateSymbol,
         Compilation compilation)
     {
-        var isEnabled = ResolveIsEnabled(typeSymbol, templateSymbol, compilation);
-
         var openInterfaceSymbol = compilation.GetTypeByMetadataName(TargetInterfaceMetadataName);
 
         INamedTypeSymbol? sourceInterfaceSymbol;
@@ -34,7 +32,7 @@ internal abstract class LiftedFeatureEmitter : OptionalFeatureEmitter<LiftedFeat
             sourceInterfaceSymbol is not null &&
             primitiveTypeSymbol.AllInterfaces.Any(@interface => SymbolEqualityComparer.Default.Equals(@interface, sourceInterfaceSymbol));
 
-        return new LiftedFeatureState(FeatureName, isEnabled, primitiveSupports);
+        return new LiftedFeatureState(FeatureName, primitiveSupports);
     }
 
     protected override bool ShouldEmit(LiftedFeatureState state)

@@ -9,10 +9,6 @@ internal abstract class OptionalFeatureEmitter<TState> : IOptionalFeatureEmitter
 {
     public string FeatureName => GetType().Name;
 
-    public abstract string FeatureAttributeMetadataName { get; }
-
-    public abstract bool IsEnabledByDefault { get; }
-
     public abstract TState ResolveState(
         INamedTypeSymbol typeSymbol,
         ITypeSymbol primitiveTypeSymbol,
@@ -29,25 +25,10 @@ internal abstract class OptionalFeatureEmitter<TState> : IOptionalFeatureEmitter
     bool IStrongTypeFeatureEmitter.ShouldEmit(StrongTypeModel model)
     {
         var state = (TState)model.OptionalFeatures.First(s => s.FeatureName == FeatureName);
-        return state.IsEnabled && ShouldEmit(state);
+        return ShouldEmit(state);
     }
 
-    protected virtual bool ShouldEmit(TState state) => true;
+    protected abstract bool ShouldEmit(TState state);
 
     public abstract void Emit(IndentedWriter writer, StrongTypeModel model);
-
-    protected bool ResolveIsEnabled(
-        INamedTypeSymbol typeSymbol,
-        INamedTypeSymbol? templateSymbol,
-        Compilation compilation)
-    {
-        var featureAttributeSymbol = compilation.GetTypeByMetadataName(FeatureAttributeMetadataName);
-
-        return FeatureAttributeResolver.ResolveIsEnabled(
-            featureAttributeSymbol,
-            IsEnabledByDefault,
-            typeSymbol,
-            templateSymbol,
-            compilation);
-    }
 }

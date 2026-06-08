@@ -5,9 +5,7 @@ namespace SuperStrong.Types.Generators.FeatureEmitters;
 
 internal sealed class SpanParsableFeatureEmitter : LiftedFeatureEmitter
 {
-    public override string FeatureAttributeMetadataName => SuperStrong_Types_StrongTypeFeatures_Lifting_SpanParsableAttribute.MetadataName();
     public override string TargetInterfaceMetadataName => System_ISpanParsable.MetadataName(arity: 1);
-    public override bool IsEnabledByDefault => true;
 
     public override void Emit(IndentedWriter writer, StrongTypeModel model)
     {

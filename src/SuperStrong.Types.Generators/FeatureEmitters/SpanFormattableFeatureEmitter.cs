@@ -5,9 +5,7 @@ namespace SuperStrong.Types.Generators.FeatureEmitters;
 
 internal sealed class SpanFormattableFeatureEmitter : LiftedFeatureEmitter
 {
-    public override string FeatureAttributeMetadataName => SuperStrong_Types_StrongTypeFeatures_Lifting_SpanFormattableAttribute.MetadataName();
     public override string TargetInterfaceMetadataName => System_ISpanFormattable.MetadataName();
-    public override bool IsEnabledByDefault => true;
 
     public override void Emit(IndentedWriter writer, StrongTypeModel model)
     {

@@ -40,8 +40,6 @@ public sealed class GenericTests
         var source = $$"""
             using SuperStrong.Types;
 
-            {{Snippets.DisableAllFeatures()}}
-
             namespace Sample;
 
             public partial {{ancestorKeyword}} Container
@@ -57,16 +55,19 @@ public sealed class GenericTests
     }
 
     [Fact]
-    public Task Generates_definition_when_user_does_not_declare_interface()
+    public Task Strong_type_with_template_uses_template_definition()
     {
-        var source = $$"""
+        var source = """
             using SuperStrong.Types;
-
-            {{Snippets.DisableAllFeatures()}}
 
             namespace Sample;
 
-            [StrongType<int>]
+            public sealed class TestTemplate : IStrongTypeTemplate<int>
+            {
+                public static StrongTypeDefinition<int> Definition => StrongType.Define<int>();
+            }
+
+            [StrongType<int, TestTemplate>]
             public sealed partial class TestStrongType;
             """;
 
@@ -78,10 +79,8 @@ public sealed class GenericTests
     [Fact]
     public Task Skips_definition_generating_when_user_declares_interface()
     {
-        var source = $$"""
+        var source = """
             using SuperStrong.Types;
-
-            {{Snippets.DisableAllFeatures()}}
 
             namespace Sample;
 
@@ -89,6 +88,54 @@ public sealed class GenericTests
             public sealed partial class TestStrongType : IHasStrongTypeDefinition<int>
             {
                 public static StrongTypeDefinition<int> Definition { get; } = StrongType.Define<int>();
+            }
+            """;
+
+        var driver = StrongTypeGeneratorDriver.Run(source);
+
+        return Verify(driver);
+    }
+
+    [Fact]
+    public Task Skips_Equals_generating_when_user_declares_it()
+    {
+        var source = """
+            using SuperStrong.Types;
+
+            namespace Sample;
+
+            [StrongType<string>]
+            public sealed partial class TestStrongType
+            {
+                public bool Equals(TestStrongType? other)
+                {
+                    // custom equality logic
+                    throw new NotImplementedException();
+                }
+            }
+            """;
+
+        var driver = StrongTypeGeneratorDriver.Run(source);
+
+        return Verify(driver);
+    }
+
+    [Fact]
+    public Task Skips_GetHashCode_generating_when_user_declares_it()
+    {
+        var source = """
+            using SuperStrong.Types;
+
+            namespace Sample;
+
+            [StrongType<string>]
+            public sealed partial class TestStrongType
+            {
+                public override int GetHashCode()
+                {
+                    // custom hash code logic
+                    throw new NotImplementedException();
+                }
             }
             """;
 
