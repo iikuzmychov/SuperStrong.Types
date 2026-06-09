@@ -23,7 +23,7 @@ internal sealed class CoreFeatureEmitter : IStrongTypeFeatureEmitter
 
             writer.Line();
 
-            using (writer.Block($"public static {model.TypeName} Create({model.PrimitiveTypeName} value)"))
+            using (writer.Block($"public static {model.TypeName} From({model.PrimitiveTypeName} value)"))
             {
                 writer.Line($"{SuperStrong_Types_StrongType}.EnsureValid(value, Definition);");
                 writer.Line();
@@ -32,7 +32,7 @@ internal sealed class CoreFeatureEmitter : IStrongTypeFeatureEmitter
 
             writer.Line();
 
-            using (writer.Block($"public static bool TryCreate({model.PrimitiveTypeName} value, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
+            using (writer.Block($"public static bool TryFrom({model.PrimitiveTypeName} value, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
             {
                 using (writer.Block($"if ({SuperStrong_Types_StrongType}.IsValid(value, Definition))"))
                 {

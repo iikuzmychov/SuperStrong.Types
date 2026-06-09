@@ -36,7 +36,7 @@ internal sealed class StrongTypeScalarInterceptor(StrongTypeHotChocolateOptions 
 
         if (GetPrimitiveScalarType(valueNodeType) is { } scalarType)
         {
-            var primitive = PrimitiveDirective.Create(naming.GetTypeName(scalarType));
+            var primitive = PrimitiveDirective.From(naming.GetTypeName(scalarType));
             scalarConfiguration.AddDirective(primitive, inspector);
         }
 

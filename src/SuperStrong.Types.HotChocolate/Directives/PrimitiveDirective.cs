@@ -8,7 +8,7 @@ public sealed record PrimitiveDirective
     {
     }
 
-    public static PrimitiveDirective Create(string type)
+    public static PrimitiveDirective From(string type)
     {
         return new PrimitiveDirective { Type = type };
     }

@@ -27,7 +27,7 @@ public sealed partial class NpgsqlMaxValueValidatorAdapterCustomConversionTests(
                 .Property(player => player.Score)
                 .HasConversion(
                     score => score.AsPrimitive() * 10,
-                    stored => Score.Create(stored / 10));
+                    stored => Score.From(stored / 10));
         }
     }
 

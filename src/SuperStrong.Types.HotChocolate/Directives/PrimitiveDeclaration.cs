@@ -16,6 +16,6 @@ public sealed class PrimitiveDeclaration<TScalar>
     {
         ArgumentNullException.ThrowIfNull(naming);
 
-        return PrimitiveDirective.Create(naming.GetTypeName(typeof(TScalar)));
+        return PrimitiveDirective.From(naming.GetTypeName(typeof(TScalar)));
     }
 }

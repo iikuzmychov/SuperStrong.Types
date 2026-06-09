@@ -35,11 +35,11 @@ public sealed partial class StrongTypesExtensionNpgsqlTests(PostgresDatabaseFixt
         {
             context.Set<User>().AddRange(
             [
-                new(UserId.Create(1)),
-                new(UserId.Create(2)),
-                new(UserId.Create(3)),
-                new(UserId.Create(4)),
-                new(UserId.Create(5)),
+                new(UserId.From(1)),
+                new(UserId.From(2)),
+                new(UserId.From(3)),
+                new(UserId.From(4)),
+                new(UserId.From(5)),
             ]);
 
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
@@ -54,8 +54,8 @@ public sealed partial class StrongTypesExtensionNpgsqlTests(PostgresDatabaseFixt
 
             Assert.Collection(
                 users,
-                user => Assert.Equal(UserId.Create(4), user.Id),
-                user => Assert.Equal(UserId.Create(5), user.Id));
+                user => Assert.Equal(UserId.From(4), user.Id),
+                user => Assert.Equal(UserId.From(5), user.Id));
         }
     }
 }

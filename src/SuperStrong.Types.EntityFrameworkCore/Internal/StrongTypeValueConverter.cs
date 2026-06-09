@@ -14,5 +14,5 @@ internal sealed class StrongTypeValueConverter<TStrongType, TPrimitive> : ValueC
     {
     }
 
-    private static TStrongType CreateStrongType(TPrimitive primitive) => TStrongType.Create(primitive);
+    private static TStrongType CreateStrongType(TPrimitive primitive) => TStrongType.From(primitive);
 }

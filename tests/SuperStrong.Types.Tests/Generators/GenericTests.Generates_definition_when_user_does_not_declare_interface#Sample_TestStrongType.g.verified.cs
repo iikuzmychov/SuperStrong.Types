@@ -13,14 +13,14 @@ namespace Sample
             _value = value;
         }
 
-        public static TestStrongType Create(int value)
+        public static TestStrongType From(int value)
         {
             global::SuperStrong.Types.StrongType.EnsureValid(value, Definition);
 
             return new TestStrongType(value);
         }
 
-        public static bool TryCreate(int value, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
+        public static bool TryFrom(int value, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
             if (global::SuperStrong.Types.StrongType.IsValid(value, Definition))
             {

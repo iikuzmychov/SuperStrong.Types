@@ -19,7 +19,7 @@ internal sealed class ParsableFeatureEmitter : LiftedFeatureEmitter
         {
             using (writer.Block($"public static {model.TypeName} Parse(string s, {System_IFormatProvider}? provider)"))
             {
-                writer.Line($"return Create(InvokeParse<{model.PrimitiveTypeName}>(s, provider));");
+                writer.Line($"return From(InvokeParse<{model.PrimitiveTypeName}>(s, provider));");
                 writer.Line();
 
                 using (writer.Block($"static T InvokeParse<T>(string s, {System_IFormatProvider}? provider) where T : {System_IParsable}<T>"))
@@ -34,7 +34,7 @@ internal sealed class ParsableFeatureEmitter : LiftedFeatureEmitter
             {
                 using (writer.Block($"if (InvokeTryParse<{model.PrimitiveTypeName}>(s, provider, out var primitive))"))
                 {
-                    writer.Line("return TryCreate(primitive, out result);");
+                    writer.Line("return TryFrom(primitive, out result);");
                 }
 
                 writer.Line();
@@ -56,7 +56,7 @@ internal sealed class ParsableFeatureEmitter : LiftedFeatureEmitter
         {
             using (writer.Block($"static {model.TypeName} {System_IParsable}<{model.TypeName}>.Parse(string s, {System_IFormatProvider}? provider)"))
             {
-                writer.Line("return Create(s);");
+                writer.Line("return From(s);");
             }
 
             writer.Line();
@@ -70,7 +70,7 @@ internal sealed class ParsableFeatureEmitter : LiftedFeatureEmitter
                 }
 
                 writer.Line();
-                writer.Line("return TryCreate(s, out result);");
+                writer.Line("return TryFrom(s, out result);");
             }
         }
     }

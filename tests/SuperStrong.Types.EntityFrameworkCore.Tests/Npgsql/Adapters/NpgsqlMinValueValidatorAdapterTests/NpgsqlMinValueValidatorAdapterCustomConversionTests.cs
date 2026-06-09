@@ -27,7 +27,7 @@ public sealed partial class NpgsqlMinValueValidatorAdapterCustomConversionTests(
                 .Property(person => person.Age)
                 .HasConversion(
                     age => age.AsPrimitive() * 10,
-                    stored => Age.Create(stored / 10));
+                    stored => Age.From(stored / 10));
         }
     }
 

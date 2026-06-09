@@ -14,14 +14,14 @@ namespace Sample
             _value = value;
         }
 
-        public static TestStrongType Create(int value)
+        public static TestStrongType From(int value)
         {
             global::SuperStrong.Types.StrongType.EnsureValid(value, Definition);
 
             return new TestStrongType(value);
         }
 
-        public static bool TryCreate(int value, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
+        public static bool TryFrom(int value, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
             if (global::SuperStrong.Types.StrongType.IsValid(value, Definition))
             {
@@ -76,7 +76,7 @@ namespace Sample
     {
         public static TestStrongType Parse(string s, global::System.IFormatProvider? provider)
         {
-            return Create(InvokeParse<int>(s, provider));
+            return From(InvokeParse<int>(s, provider));
 
             static T InvokeParse<T>(string s, global::System.IFormatProvider? provider) where T : global::System.IParsable<T>
             {
@@ -88,7 +88,7 @@ namespace Sample
         {
             if (InvokeTryParse<int>(s, provider, out var primitive))
             {
-                return TryCreate(primitive, out result);
+                return TryFrom(primitive, out result);
             }
 
             result = null;
@@ -105,7 +105,7 @@ namespace Sample
     {
         public static TestStrongType Parse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider)
         {
-            return Create(InvokeParse<int>(s, provider));
+            return From(InvokeParse<int>(s, provider));
 
             static T InvokeParse<T>(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider) where T : global::System.ISpanParsable<T>
             {
@@ -117,7 +117,7 @@ namespace Sample
         {
             if (InvokeTryParse<int>(s, provider, out var primitive))
             {
-                return TryCreate(primitive, out result);
+                return TryFrom(primitive, out result);
             }
 
             result = null;
@@ -134,7 +134,7 @@ namespace Sample
     {
         public static TestStrongType Parse(global::System.ReadOnlySpan<byte> utf8Text, global::System.IFormatProvider? provider)
         {
-            return Create(InvokeParse<int>(utf8Text, provider));
+            return From(InvokeParse<int>(utf8Text, provider));
 
             static T InvokeParse<T>(global::System.ReadOnlySpan<byte> utf8Text, global::System.IFormatProvider? provider) where T : global::System.IUtf8SpanParsable<T>
             {
@@ -146,7 +146,7 @@ namespace Sample
         {
             if (InvokeTryParse<int>(utf8Text, provider, out var primitive))
             {
-                return TryCreate(primitive, out result);
+                return TryFrom(primitive, out result);
             }
 
             result = null;

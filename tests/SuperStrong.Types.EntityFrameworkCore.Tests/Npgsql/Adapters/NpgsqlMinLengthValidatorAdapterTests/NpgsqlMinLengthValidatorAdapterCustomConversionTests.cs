@@ -27,7 +27,7 @@ public sealed partial class NpgsqlMinLengthValidatorAdapterCustomConversionTests
                 .Property(tag => tag.Label)
                 .HasConversion(
                     label => label.AsPrimitive().ToLowerInvariant(),
-                    stored => TagLabel.Create(stored));
+                    stored => TagLabel.From(stored));
         }
     }
 

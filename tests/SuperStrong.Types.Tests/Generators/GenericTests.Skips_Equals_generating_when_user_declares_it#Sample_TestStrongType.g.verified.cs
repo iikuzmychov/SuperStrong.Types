@@ -14,14 +14,14 @@ namespace Sample
             _value = value;
         }
 
-        public static TestStrongType Create(string value)
+        public static TestStrongType From(string value)
         {
             global::SuperStrong.Types.StrongType.EnsureValid(value, Definition);
 
             return new TestStrongType(value);
         }
 
-        public static bool TryCreate(string value, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
+        public static bool TryFrom(string value, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
             if (global::SuperStrong.Types.StrongType.IsValid(value, Definition))
             {
@@ -81,7 +81,7 @@ namespace Sample
     {
         static TestStrongType global::System.IParsable<TestStrongType>.Parse(string s, global::System.IFormatProvider? provider)
         {
-            return Create(s);
+            return From(s);
         }
 
         static bool global::System.IParsable<TestStrongType>.TryParse(string? s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
@@ -92,7 +92,7 @@ namespace Sample
                 return false;
             }
 
-            return TryCreate(s, out result);
+            return TryFrom(s, out result);
         }
     }
 
@@ -100,12 +100,12 @@ namespace Sample
     {
         static TestStrongType global::System.ISpanParsable<TestStrongType>.Parse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider)
         {
-            return Create(s.ToString());
+            return From(s.ToString());
         }
 
         static bool global::System.ISpanParsable<TestStrongType>.TryParse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
-            return TryCreate(s.ToString(), out result);
+            return TryFrom(s.ToString(), out result);
         }
     }
 

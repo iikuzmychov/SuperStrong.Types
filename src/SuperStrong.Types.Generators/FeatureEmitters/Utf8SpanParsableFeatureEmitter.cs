@@ -13,7 +13,7 @@ internal sealed class Utf8SpanParsableFeatureEmitter : LiftedFeatureEmitter
         {
             using (writer.Block($"public static {model.TypeName} Parse({System_ReadOnlySpan}<byte> utf8Text, {System_IFormatProvider}? provider)"))
             {
-                writer.Line($"return Create(InvokeParse<{model.PrimitiveTypeName}>(utf8Text, provider));");
+                writer.Line($"return From(InvokeParse<{model.PrimitiveTypeName}>(utf8Text, provider));");
                 writer.Line();
 
                 using (writer.Block($"static T InvokeParse<T>({System_ReadOnlySpan}<byte> utf8Text, {System_IFormatProvider}? provider) where T : {System_IUtf8SpanParsable}<T>"))
@@ -28,7 +28,7 @@ internal sealed class Utf8SpanParsableFeatureEmitter : LiftedFeatureEmitter
             {
                 using (writer.Block($"if (InvokeTryParse<{model.PrimitiveTypeName}>(utf8Text, provider, out var primitive))"))
                 {
-                    writer.Line("return TryCreate(primitive, out result);");
+                    writer.Line("return TryFrom(primitive, out result);");
                 }
 
                 writer.Line();
