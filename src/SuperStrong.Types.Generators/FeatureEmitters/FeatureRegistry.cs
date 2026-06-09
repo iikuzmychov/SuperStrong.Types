@@ -7,7 +7,7 @@ internal static class FeatureRegistry
     public static readonly ImmutableArray<IStrongTypeFeatureEmitter> All = ImmutableArray.Create<IStrongTypeFeatureEmitter>(
     [
         new CoreFeatureEmitter(),
-        new HasStrongTypeDefinitionFeatureEmitter(),
+        new DefinitionFeatureEmitter(),
         new EqualityFeatureEmitter(),
         new ToStringFeatureEmitter(),
         new ParsableFeatureEmitter(),

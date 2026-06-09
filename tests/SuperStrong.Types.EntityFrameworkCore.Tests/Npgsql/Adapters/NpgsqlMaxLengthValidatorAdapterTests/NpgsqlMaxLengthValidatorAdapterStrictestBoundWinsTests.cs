@@ -7,7 +7,7 @@ public sealed partial class NpgsqlMaxLengthValidatorAdapterStrictestBoundWinsTes
     : NpgsqlValidatorAdapterTest<NpgsqlMaxLengthValidatorAdapterStrictestBoundWinsTests.TestDbContext>(database)
 {
     [StrongType<string>]
-    public sealed partial class UserName : IHasStrongTypeDefinition<string>
+    public sealed partial class UserName
     {
         public static StrongTypeDefinition<string> Definition { get; } = StrongType.Define<string>().HasMaxLength(20).HasMaxLength(10);
     }

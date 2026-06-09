@@ -99,7 +99,7 @@ internal sealed class StrongTypeScalarInterceptor(StrongTypeHotChocolateOptions 
     private static IEnumerable<object> GetValidators(Type strongType)
     {
         var definitionProperty = strongType.GetProperty(
-            nameof(IHasStrongTypeDefinition<>.Definition),
+            nameof(IStrongType<,>.Definition),
             BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 
         if (definitionProperty is null)

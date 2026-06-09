@@ -19,7 +19,6 @@ internal static class WellKnown
         public static readonly TypeName SuperStrong_Types_StrongTypeAttribute = new(Namespaces.SuperStrong_Types, "StrongTypeAttribute");
         public static readonly TypeName SuperStrong_Types_IStrongType = new(Namespaces.SuperStrong_Types, "IStrongType");
         public static readonly TypeName SuperStrong_Types_StrongType = new(Namespaces.SuperStrong_Types, "StrongType");
-        public static readonly TypeName SuperStrong_Types_IHasStrongTypeDefinition = new(Namespaces.SuperStrong_Types, "IHasStrongTypeDefinition");
         public static readonly TypeName SuperStrong_Types_StrongTypeDefinition = new(Namespaces.SuperStrong_Types, "StrongTypeDefinition");
         public static readonly TypeName SuperStrong_Types_IStrongTypeTemplate = new(Namespaces.SuperStrong_Types, "IStrongTypeTemplate");
 

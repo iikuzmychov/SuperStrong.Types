@@ -51,20 +51,20 @@ public sealed partial class TypeExtensionsTests
     private sealed class NotAStrongType;
 
     [StrongType<int>]
-    private sealed partial class StrongIntClass : IHasStrongTypeDefinition<int>
+    private sealed partial class StrongIntClass
     {
         public static StrongTypeDefinition<int> Definition { get; } = StrongType.Define<int>().HasMinValue(1);
     }
 
     // todo: uncomment, once generator will work with structs too
     //[StrongType<int>]
-    //private readonly partial struct StrongIntStruct : IHasStrongTypeDefinition<int>
+    //private readonly partial struct StrongIntStruct
     //{
     //    public static StrongTypeDefinition<int> Definition { get; } = StrongType.Define<int>().HasMinValue(2);
     //}
 
     [StrongType<string>]
-    private sealed partial class StrongStringClass : IHasStrongTypeDefinition<string>
+    private sealed partial class StrongStringClass
     {
         public static StrongTypeDefinition<string> Definition { get; } = StrongType.Define<string>().HasMinLength(1);
     }

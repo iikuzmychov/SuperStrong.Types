@@ -193,14 +193,10 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             ? null
             : typeSymbol.ContainingNamespace.ToDisplayString();
 
-        var hasDefinitionInterface = compilation
-            .GetTypeByMetadataName(SuperStrong_Types_IHasStrongTypeDefinition.MetadataName(arity: 1))
-            ?.Construct(primitiveTypeSymbol);
-
-        var userImplementsDefinition =
-            hasDefinitionInterface is not null &&
-            typeSymbol.AllInterfaces.Any(
-                @interface => SymbolEqualityComparer.Default.Equals(@interface, hasDefinitionInterface));
+        var userDeclaresDefinition = typeSymbol
+            .GetMembers("Definition")
+            .OfType<IPropertySymbol>()
+            .Any(property => property.IsStatic);
 
         var userOverridesToString = typeSymbol
             .GetMembers(nameof(ToString))
@@ -231,7 +227,7 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             Ancestors = ancestors.ToImmutable(),
             PrimitiveTypeName = primitiveType,
             TemplateTypeName = templateType,
-            UserImplementsDefinition = userImplementsDefinition,
+            UserDeclaresDefinition = userDeclaresDefinition,
             UserOverridesToString = userOverridesToString,
             UserOverridesEquals = userOverridesEquals,
             UserOverridesGetHashCode = userOverridesGetHashCode,

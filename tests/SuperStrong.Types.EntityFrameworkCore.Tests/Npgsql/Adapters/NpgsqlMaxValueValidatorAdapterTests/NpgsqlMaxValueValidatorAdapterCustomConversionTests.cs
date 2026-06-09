@@ -7,7 +7,7 @@ public sealed partial class NpgsqlMaxValueValidatorAdapterCustomConversionTests(
     : NpgsqlValidatorAdapterTest<NpgsqlMaxValueValidatorAdapterCustomConversionTests.TestDbContext>(database)
 {
     [StrongType<int>]
-    public sealed partial class Score : IHasStrongTypeDefinition<int>
+    public sealed partial class Score
     {
         public static StrongTypeDefinition<int> Definition { get; } = StrongType.Define<int>().HasMaxValue(100);
     }

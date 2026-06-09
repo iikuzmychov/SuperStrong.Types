@@ -7,7 +7,7 @@ public sealed partial class NpgsqlMinLengthValidatorAdapterOnJsonbColumnTests(Po
     : NpgsqlValidatorAdapterTest<NpgsqlMinLengthValidatorAdapterOnJsonbColumnTests.TestDbContext>(database)
 {
     [StrongType<string>]
-    public sealed partial class JsonPayload : IHasStrongTypeDefinition<string>
+    public sealed partial class JsonPayload
     {
         public static StrongTypeDefinition<string> Definition { get; } = StrongType.Define<string>().HasMinLength(3);
     }

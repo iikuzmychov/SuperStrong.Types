@@ -7,7 +7,7 @@ public sealed partial class NpgsqlMaxLengthValidatorAdapterTests(PostgresDatabas
     : NpgsqlValidatorAdapterTest<NpgsqlMaxLengthValidatorAdapterTests.TestDbContext>(database)
 {
     [StrongType<string>]
-    public sealed partial class UserName : IHasStrongTypeDefinition<string>
+    public sealed partial class UserName
     {
         public static StrongTypeDefinition<string> Definition { get; } = StrongType.Define<string>().HasMaxLength(10);
     }

@@ -32,7 +32,7 @@ public sealed partial class StrongTypeVisitorTests
     }
 
     [StrongType<int>]
-    private sealed partial class StrongTypedInt : IHasStrongTypeDefinition<int>
+    private sealed partial class StrongTypedInt
     {
         public static StrongTypeDefinition<int> Definition { get; } = StrongType.Define<int>();
     }

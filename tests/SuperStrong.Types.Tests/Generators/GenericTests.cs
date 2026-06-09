@@ -77,7 +77,7 @@ public sealed class GenericTests
     }
 
     [Fact]
-    public Task Skips_definition_generating_when_user_declares_interface()
+    public Task Skips_definition_generating_when_user_declares_it()
     {
         var source = """
             using SuperStrong.Types;
@@ -85,7 +85,7 @@ public sealed class GenericTests
             namespace Sample;
 
             [StrongType<int>]
-            public sealed partial class TestStrongType : IHasStrongTypeDefinition<int>
+            public sealed partial class TestStrongType
             {
                 public static StrongTypeDefinition<int> Definition { get; } = StrongType.Define<int>();
             }

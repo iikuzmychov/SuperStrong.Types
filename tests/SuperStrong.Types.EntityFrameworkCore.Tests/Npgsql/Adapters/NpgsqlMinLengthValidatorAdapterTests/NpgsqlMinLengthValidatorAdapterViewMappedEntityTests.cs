@@ -6,7 +6,7 @@ public sealed partial class NpgsqlMinLengthValidatorAdapterViewMappedEntityTests
     : NpgsqlValidatorAdapterTest<NpgsqlMinLengthValidatorAdapterViewMappedEntityTests.TestDbContext>(database)
 {
     [StrongType<string>]
-    public sealed partial class TagLabel : IHasStrongTypeDefinition<string>
+    public sealed partial class TagLabel
     {
         public static StrongTypeDefinition<string> Definition { get; } = StrongType.Define<string>().HasMinLength(3);
     }

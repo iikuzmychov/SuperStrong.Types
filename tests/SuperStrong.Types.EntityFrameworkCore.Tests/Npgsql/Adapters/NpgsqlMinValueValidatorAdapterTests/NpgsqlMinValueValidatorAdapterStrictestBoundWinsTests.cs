@@ -8,7 +8,7 @@ public sealed partial class NpgsqlMinValueValidatorAdapterStrictestBoundWinsTest
     : NpgsqlValidatorAdapterTest<NpgsqlMinValueValidatorAdapterStrictestBoundWinsTests.TestDbContext>(database)
 {
     [StrongType<int>]
-    public sealed partial class Age : IHasStrongTypeDefinition<int>
+    public sealed partial class Age
     {
         public static StrongTypeDefinition<int> Definition { get; } = StrongType.Define<int>().HasMinValue(0).HasMinValue(18);
     }

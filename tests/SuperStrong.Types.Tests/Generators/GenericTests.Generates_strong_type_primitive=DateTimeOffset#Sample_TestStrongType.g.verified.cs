@@ -41,11 +41,11 @@ namespace Sample
         }
     }
 
-    partial class TestStrongType : global::SuperStrong.Types.IHasStrongTypeDefinition<global::System.DateTimeOffset>
+    partial class TestStrongType
     {
         public static global::SuperStrong.Types.StrongTypeDefinition<global::System.DateTimeOffset> Definition { get; } = global::SuperStrong.Types.StrongType.Define<global::System.DateTimeOffset>();
 
-        static global::SuperStrong.Types.StrongTypeDefinition<global::System.DateTimeOffset> global::SuperStrong.Types.IHasStrongTypeDefinition<global::System.DateTimeOffset>.Definition => Definition;
+        static global::SuperStrong.Types.StrongTypeDefinition<global::System.DateTimeOffset> global::SuperStrong.Types.IStrongType<TestStrongType, global::System.DateTimeOffset>.Definition => Definition;
     }
 
     partial class TestStrongType : global::System.IEquatable<TestStrongType>, global::System.Numerics.IEqualityOperators<TestStrongType, TestStrongType, bool>
