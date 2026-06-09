@@ -18,6 +18,7 @@
     <Project Path="src/SuperStrong.Types.EntityFrameworkCore/SuperStrong.Types.EntityFrameworkCore.csproj" />
     <Project Path="src/SuperStrong.Types.Generators/SuperStrong.Types.Generators.csproj" />
     <Project Path="src/SuperStrong.Types.HotChocolate/SuperStrong.Types.HotChocolate.csproj" />
+    <Project Path="src/SuperStrong.Types.SystemTextJson/SuperStrong.Types.SystemTextJson.csproj" Id="5c3adb2c-bbda-42f1-839c-4799dccba244" />
     <Project Path="src/SuperStrong.Types/SuperStrong.Types.csproj" />
   </Folder>
   <Folder Name="/tests/">
