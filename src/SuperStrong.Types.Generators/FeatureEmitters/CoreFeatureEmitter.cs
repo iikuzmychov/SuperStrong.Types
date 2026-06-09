@@ -13,17 +13,17 @@ internal sealed class CoreFeatureEmitter : IStrongTypeFeatureEmitter
 
         using (writer.Block($"partial class {model.TypeName} : {SuperStrong_Types_IStrongType}<{model.TypeName}, {model.PrimitiveTypeName}>"))
         {
-            writer.Line($"private readonly {model.PrimitiveTypeName} _value;");
+            writer.MemberLine($"private readonly {model.PrimitiveTypeName} _value;");
             writer.Line();
 
-            using (writer.Block($"private {model.TypeName}({model.PrimitiveTypeName} value)"))
+            using (writer.MemberBlock($"private {model.TypeName}({model.PrimitiveTypeName} value)"))
             {
                 writer.Line("_value = value;");
             }
 
             writer.Line();
 
-            using (writer.Block($"public static {model.TypeName} From({model.PrimitiveTypeName} value)"))
+            using (writer.MemberBlock($"public static {model.TypeName} From({model.PrimitiveTypeName} value)"))
             {
                 writer.Line($"{SuperStrong_Types_StrongType}.EnsureValid(value, Definition);");
                 writer.Line();
@@ -32,14 +32,14 @@ internal sealed class CoreFeatureEmitter : IStrongTypeFeatureEmitter
 
             writer.Line();
 
-            using (writer.Block($"static {model.TypeName} {SuperStrong_Types_IStrongType}<{model.TypeName}, {model.PrimitiveTypeName}>.From({model.PrimitiveTypeName} value)"))
+            using (writer.MemberBlock($"static {model.TypeName} {SuperStrong_Types_IStrongType}<{model.TypeName}, {model.PrimitiveTypeName}>.From({model.PrimitiveTypeName} value)"))
             {
                 writer.Line("return From(value);");
             }
 
             writer.Line();
 
-            using (writer.Block($"public static bool TryFrom({model.PrimitiveTypeName} value, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
+            using (writer.MemberBlock($"public static bool TryFrom({model.PrimitiveTypeName} value, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
             {
                 using (writer.Block($"if ({SuperStrong_Types_StrongType}.IsValid(value, Definition))"))
                 {
@@ -54,16 +54,16 @@ internal sealed class CoreFeatureEmitter : IStrongTypeFeatureEmitter
 
             writer.Line();
 
-            using (writer.Block($"static bool {SuperStrong_Types_IStrongType}<{model.TypeName}, {model.PrimitiveTypeName}>.TryFrom({model.PrimitiveTypeName} value, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
+            using (writer.MemberBlock($"static bool {SuperStrong_Types_IStrongType}<{model.TypeName}, {model.PrimitiveTypeName}>.TryFrom({model.PrimitiveTypeName} value, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
             {
                 writer.Line("return TryFrom(value, out result);");
             }
 
             writer.Line();
 
-            writer.Line($"public {model.PrimitiveTypeName} AsPrimitive() => _value;");
+            writer.MemberLine($"public {model.PrimitiveTypeName} AsPrimitive() => _value;");
             writer.Line();
-            using (writer.Block($"{model.PrimitiveTypeName} {SuperStrong_Types_IStrongType}<{model.TypeName}, {model.PrimitiveTypeName}>.AsPrimitive()"))
+            using (writer.MemberBlock($"{model.PrimitiveTypeName} {SuperStrong_Types_IStrongType}<{model.TypeName}, {model.PrimitiveTypeName}>.AsPrimitive()"))
             {
                 writer.Line("return AsPrimitive();");
             }

@@ -11,7 +11,7 @@ internal sealed class Utf8SpanFormattableFeatureEmitter : LiftedFeatureEmitter
     {
         using (writer.Block($"partial class {model.TypeName} : {System_IUtf8SpanFormattable}"))
         {
-            using (writer.Block($"public bool TryFormat({System_Span}<byte> utf8Destination, out int bytesWritten, {System_ReadOnlySpan}<char> format, {System_IFormatProvider}? provider)"))
+            using (writer.MemberBlock($"public bool TryFormat({System_Span}<byte> utf8Destination, out int bytesWritten, {System_ReadOnlySpan}<char> format, {System_IFormatProvider}? provider)"))
             {
                 writer.Line($"return InvokeTryFormat<{model.PrimitiveTypeName}>(_value, utf8Destination, out bytesWritten, format, provider);");
                 writer.Line();
@@ -23,7 +23,7 @@ internal sealed class Utf8SpanFormattableFeatureEmitter : LiftedFeatureEmitter
             }
 
             writer.Line();
-            using (writer.Block($"bool {System_IUtf8SpanFormattable}.TryFormat({System_Span}<byte> utf8Destination, out int bytesWritten, {System_ReadOnlySpan}<char> format, {System_IFormatProvider}? provider)"))
+            using (writer.MemberBlock($"bool {System_IUtf8SpanFormattable}.TryFormat({System_Span}<byte> utf8Destination, out int bytesWritten, {System_ReadOnlySpan}<char> format, {System_IFormatProvider}? provider)"))
             {
                 writer.Line("return TryFormat(utf8Destination, out bytesWritten, format, provider);");
             }

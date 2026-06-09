@@ -17,7 +17,7 @@ internal sealed class SpanParsableFeatureEmitter : LiftedFeatureEmitter
 
         using (writer.Block($"partial class {model.TypeName} : {System_ISpanParsable}<{model.TypeName}>"))
         {
-            using (writer.Block($"public static {model.TypeName} Parse({System_ReadOnlySpan}<char> s, {System_IFormatProvider}? provider)"))
+            using (writer.MemberBlock($"public static {model.TypeName} Parse({System_ReadOnlySpan}<char> s, {System_IFormatProvider}? provider)"))
             {
                 writer.Line($"return From(InvokeParse<{model.PrimitiveTypeName}>(s, provider));");
                 writer.Line();
@@ -30,14 +30,14 @@ internal sealed class SpanParsableFeatureEmitter : LiftedFeatureEmitter
 
             writer.Line();
 
-            using (writer.Block($"static {model.TypeName} {System_ISpanParsable}<{model.TypeName}>.Parse({System_ReadOnlySpan}<char> s, {System_IFormatProvider}? provider)"))
+            using (writer.MemberBlock($"static {model.TypeName} {System_ISpanParsable}<{model.TypeName}>.Parse({System_ReadOnlySpan}<char> s, {System_IFormatProvider}? provider)"))
             {
                 writer.Line("return Parse(s, provider);");
             }
 
             writer.Line();
 
-            using (writer.Block($"public static bool TryParse({System_ReadOnlySpan}<char> s, {System_IFormatProvider}? provider, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
+            using (writer.MemberBlock($"public static bool TryParse({System_ReadOnlySpan}<char> s, {System_IFormatProvider}? provider, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
             {
                 using (writer.Block($"if (InvokeTryParse<{model.PrimitiveTypeName}>(s, provider, out var primitive))"))
                 {
@@ -57,7 +57,7 @@ internal sealed class SpanParsableFeatureEmitter : LiftedFeatureEmitter
 
             writer.Line();
 
-            using (writer.Block($"static bool {System_ISpanParsable}<{model.TypeName}>.TryParse({System_ReadOnlySpan}<char> s, {System_IFormatProvider}? provider, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
+            using (writer.MemberBlock($"static bool {System_ISpanParsable}<{model.TypeName}>.TryParse({System_ReadOnlySpan}<char> s, {System_IFormatProvider}? provider, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
             {
                 writer.Line("return TryParse(s, provider, out result);");
             }
@@ -68,14 +68,14 @@ internal sealed class SpanParsableFeatureEmitter : LiftedFeatureEmitter
     {
         using (writer.Block($"partial class {model.TypeName} : {System_ISpanParsable}<{model.TypeName}>"))
         {
-            using (writer.Block($"static {model.TypeName} {System_ISpanParsable}<{model.TypeName}>.Parse({System_ReadOnlySpan}<char> s, {System_IFormatProvider}? provider)"))
+            using (writer.MemberBlock($"static {model.TypeName} {System_ISpanParsable}<{model.TypeName}>.Parse({System_ReadOnlySpan}<char> s, {System_IFormatProvider}? provider)"))
             {
                 writer.Line("return From(s.ToString());");
             }
 
             writer.Line();
 
-            using (writer.Block($"static bool {System_ISpanParsable}<{model.TypeName}>.TryParse({System_ReadOnlySpan}<char> s, {System_IFormatProvider}? provider, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
+            using (writer.MemberBlock($"static bool {System_ISpanParsable}<{model.TypeName}>.TryParse({System_ReadOnlySpan}<char> s, {System_IFormatProvider}? provider, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
             {
                 writer.Line("return TryFrom(s.ToString(), out result);");
             }

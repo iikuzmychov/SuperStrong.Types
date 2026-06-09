@@ -11,7 +11,7 @@ internal sealed class ToStringFeatureEmitter : IStrongTypeFeatureEmitter
     {
         using (writer.Block($"partial class {model.TypeName}"))
         {
-            writer.Line("public override string ToString() => _value.ToString();");
+            writer.MemberLine("public override string ToString() => _value.ToString();");
         }
     }
 }

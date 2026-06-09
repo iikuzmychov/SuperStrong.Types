@@ -53,7 +53,7 @@ internal sealed class ConvertibleFeatureEmitter : LiftedFeatureEmitter
             ? string.Empty
             : string.Join(", ", parameters.Split(',').Select(p => p.Trim().Split(' ').Last()));
 
-        using (writer.Block($"{returnType} {System_IConvertible}.{methodName}({parameters})"))
+        using (writer.MemberBlock($"{returnType} {System_IConvertible}.{methodName}({parameters})"))
         {
             writer.Line($"return (({System_IConvertible})_value).{methodName}({argList});");
         }

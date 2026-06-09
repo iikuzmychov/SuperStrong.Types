@@ -11,7 +11,7 @@ internal sealed class FormattableFeatureEmitter : LiftedFeatureEmitter
     {
         using (writer.Block($"partial class {model.TypeName} : {System_IFormattable}"))
         {
-            using (writer.Block($"public string ToString(string? format, {System_IFormatProvider}? formatProvider)"))
+            using (writer.MemberBlock($"public string ToString(string? format, {System_IFormatProvider}? formatProvider)"))
             {
                 writer.Line($"return InvokeToString<{model.PrimitiveTypeName}>(_value, format, formatProvider);");
                 writer.Line();
@@ -23,7 +23,7 @@ internal sealed class FormattableFeatureEmitter : LiftedFeatureEmitter
             }
 
             writer.Line();
-            using (writer.Block($"string {System_IFormattable}.ToString(string? format, {System_IFormatProvider}? formatProvider)"))
+            using (writer.MemberBlock($"string {System_IFormattable}.ToString(string? format, {System_IFormatProvider}? formatProvider)"))
             {
                 writer.Line("return ToString(format, formatProvider);");
             }

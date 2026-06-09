@@ -18,9 +18,9 @@ internal sealed class DefinitionFeatureEmitter : IStrongTypeFeatureEmitter
                 ? $"{SuperStrong_Types_StrongType}.GetTemplateDefinition<{model.TemplateTypeName}, {model.PrimitiveTypeName}>()"
                 : $"{SuperStrong_Types_StrongType}.Define<{model.PrimitiveTypeName}>()";
 
-            writer.Line($"public static {definitionTypeName} Definition {{ get; }} = {body};");
+            writer.MemberLine($"public static {definitionTypeName} Definition {{ get; }} = {body};");
             writer.Line();
-            writer.Line($"static {definitionTypeName} {strongTypeInterface}.Definition => Definition;");
+            writer.MemberLine($"static {definitionTypeName} {strongTypeInterface}.Definition => Definition;");
         }
     }
 }

@@ -7,13 +7,16 @@ namespace Sample
     [global::System.Diagnostics.DebuggerDisplayAttribute("{_value}")]
     partial class TestStrongType : global::SuperStrong.Types.IStrongType<TestStrongType, global::System.TimeSpan>
     {
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         private readonly global::System.TimeSpan _value;
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         private TestStrongType(global::System.TimeSpan value)
         {
             _value = value;
         }
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         public static TestStrongType From(global::System.TimeSpan value)
         {
             global::SuperStrong.Types.StrongType.EnsureValid(value, Definition);
@@ -21,11 +24,13 @@ namespace Sample
             return new TestStrongType(value);
         }
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         static TestStrongType global::SuperStrong.Types.IStrongType<TestStrongType, global::System.TimeSpan>.From(global::System.TimeSpan value)
         {
             return From(value);
         }
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         public static bool TryFrom(global::System.TimeSpan value, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
             if (global::SuperStrong.Types.StrongType.IsValid(value, Definition))
@@ -38,13 +43,16 @@ namespace Sample
             return false;
         }
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         static bool global::SuperStrong.Types.IStrongType<TestStrongType, global::System.TimeSpan>.TryFrom(global::System.TimeSpan value, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
             return TryFrom(value, out result);
         }
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         public global::System.TimeSpan AsPrimitive() => _value;
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         global::System.TimeSpan global::SuperStrong.Types.IStrongType<TestStrongType, global::System.TimeSpan>.AsPrimitive()
         {
             return AsPrimitive();
@@ -53,20 +61,25 @@ namespace Sample
 
     partial class TestStrongType
     {
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         public static global::SuperStrong.Types.StrongTypeDefinition<global::System.TimeSpan> Definition { get; } = global::SuperStrong.Types.StrongType.Define<global::System.TimeSpan>();
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         static global::SuperStrong.Types.StrongTypeDefinition<global::System.TimeSpan> global::SuperStrong.Types.IStrongType<TestStrongType, global::System.TimeSpan>.Definition => Definition;
     }
 
     partial class TestStrongType : global::System.IEquatable<TestStrongType>, global::System.Numerics.IEqualityOperators<TestStrongType, TestStrongType, bool>
     {
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         public bool Equals(TestStrongType? other) => other is not null && _value.Equals(other._value);
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         bool global::System.IEquatable<TestStrongType>.Equals(TestStrongType? other)
         {
             return Equals(other);
         }
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         public static bool operator ==(TestStrongType? left, TestStrongType? right)
         {
             if (left is null)
@@ -77,30 +90,37 @@ namespace Sample
             return left.Equals(right);
         }
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         static bool global::System.Numerics.IEqualityOperators<TestStrongType, TestStrongType, bool>.operator ==(TestStrongType? left, TestStrongType? right)
         {
             return left == right;
         }
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         public static bool operator !=(TestStrongType? left, TestStrongType? right) => !(left == right);
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         static bool global::System.Numerics.IEqualityOperators<TestStrongType, TestStrongType, bool>.operator !=(TestStrongType? left, TestStrongType? right)
         {
             return left != right;
         }
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         public override bool Equals(object? obj) => obj is TestStrongType other && Equals(other);
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         public override int GetHashCode() => _value.GetHashCode();
     }
 
     partial class TestStrongType
     {
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         public override string ToString() => _value.ToString();
     }
 
     partial class TestStrongType : global::System.IParsable<TestStrongType>
     {
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         public static TestStrongType Parse(string s, global::System.IFormatProvider? provider)
         {
             return From(InvokeParse<global::System.TimeSpan>(s, provider));
@@ -111,11 +131,13 @@ namespace Sample
             }
         }
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         static TestStrongType global::System.IParsable<TestStrongType>.Parse(string s, global::System.IFormatProvider? provider)
         {
             return Parse(s, provider);
         }
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         public static bool TryParse([global::System.Diagnostics.CodeAnalysis.NotNullWhenAttribute(true)] string? s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
             if (InvokeTryParse<global::System.TimeSpan>(s, provider, out var primitive))
@@ -132,6 +154,7 @@ namespace Sample
             }
         }
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         static bool global::System.IParsable<TestStrongType>.TryParse(string? s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
             return TryParse(s, provider, out result);
@@ -140,6 +163,7 @@ namespace Sample
 
     partial class TestStrongType : global::System.ISpanParsable<TestStrongType>
     {
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         public static TestStrongType Parse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider)
         {
             return From(InvokeParse<global::System.TimeSpan>(s, provider));
@@ -150,11 +174,13 @@ namespace Sample
             }
         }
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         static TestStrongType global::System.ISpanParsable<TestStrongType>.Parse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider)
         {
             return Parse(s, provider);
         }
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         public static bool TryParse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
             if (InvokeTryParse<global::System.TimeSpan>(s, provider, out var primitive))
@@ -171,6 +197,7 @@ namespace Sample
             }
         }
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         static bool global::System.ISpanParsable<TestStrongType>.TryParse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
             return TryParse(s, provider, out result);
@@ -179,6 +206,7 @@ namespace Sample
 
     partial class TestStrongType : global::System.IFormattable
     {
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         public string ToString(string? format, global::System.IFormatProvider? formatProvider)
         {
             return InvokeToString<global::System.TimeSpan>(_value, format, formatProvider);
@@ -189,6 +217,7 @@ namespace Sample
             }
         }
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         string global::System.IFormattable.ToString(string? format, global::System.IFormatProvider? formatProvider)
         {
             return ToString(format, formatProvider);
@@ -197,6 +226,7 @@ namespace Sample
 
     partial class TestStrongType : global::System.ISpanFormattable
     {
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         public bool TryFormat(global::System.Span<char> destination, out int charsWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider)
         {
             return InvokeTryFormat<global::System.TimeSpan>(_value, destination, out charsWritten, format, provider);
@@ -207,6 +237,7 @@ namespace Sample
             }
         }
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         bool global::System.ISpanFormattable.TryFormat(global::System.Span<char> destination, out int charsWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider)
         {
             return TryFormat(destination, out charsWritten, format, provider);
@@ -215,6 +246,7 @@ namespace Sample
 
     partial class TestStrongType : global::System.IUtf8SpanFormattable
     {
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         public bool TryFormat(global::System.Span<byte> utf8Destination, out int bytesWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider)
         {
             return InvokeTryFormat<global::System.TimeSpan>(_value, utf8Destination, out bytesWritten, format, provider);
@@ -225,6 +257,7 @@ namespace Sample
             }
         }
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         bool global::System.IUtf8SpanFormattable.TryFormat(global::System.Span<byte> utf8Destination, out int bytesWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider)
         {
             return TryFormat(utf8Destination, out bytesWritten, format, provider);
@@ -233,6 +266,7 @@ namespace Sample
 
     partial class TestStrongType : global::System.IComparable<TestStrongType>
     {
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         public int CompareTo(TestStrongType? other)
         {
             if (other is null)
@@ -248,6 +282,7 @@ namespace Sample
             }
         }
 
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.Generators", "1.0.0.0")]
         int global::System.IComparable<TestStrongType>.CompareTo(TestStrongType? other)
         {
             return CompareTo(other);

@@ -11,7 +11,7 @@ internal sealed class ComparableFeatureEmitter : LiftedFeatureEmitter
     {
         using (writer.Block($"partial class {model.TypeName} : {System_IComparable}<{model.TypeName}>"))
         {
-            using (writer.Block($"public int CompareTo({model.TypeName}? other)"))
+            using (writer.MemberBlock($"public int CompareTo({model.TypeName}? other)"))
             {
                 using (writer.Block("if (other is null)"))
                 {
@@ -29,7 +29,7 @@ internal sealed class ComparableFeatureEmitter : LiftedFeatureEmitter
 
             writer.Line();
 
-            using (writer.Block($"int {System_IComparable}<{model.TypeName}>.CompareTo({model.TypeName}? other)"))
+            using (writer.MemberBlock($"int {System_IComparable}<{model.TypeName}>.CompareTo({model.TypeName}? other)"))
             {
                 writer.Line("return CompareTo(other);");
             }

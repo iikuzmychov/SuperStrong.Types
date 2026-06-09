@@ -10,6 +10,7 @@ internal static class WellKnown
 
         public const string System = "System";
         public const string System_Numerics = "System.Numerics";
+        public const string System_CodeDom_Compiler = "System.CodeDom.Compiler";
         public const string System_Diagnostics = "System.Diagnostics";
         public const string System_Diagnostics_CodeAnalysis = "System.Diagnostics.CodeAnalysis";
     }
@@ -37,6 +38,7 @@ internal static class WellKnown
         public static readonly TypeName System_TypeCode = new(Namespaces.System, "TypeCode");
         public static readonly TypeName System_Type = new(Namespaces.System, "Type");
         public static readonly TypeName System_Numerics_IEqualityOperators = new(Namespaces.System_Numerics, "IEqualityOperators");
+        public static readonly TypeName System_CodeDom_Compiler_GeneratedCodeAttribute = new(Namespaces.System_CodeDom_Compiler, "GeneratedCodeAttribute");
         public static readonly TypeName System_Diagnostics_DebuggerDisplayAttribute = new(Namespaces.System_Diagnostics, "DebuggerDisplayAttribute");
         public static readonly TypeName System_Diagnostics_CodeAnalysis_NotNullWhenAttribute = new (Namespaces.System_Diagnostics_CodeAnalysis, "NotNullWhenAttribute");
         public static readonly TypeName System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute = new(Namespaces.System_Diagnostics_CodeAnalysis, "MaybeNullWhenAttribute");

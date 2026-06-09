@@ -11,7 +11,7 @@ internal sealed class SpanFormattableFeatureEmitter : LiftedFeatureEmitter
     {
         using (writer.Block($"partial class {model.TypeName} : {System_ISpanFormattable}"))
         {
-            using (writer.Block($"public bool TryFormat({System_Span}<char> destination, out int charsWritten, {System_ReadOnlySpan}<char> format, {System_IFormatProvider}? provider)"))
+            using (writer.MemberBlock($"public bool TryFormat({System_Span}<char> destination, out int charsWritten, {System_ReadOnlySpan}<char> format, {System_IFormatProvider}? provider)"))
             {
                 writer.Line($"return InvokeTryFormat<{model.PrimitiveTypeName}>(_value, destination, out charsWritten, format, provider);");
                 writer.Line();
@@ -23,7 +23,7 @@ internal sealed class SpanFormattableFeatureEmitter : LiftedFeatureEmitter
             }
 
             writer.Line();
-            using (writer.Block($"bool {System_ISpanFormattable}.TryFormat({System_Span}<char> destination, out int charsWritten, {System_ReadOnlySpan}<char> format, {System_IFormatProvider}? provider)"))
+            using (writer.MemberBlock($"bool {System_ISpanFormattable}.TryFormat({System_Span}<char> destination, out int charsWritten, {System_ReadOnlySpan}<char> format, {System_IFormatProvider}? provider)"))
             {
                 writer.Line("return TryFormat(destination, out charsWritten, format, provider);");
             }

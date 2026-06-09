@@ -15,18 +15,18 @@ internal sealed class EqualityFeatureEmitter : IStrongTypeFeatureEmitter
         {
             if (!model.UserOverridesEquals)
             {
-                writer.Line($"public bool Equals({model.TypeName}? other) => other is not null && _value.Equals(other._value);");
+                writer.MemberLine($"public bool Equals({model.TypeName}? other) => other is not null && _value.Equals(other._value);");
                 writer.Line();
             }
 
-            using (writer.Block($"bool {System_IEquatable}<{model.TypeName}>.Equals({model.TypeName}? other)"))
+            using (writer.MemberBlock($"bool {System_IEquatable}<{model.TypeName}>.Equals({model.TypeName}? other)"))
             {
                 writer.Line("return Equals(other);");
             }
 
             writer.Line();
 
-            using (writer.Block($"public static bool operator ==({model.TypeName}? left, {model.TypeName}? right)"))
+            using (writer.MemberBlock($"public static bool operator ==({model.TypeName}? left, {model.TypeName}? right)"))
             {
                 using (writer.Block("if (left is null)"))
                 {
@@ -39,27 +39,27 @@ internal sealed class EqualityFeatureEmitter : IStrongTypeFeatureEmitter
 
             writer.Line();
 
-            using (writer.Block($"static bool {equalityOperatorsInterface}.operator ==({model.TypeName}? left, {model.TypeName}? right)"))
+            using (writer.MemberBlock($"static bool {equalityOperatorsInterface}.operator ==({model.TypeName}? left, {model.TypeName}? right)"))
             {
                 writer.Line("return left == right;");
             }
 
             writer.Line();
-            writer.Line($"public static bool operator !=({model.TypeName}? left, {model.TypeName}? right) => !(left == right);");
+            writer.MemberLine($"public static bool operator !=({model.TypeName}? left, {model.TypeName}? right) => !(left == right);");
             writer.Line();
 
-            using (writer.Block($"static bool {equalityOperatorsInterface}.operator !=({model.TypeName}? left, {model.TypeName}? right)"))
+            using (writer.MemberBlock($"static bool {equalityOperatorsInterface}.operator !=({model.TypeName}? left, {model.TypeName}? right)"))
             {
                 writer.Line("return left != right;");
             }
 
             writer.Line();
-            writer.Line($"public override bool Equals(object? obj) => obj is {model.TypeName} other && Equals(other);");
+            writer.MemberLine($"public override bool Equals(object? obj) => obj is {model.TypeName} other && Equals(other);");
 
             if (!model.UserOverridesGetHashCode)
             {
                 writer.Line();
-                writer.Line("public override int GetHashCode() => _value.GetHashCode();");
+                writer.MemberLine("public override int GetHashCode() => _value.GetHashCode();");
             }
         }
     }
