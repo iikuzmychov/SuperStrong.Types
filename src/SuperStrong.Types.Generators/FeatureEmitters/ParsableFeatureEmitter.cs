@@ -30,6 +30,13 @@ internal sealed class ParsableFeatureEmitter : LiftedFeatureEmitter
 
             writer.Line();
 
+            using (writer.Block($"static {model.TypeName} {System_IParsable}<{model.TypeName}>.Parse(string s, {System_IFormatProvider}? provider)"))
+            {
+                writer.Line("return Parse(s, provider);");
+            }
+
+            writer.Line();
+
             using (writer.Block($"public static bool TryParse([{System_Diagnostics_CodeAnalysis_NotNullWhenAttribute}(true)] string? s, {System_IFormatProvider}? provider, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
             {
                 using (writer.Block($"if (InvokeTryParse<{model.PrimitiveTypeName}>(s, provider, out var primitive))"))
@@ -46,6 +53,13 @@ internal sealed class ParsableFeatureEmitter : LiftedFeatureEmitter
                 {
                     writer.Line("return T.TryParse(s, provider, out result!);");
                 }
+            }
+
+            writer.Line();
+
+            using (writer.Block($"static bool {System_IParsable}<{model.TypeName}>.TryParse(string? s, {System_IFormatProvider}? provider, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
+            {
+                writer.Line("return TryParse(s, provider, out result);");
             }
         }
     }

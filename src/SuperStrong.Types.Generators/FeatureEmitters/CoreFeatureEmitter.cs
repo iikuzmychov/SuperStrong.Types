@@ -32,6 +32,13 @@ internal sealed class CoreFeatureEmitter : IStrongTypeFeatureEmitter
 
             writer.Line();
 
+            using (writer.Block($"static {model.TypeName} {SuperStrong_Types_IStrongType}<{model.TypeName}, {model.PrimitiveTypeName}>.From({model.PrimitiveTypeName} value)"))
+            {
+                writer.Line("return From(value);");
+            }
+
+            writer.Line();
+
             using (writer.Block($"public static bool TryFrom({model.PrimitiveTypeName} value, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
             {
                 using (writer.Block($"if ({SuperStrong_Types_StrongType}.IsValid(value, Definition))"))
@@ -43,6 +50,13 @@ internal sealed class CoreFeatureEmitter : IStrongTypeFeatureEmitter
                 writer.Line();
                 writer.Line("result = null;");
                 writer.Line("return false;");
+            }
+
+            writer.Line();
+
+            using (writer.Block($"static bool {SuperStrong_Types_IStrongType}<{model.TypeName}, {model.PrimitiveTypeName}>.TryFrom({model.PrimitiveTypeName} value, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
+            {
+                writer.Line("return TryFrom(value, out result);");
             }
 
             writer.Line();

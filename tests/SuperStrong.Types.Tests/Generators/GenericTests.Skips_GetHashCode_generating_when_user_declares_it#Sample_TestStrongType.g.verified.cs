@@ -21,6 +21,11 @@ namespace Sample
             return new TestStrongType(value);
         }
 
+        static TestStrongType global::SuperStrong.Types.IStrongType<TestStrongType, string>.From(string value)
+        {
+            return From(value);
+        }
+
         public static bool TryFrom(string value, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
             if (global::SuperStrong.Types.StrongType.IsValid(value, Definition))
@@ -31,6 +36,11 @@ namespace Sample
 
             result = null;
             return false;
+        }
+
+        static bool global::SuperStrong.Types.IStrongType<TestStrongType, string>.TryFrom(string value, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
+        {
+            return TryFrom(value, out result);
         }
 
         public string AsPrimitive() => _value;
@@ -57,8 +67,6 @@ namespace Sample
             return Equals(other);
         }
 
-        public override bool Equals(object? obj) => obj is TestStrongType other && Equals(other);
-
         public static bool operator ==(TestStrongType? left, TestStrongType? right)
         {
             if (left is null)
@@ -69,7 +77,19 @@ namespace Sample
             return left.Equals(right);
         }
 
+        static bool global::System.Numerics.IEqualityOperators<TestStrongType, TestStrongType, bool>.operator ==(TestStrongType? left, TestStrongType? right)
+        {
+            return left == right;
+        }
+
         public static bool operator !=(TestStrongType? left, TestStrongType? right) => !(left == right);
+
+        static bool global::System.Numerics.IEqualityOperators<TestStrongType, TestStrongType, bool>.operator !=(TestStrongType? left, TestStrongType? right)
+        {
+            return left != right;
+        }
+
+        public override bool Equals(object? obj) => obj is TestStrongType other && Equals(other);
     }
 
     partial class TestStrongType
@@ -124,6 +144,11 @@ namespace Sample
             {
                 return value.CompareTo(other);
             }
+        }
+
+        int global::System.IComparable<TestStrongType>.CompareTo(TestStrongType? other)
+        {
+            return CompareTo(other);
         }
     }
 

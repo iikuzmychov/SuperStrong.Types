@@ -23,6 +23,11 @@ namespace Sample
                 return new TestStrongType(value);
             }
 
+            static TestStrongType global::SuperStrong.Types.IStrongType<TestStrongType, int>.From(int value)
+            {
+                return From(value);
+            }
+
             public static bool TryFrom(int value, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
             {
                 if (global::SuperStrong.Types.StrongType.IsValid(value, Definition))
@@ -33,6 +38,11 @@ namespace Sample
 
                 result = null;
                 return false;
+            }
+
+            static bool global::SuperStrong.Types.IStrongType<TestStrongType, int>.TryFrom(int value, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
+            {
+                return TryFrom(value, out result);
             }
 
             public int AsPrimitive() => _value;
@@ -59,10 +69,6 @@ namespace Sample
                 return Equals(other);
             }
 
-            public override bool Equals(object? obj) => obj is TestStrongType other && Equals(other);
-
-            public override int GetHashCode() => _value.GetHashCode();
-
             public static bool operator ==(TestStrongType? left, TestStrongType? right)
             {
                 if (left is null)
@@ -73,7 +79,21 @@ namespace Sample
                 return left.Equals(right);
             }
 
+            static bool global::System.Numerics.IEqualityOperators<TestStrongType, TestStrongType, bool>.operator ==(TestStrongType? left, TestStrongType? right)
+            {
+                return left == right;
+            }
+
             public static bool operator !=(TestStrongType? left, TestStrongType? right) => !(left == right);
+
+            static bool global::System.Numerics.IEqualityOperators<TestStrongType, TestStrongType, bool>.operator !=(TestStrongType? left, TestStrongType? right)
+            {
+                return left != right;
+            }
+
+            public override bool Equals(object? obj) => obj is TestStrongType other && Equals(other);
+
+            public override int GetHashCode() => _value.GetHashCode();
         }
 
         partial class TestStrongType
@@ -93,6 +113,11 @@ namespace Sample
                 }
             }
 
+            static TestStrongType global::System.IParsable<TestStrongType>.Parse(string s, global::System.IFormatProvider? provider)
+            {
+                return Parse(s, provider);
+            }
+
             public static bool TryParse([global::System.Diagnostics.CodeAnalysis.NotNullWhenAttribute(true)] string? s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
             {
                 if (InvokeTryParse<int>(s, provider, out var primitive))
@@ -108,6 +133,11 @@ namespace Sample
                     return T.TryParse(s, provider, out result!);
                 }
             }
+
+            static bool global::System.IParsable<TestStrongType>.TryParse(string? s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
+            {
+                return TryParse(s, provider, out result);
+            }
         }
 
         partial class TestStrongType : global::System.ISpanParsable<TestStrongType>
@@ -120,6 +150,11 @@ namespace Sample
                 {
                     return T.Parse(s, provider);
                 }
+            }
+
+            static TestStrongType global::System.ISpanParsable<TestStrongType>.Parse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider)
+            {
+                return Parse(s, provider);
             }
 
             public static bool TryParse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
@@ -137,6 +172,11 @@ namespace Sample
                     return T.TryParse(s, provider, out result!);
                 }
             }
+
+            static bool global::System.ISpanParsable<TestStrongType>.TryParse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
+            {
+                return TryParse(s, provider, out result);
+            }
         }
 
         partial class TestStrongType : global::System.IUtf8SpanParsable<TestStrongType>
@@ -149,6 +189,11 @@ namespace Sample
                 {
                     return T.Parse(utf8Text, provider);
                 }
+            }
+
+            static TestStrongType global::System.IUtf8SpanParsable<TestStrongType>.Parse(global::System.ReadOnlySpan<byte> utf8Text, global::System.IFormatProvider? provider)
+            {
+                return Parse(utf8Text, provider);
             }
 
             public static bool TryParse(global::System.ReadOnlySpan<byte> utf8Text, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
@@ -165,6 +210,11 @@ namespace Sample
                 {
                     return T.TryParse(utf8Text, provider, out result!);
                 }
+            }
+
+            static bool global::System.IUtf8SpanParsable<TestStrongType>.TryParse(global::System.ReadOnlySpan<byte> utf8Text, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
+            {
+                return TryParse(utf8Text, provider, out result);
             }
         }
 
@@ -237,6 +287,11 @@ namespace Sample
                 {
                     return value.CompareTo(other);
                 }
+            }
+
+            int global::System.IComparable<TestStrongType>.CompareTo(TestStrongType? other)
+            {
+                return CompareTo(other);
             }
         }
 

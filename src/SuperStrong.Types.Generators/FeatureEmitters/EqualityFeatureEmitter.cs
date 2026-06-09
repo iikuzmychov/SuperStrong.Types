@@ -25,15 +25,6 @@ internal sealed class EqualityFeatureEmitter : IStrongTypeFeatureEmitter
             }
 
             writer.Line();
-            writer.Line($"public override bool Equals(object? obj) => obj is {model.TypeName} other && Equals(other);");
-
-            if (!model.UserOverridesGetHashCode)
-            {
-                writer.Line();
-                writer.Line("public override int GetHashCode() => _value.GetHashCode();");
-            }
-
-            writer.Line();
 
             using (writer.Block($"public static bool operator ==({model.TypeName}? left, {model.TypeName}? right)"))
             {
@@ -47,7 +38,29 @@ internal sealed class EqualityFeatureEmitter : IStrongTypeFeatureEmitter
             }
 
             writer.Line();
+
+            using (writer.Block($"static bool {equalityOperatorsInterface}.operator ==({model.TypeName}? left, {model.TypeName}? right)"))
+            {
+                writer.Line("return left == right;");
+            }
+
+            writer.Line();
             writer.Line($"public static bool operator !=({model.TypeName}? left, {model.TypeName}? right) => !(left == right);");
+            writer.Line();
+
+            using (writer.Block($"static bool {equalityOperatorsInterface}.operator !=({model.TypeName}? left, {model.TypeName}? right)"))
+            {
+                writer.Line("return left != right;");
+            }
+
+            writer.Line();
+            writer.Line($"public override bool Equals(object? obj) => obj is {model.TypeName} other && Equals(other);");
+
+            if (!model.UserOverridesGetHashCode)
+            {
+                writer.Line();
+                writer.Line("public override int GetHashCode() => _value.GetHashCode();");
+            }
         }
     }
 }

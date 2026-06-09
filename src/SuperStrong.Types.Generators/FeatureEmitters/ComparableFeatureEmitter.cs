@@ -26,6 +26,13 @@ internal sealed class ComparableFeatureEmitter : LiftedFeatureEmitter
                     writer.Line("return value.CompareTo(other);");
                 }
             }
+
+            writer.Line();
+
+            using (writer.Block($"int {System_IComparable}<{model.TypeName}>.CompareTo({model.TypeName}? other)"))
+            {
+                writer.Line("return CompareTo(other);");
+            }
         }
     }
 }

@@ -24,6 +24,13 @@ internal sealed class Utf8SpanParsableFeatureEmitter : LiftedFeatureEmitter
 
             writer.Line();
 
+            using (writer.Block($"static {model.TypeName} {System_IUtf8SpanParsable}<{model.TypeName}>.Parse({System_ReadOnlySpan}<byte> utf8Text, {System_IFormatProvider}? provider)"))
+            {
+                writer.Line("return Parse(utf8Text, provider);");
+            }
+
+            writer.Line();
+
             using (writer.Block($"public static bool TryParse({System_ReadOnlySpan}<byte> utf8Text, {System_IFormatProvider}? provider, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
             {
                 using (writer.Block($"if (InvokeTryParse<{model.PrimitiveTypeName}>(utf8Text, provider, out var primitive))"))
@@ -40,6 +47,13 @@ internal sealed class Utf8SpanParsableFeatureEmitter : LiftedFeatureEmitter
                 {
                     writer.Line("return T.TryParse(utf8Text, provider, out result!);");
                 }
+            }
+
+            writer.Line();
+
+            using (writer.Block($"static bool {System_IUtf8SpanParsable}<{model.TypeName}>.TryParse({System_ReadOnlySpan}<byte> utf8Text, {System_IFormatProvider}? provider, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
+            {
+                writer.Line("return TryParse(utf8Text, provider, out result);");
             }
         }
     }
