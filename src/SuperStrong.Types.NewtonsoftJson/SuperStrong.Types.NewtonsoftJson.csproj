@@ -5,7 +5,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\src\SuperStrong.Types\SuperStrong.Types.csproj" />
+    <ProjectReference Include="..\SuperStrong.Types\SuperStrong.Types.csproj" />
   </ItemGroup>
   
 </Project>
