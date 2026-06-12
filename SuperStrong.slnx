@@ -13,16 +13,16 @@
   </Folder>
   <Folder Name="/src/">
     <File Path="src/Directory.Build.props" />
+    <Project Path="src/SuperStrong.Types.CodeAnalysis.Analyzers/SuperStrong.Types.CodeAnalysis.Analyzers.csproj" />
+    <Project Path="src/SuperStrong.Types.CodeAnalysis.CodeActions/SuperStrong.Types.CodeAnalysis.CodeActions.csproj" />
+    <Project Path="src/SuperStrong.Types.CodeAnalysis.Generators/SuperStrong.Types.CodeAnalysis.Generators.csproj" />
     <Project Path="src/SuperStrong.Types.EntityFrameworkCore.Npgsql/SuperStrong.Types.EntityFrameworkCore.Npgsql.csproj" />
     <Project Path="src/SuperStrong.Types.EntityFrameworkCore.SqlServer/SuperStrong.Types.EntityFrameworkCore.SqlServer.csproj" />
     <Project Path="src/SuperStrong.Types.EntityFrameworkCore/SuperStrong.Types.EntityFrameworkCore.csproj" />
-    <Project Path="src/SuperStrong.Types.CodeAnalysis.Analyzers/SuperStrong.Types.CodeAnalysis.Analyzers.csproj" />
-    <Project Path="src/SuperStrong.Types.CodeAnalysis.Generators/SuperStrong.Types.CodeAnalysis.Generators.csproj" />
     <Project Path="src/SuperStrong.Types.HotChocolate/SuperStrong.Types.HotChocolate.csproj" />
-    <Project Path="src/SuperStrong.Types.CodeAnalysis.CodeActions/SuperStrong.Types.CodeAnalysis.CodeActions.csproj" />
+    <Project Path="src/SuperStrong.Types.NewtonsoftJson/SuperStrong.Types.NewtonsoftJson.csproj" Id="e87f9fac-6f30-40e9-a06c-2623fbe7b829" />
     <Project Path="src/SuperStrong.Types.SystemTextJson/SuperStrong.Types.SystemTextJson.csproj" Id="5c3adb2c-bbda-42f1-839c-4799dccba244" />
     <Project Path="src/SuperStrong.Types/SuperStrong.Types.csproj" />
-    <Project Path="src/SuperStrong.Types.NewtonsoftJson/SuperStrong.Types.NewtonsoftJson.csproj" Id="e87f9fac-6f30-40e9-a06c-2623fbe7b829" />
   </Folder>
   <Folder Name="/tests/">
     <File Path="tests/Directory.Build.props" />
