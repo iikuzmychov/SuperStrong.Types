@@ -15,4 +15,27 @@
     <PackageReference Include="xunit.v3.mtp-v2" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <ReferenceCodeAnalysisAssemblies Condition="'$(MSBuildProjectName)' == 'SuperStrong.Types.Tests'">true</ReferenceCodeAnalysisAssemblies>
+    <ReferenceCodeAnalysisAssemblies Condition="'$(ReferenceCodeAnalysisAssemblies)' == ''">false</ReferenceCodeAnalysisAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference
+      Include="..\..\src\SuperStrong.Types.CodeAnalysis.Generators\SuperStrong.Types.CodeAnalysis.Generators.csproj"
+      OutputItemType="Analyzer"
+      ReferenceOutputAssembly="$(ReferenceCodeAnalysisAssemblies)" />
+    
+    <ProjectReference
+      Include="..\..\src\SuperStrong.Types.CodeAnalysis.CodeActions\SuperStrong.Types.CodeAnalysis.CodeActions.csproj"
+      OutputItemType="Analyzer"
+      ReferenceOutputAssembly="$(ReferenceCodeAnalysisAssemblies)" />
+    
+    <ProjectReference
+      Include="..\..\src\SuperStrong.Types.CodeAnalysis.Analyzers\SuperStrong.Types.CodeAnalysis.Analyzers.csproj"
+      OutputItemType="Analyzer"
+      ReferenceOutputAssembly="$(ReferenceCodeAnalysisAssemblies)" />
+    
+  </ItemGroup>
+
 </Project>

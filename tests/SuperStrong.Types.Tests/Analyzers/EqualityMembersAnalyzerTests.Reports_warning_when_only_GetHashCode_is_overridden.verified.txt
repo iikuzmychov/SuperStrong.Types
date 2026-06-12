@@ -1,0 +1,22 @@
+﻿[
+  {
+    Location: /*
+[StrongType<int>]
+public sealed partial class TestStrongType
+                            ^^^^^^^^^^^^^^
+{
+*/
+ Test.cs: (5,28)-(5,42),
+    Message: Override Equals(T) and GetHashCode() together,
+    Severity: Warning,
+    WarningLevel: 1,
+    Descriptor: {
+      Id: SST006,
+      Title: Override Equals and GetHashCode together,
+      MessageFormat: Override Equals(T) and GetHashCode() together,
+      Category: SuperStrong,
+      DefaultSeverity: Warning,
+      IsEnabledByDefault: true
+    }
+  }
+]

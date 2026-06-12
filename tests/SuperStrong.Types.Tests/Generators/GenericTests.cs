@@ -1,3 +1,5 @@
+using SuperStrong.Types.CodeAnalysis.Generators;
+
 namespace SuperStrong.Types.Tests.Generators;
 
 public sealed class GenericTests
@@ -25,7 +27,7 @@ public sealed class GenericTests
             public sealed partial class TestStrongType;
             """;
 
-        var driver = StrongTypeGeneratorDriver.Run(source);
+        var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
         return Verify(driver).UseParameters(primitive);
     }
@@ -49,7 +51,7 @@ public sealed class GenericTests
             }
             """;
 
-        var driver = StrongTypeGeneratorDriver.Run(source);
+        var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
         return Verify(driver).UseParameters(ancestorKeyword.Replace(' ', '_'));
     }
@@ -71,7 +73,7 @@ public sealed class GenericTests
             public sealed partial class TestStrongType;
             """;
 
-        var driver = StrongTypeGeneratorDriver.Run(source);
+        var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
         return Verify(driver);
     }
@@ -91,7 +93,7 @@ public sealed class GenericTests
             }
             """;
 
-        var driver = StrongTypeGeneratorDriver.Run(source);
+        var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
         return Verify(driver);
     }
@@ -115,7 +117,7 @@ public sealed class GenericTests
             }
             """;
 
-        var driver = StrongTypeGeneratorDriver.Run(source);
+        var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
         return Verify(driver);
     }
@@ -139,7 +141,7 @@ public sealed class GenericTests
             }
             """;
 
-        var driver = StrongTypeGeneratorDriver.Run(source);
+        var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
         return Verify(driver);
     }

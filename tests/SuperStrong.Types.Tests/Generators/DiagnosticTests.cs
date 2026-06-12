@@ -1,3 +1,5 @@
+using SuperStrong.Types.CodeAnalysis.Generators;
+
 namespace SuperStrong.Types.Tests.Generators;
 
 public sealed class DiagnosticTests
@@ -20,7 +22,7 @@ public sealed class DiagnosticTests
             public sealed partial class TestStrongType;
             """;
 
-        var driver = StrongTypeGeneratorDriver.Run(source);
+        var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
         return Verify(driver);
     }
@@ -37,13 +39,13 @@ public sealed class DiagnosticTests
             public sealed class TestStrongType;
             """;
 
-        var driver = StrongTypeGeneratorDriver.Run(source);
+        var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
         return Verify(driver);
     }
 
     [Fact]
-    public Task Generates_SST004_when_strong_type_is_a_record()
+    public Task Generates_SST003_when_strong_type_is_a_record()
     {
         var source = """
             using SuperStrong.Types;
@@ -54,13 +56,13 @@ public sealed class DiagnosticTests
             public sealed partial record TestStrongType;
             """;
 
-        var driver = StrongTypeGeneratorDriver.Run(source);
+        var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
         return Verify(driver);
     }
 
     [Fact]
-    public Task Generates_SST005_when_strong_type_has_base_type()
+    public Task Generates_SST004_when_strong_type_has_base_type()
     {
         var source = """
             using SuperStrong.Types;
@@ -73,7 +75,7 @@ public sealed class DiagnosticTests
             public sealed partial class TestStrongType : TestBaseClass;
             """;
 
-        var driver = StrongTypeGeneratorDriver.Run(source);
+        var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
         return Verify(driver);
     }

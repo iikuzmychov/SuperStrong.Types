@@ -5,14 +5,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference
-      Include="..\..\src\SuperStrong.Types.Generators\SuperStrong.Types.Generators.csproj"
-      OutputItemType="Analyzer"
-      ReferenceOutputAssembly="true" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
     <PackageReference Include="Verify.SourceGenerators" />
     <PackageReference Include="Verify.XunitV3" />
   </ItemGroup>

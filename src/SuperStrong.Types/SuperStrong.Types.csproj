@@ -1,10 +1,22 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  
+<Project Sdk="Microsoft.NET.Sdk">
+
   <ItemGroup>
+
     <ProjectReference
-      Include="..\SuperStrong.Types.Generators\SuperStrong.Types.Generators.csproj"
+      Include="..\SuperStrong.Types.CodeAnalysis.Generators\SuperStrong.Types.CodeAnalysis.Generators.csproj"
       OutputItemType="Analyzer"
       ReferenceOutputAssembly="false" />
+    
+    <ProjectReference
+      Include="..\SuperStrong.Types.CodeAnalysis.CodeActions\SuperStrong.Types.CodeAnalysis.CodeActions.csproj"
+      OutputItemType="Analyzer"
+      ReferenceOutputAssembly="false" />
+    
+    <ProjectReference
+      Include="..\SuperStrong.Types.CodeAnalysis.Analyzers\SuperStrong.Types.CodeAnalysis.Analyzers.csproj"
+      OutputItemType="Analyzer"
+      ReferenceOutputAssembly="false" />
+    
   </ItemGroup>
   
 </Project>

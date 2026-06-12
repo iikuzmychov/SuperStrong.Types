@@ -12,11 +12,4 @@
     <ProjectReference Include="..\..\src\SuperStrong.Types.EntityFrameworkCore.SqlServer\SuperStrong.Types.EntityFrameworkCore.SqlServer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference
-      Include="..\..\src\SuperStrong.Types.Generators\SuperStrong.Types.Generators.csproj"
-      OutputItemType="Analyzer"
-      ReferenceOutputAssembly="false" />
-  </ItemGroup>
-
 </Project>

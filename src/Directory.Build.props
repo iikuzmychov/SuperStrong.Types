@@ -4,7 +4,7 @@
   
   <ItemGroup>
     <InternalsVisibleTo Include="SuperStrong.Types.Tests" />
-    <InternalsVisibleTo Include="SuperStrong.Types.Generators.Tests" />
+    <InternalsVisibleTo Include="SuperStrong.Types.CodeAnalysis.Generators.Tests" />
     <InternalsVisibleTo Include="SuperStrong.Types.EntityFrameworkCore.Tests" />
   </ItemGroup>
 
