@@ -21,7 +21,7 @@
     <Project Path="src/SuperStrong.Types.EntityFrameworkCore.SqlServer/SuperStrong.Types.EntityFrameworkCore.SqlServer.csproj" />
     <Project Path="src/SuperStrong.Types.EntityFrameworkCore/SuperStrong.Types.EntityFrameworkCore.csproj" />
     <Project Path="src/SuperStrong.Types.HotChocolate/SuperStrong.Types.HotChocolate.csproj" />
-    <Project Path="src/SuperStrong.Types.NewtonsoftJson/SuperStrong.Types.NewtonsoftJson.csproj" Id="e87f9fac-6f30-40e9-a06c-2623fbe7b829" />
+    <Project Path="src/SuperStrong.Types.Converters.NewtonsoftJson/SuperStrong.Types.Converters.NewtonsoftJson.csproj" Id="e87f9fac-6f30-40e9-a06c-2623fbe7b829" />
     <Project Path="src/SuperStrong.Types/SuperStrong.Types.csproj" />
   </Folder>
   <Folder Name="/tests/">
