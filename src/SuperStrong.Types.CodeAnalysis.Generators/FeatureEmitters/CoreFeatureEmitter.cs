@@ -10,6 +10,8 @@ internal sealed class CoreFeatureEmitter : IStrongTypeFeatureEmitter
     public void Emit(IndentedWriter writer, StrongTypeModel model)
     {
         writer.Line($"[{System_Diagnostics_DebuggerDisplayAttribute}(\"{{_value}}\")]");
+        writer.Line($"[{System_ComponentModel_TypeConverterAttribute}(typeof({SuperStrong_Types_Converters_StrongTypeConverter}<{model.TypeName}, {model.PrimitiveTypeName}>))]");
+        writer.Line($"[{System_Text_Json_Serialization_JsonConverterAttribute}(typeof({SuperStrong_Types_Converters_JsonStrongTypeConverter}<{model.TypeName}, {model.PrimitiveTypeName}>))]");
 
         using (writer.Block($"partial class {model.TypeName} : {SuperStrong_Types_IStrongType}<{model.TypeName}, {model.PrimitiveTypeName}>"))
         {

@@ -7,12 +7,15 @@ internal static class WellKnown
     internal static class Namespaces
     {
         public const string SuperStrong_Types = "SuperStrong.Types";
+        public const string SuperStrong_Types_Converters = "SuperStrong.Types.Converters";
 
         public const string System = "System";
         public const string System_Numerics = "System.Numerics";
         public const string System_CodeDom_Compiler = "System.CodeDom.Compiler";
+        public const string System_ComponentModel = "System.ComponentModel";
         public const string System_Diagnostics = "System.Diagnostics";
         public const string System_Diagnostics_CodeAnalysis = "System.Diagnostics.CodeAnalysis";
+        public const string System_Text_Json_Serialization = "System.Text.Json.Serialization";
     }
 
     internal static class Types
@@ -22,6 +25,8 @@ internal static class WellKnown
         public static readonly TypeName SuperStrong_Types_StrongType = new(Namespaces.SuperStrong_Types, "StrongType");
         public static readonly TypeName SuperStrong_Types_StrongTypeDefinition = new(Namespaces.SuperStrong_Types, "StrongTypeDefinition");
         public static readonly TypeName SuperStrong_Types_IStrongTypeTemplate = new(Namespaces.SuperStrong_Types, "IStrongTypeTemplate");
+        public static readonly TypeName SuperStrong_Types_Converters_StrongTypeConverter = new(Namespaces.SuperStrong_Types_Converters, "StrongTypeConverter");
+        public static readonly TypeName SuperStrong_Types_Converters_JsonStrongTypeConverter = new(Namespaces.SuperStrong_Types_Converters, "JsonStrongTypeConverter");
 
         public static readonly TypeName System_Span = new(Namespaces.System, "Span");
         public static readonly TypeName System_ReadOnlySpan = new(Namespaces.System, "ReadOnlySpan");
@@ -39,7 +44,9 @@ internal static class WellKnown
         public static readonly TypeName System_Type = new(Namespaces.System, "Type");
         public static readonly TypeName System_Numerics_IEqualityOperators = new(Namespaces.System_Numerics, "IEqualityOperators");
         public static readonly TypeName System_CodeDom_Compiler_GeneratedCodeAttribute = new(Namespaces.System_CodeDom_Compiler, "GeneratedCodeAttribute");
+        public static readonly TypeName System_ComponentModel_TypeConverterAttribute = new(Namespaces.System_ComponentModel, "TypeConverterAttribute");
         public static readonly TypeName System_Diagnostics_DebuggerDisplayAttribute = new(Namespaces.System_Diagnostics, "DebuggerDisplayAttribute");
+        public static readonly TypeName System_Text_Json_Serialization_JsonConverterAttribute = new(Namespaces.System_Text_Json_Serialization, "JsonConverterAttribute");
         public static readonly TypeName System_Diagnostics_CodeAnalysis_NotNullWhenAttribute = new (Namespaces.System_Diagnostics_CodeAnalysis, "NotNullWhenAttribute");
         public static readonly TypeName System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute = new(Namespaces.System_Diagnostics_CodeAnalysis, "MaybeNullWhenAttribute");
     }
