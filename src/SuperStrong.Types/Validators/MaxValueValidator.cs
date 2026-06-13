@@ -2,16 +2,23 @@ using System.Numerics;
 
 namespace SuperStrong.Types.Validators;
 
-public sealed class MaxValueValidator<TPrimitive>(TPrimitive maxValue) : StrongTypeValidator<TPrimitive>
+public sealed class MaxValueValidator<TPrimitive>(TPrimitive maxValue, bool isExclusive = false) : StrongTypeValidator<TPrimitive>
     where TPrimitive : IComparisonOperators<TPrimitive, TPrimitive, bool>
 {
     public TPrimitive MaxValue { get; } = maxValue ?? throw new ArgumentNullException(nameof(maxValue));
+    public bool IsExclusive { get; } = isExclusive;
 
     protected override Exception? GetValidationException(TPrimitive value)
     {
-        if (value > MaxValue)
+        var isAboveBound = IsExclusive
+            ? value >= MaxValue
+            : value > MaxValue;
+
+        if (isAboveBound)
         {
-            return new ArgumentOutOfRangeException(nameof(value));
+            var boundDescription = IsExclusive ? "less than" : "less than or equal to";
+
+            return new ArgumentOutOfRangeException($"Value must be {boundDescription} {MaxValue}.");
         }
 
         return null;

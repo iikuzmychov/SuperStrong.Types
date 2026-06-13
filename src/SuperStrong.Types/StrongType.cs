@@ -31,7 +31,6 @@ public static class StrongType
         ArgumentNullException.ThrowIfNull(value);
         ArgumentNullException.ThrowIfNull(definition);
 
-        // todo: maybe return AggregateException with all validation errors instead of throwing on the first failure?
         foreach (var validator in definition.Validators)
         {
             validator.EnsureValid(value);

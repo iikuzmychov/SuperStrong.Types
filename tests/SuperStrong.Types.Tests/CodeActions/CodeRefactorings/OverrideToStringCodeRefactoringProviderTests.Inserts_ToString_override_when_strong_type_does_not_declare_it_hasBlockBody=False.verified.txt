@@ -1,9 +1,0 @@
-﻿using SuperStrong.Types;
-
-namespace Sample;
-
-[StrongType<int>]
-public sealed partial class TestStrongType
-{
-    public override string ToString() => _value.ToString();
-}
