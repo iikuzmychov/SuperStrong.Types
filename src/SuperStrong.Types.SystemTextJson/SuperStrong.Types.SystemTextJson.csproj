@@ -1,7 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  
-  <ItemGroup>
-    <ProjectReference Include="..\SuperStrong.Types\SuperStrong.Types.csproj" />
-  </ItemGroup>
-  
-</Project>

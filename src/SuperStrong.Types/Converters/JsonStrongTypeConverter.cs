@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace SuperStrong.Types.SystemTextJson;
+namespace SuperStrong.Types.Converters;
 
 public sealed class JsonStrongTypeConverter : JsonConverterFactory
 {
