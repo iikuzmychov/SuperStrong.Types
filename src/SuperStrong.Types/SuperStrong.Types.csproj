@@ -1,16 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-
+    
     <ProjectReference
       Include="..\SuperStrong.Types.CodeAnalysis.Generators\SuperStrong.Types.CodeAnalysis.Generators.csproj"
       OutputItemType="Analyzer"
-      ReferenceOutputAssembly="false" />
+      ReferenceOutputAssembly="false" />    
     
     <ProjectReference
       Include="..\SuperStrong.Types.CodeAnalysis.CodeActions\SuperStrong.Types.CodeAnalysis.CodeActions.csproj"
       OutputItemType="Analyzer"
-      ReferenceOutputAssembly="false" />
+      ReferenceOutputAssembly="false" />  
     
     <ProjectReference
       Include="..\SuperStrong.Types.CodeAnalysis.Analyzers\SuperStrong.Types.CodeAnalysis.Analyzers.csproj"
@@ -18,5 +18,22 @@
       ReferenceOutputAssembly="false" />
     
   </ItemGroup>
-  
+
+  <!-- Bundle the referenced CodeAnalysis assemblies into this package under analyzers/dotnet/cs -->
+  <PropertyGroup>
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_IncludeAnalyzersInPackage</TargetsForTfmSpecificContentInPackage>
+  </PropertyGroup>
+
+  <Target Name="_IncludeAnalyzersInPackage">
+    
+    <MSBuild Projects="@(ProjectReference)" Targets="GetTargetPath" Condition="'%(ProjectReference.OutputItemType)' == 'Analyzer'">
+      <Output TaskParameter="TargetOutputs" ItemName="_BundledAnalyzer" />
+    </MSBuild>
+
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="@(_BundledAnalyzer)" PackagePath="analyzers/dotnet/cs/%(Filename)%(Extension)" />
+    </ItemGroup>
+    
+  </Target>
+
 </Project>

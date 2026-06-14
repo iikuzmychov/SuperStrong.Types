@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 using SuperStrong.Types.Reflection;
 using System.Collections.Concurrent;
 
-namespace SuperStrong.Types.Converters.NewtonsoftJson;
+namespace SuperStrong.Types.NewtonsoftJson;
 
 public sealed class JsonStrongTypeConverter : JsonConverter
 {

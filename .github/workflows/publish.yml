@@ -1,0 +1,29 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+
+      - name: Build solution
+        run: dotnet build SuperStrong.slnx --configuration Release
+
+      - name: Run tests
+        run: dotnet test SuperStrong.slnx --configuration Release --no-build
+
+      - name: Pack
+        run: dotnet pack SuperStrong.slnx --configuration Release --no-build --output ${{ github.workspace }}/artifacts
+
+      - name: Push to NuGet
+        run: dotnet nuget push "${{ github.workspace }}/artifacts/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate

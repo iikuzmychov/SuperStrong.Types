@@ -1,11 +1,15 @@
 <Project>
 
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
-  
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
   <ItemGroup>
     <InternalsVisibleTo Include="SuperStrong.Types.Tests" />
     <InternalsVisibleTo Include="SuperStrong.Types.CodeAnalysis.Generators.Tests" />
     <InternalsVisibleTo Include="SuperStrong.Types.EntityFrameworkCore.Tests" />
   </ItemGroup>
-
+  
 </Project>
