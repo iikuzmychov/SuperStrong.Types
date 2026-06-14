@@ -1,0 +1,12 @@
+﻿using SuperStrong.Types;
+
+namespace Sample;
+
+public partial class Container
+{
+    [StrongType<int>]
+    public sealed partial class Inner
+    {
+        public override string ToString() => _value.ToString();
+    }
+}

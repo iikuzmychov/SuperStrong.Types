@@ -13,7 +13,6 @@
   </Folder>
   <Folder Name="/src/">
     <File Path="src/Directory.Build.props" />
-    <File Path="src/SuperStrong.Types.SystemTextJson/JsonStrongTypeConverter.cs" />
     <Project Path="src/SuperStrong.Types.CodeAnalysis.Analyzers/SuperStrong.Types.CodeAnalysis.Analyzers.csproj" />
     <Project Path="src/SuperStrong.Types.CodeAnalysis.CodeActions/SuperStrong.Types.CodeAnalysis.CodeActions.csproj" />
     <Project Path="src/SuperStrong.Types.CodeAnalysis.Generators/SuperStrong.Types.CodeAnalysis.Generators.csproj" />
