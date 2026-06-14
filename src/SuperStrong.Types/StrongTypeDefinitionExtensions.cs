@@ -9,154 +9,154 @@ namespace SuperStrong.Types;
 public static class StrongTypeDefinitionExtensions
 {
     public static StrongTypeDefinition<TPrimitive> Satisfies<TPrimitive>(
-        this StrongTypeDefinition<TPrimitive> builder,
+        this StrongTypeDefinition<TPrimitive> definition,
         Func<TPrimitive, bool> predicate)
         where TPrimitive : notnull
     {
-        return builder.WithValidator(new PredicateValidator<TPrimitive>(predicate));
+        return definition.WithValidator(new PredicateValidator<TPrimitive>(predicate));
     }
 
     public static StrongTypeDefinition<TPrimitive> IsOneOf<TPrimitive>(
-        this StrongTypeDefinition<TPrimitive> builder,
+        this StrongTypeDefinition<TPrimitive> definition,
         params ImmutableArray<TPrimitive> allowedValues)
         where TPrimitive : notnull
     {
-        return builder.WithValidator(new AllowedValuesValidator<TPrimitive>(allowedValues.ToImmutableHashSet()));
+        return definition.WithValidator(new AllowedValuesValidator<TPrimitive>(allowedValues.ToImmutableHashSet()));
     }
 
     public static StrongTypeDefinition<TPrimitive> IsOneOf<TPrimitive>(
-        this StrongTypeDefinition<TPrimitive> builder,
+        this StrongTypeDefinition<TPrimitive> definition,
         ImmutableArray<TPrimitive> allowedValues,
         IEqualityComparer<TPrimitive> comparer)
         where TPrimitive : notnull
     {
-        return builder.WithValidator(new AllowedValuesValidator<TPrimitive>(allowedValues.ToImmutableHashSet(comparer)));
+        return definition.WithValidator(new AllowedValuesValidator<TPrimitive>(allowedValues.ToImmutableHashSet(comparer)));
     }
 
     public static StrongTypeDefinition<TPrimitive> IsNotOneOf<TPrimitive>(
-        this StrongTypeDefinition<TPrimitive> builder,
+        this StrongTypeDefinition<TPrimitive> definition,
         params ImmutableArray<TPrimitive> forbiddenValues)
         where TPrimitive : notnull
     {
-        return builder.WithValidator(new ForbiddenValuesValidator<TPrimitive>(forbiddenValues.ToImmutableHashSet()));
+        return definition.WithValidator(new ForbiddenValuesValidator<TPrimitive>(forbiddenValues.ToImmutableHashSet()));
     }
 
     public static StrongTypeDefinition<TPrimitive> IsNotOneOf<TPrimitive>(
-        this StrongTypeDefinition<TPrimitive> builder,
+        this StrongTypeDefinition<TPrimitive> definition,
         ImmutableArray<TPrimitive> forbiddenValues,
         IEqualityComparer<TPrimitive> comparer)
         where TPrimitive : notnull
     {
-        return builder.WithValidator(new ForbiddenValuesValidator<TPrimitive>(forbiddenValues.ToImmutableHashSet(comparer)));
+        return definition.WithValidator(new ForbiddenValuesValidator<TPrimitive>(forbiddenValues.ToImmutableHashSet(comparer)));
     }
 
     public static StrongTypeDefinition<TPrimitive> IsNot<TPrimitive>(
-        this StrongTypeDefinition<TPrimitive> builder,
+        this StrongTypeDefinition<TPrimitive> definition,
         TPrimitive value)
         where TPrimitive : notnull
     {
-        return builder.IsNotOneOf(value);
+        return definition.IsNotOneOf(value);
     }
 
     public static StrongTypeDefinition<TPrimitive> HasMaxValue<TPrimitive>(
-        this StrongTypeDefinition<TPrimitive> builder,
+        this StrongTypeDefinition<TPrimitive> definition,
         TPrimitive maxValue,
         bool isExclusive = false)
         where TPrimitive : IComparisonOperators<TPrimitive, TPrimitive, bool>
     {
-        return builder.WithValidator(new MaxValueValidator<TPrimitive>(maxValue, isExclusive));
+        return definition.WithValidator(new MaxValueValidator<TPrimitive>(maxValue, isExclusive));
     }
 
     public static StrongTypeDefinition<TPrimitive> HasMinValue<TPrimitive>(
-        this StrongTypeDefinition<TPrimitive> builder,
+        this StrongTypeDefinition<TPrimitive> definition,
         TPrimitive minValue,
         bool isExclusive = false)
         where TPrimitive : IComparisonOperators<TPrimitive, TPrimitive, bool>
     {
-        return builder.WithValidator(new MinValueValidator<TPrimitive>(minValue, isExclusive));
+        return definition.WithValidator(new MinValueValidator<TPrimitive>(minValue, isExclusive));
     }
 
     public static StrongTypeDefinition<TPrimitive> IsPositive<TPrimitive>(
-        this StrongTypeDefinition<TPrimitive> builder)
+        this StrongTypeDefinition<TPrimitive> definition)
         where TPrimitive : INumberBase<TPrimitive>, IComparisonOperators<TPrimitive, TPrimitive, bool>
     {
-        return builder.HasMinValue(TPrimitive.Zero, isExclusive: true);
+        return definition.HasMinValue(TPrimitive.Zero, isExclusive: true);
     }
 
     public static StrongTypeDefinition<TPrimitive> IsNegative<TPrimitive>(
-        this StrongTypeDefinition<TPrimitive> builder)
+        this StrongTypeDefinition<TPrimitive> definition)
         where TPrimitive : INumberBase<TPrimitive>, IComparisonOperators<TPrimitive, TPrimitive, bool>
     {
-        return builder.HasMaxValue(TPrimitive.Zero, isExclusive: true);
+        return definition.HasMaxValue(TPrimitive.Zero, isExclusive: true);
     }
 
     public static StrongTypeDefinition<TPrimitive> IsPositiveOrZero<TPrimitive>(
-        this StrongTypeDefinition<TPrimitive> builder)
+        this StrongTypeDefinition<TPrimitive> definition)
         where TPrimitive : INumberBase<TPrimitive>, IComparisonOperators<TPrimitive, TPrimitive, bool>
     {
-        return builder.HasMinValue(TPrimitive.Zero);
+        return definition.HasMinValue(TPrimitive.Zero);
     }
 
     public static StrongTypeDefinition<TPrimitive> IsNegativeOrZero<TPrimitive>(
-        this StrongTypeDefinition<TPrimitive> builder)
+        this StrongTypeDefinition<TPrimitive> definition)
         where TPrimitive : INumberBase<TPrimitive>, IComparisonOperators<TPrimitive, TPrimitive, bool>
     {
-        return builder.HasMaxValue(TPrimitive.Zero);
+        return definition.HasMaxValue(TPrimitive.Zero);
     }
 
     public static StrongTypeDefinition<string> HasMaxLength(
-        this StrongTypeDefinition<string> builder,
+        this StrongTypeDefinition<string> definition,
         int maxLength)
     {
-        return builder.WithValidator(new MaxLengthValidator(maxLength));
+        return definition.WithValidator(new MaxLengthValidator(maxLength));
     }
 
     public static StrongTypeDefinition<string> HasMinLength(
-        this StrongTypeDefinition<string> builder,
+        this StrongTypeDefinition<string> definition,
         int minLength)
     {
-        return builder.WithValidator(new MinLengthValidator(minLength));
+        return definition.WithValidator(new MinLengthValidator(minLength));
     }
 
     public static StrongTypeDefinition<string> HasLength(
-        this StrongTypeDefinition<string> builder,
+        this StrongTypeDefinition<string> definition,
         int length)
     {
-        return builder.HasMinLength(length).HasMaxLength(length);
+        return definition.HasMinLength(length).HasMaxLength(length);
     }
 
-    public static StrongTypeDefinition<string> IsNotEmpty(this StrongTypeDefinition<string> builder)
+    public static StrongTypeDefinition<string> IsNotEmpty(this StrongTypeDefinition<string> definition)
     {
-        return builder.HasMinLength(1);
+        return definition.HasMinLength(1);
     }
 
-    public static StrongTypeDefinition<string> IsNotWhiteSpace(this StrongTypeDefinition<string> builder)
+    public static StrongTypeDefinition<string> IsNotWhiteSpace(this StrongTypeDefinition<string> definition)
     {
-        return builder.WithValidator(new NotWhiteSpaceValidator());
+        return definition.WithValidator(new NotWhiteSpaceValidator());
     }
 
     public static StrongTypeDefinition<string> MatchesRegex(
-        this StrongTypeDefinition<string> builder,
+        this StrongTypeDefinition<string> definition,
         [StringSyntax(StringSyntaxAttribute.Regex)] string pattern,
         RegexOptions options = RegexOptions.None)
     {
-        return builder.WithValidator(new RegexValidator(new Regex(pattern, options)));
+        return definition.WithValidator(new RegexValidator(new Regex(pattern, options)));
     }
 
     public static StrongTypeDefinition<string> MatchesRegex(
-        this StrongTypeDefinition<string> builder,
+        this StrongTypeDefinition<string> definition,
         Regex regex)
     {
-        return builder.WithValidator(new RegexValidator(regex));
+        return definition.WithValidator(new RegexValidator(regex));
     }
 
-    public static StrongTypeDefinition<string> IsLowerInvariant(this StrongTypeDefinition<string> builder)
+    public static StrongTypeDefinition<string> IsLowerInvariant(this StrongTypeDefinition<string> definition)
     {
-        return builder.WithValidator(new LowerInvariantValidator());
+        return definition.WithValidator(new LowerInvariantValidator());
     }
 
-    public static StrongTypeDefinition<string> IsUpperInvariant(this StrongTypeDefinition<string> builder)
+    public static StrongTypeDefinition<string> IsUpperInvariant(this StrongTypeDefinition<string> definition)
     {
-        return builder.WithValidator(new UpperInvariantValidator());
+        return definition.WithValidator(new UpperInvariantValidator());
     }
 }
