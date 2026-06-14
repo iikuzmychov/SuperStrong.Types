@@ -334,6 +334,77 @@ namespace Sample
         }
     }
 
+    partial class TestStrongType : global::System.Numerics.IComparisonOperators<TestStrongType, TestStrongType, bool>
+    {
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
+        public static bool operator <(TestStrongType left, TestStrongType right)
+        {
+            global::System.ArgumentNullException.ThrowIfNull(left);
+            global::System.ArgumentNullException.ThrowIfNull(right);
+
+            return InvokeLessThan<decimal>(left._value, right._value);
+
+            static bool InvokeLessThan<T>(T left, T right) where T : global::System.Numerics.IComparisonOperators<T, T, bool>
+            {
+                return left < right;
+            }
+        }
+
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
+        static bool global::System.Numerics.IComparisonOperators<TestStrongType, TestStrongType, bool>.operator <(TestStrongType left, TestStrongType right) => left < right;
+
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
+        public static bool operator <=(TestStrongType left, TestStrongType right)
+        {
+            global::System.ArgumentNullException.ThrowIfNull(left);
+            global::System.ArgumentNullException.ThrowIfNull(right);
+
+            return InvokeLessThanOrEqual<decimal>(left._value, right._value);
+
+            static bool InvokeLessThanOrEqual<T>(T left, T right) where T : global::System.Numerics.IComparisonOperators<T, T, bool>
+            {
+                return left <= right;
+            }
+        }
+
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
+        static bool global::System.Numerics.IComparisonOperators<TestStrongType, TestStrongType, bool>.operator <=(TestStrongType left, TestStrongType right) => left <= right;
+
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
+        public static bool operator >(TestStrongType left, TestStrongType right)
+        {
+            global::System.ArgumentNullException.ThrowIfNull(left);
+            global::System.ArgumentNullException.ThrowIfNull(right);
+
+            return InvokeGreaterThan<decimal>(left._value, right._value);
+
+            static bool InvokeGreaterThan<T>(T left, T right) where T : global::System.Numerics.IComparisonOperators<T, T, bool>
+            {
+                return left > right;
+            }
+        }
+
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
+        static bool global::System.Numerics.IComparisonOperators<TestStrongType, TestStrongType, bool>.operator >(TestStrongType left, TestStrongType right) => left > right;
+
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
+        public static bool operator >=(TestStrongType left, TestStrongType right)
+        {
+            global::System.ArgumentNullException.ThrowIfNull(left);
+            global::System.ArgumentNullException.ThrowIfNull(right);
+
+            return InvokeGreaterThanOrEqual<decimal>(left._value, right._value);
+
+            static bool InvokeGreaterThanOrEqual<T>(T left, T right) where T : global::System.Numerics.IComparisonOperators<T, T, bool>
+            {
+                return left >= right;
+            }
+        }
+
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
+        static bool global::System.Numerics.IComparisonOperators<TestStrongType, TestStrongType, bool>.operator >=(TestStrongType left, TestStrongType right) => left >= right;
+    }
+
     partial class TestStrongType : global::System.IConvertible
     {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]

@@ -17,6 +17,7 @@ internal static class FeatureRegistry
         new SpanFormattableFeatureEmitter(),
         new Utf8SpanFormattableFeatureEmitter(),
         new ComparableFeatureEmitter(),
+        new ComparisonOperatorsFeatureEmitter(),
         new ConvertibleFeatureEmitter(),
     ]);
 

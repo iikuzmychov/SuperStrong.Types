@@ -43,6 +43,7 @@ internal static class WellKnown
         public static readonly TypeName System_TypeCode = new(Namespaces.System, "TypeCode");
         public static readonly TypeName System_Type = new(Namespaces.System, "Type");
         public static readonly TypeName System_Numerics_IEqualityOperators = new(Namespaces.System_Numerics, "IEqualityOperators");
+        public static readonly TypeName System_Numerics_IComparisonOperators = new(Namespaces.System_Numerics, "IComparisonOperators");
         public static readonly TypeName System_CodeDom_Compiler_GeneratedCodeAttribute = new(Namespaces.System_CodeDom_Compiler, "GeneratedCodeAttribute");
         public static readonly TypeName System_ComponentModel_TypeConverterAttribute = new(Namespaces.System_ComponentModel, "TypeConverterAttribute");
         public static readonly TypeName System_Diagnostics_DebuggerDisplayAttribute = new(Namespaces.System_Diagnostics, "DebuggerDisplayAttribute");
