@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 namespace SuperStrong.Types.HotChocolate.Adapters;
 
 public abstract class StrongTypeValidatorAdapter<TValidator, TPrimitive, TDirective>
-    : IStrongTypeValidatorDirectiveAdapter<TValidator, TPrimitive, TDirective>
+    : IStrongTypeValidatorDirectiveAdapter<TValidator, TPrimitive, TDirective>, IStrongTypeValidatorAdapter
     where TValidator : StrongTypeValidator<TPrimitive>
     where TPrimitive : notnull
 {
@@ -21,4 +21,13 @@ public abstract class StrongTypeValidatorAdapter<TValidator, TPrimitive, TDirect
     }
 
     protected abstract ImmutableArray<TDirective> CreateDirectivesCore(IReadOnlyList<TValidator> validators);
+
+    ImmutableArray<object> IStrongTypeValidatorAdapter.CreateDirectives(IReadOnlyList<object> validators)
+    {
+        ArgumentNullException.ThrowIfNull(validators);
+
+        var directives = CreateDirectives(validators.Cast<TValidator>().ToList());
+
+        return directives.Select(directive => (object)directive!).ToImmutableArray();
+    }
 }

@@ -7,6 +7,7 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <PackageVersion Include="HotChocolate" Version="[16.0.0,17.0.0)" />
     <PackageVersion Include="HotChocolate.Types" Version="[16.0.0,17.0.0)" />
     <PackageVersion Include="Meziantou.Polyfill" Version="1.0.140" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="5.3.0" />

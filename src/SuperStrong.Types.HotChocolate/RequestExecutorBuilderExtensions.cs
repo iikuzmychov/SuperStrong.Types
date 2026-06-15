@@ -23,8 +23,7 @@ public static class RequestExecutorBuilderExtensions
             builder.AddDirectiveType(directiveType);
         }
 
-        builder.Services.AddSingleton(options);
-        builder.TryAddTypeInterceptor<StrongTypeScalarInterceptor>();
+        builder.TryAddTypeInterceptor(new StrongTypeScalarInterceptor(options));
 
         return builder;
     }

@@ -1,4 +1,5 @@
 using HotChocolate.Types;
+using SuperStrong.Types.HotChocolate.Adapters;
 using SuperStrong.Types.HotChocolate.Internal;
 using SuperStrong.Types.Validators;
 
@@ -19,6 +20,13 @@ public sealed class StrongTypeHotChocolateOptionsBuilder
         where TPrimitive : notnull
     {
         _options.RegisterAdapter(adapter);
+
+        return this;
+    }
+
+    public StrongTypeHotChocolateOptionsBuilder AddValidatorAdapterFactory(StrongTypeValidatorAdapterFactory factory)
+    {
+        _options.RegisterAdapterFactory(factory);
 
         return this;
     }

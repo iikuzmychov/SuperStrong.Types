@@ -10,6 +10,7 @@
     <InternalsVisibleTo Include="SuperStrong.Types.Tests" />
     <InternalsVisibleTo Include="SuperStrong.Types.CodeAnalysis.Generators.Tests" />
     <InternalsVisibleTo Include="SuperStrong.Types.EntityFrameworkCore.Tests" />
+    <InternalsVisibleTo Include="SuperStrong.Types.HotChocolate.Tests" />
   </ItemGroup>
   
 </Project>
