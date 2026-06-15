@@ -20,14 +20,26 @@ jobs:
         with:
           global-json-file: global.json
 
+      - name: Resolve last published version
+        id: version
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          response=$(curl -s "https://api.nuget.org/v3-flatcontainer/superstrong.types/index.json")
+          last=$(printf '%s' "$response" | jq -r '.versions[-1] // empty' 2>/dev/null || true)
+
+          echo "last=$last" >> "$GITHUB_OUTPUT"
+          echo "Last published version: ${last:-<none>}"
+
       - name: Build solution
-        run: dotnet build SuperStrong.slnx --configuration Release
+        run: dotnet build SuperStrong.slnx --configuration Release -p:LastPublishedVersion=${{ steps.version.outputs.last }}
 
       - name: Run tests
         run: dotnet test SuperStrong.slnx --configuration Release --no-build
 
       - name: Pack
-        run: dotnet pack SuperStrong.slnx --configuration Release --no-build --output ${{ github.workspace }}/artifacts
+        run: dotnet pack SuperStrong.slnx --configuration Release --no-build --output ${{ github.workspace }}/artifacts -p:LastPublishedVersion=${{ steps.version.outputs.last }}
 
       - name: NuGet login
         uses: NuGet/login@v1
