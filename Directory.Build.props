@@ -72,7 +72,7 @@
   <PropertyGroup>    
     <VersionPatch Condition="'$(VersionPatch)' == ''">0</VersionPatch>
     <VersionPrefix>$(VersionMajor).$(VersionMinor).$(VersionPatch)</VersionPrefix>
-    <VersionSuffixVersion Condition="'$(VersionSuffixVersion)' == ''">0</VersionSuffixVersion>
+    <VersionSuffixVersion Condition="'$(VersionSuffixVersion)' == ''">1</VersionSuffixVersion>
     <VersionSuffix Condition="'$(VersionSuffixName)' != ''">$(VersionSuffixName).$(VersionSuffixVersion)</VersionSuffix>    
   </PropertyGroup>
 
