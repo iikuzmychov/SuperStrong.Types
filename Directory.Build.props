@@ -29,8 +29,8 @@
   <!-- Package metadata -->
   <PropertyGroup>
     <Authors>Ihor Kuzmychov (iikuzmychov)</Authors>
-    <Description>An easy way to create strong types with a single source of truth.</Description>
-    <PackageTags>strong-types;strongly-typed;value-objects;code-generators;source-generators;ddd</PackageTags>
+    <Description>Strong types for .NET. Define once, use everywhere.</Description>
+    <PackageTags>strong-types;strongly-typed;strongly-typed-id;typed-id;value-objects;value-object;primitive-obsession;wrapper-types;code-generators;source-generators;ddd;domain-driven-design;validation;vogen;stronglytypedid</PackageTags>
     <PackageProjectUrl>https://github.com/iiKuzmychov/SuperStrong</PackageProjectUrl>
     <RepositoryUrl>https://github.com/iiKuzmychov/SuperStrong</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
