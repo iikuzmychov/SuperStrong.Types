@@ -23,6 +23,7 @@ public static class RequestExecutorBuilderExtensions
             builder.AddDirectiveType(directiveType);
         }
 
+        builder.AddTypeDiscoveryHandler(context => new StrongTypeDiscoveryHandler(context.TypeInspector));
         builder.TryAddTypeInterceptor(new StrongTypeScalarInterceptor(options));
 
         return builder;

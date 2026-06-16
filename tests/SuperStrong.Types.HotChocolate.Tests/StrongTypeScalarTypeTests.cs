@@ -3,7 +3,6 @@ using HotChocolate.Language;
 using HotChocolate.Transport.Formatters;
 using HotChocolate.Types;
 using Microsoft.Extensions.DependencyInjection;
-using SuperStrong.Types.HotChocolate.Internal;
 using System.Buffers;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -112,6 +111,19 @@ public sealed class StrongTypeScalarTypeTests
     }
 
     [Fact]
+    public async Task Strong_type_reachable_only_through_an_input_object_is_a_scalar_not_an_object()
+    {
+        var executor = await BuildExecutorAsync();
+
+        var schema = executor.Schema.ToString();
+
+        Assert.Contains("input AddressInput", schema);
+        Assert.Contains("scalar City", schema);
+        Assert.DoesNotContain("type City", schema);
+        Assert.DoesNotContain("input City", schema);
+    }
+
+    [Fact]
     public async Task Input_variable_is_coerced_into_the_strong_type()
     {
         var executor = await BuildExecutorAsync();
@@ -133,14 +145,6 @@ public sealed class StrongTypeScalarTypeTests
         return await new ServiceCollection()
             .AddGraphQL()
             .AddQueryType<Query>()
-            .AddType(new StrongTypeScalarType<Username, string>())
-            .AddType(new StrongTypeScalarType<Slug, string>())
-            .AddType(new StrongTypeScalarType<Handle, string>())
-            .AddType(new StrongTypeScalarType<Code, string>())
-            .AddType(new StrongTypeScalarType<Quantity, int>())
-            .AddType(new StrongTypeScalarType<Currency, string>())
-            .AddType(new StrongTypeScalarType<Reserved, string>())
-            .AddType(new StrongTypeScalarType<Rating, int>())
             .AddStrongTypes()
             .BuildRequestExecutorAsync(cancellationToken: TestContext.Current.CancellationToken);
     }
@@ -204,6 +208,17 @@ public sealed partial class Rating
     public static StrongTypeDefinition<int> Definition { get; } = StrongType.Define<int>().IsOneOf(1, 2, 3);
 }
 
+[StrongType<string>]
+public sealed partial class City
+{
+    public static StrongTypeDefinition<string> Definition { get; } = StrongType.Define<string>();
+}
+
+public sealed class AddressInput
+{
+    public City City { get; set; } = null!;
+}
+
 public sealed class Query
 {
     public Username Echo(Username input)
@@ -249,5 +264,10 @@ public sealed class Query
     public Rating Rating(Rating input)
     {
         return input;
+    }
+
+    public string Describe(AddressInput input)
+    {
+        return input.City.AsPrimitive();
     }
 }
