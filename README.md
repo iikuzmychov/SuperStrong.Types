@@ -37,23 +37,23 @@ You can easily integrate it with:
 
 ## Why use this library?
 
-Fighting [primitive obsession](https://iikuzmychov.github.io/SuperStrong/other/primitive-obsession.md) usually requires a lot of boilerplate.
+Fighting [primitive obsession](https://iikuzmychov.github.io/SuperStrong/other/primitive-obsession) usually requires a lot of boilerplate.
 
 SuperStrong.Types generates that boilerplate for you, so you can focus on modelling your domain instead of writing repetitive code.
 
 ## What's next?
 
-- Find out more in [Getting Started](https://iikuzmychov.github.io/SuperStrong/introduction/getting-started.md)
-- Learn about strong type [validation](https://iikuzmychov.github.io/SuperStrong/introduction/validation.md) and [customization](https://iikuzmychov.github.io/SuperStrong/introduction/customization.md)
-- Take a look at the available [integrations](https://iikuzmychov.github.io/SuperStrong/integrations/ef-core.md)
-- Compare SuperStrong.Types with [alternatives](https://iikuzmychov.github.io/SuperStrong/alternatives/strongly-typed-id.md)
+- Find out more in [Getting Started](https://iikuzmychov.github.io/SuperStrong/introduction/getting-started)
+- Learn about strong type [validation](https://iikuzmychov.github.io/SuperStrong/introduction/validation) and [customization](https://iikuzmychov.github.io/SuperStrong/introduction/customization)
+- Take a look at the available [integrations](https://iikuzmychov.github.io/SuperStrong/integrations/ef-core)
+- Compare SuperStrong.Types with [alternatives](https://iikuzmychov.github.io/SuperStrong/alternatives/strongly-typed-id)
 - Do 10 push-ups, 10 pull-ups, and 10 squats
 
 ## Acknowledgements
 
 SuperStrong.Types is inspired by two excellent libraries:
 
-* [StronglyTypedId](https://github.com/andrewlock/StronglyTypedId) by Andrew Lock
-* [Vogen](https://github.com/SteveDunn/Vogen) by Steve Dunn
+- [StronglyTypedId](https://github.com/andrewlock/StronglyTypedId) by Andrew Lock
+- [Vogen](https://github.com/SteveDunn/Vogen) by Steve Dunn
 
 Thanks to both authors for the ideas and groundwork.

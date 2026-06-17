@@ -47,7 +47,7 @@ SuperStrong.Types generates that boilerplate for you, so you can focus on modell
 
 SuperStrong.Types is inspired by two excellent libraries:
 
-* [StronglyTypedId](https://github.com/andrewlock/StronglyTypedId) by Andrew Lock
-* [Vogen](https://github.com/SteveDunn/Vogen) by Steve Dunn
+- [StronglyTypedId](https://github.com/andrewlock/StronglyTypedId) by Andrew Lock
+- [Vogen](https://github.com/SteveDunn/Vogen) by Steve Dunn
 
 Thanks to both authors for the ideas and groundwork.
