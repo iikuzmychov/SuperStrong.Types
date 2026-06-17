@@ -32,7 +32,7 @@ publish/
 ._*
 
 # Custom folder icons
-Icon
+Icon
 
 # Volume root files
 .DocumentRevisions-V100
@@ -125,3 +125,8 @@ x86/
 
 # Verify received files
 *.received.*
+
+### Node / docs (VitePress)
+node_modules/
+docs/.vitepress/cache/
+docs/.vitepress/dist/

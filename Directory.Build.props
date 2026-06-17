@@ -29,8 +29,8 @@
   <!-- Package metadata -->
   <PropertyGroup>
     <Authors>Ihor Kuzmychov (iikuzmychov)</Authors>
-    <Description>Strong types for .NET. Define once, use everywhere.</Description>
-    <PackageTags>strong-types;strongly-typed;strongly-typed-id;typed-id;value-objects;value-object;primitive-obsession;wrapper-types;code-generators;source-generators;ddd;domain-driven-design;validation;vogen;stronglytypedid</PackageTags>
+    <Description>Stong types for .NET — define once, use everywhere!</Description>
+    <PackageTags>super-strong;strong-types;strongly-typed;strongly-typed-id;typed-id;value-objects;value-object;primitive-obsession;code-generators;source-generators;ddd;domain-driven-design</PackageTags>
     <PackageProjectUrl>https://github.com/iiKuzmychov/SuperStrong</PackageProjectUrl>
     <RepositoryUrl>https://github.com/iiKuzmychov/SuperStrong</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

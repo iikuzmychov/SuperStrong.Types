@@ -1,0 +1,5 @@
+/* Always reserve space for the vertical scrollbar so the layout doesn't shift
+   horizontally between short (no scrollbar) and long (scrollbar) pages. */
+html {
+  scrollbar-gutter: stable;
+}
