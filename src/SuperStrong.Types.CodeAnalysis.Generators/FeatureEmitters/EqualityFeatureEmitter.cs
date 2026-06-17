@@ -54,7 +54,7 @@ internal sealed class EqualityFeatureEmitter : IStrongTypeFeatureEmitter
             }
 
             writer.Line();
-            writer.MemberLine($"public override bool Equals(object? obj) => obj is {model.TypeName} other && Equals(other);");
+            writer.MemberLine($"public sealed override bool Equals(object? obj) => obj is {model.TypeName} other && Equals(other);");
 
             if (!model.UserOverridesGetHashCode)
             {

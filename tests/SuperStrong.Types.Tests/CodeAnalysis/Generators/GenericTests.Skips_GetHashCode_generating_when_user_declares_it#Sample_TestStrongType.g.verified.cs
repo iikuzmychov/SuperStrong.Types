@@ -108,7 +108,7 @@ namespace Sample
         }
 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
-        public override bool Equals(object? obj) => obj is TestStrongType other && Equals(other);
+        public sealed override bool Equals(object? obj) => obj is TestStrongType other && Equals(other);
     }
 
     partial class TestStrongType
