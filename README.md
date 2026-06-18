@@ -1,5 +1,5 @@
 [![NuGet](https://img.shields.io/nuget/v/SuperStrong.Types)](https://www.nuget.org/packages/SuperStrong.Types/)
-[![Docs](https://img.shields.io/badge/docs-online-blue)](https://iikuzmychov.github.io/SuperStrong/)
+[![Docs](https://img.shields.io/badge/docs-online-blue)](https://superstrong.dev/)
 
 # SuperStrong.Types
 
@@ -38,16 +38,16 @@ You can easily integrate it with:
 
 ## Why use this library?
 
-Fighting [primitive obsession](https://iikuzmychov.github.io/SuperStrong/preface/primitive-obsession) usually requires a lot of boilerplate.
+Fighting [primitive obsession](https://superstrong.dev/preface/primitive-obsession) usually requires a lot of boilerplate.
 
 SuperStrong.Types generates that boilerplate for you, so you can focus on modelling your domain instead of writing repetitive code.
 
 ## What's next?
 
-- Find out more in the [tutorial](https://iikuzmychov.github.io/SuperStrong/tutorial/getting-started)
-- Learn about strong type [validation](https://iikuzmychov.github.io/SuperStrong/tutorial/validation) and [customization](https://iikuzmychov.github.io/SuperStrong/tutorial/customization)
-- Take a look at the available [integrations](https://iikuzmychov.github.io/SuperStrong/integrations/ef-core)
-- Compare SuperStrong.Types with [alternatives](https://iikuzmychov.github.io/SuperStrong/alternatives/strongly-typed-id)
+- Find out more in the [tutorial](https://superstrong.dev/tutorial/getting-started)
+- Learn about strong type [validation](https://superstrong.dev/tutorial/validation) and [customization](https://superstrong.dev/tutorial/customization)
+- Take a look at the available [integrations](https://superstrong.dev/integrations/ef-core)
+- Compare SuperStrong.Types with [alternatives](https://superstrong.dev/alternatives/strongly-typed-id)
 - Do 10 push-ups, 10 pull-ups, and 10 squats
 
 ## Acknowledgements

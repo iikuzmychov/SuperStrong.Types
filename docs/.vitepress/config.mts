@@ -36,18 +36,17 @@ export default defineConfig({
   title: 'SuperStrong.Types',
   description: 'Stong types for .NET — define once, use everywhere!',
   lang: 'en-US',
-  base: '/SuperStrong/',
   srcDir: 'src',
   cleanUrls: true,
   lastUpdated: true,
   head: [
-    ['link', { rel: 'icon', type: 'image/png', href: '/SuperStrong/img/logo.png' }],
+    ['link', { rel: 'icon', type: 'image/png', href: '/img/logo.png' }],
   ],
   vite: {
     publicDir: '../public',
   },
   sitemap: {
-    hostname: 'https://iikuzmychov.github.io/SuperStrong/',
+    hostname: 'https://superstrong.dev/',
   },
   themeConfig: {
     logo: '/img/logo.png',
