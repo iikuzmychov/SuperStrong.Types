@@ -1,4 +1,5 @@
 [![NuGet](https://img.shields.io/nuget/v/SuperStrong.Types)](https://www.nuget.org/packages/SuperStrong.Types/)
+[![Docs](https://img.shields.io/badge/docs-online-blue)](https://iikuzmychov.github.io/SuperStrong/)
 
 # SuperStrong.Types
 
