@@ -36,6 +36,9 @@ export default defineConfig({
   srcDir: 'src',
   cleanUrls: true,
   lastUpdated: true,
+  head: [
+    ['link', { rel: 'icon', type: 'image/png', href: '/SuperStrong/img/logo.png' }],
+  ],
   vite: {
     publicDir: '../public',
   },
@@ -43,6 +46,8 @@ export default defineConfig({
     hostname: 'https://iikuzmychov.github.io/SuperStrong/',
   },
   themeConfig: {
+    logo: '/img/logo.png',
+
     sidebar: [
       {
         text: 'Preface',

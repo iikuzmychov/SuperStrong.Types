@@ -35,7 +35,12 @@
     <RepositoryUrl>https://github.com/iiKuzmychov/SuperStrong</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)img/logo.png" Pack="true" Visible="false" />
+  </ItemGroup>
 
   <!-- Decomposition of the last published version (provided by the publish pipeline) -->
   <PropertyGroup Condition="'$(LastPublishedVersion)' != ''">
