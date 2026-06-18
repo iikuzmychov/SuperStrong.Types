@@ -8,6 +8,10 @@ const nugetIcon = readFileSync(
 )
 
 async function resolveVersion(): Promise<string> {
+  if (process.env.SUPERSTRONG_TYPES_VERSION) {
+    return process.env.SUPERSTRONG_TYPES_VERSION
+  }
+
   const response = await fetch(
     'https://api.nuget.org/v3-flatcontainer/superstrong.types/index.json',
   )

@@ -7,6 +7,11 @@ on:
     paths:
       - 'docs/**'
       - '.github/workflows/docs.yml'
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
   workflow_dispatch:
 
 permissions:
@@ -39,6 +44,8 @@ jobs:
         run: npm ci
 
       - name: Build with VitePress
+        env:
+          SUPERSTRONG_TYPES_VERSION: ${{ inputs.version }}
         run: npm run build
 
       - name: Setup Pages

@@ -10,6 +10,8 @@ jobs:
       id-token: write
 
     runs-on: ubuntu-latest
+    outputs:
+      published_version: ${{ steps.published_package.outputs.published_version }}
 
     steps:
       - name: Check out repository
@@ -49,3 +51,20 @@ jobs:
 
       - name: Push to NuGet
         run: dotnet nuget push "${{ github.workspace }}/artifacts/*.nupkg" --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+      - name: Resolve published package version
+        id: published_package
+        run: |
+          version=$(dotnet msbuild src/SuperStrong.Types/SuperStrong.Types.csproj -getProperty:Version -p:LastPublishedVersion=${{ steps.version.outputs.last }})
+          echo "published_version=$version" >> "$GITHUB_OUTPUT"
+          echo "Published package version: $version"
+
+  deploy-docs:
+    needs: publish
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/docs.yml
+    with:
+      version: ${{ needs.publish.outputs.published_version }}
