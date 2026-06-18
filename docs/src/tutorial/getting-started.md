@@ -76,7 +76,7 @@ partial class OrderId :
 
 [comment]: <> (You can use any type as an underlying primitive. [Learn how] this will affect the generated code.)
 
-## Create a strong type from a primitive
+## Instantiation
 
 You can create an instance of a strong type from its primitive by using `From(...)`:
 

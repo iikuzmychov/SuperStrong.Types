@@ -36,9 +36,11 @@ export default defineConfig({
   srcDir: 'src',
   cleanUrls: true,
   lastUpdated: true,
-
+  vite: {
+    publicDir: '../public',
+  },
   sitemap: {
-    hostname: 'https://iikuzmychov.github.io/SuperStrong/'
+    hostname: 'https://iikuzmychov.github.io/SuperStrong/',
   },
   themeConfig: {
     sidebar: [
