@@ -43,6 +43,12 @@ export default defineConfig({
   themeConfig: {
     sidebar: [
       {
+        text: 'Preface',
+        items: [
+          { text: 'Primitive Obsession', link: '/preface/primitive-obsession' },
+        ],
+      },
+      {
         text: 'Tutorial',
         items: [
           { text: 'Getting Started', link: '/tutorial/getting-started' },
@@ -62,12 +68,6 @@ export default defineConfig({
         items: [
           { text: 'vs Vogen', link: '/alternatives/vogen' },
           { text: 'vs StronglyTypedId', link: '/alternatives/strongly-typed-id' },
-        ],
-      },
-      {
-        text: 'Other',
-        items: [
-          { text: 'Primitive Obsession', link: '/other/primitive-obsession' },
         ],
       },
     ],
