@@ -43,31 +43,31 @@ export default defineConfig({
   themeConfig: {
     sidebar: [
       {
-        text: 'Introduction',
+        text: 'Tutorial',
         items: [
-          { text: 'Getting Started', link: 'introduction/getting-started' },
-          { text: 'Validation', link: 'introduction/validation' },
-          { text: 'Customization', link: 'introduction/customization' },
+          { text: 'Getting Started', link: '/tutorial/getting-started' },
+          { text: 'Validation', link: '/tutorial/validation' },
+          { text: 'Customization', link: '/tutorial/customization' },
         ],
       },
       {
         text: 'Integrations',
         items: [
-          { text: 'EF Core', link: 'integrations/ef-core' },
-          { text: 'HotChocolate', link: 'integrations/hotchocolate' },
+          { text: 'EF Core', link: '/integrations/ef-core' },
+          { text: 'HotChocolate', link: '/integrations/hotchocolate' },
         ],
       },
       {
         text: 'Alternatives',
         items: [
-          { text: 'vs Vogen', link: 'alternatives/vogen' },
-          { text: 'vs StronglyTypedId', link: 'alternatives/strongly-typed-id' },
+          { text: 'vs Vogen', link: '/alternatives/vogen' },
+          { text: 'vs StronglyTypedId', link: '/alternatives/strongly-typed-id' },
         ],
       },
       {
         text: 'Other',
         items: [
-          { text: 'Primitive Obsession', link: 'other/primitive-obsession' },
+          { text: 'Primitive Obsession', link: '/other/primitive-obsession' },
         ],
       },
     ],

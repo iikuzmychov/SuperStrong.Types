@@ -43,8 +43,8 @@ SuperStrong.Types generates that boilerplate for you, so you can focus on modell
 
 ## What's next?
 
-- Find out more in [Getting Started](https://iikuzmychov.github.io/SuperStrong/introduction/getting-started)
-- Learn about strong type [validation](https://iikuzmychov.github.io/SuperStrong/introduction/validation) and [customization](https://iikuzmychov.github.io/SuperStrong/introduction/customization)
+- Find out more in the [tutorial](https://iikuzmychov.github.io/SuperStrong/tutorial/getting-started)
+- Learn about strong type [validation](https://iikuzmychov.github.io/SuperStrong/tutorial/validation) and [customization](https://iikuzmychov.github.io/SuperStrong/tutorial/customization)
 - Take a look at the available [integrations](https://iikuzmychov.github.io/SuperStrong/integrations/ef-core)
 - Compare SuperStrong.Types with [alternatives](https://iikuzmychov.github.io/SuperStrong/alternatives/strongly-typed-id)
 - Do 10 push-ups, 10 pull-ups, and 10 squats
