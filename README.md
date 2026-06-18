@@ -37,7 +37,7 @@ You can easily integrate it with:
 
 ## Why use this library?
 
-Fighting [primitive obsession](https://iikuzmychov.github.io/SuperStrong/other/primitive-obsession) usually requires a lot of boilerplate.
+Fighting [primitive obsession](https://iikuzmychov.github.io/SuperStrong/preface/primitive-obsession) usually requires a lot of boilerplate.
 
 SuperStrong.Types generates that boilerplate for you, so you can focus on modelling your domain instead of writing repetitive code.
 
