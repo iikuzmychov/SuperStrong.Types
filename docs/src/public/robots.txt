@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://iikuzmychov.github.io/SuperStrong/sitemap.xml
