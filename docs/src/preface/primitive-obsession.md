@@ -1,6 +1,6 @@
 # Primitive Obsession
 
-Primitive obsession is the habit of modelling domain concepts with primitive types — a `Guid` for an id, an `int` for a quantity, a `string` for an email — instead of giving each concept a type of its own.
+Primitive obsession is the habit of modelling domain concepts with primitive types instead of giving each concept a type of its own: an id is stored as a `Guid`, a quantity as an `int`, and an email as a `string`.
 
 It's convenient, but primitives carry no meaning and enforce no rules, which quietly leads to bugs.
 
@@ -10,8 +10,10 @@ A `UserId` and an `OrderId` are both `Guid`, so the compiler can't tell them apa
 
 ```csharp
 void CancelOrder(Guid orderId, Guid userId);
+```
 
-// Arguments swapped — compiles fine, breaks at runtime:
+```csharp
+// Arguments swapped, compiles fine, breaks at runtime:
 CancelOrder(userId, orderId);
 ```
 
@@ -19,8 +21,10 @@ The same happens with any same-typed parameters:
 
 ```csharp
 record User(string FirstName, string LastName);
+```
 
-// First and last name swapped — no error:
+```csharp
+// First and last name swapped, no error:
 var user = new User("Smith", "John");
 ```
 
@@ -35,7 +39,7 @@ if (string.IsNullOrWhiteSpace(email) || !email.Contains('@'))
 }
 ```
 
-That check gets copy-pasted across controllers, services, and constructors — and it's easy to miss one.
+That check gets copy-pasted across controllers, services, and constructors, and it's easy to miss one.
 
 ## Intent is lost
 
@@ -48,13 +52,19 @@ A strong type wraps a primitive so each concept becomes its own type. The compil
 ```csharp
 [StrongType<Guid>]
 public sealed partial class OrderId;
+```
 
+```csharp
 [StrongType<Guid>]
 public sealed partial class UserId;
+```
 
+```csharp
 void CancelOrder(OrderId orderId, UserId userId);
+```
 
+```csharp
 CancelOrder(userId, orderId); // does not compile
 ```
 
-That's the problem SuperStrong.Types is built to solve — without the boilerplate that usually comes with it.
+That's the problem SuperStrong.Types is built to solve, without the boilerplate that usually comes with it.
