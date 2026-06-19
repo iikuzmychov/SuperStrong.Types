@@ -63,6 +63,7 @@ export default defineConfig({
         items: [
           { text: 'Getting Started', link: '/tutorial/getting-started' },
           { text: 'Validation', link: '/tutorial/validation' },
+          { text: 'Null Handling', link: '/tutorial/null-handling' },
           { text: 'Customization', link: '/tutorial/customization' },
         ],
       },
@@ -93,6 +94,13 @@ export default defineConfig({
 
     search: {
       provider: 'local',
+    },
+
+    lastUpdated: {
+      formatOptions: {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+      },
     },
 
     editLink: {
