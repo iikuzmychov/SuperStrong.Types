@@ -84,6 +84,15 @@ You can create an instance of a strong type from its primitive by using `From(..
 var orderId = OrderId.From(1);
 ```
 
+If a strong type has [validation rules](./validation.md), you can use `TryFrom(...)` to create an instance without throwing on invalid input. It returns `false` instead of throwing:
+
+```csharp
+if (!OrderId.TryFrom(-1, out var orderId))
+{
+    // handle invalid input
+}
+```
+
 ## Parsing
 
 You can also use `Parse(...)` and `TryParse(...)` for parsing a strong type from a string:
@@ -105,4 +114,18 @@ Sometimes you need to convert a strong type to its underlying primitive. You can
 
 ```csharp
 int raw = orderId.AsPrimitive();
+```
+
+## Equality and comparison
+
+Strong types are compared by their underlying value, so two instances built from the same primitive are equal:
+
+```csharp
+OrderId.From(1) == OrderId.From(1); // true
+```
+
+They are also ordered by their underlying value, so they can be compared and sorted:
+
+```csharp
+OrderId.From(1) < OrderId.From(2); // true
 ```

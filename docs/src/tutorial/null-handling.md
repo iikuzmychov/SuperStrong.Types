@@ -30,6 +30,22 @@ var username = Username.Parse(null!); // throws ArgumentNullException
 Username.TryParse(null, out var username); // returns false
 ```
 
+## Comparison operators
+
+When a strong type is a reference type, the instance itself can be `null`. The ordering operators (`<`, `<=`, `>`, `>=`) require both operands to be non-null and throw `ArgumentNullException` otherwise:
+
+```csharp
+Username? name = null;
+name < Username.From("bob"); // throws ArgumentNullException
+```
+
+The equality operators (`==` and `!=`) treat `null` as a normal value and never throw:
+
+```csharp
+Username? name = null;
+name == Username.From("bob"); // false
+```
+
 ## Null propagation
 
 Sometimes you might want to treat `null` as "no value" instead of invalid input and propagate it through. In such case you need to use `FromNullable(...)` instead of `From(...)`:
