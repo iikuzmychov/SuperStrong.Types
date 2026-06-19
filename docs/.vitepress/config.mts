@@ -89,7 +89,7 @@ export default defineConfig({
         text: 'Integrations',
         items: [
           { text: 'EF Core', link: '/integrations/ef-core' },
-          { text: 'HotChocolate', link: '/integrations/hotchocolate' },
+          { text: 'Hot Chocolate', link: '/integrations/hotchocolate' },
         ],
       },
       {

@@ -2,6 +2,10 @@
 
 SuperStrong.Types integrates with [Entity Framework Core](https://learn.microsoft.com/ef/core/) to simplify strong types conversion, querying and more.
 
+## Requirements
+
+This integration targets **EF Core 10**, so make sure your project uses it.
+
 ## Installation
 
 First, install the package from [NuGet](https://www.nuget.org/packages/SuperStrong.Types.EntityFrameworkCore):
