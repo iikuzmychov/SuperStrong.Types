@@ -96,7 +96,7 @@ export default defineConfig({
     },
 
     editLink: {
-      pattern: 'https://github.com/iiKuzmychov/SuperStrong/edit/master/docs/:path',
+      pattern: 'https://github.com/iikuzmychov/SuperStrong/edit/master/docs/src/:path',
       text: 'Edit this page on GitHub',
     },
 
