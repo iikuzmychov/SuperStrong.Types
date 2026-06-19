@@ -1,6 +1,17 @@
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { defineConfig } from 'vitepress'
+import { defineConfig, type HeadConfig } from 'vitepress'
+
+const hostname = 'https://superstrong.dev'
+const siteName = 'SuperStrong.Types'
+const siteDescription = 'Strong types for .NET — define once, use everywhere!'
+const ogImage = `${hostname}/img/og-image.png`
+
+function pageUrl(relativePath: string): string {
+  const path = relativePath.replace(/index\.md$/, '').replace(/\.md$/, '')
+
+  return `${hostname}/${path}`
+}
 
 const nugetIcon = readFileSync(
   fileURLToPath(new URL('./icons/nuget.svg', import.meta.url)),
@@ -33,20 +44,27 @@ async function resolveVersion(): Promise<string> {
 const version = await resolveVersion()
 
 export default defineConfig({
-  title: 'SuperStrong.Types',
-  description: 'Stong types for .NET — define once, use everywhere!',
+  title: siteName,
+  description: siteDescription,
   lang: 'en-US',
   srcDir: 'src',
   cleanUrls: true,
   lastUpdated: true,
   head: [
     ['link', { rel: 'icon', type: 'image/png', href: '/img/logo.png' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: siteName }],
+    ['meta', { property: 'og:image', content: ogImage }],
+    ['meta', { property: 'og:image:width', content: '1200' }],
+    ['meta', { property: 'og:image:height', content: '630' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:image', content: ogImage }],
   ],
   vite: {
     publicDir: '../public',
   },
   sitemap: {
-    hostname: 'https://superstrong.dev/',
+    hostname: `${hostname}/`,
   },
   themeConfig: {
     logo: '/img/logo.png',
@@ -116,5 +134,22 @@ export default defineConfig({
 
   transformPageData(pageData) {
     pageData.frontmatter.version = version
+  },
+
+  transformHead({ pageData }) {
+    const title = pageData.frontmatter.title || pageData.title || siteName
+    const description = pageData.frontmatter.description || pageData.description || siteDescription
+    const url = pageUrl(pageData.relativePath)
+
+    const head: HeadConfig[] = [
+      ['link', { rel: 'canonical', href: url }],
+      ['meta', { property: 'og:title', content: title }],
+      ['meta', { property: 'og:description', content: description }],
+      ['meta', { property: 'og:url', content: url }],
+      ['meta', { name: 'twitter:title', content: title }],
+      ['meta', { name: 'twitter:description', content: description }],
+    ]
+
+    return head
   },
 })

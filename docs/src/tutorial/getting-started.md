@@ -84,6 +84,8 @@ You can create an instance of a strong type from its primitive by using `From(..
 var orderId = OrderId.From(1);
 ```
 
+## Parsing
+
 You can also use `Parse(...)` and `TryParse(...)` for parsing a strong type from a string:
 
 ```csharp
