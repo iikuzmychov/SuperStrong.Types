@@ -1,5 +1,65 @@
 # Validation
 
-::: info Work in progress
-This page is being written.
+Most of the strong types have restrictions they should match to be valid.
+You can configure such rules with a definition.
+
+## Definition
+
+To configure validation rules, you need to declare a `Definition` property on your strong type. You build it with `StrongType.Define<...>()` and chain validation rules onto it:
+
+```csharp
+using SuperStrong.Types;
+
+[StrongType<int>]
+public sealed partial class Age
+{
+    public static StrongTypeDefinition<int> Definition { get; } = StrongType
+        .Define<int>()
+        .IsPositive()
+        .HasMaxValue(150);
+}
+```
+
+If you don't declare a `Definition`, the source generator emits an empty one, so every value [besides null](./null-handling) will be accepted.
+
+:::: tip
+You can also use the **`Quick Actions`** → **`Add Definition`**.
+
+::: details Screenshot
+![Add Definition quick action](/img/code-action-add-definition.png)
 :::
+::::
+
+## Instantiation
+
+Validation runs every time you create an instance. `From(...)` checks the value against the `Definition` and throws if any rule is not satisfied:
+
+```csharp
+var age = Age.From(-1); // throws - negative
+```
+
+When invalid input is expected, for example when validating user input, use `TryFrom(...)` instead. It does not throw and returns `false` for an invalid value:
+
+```csharp
+if (!Age.TryFrom(input, out var age))
+{
+    // handle invalid input
+}
+```
+
+## Parsing
+
+Parsing is working in the same way. When you call `Parse(...)` it validates the validation rules too:
+
+```csharp
+var age = Age.Parse("200"); // throws - greater than 150
+```
+
+`TryParse(...)` does not throw and returns `false` for an invalid input:
+
+```csharp
+if (!Age.TryParse(input, out var age))
+{
+    // handle invalid or unparsable input
+}
+```
