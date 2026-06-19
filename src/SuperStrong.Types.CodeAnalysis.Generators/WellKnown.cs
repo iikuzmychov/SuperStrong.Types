@@ -50,5 +50,6 @@ internal static class WellKnown
         public static readonly TypeName System_Text_Json_Serialization_JsonConverterAttribute = new(Namespaces.System_Text_Json_Serialization, "JsonConverterAttribute");
         public static readonly TypeName System_Diagnostics_CodeAnalysis_NotNullWhenAttribute = new (Namespaces.System_Diagnostics_CodeAnalysis, "NotNullWhenAttribute");
         public static readonly TypeName System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute = new(Namespaces.System_Diagnostics_CodeAnalysis, "MaybeNullWhenAttribute");
+        public static readonly TypeName System_Diagnostics_CodeAnalysis_AllowNullAttribute = new(Namespaces.System_Diagnostics_CodeAnalysis, "AllowNullAttribute");
     }
 }

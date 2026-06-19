@@ -41,7 +41,9 @@ internal sealed class CoreFeatureEmitter : IStrongTypeFeatureEmitter
 
             writer.Line();
 
-            using (writer.MemberBlock($"public static bool TryFrom({model.PrimitiveTypeName} value, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
+            using (writer.MemberBlock($"public static bool TryFrom(" +
+                $"[{System_Diagnostics_CodeAnalysis_AllowNullAttribute}] {model.PrimitiveTypeName} value," +
+                $"[{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
             {
                 using (writer.Block($"if ({SuperStrong_Types_StrongType}.IsValid(value, Definition))"))
                 {
@@ -56,7 +58,9 @@ internal sealed class CoreFeatureEmitter : IStrongTypeFeatureEmitter
 
             writer.Line();
 
-            using (writer.MemberBlock($"static bool {SuperStrong_Types_IStrongType}<{model.TypeName}, {model.PrimitiveTypeName}>.TryFrom({model.PrimitiveTypeName} value, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
+            using (writer.MemberBlock($"static bool {SuperStrong_Types_IStrongType}<{model.TypeName}, {model.PrimitiveTypeName}>.TryFrom(" +
+                $"[{System_Diagnostics_CodeAnalysis_AllowNullAttribute}] {model.PrimitiveTypeName} value," +
+                $"[{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
             {
                 writer.Line("return TryFrom(value, out result);");
             }
