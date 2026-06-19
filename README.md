@@ -31,10 +31,20 @@ You can easily integrate it with:
 
 - ASP.NET Core
 - EF Core
-- HotChocolate
-- OpenAPI
-- Dapper
-- MessagePack
+- Hot Chocolate
+- Newtonsoft.Json
+
+and more coming soon: OpenAPI, Dapper, MessagePack, ...
+
+## How to install?
+
+Install the package from [NuGet](https://www.nuget.org/packages/SuperStrong.Types):
+
+```sh
+dotnet add package SuperStrong.Types
+```
+
+This library targets **.NET 10**, so your project should target .NET 10 or higher to be compatible with SuperStrong.Types.
 
 ## Why use this library?
 

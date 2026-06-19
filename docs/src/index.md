@@ -2,6 +2,11 @@
 
 Strong types for .NET — define once, use everywhere!
 
+::: warning
+SuperStrong.Types is still in **alpha**.
+Some features may be incomplete or significantly changed before a stable release.
+:::
+
 ## What does this library do?
 
 You write this:
@@ -24,10 +29,29 @@ You can easily integrate it with:
 
 - ASP.NET Core
 - EF Core
-- HotChocolate
-- OpenAPI
-- Dapper
-- MessagePack
+- Hot Chocolate
+- Newtonsoft.Json
+
+and more coming soon: OpenAPI, Dapper, MessagePack, ...
+
+## How to install?
+
+Install the package from [NuGet](https://www.nuget.org/packages/SuperStrong.Types):
+
+::: code-group
+
+```sh-vue [.NET CLI]
+dotnet add package SuperStrong.Types --version {{ $frontmatter.version }}
+```
+
+```xml-vue [PackageReference]
+<PackageReference Include="SuperStrong.Types" Version="{{ $frontmatter.version }}" />
+```
+
+:::
+
+
+This library targets **.NET 10**, so your project should target .NET 10 or higher to be compatible with SuperStrong.Types.
 
 ## Why use this library?
 

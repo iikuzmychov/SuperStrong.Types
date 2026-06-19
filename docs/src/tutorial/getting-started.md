@@ -7,8 +7,7 @@ Some features may be incomplete or significantly changed before a stable release
 
 ## Requirements
 
-This library targets **.NET 10**, so your project should target .NET 10 or higher
-to be compatible with SuperStrong.Types.
+This library targets **.NET 10**, so your project should target .NET 10 or higher to be compatible with SuperStrong.Types.
 
 ## Installation
 
@@ -108,14 +107,6 @@ if (!OrderId.TryParse("invalid input", out var orderId))
 }
 ```
 
-## Casting to a primitive
-
-Sometimes you need to convert a strong type to its underlying primitive. You can achieve this by using `AsPrimitive()`:
-
-```csharp
-int raw = orderId.AsPrimitive();
-```
-
 ## Equality and comparison
 
 Strong types are compared by their underlying value, so two instances built from the same primitive are equal:
@@ -128,4 +119,13 @@ They are also ordered by their underlying value, so they can be compared and sor
 
 ```csharp
 OrderId.From(1) < OrderId.From(2); // true
+```
+
+
+## Casting to a primitive
+
+Sometimes you need to convert a strong type to its underlying primitive. You can achieve this by using `AsPrimitive()`:
+
+```csharp
+int raw = orderId.AsPrimitive();
 ```
