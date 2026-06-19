@@ -1,6 +1,6 @@
 # Validation
 
-Most of the strong types have restrictions they should match to be valid.
+Most strong types have restrictions that a value must satisfy to be valid.
 You can configure such rules with a definition.
 
 ## Definition
@@ -20,7 +20,7 @@ public sealed partial class Age
 }
 ```
 
-If you don't declare a `Definition`, the source generator emits an empty one, so every value [besides null](./null-handling) will be accepted.
+If you don't declare a `Definition`, the source generator emits an empty one, so every value [besides null](./null-handling.md) will be accepted.
 
 :::: tip
 You can also use the **`Quick Actions`** → **`Add Definition`**.
@@ -49,13 +49,13 @@ if (!Age.TryFrom(input, out var age))
 
 ## Parsing
 
-Parsing is working in the same way. When you call `Parse(...)` it validates the validation rules too:
+Parsing works the same way. Calling `Parse(...)` runs the validation rules too:
 
 ```csharp
 var age = Age.Parse("200"); // throws - greater than 150
 ```
 
-`TryParse(...)` does not throw and returns `false` for an invalid input:
+`TryParse(...)` does not throw and returns `false` for invalid input:
 
 ```csharp
 if (!Age.TryParse(input, out var age))

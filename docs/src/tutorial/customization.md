@@ -2,7 +2,7 @@
 
 While most of the generated code can't be modified, it's possible to customize some methods.
 
-## ToString()
+## String representation
 
 You can override `ToString()` manually, so the source generator will not emit a default implementation for it: 
 
@@ -16,7 +16,7 @@ public sealed partial class Password
 
 ```csharp
 var password = Password.From("123456");
-Console.WriteLine(password) // prints "secret"
+Console.WriteLine(password); // prints "secret"
 ```
 
 :::: tip
@@ -27,9 +27,9 @@ You can also use the **`Quick Actions`** → **`Override ToString()`**.
 :::
 ::::
 
-## Equals(T) and GetHashCode()
+## Equality
 
-You can implement `Equals(T)` and override `GetHashCode()` manually, so the source generator will not emit a default implementation for those members:
+You can manually implement `Equals(T)` and override `GetHashCode()`, so the source generator will not emit a default implementation for those members:
 
 ```csharp
 [StrongType<string>]

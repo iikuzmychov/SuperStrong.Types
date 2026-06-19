@@ -48,7 +48,7 @@ name == Username.From("bob"); // false
 
 ## Null propagation
 
-Sometimes you might want to treat `null` as "no value" instead of invalid input and propagate it through. In such case you need to use `FromNullable(...)` instead of `From(...)`:
+Sometimes you might want to treat `null` as "no value" instead of invalid input and propagate it through. In such a case, you need to use `FromNullable(...)` instead of `From(...)`:
 
 ```csharp
 Username? username = Username.FromNullable(null); // returns null
