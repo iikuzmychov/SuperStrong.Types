@@ -8,11 +8,15 @@ public static class StrongType
         return StrongTypeDefinition<TPrimitive>.Empty;
     }
 
-    public static bool IsValid<TPrimitive>(TPrimitive value, StrongTypeDefinition<TPrimitive> definition)
+    public static bool IsValid<TPrimitive>(TPrimitive? value, StrongTypeDefinition<TPrimitive> definition)
         where TPrimitive : notnull
     {
-        ArgumentNullException.ThrowIfNull(value);
         ArgumentNullException.ThrowIfNull(definition);
+
+        if (value is null)
+        {
+            return false;
+        }
 
         foreach (var validator in definition.Validators)
         {
