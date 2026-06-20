@@ -1,7 +1,7 @@
 # Getting started
 
 ::: warning
-SuperStrong.Types is in **alpha**: the API and features are not in final shape yet.
+SuperStrong.Types is in **beta**: the API and features are not in final shape yet.
 :::
 
 ## Requirements
