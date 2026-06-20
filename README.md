@@ -1,9 +1,16 @@
-[![NuGet](https://img.shields.io/nuget/v/SuperStrong.Types)](https://www.nuget.org/packages/SuperStrong.Types/)
-[![Docs](https://img.shields.io/badge/docs-online-blue)](https://superstrong.dev/)
+<div align="center">
+
+<img src="https://superstrong.dev/img/logo.png" alt="SuperStrong.Types" width="160" />
 
 # SuperStrong.Types
 
-Strong types for .NET — define once, use everywhere!
+**Strong types for .NET — define once, use everywhere!**
+
+[![NuGet](https://img.shields.io/nuget/v/SuperStrong.Types?style=for-the-badge&logo=nuget&label=NuGet)](https://www.nuget.org/packages/SuperStrong.Types/)
+[![Docs](https://img.shields.io/badge/Docs-online-blue?style=for-the-badge)](https://superstrong.dev/)
+[![License](https://img.shields.io/github/license/iikuzmychov/SuperStrong?style=for-the-badge&label=License)](https://github.com/iikuzmychov/SuperStrong/blob/master/LICENSE.md)
+
+</div>
 
 > [!WARNING]
 > SuperStrong.Types is still in **alpha**.
