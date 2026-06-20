@@ -2,7 +2,8 @@
 
 Strong types for .NET — define once, use everywhere!
 
-> **Warning:** SuperStrong.Types is in beta: the API and features are not in final shape yet.
+> [!WARNING]
+> SuperStrong.Types is in beta: the API and features are not in final shape yet.
 
 ## What does this library do?
 
