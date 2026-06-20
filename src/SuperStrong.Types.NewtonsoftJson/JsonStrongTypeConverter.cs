@@ -6,7 +6,7 @@ namespace SuperStrong.Types.NewtonsoftJson;
 
 public sealed class JsonStrongTypeConverter : JsonConverter
 {
-    private static readonly ConcurrentDictionary<Type, JsonConverter> ConverterCache = new();
+    private static readonly ConcurrentDictionary<Type, JsonConverter> _converterCache = new();
 
     public override bool CanConvert(Type objectType)
     {
@@ -31,7 +31,7 @@ public sealed class JsonStrongTypeConverter : JsonConverter
 
     private static JsonConverter GetConverter(Type strongType)
     {
-        return ConverterCache.GetOrAdd(strongType, static type =>
+        return _converterCache.GetOrAdd(strongType, static type =>
         {
             var strongTypeInfo = type.GetStrongTypeInfo()!;
 
