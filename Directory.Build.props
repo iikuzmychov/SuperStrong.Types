@@ -36,12 +36,12 @@
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>logo.png</PackageIcon>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReadmeFile>README.nuget.md</PackageReadmeFile>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)docs/public/img/logo.png" Pack="true" PackagePath="/" Visible="false" />
-    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="/" Visible="false" />
+    <None Include="$(MSBuildThisFileDirectory)README.nuget.md" Pack="true" PackagePath="/" Visible="false" />
   </ItemGroup>
 
   <!-- Decomposition of the last published version (provided by the publish pipeline) -->
