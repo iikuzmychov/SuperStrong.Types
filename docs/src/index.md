@@ -3,8 +3,7 @@
 Strong types for .NET — define once, use everywhere!
 
 ::: warning
-SuperStrong.Types is still in **alpha**.
-Some features may be incomplete or significantly changed before a stable release.
+SuperStrong.Types is in **alpha**: the API and features are not in final shape yet.
 :::
 
 ## What does this library do?
