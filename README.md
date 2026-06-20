@@ -47,7 +47,7 @@ and more coming soon: OpenAPI, Dapper, MessagePack, ...
 Install the package from [NuGet](https://www.nuget.org/packages/SuperStrong.Types):
 
 ```sh
-dotnet add package SuperStrong.Types
+dotnet add package SuperStrong.Types --preview
 ```
 
 This library targets **.NET 10**, so your project should target .NET 10 or higher to be compatible with SuperStrong.Types.

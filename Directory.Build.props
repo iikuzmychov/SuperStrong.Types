@@ -23,7 +23,7 @@
   <PropertyGroup>
     <VersionMajor>1</VersionMajor>
     <VersionMinor>0</VersionMinor>
-    <VersionSuffixName>alpha</VersionSuffixName>
+    <VersionSuffixName>beta</VersionSuffixName>
   </PropertyGroup>
 
   <!-- Package metadata -->
