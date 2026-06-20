@@ -29,10 +29,10 @@
   <!-- Package metadata -->
   <PropertyGroup>
     <Authors>Ihor Kuzmychov (iikuzmychov)</Authors>
-    <Description>Stong types for .NET — define once, use everywhere!</Description>
+    <Description>Strong types for .NET — define once, use everywhere!</Description>
     <PackageTags>super-strong;strong-types;strongly-typed;strongly-typed-id;value-objects;primitive-obsession;code-generators;source-generators;ddd;domain-driven-design</PackageTags>
-    <PackageProjectUrl>https://github.com/iiKuzmychov/SuperStrong</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/iiKuzmychov/SuperStrong</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/iikuzmychov/SuperStrong.Types</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/iikuzmychov/SuperStrong.Types</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>logo.png</PackageIcon>

@@ -102,7 +102,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/iiKuzmychov/SuperStrong' },
+      { icon: 'github', link: 'https://github.com/iikuzmychov/SuperStrong.Types' },
       {
         icon: { svg: nugetIcon },
         link: 'https://www.nuget.org/packages/SuperStrong.Types',
@@ -122,7 +122,7 @@ export default defineConfig({
     },
 
     editLink: {
-      pattern: 'https://github.com/iikuzmychov/SuperStrong/edit/master/docs/src/:path',
+      pattern: 'https://github.com/iikuzmychov/SuperStrong.Types/edit/master/docs/src/:path',
       text: 'Edit this page on GitHub',
     },
 

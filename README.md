@@ -8,7 +8,7 @@
 
 [![NuGet](https://img.shields.io/nuget/v/SuperStrong.Types?style=for-the-badge&logo=nuget&label=NuGet)](https://www.nuget.org/packages/SuperStrong.Types/)
 [![Docs](https://img.shields.io/badge/Docs-online-blue?style=for-the-badge)](https://superstrong.dev/)
-[![License](https://img.shields.io/github/license/iikuzmychov/SuperStrong?style=for-the-badge&label=License)](https://github.com/iikuzmychov/SuperStrong/blob/master/LICENSE.md)
+[![License](https://img.shields.io/github/license/iikuzmychov/SuperStrong.Types?style=for-the-badge&label=License)](https://github.com/iikuzmychov/SuperStrong.Types/blob/master/LICENSE.md)
 
 </div>
 
