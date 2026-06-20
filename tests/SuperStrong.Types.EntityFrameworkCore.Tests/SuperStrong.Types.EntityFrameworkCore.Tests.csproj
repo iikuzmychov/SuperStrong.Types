@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
@@ -8,8 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\SuperStrong.Types.EntityFrameworkCore\SuperStrong.Types.EntityFrameworkCore.csproj" />
-    <ProjectReference Include="..\..\src\SuperStrong.Types.EntityFrameworkCore.Npgsql\SuperStrong.Types.EntityFrameworkCore.Npgsql.csproj" />
-    <ProjectReference Include="..\..\src\SuperStrong.Types.EntityFrameworkCore.SqlServer\SuperStrong.Types.EntityFrameworkCore.SqlServer.csproj" />
   </ItemGroup>
 
 </Project>

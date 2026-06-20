@@ -15,9 +15,6 @@
     <File Path=".github/workflows/docs.yml" />
     <File Path=".github/workflows/publish.yml" />
   </Folder>
-  <Folder Name="/items/img/">
-    <File Path="img/logo.png" />
-  </Folder>
   <Folder Name="/src/">
     <File Path="src/Directory.Build.props" />
     <Project Path="src/SuperStrong.Types.CodeAnalysis.Analyzers/SuperStrong.Types.CodeAnalysis.Analyzers.csproj" />

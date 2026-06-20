@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -8,30 +7,20 @@ namespace SuperStrong.Types.EntityFrameworkCore.Internal;
 
 internal sealed class StrongTypeDbContextOptionsExtension : IDbContextOptionsExtension
 {
-    private readonly List<StrongTypeValidatorAdapter> _adapters = [];
-
     public DbContextOptionsExtensionInfo Info { get; }
-    public IReadOnlyList<StrongTypeValidatorAdapter> Adapters => _adapters;
 
     public StrongTypeDbContextOptionsExtension()
     {
         Info = new ExtensionInfo(this);
     }
 
-    public void RegisterAdapter(StrongTypeValidatorAdapter adapter) => _adapters.Add(adapter);
-
     public void Validate(IDbContextOptions options)
     {
-        // todo: should we add validation?
     }
 
     public void ApplyServices(IServiceCollection services)
     {
         DecorateValueConverterSelector(services);
-
-        services.TryAddEnumerable(
-            ServiceDescriptor.Singleton<IConventionSetPlugin, StrongTypeConventionSetPlugin>(
-                serviceProvider => new StrongTypeConventionSetPlugin(this, serviceProvider)));
     }
 
     private static void DecorateValueConverterSelector(IServiceCollection services)
@@ -83,17 +72,7 @@ internal sealed class StrongTypeDbContextOptionsExtension : IDbContextOptionsExt
         public override bool IsDatabaseProvider => false;
         public override string LogFragment => string.Empty;
 
-        public override int GetServiceProviderHashCode()
-        {
-            var hash = new HashCode();
-
-            foreach (var adapter in extension._adapters)
-            {
-                hash.Add(adapter);
-            }
-
-            return hash.ToHashCode();
-        }
+        public override int GetServiceProviderHashCode() => 0;
 
         public override void PopulateDebugInfo(IDictionary<string, string> debugInfo)
         {
@@ -101,14 +80,7 @@ internal sealed class StrongTypeDbContextOptionsExtension : IDbContextOptionsExt
 
         public override bool ShouldUseSameServiceProvider(DbContextOptionsExtensionInfo other)
         {
-            if (other is not ExtensionInfo otherInfo)
-            {
-                return false;
-            }
-
-            var otherExtension = (StrongTypeDbContextOptionsExtension)otherInfo.Extension;
-
-            return extension._adapters.SequenceEqual(otherExtension._adapters);
+            return other is ExtensionInfo;
         }
     }
 }

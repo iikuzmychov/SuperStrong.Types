@@ -7,20 +7,17 @@ namespace SuperStrong.Types.EntityFrameworkCore;
 public static class DbContextOptionsBuilderExtensions
 {
     public static DbContextOptionsBuilder<TContext> UseStrongTypes<TContext>(
-        this DbContextOptionsBuilder<TContext> builder,
-        Action<StrongTypeOptionsBuilder>? configure = null)
+        this DbContextOptionsBuilder<TContext> builder)
         where TContext : DbContext
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        ((DbContextOptionsBuilder)builder).UseStrongTypes(configure);
+        ((DbContextOptionsBuilder)builder).UseStrongTypes();
 
         return builder;
     }
 
-    public static DbContextOptionsBuilder UseStrongTypes(
-        this DbContextOptionsBuilder builder,
-        Action<StrongTypeOptionsBuilder>? configure = null)
+    public static DbContextOptionsBuilder UseStrongTypes(this DbContextOptionsBuilder builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
@@ -28,8 +25,6 @@ public static class DbContextOptionsBuilderExtensions
 
         var extension = builder.Options.FindExtension<StrongTypeDbContextOptionsExtension>() ?? new();
         ((IDbContextOptionsBuilderInfrastructure)builder).AddOrUpdateExtension(extension);
-
-        configure?.Invoke(new StrongTypeOptionsBuilder(extension));
 
         return builder;
     }

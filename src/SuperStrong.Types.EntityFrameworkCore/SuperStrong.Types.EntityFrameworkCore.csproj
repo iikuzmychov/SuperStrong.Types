@@ -9,9 +9,4 @@
     <ProjectReference Include="..\SuperStrong.Types\SuperStrong.Types.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <InternalsVisibleTo Include="SuperStrong.Types.EntityFrameworkCore.Npgsql" />
-    <InternalsVisibleTo Include="SuperStrong.Types.EntityFrameworkCore.SqlServer" />
-  </ItemGroup>
-
 </Project>

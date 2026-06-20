@@ -5,7 +5,6 @@ using HotChocolate.Types;
 using Microsoft.Extensions.DependencyInjection;
 using System.Buffers;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace SuperStrong.Types.HotChocolate.Tests;
 
@@ -20,58 +19,6 @@ public sealed class StrongTypeScalarTypeTests
 
         Assert.Contains("scalar Username", schema);
         Assert.Contains("@primitive(type: \"String\")", schema);
-    }
-
-    [Fact]
-    public async Task Validators_are_emitted_as_directives_on_the_scalar()
-    {
-        var executor = await BuildExecutorAsync();
-
-        var schema = executor.Schema.ToString();
-
-        Assert.Contains("scalar Slug", schema);
-        Assert.Contains("@minLength(value: 3)", schema);
-        Assert.Contains("@maxLength(value: 10)", schema);
-    }
-
-    [Fact]
-    public async Task String_validators_are_emitted_as_directives_on_the_scalar()
-    {
-        var executor = await BuildExecutorAsync();
-
-        var schema = executor.Schema.ToString();
-
-        Assert.Contains("@notWhiteSpace", schema);
-        Assert.Contains("@lowerInvariant", schema);
-        Assert.Contains("@regex(pattern: \"^[a-z]+$\", options: \"IgnoreCase\")", schema);
-        Assert.Contains("@upperInvariant", schema);
-    }
-
-    [Fact]
-    public async Task Numeric_validators_are_emitted_as_directives_on_the_scalar()
-    {
-        var executor = await BuildExecutorAsync();
-
-        var schema = executor.Schema.ToString();
-
-        Assert.Contains("scalar Quantity", schema);
-        Assert.Contains("@minValue(value: 1, isExclusive: true)", schema);
-        Assert.Contains("@maxValue(value: 100, isExclusive: false)", schema);
-    }
-
-    [Fact]
-    public async Task Set_validators_are_emitted_as_directives_on_the_scalar()
-    {
-        var executor = await BuildExecutorAsync();
-
-        var schema = executor.Schema.ToString();
-
-        Assert.Contains("@allowedValues(", schema);
-        Assert.Contains("\"EUR\"", schema);
-        Assert.Contains("\"USD\"", schema);
-        Assert.Contains("@allowedValues(values: [\"EUR\", \"USD\"])", schema);
-        Assert.Contains("@forbiddenValues(values: [\"admin\", \"root\"])", schema);
-        Assert.Contains("@allowedValues(values: [1, 2, 3])", schema);
     }
 
     [Fact]
@@ -167,48 +114,6 @@ public sealed partial class Username
 }
 
 [StrongType<string>]
-public sealed partial class Slug
-{
-    public static StrongTypeDefinition<string> Definition { get; } = StrongType.Define<string>().HasMinLength(3).HasMaxLength(10);
-}
-
-[StrongType<string>]
-public sealed partial class Handle
-{
-    public static StrongTypeDefinition<string> Definition { get; } = StrongType.Define<string>().IsNotWhiteSpace().IsLowerInvariant().MatchesRegex("^[a-z]+$", RegexOptions.IgnoreCase);
-}
-
-[StrongType<string>]
-public sealed partial class Code
-{
-    public static StrongTypeDefinition<string> Definition { get; } = StrongType.Define<string>().IsUpperInvariant();
-}
-
-[StrongType<int>]
-public sealed partial class Quantity
-{
-    public static StrongTypeDefinition<int> Definition { get; } = StrongType.Define<int>().HasMinValue(1, isExclusive: true).HasMaxValue(100);
-}
-
-[StrongType<string>]
-public sealed partial class Currency
-{
-    public static StrongTypeDefinition<string> Definition { get; } = StrongType.Define<string>().IsOneOf("EUR", "USD");
-}
-
-[StrongType<string>]
-public sealed partial class Reserved
-{
-    public static StrongTypeDefinition<string> Definition { get; } = StrongType.Define<string>().IsNotOneOf("admin", "root");
-}
-
-[StrongType<int>]
-public sealed partial class Rating
-{
-    public static StrongTypeDefinition<int> Definition { get; } = StrongType.Define<int>().IsOneOf(1, 2, 3);
-}
-
-[StrongType<string>]
 public sealed partial class City
 {
     public static StrongTypeDefinition<string> Definition { get; } = StrongType.Define<string>();
@@ -229,41 +134,6 @@ public sealed class Query
     public int Length(Username input)
     {
         return input.AsPrimitive().Length;
-    }
-
-    public Slug Slug(Slug input)
-    {
-        return input;
-    }
-
-    public Handle Handle(Handle input)
-    {
-        return input;
-    }
-
-    public Code Code(Code input)
-    {
-        return input;
-    }
-
-    public Quantity Quantity(Quantity input)
-    {
-        return input;
-    }
-
-    public Currency Currency(Currency input)
-    {
-        return input;
-    }
-
-    public Reserved Reserved(Reserved input)
-    {
-        return input;
-    }
-
-    public Rating Rating(Rating input)
-    {
-        return input;
     }
 
     public string Describe(AddressInput input)
