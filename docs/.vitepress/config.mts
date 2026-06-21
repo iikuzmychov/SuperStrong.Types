@@ -1,5 +1,3 @@
-import { readFileSync } from 'node:fs'
-import { fileURLToPath } from 'node:url'
 import { defineConfig, type HeadConfig } from 'vitepress'
 
 const hostname = 'https://superstrong.dev'
@@ -12,11 +10,6 @@ function pageUrl(relativePath: string): string {
 
   return `${hostname}/${path}`
 }
-
-const nugetIcon = readFileSync(
-  fileURLToPath(new URL('./icons/nuget.svg', import.meta.url)),
-  'utf-8',
-)
 
 async function resolveVersion(): Promise<string> {
   if (process.env.SUPERSTRONG_TYPES_VERSION) {
@@ -92,21 +85,15 @@ export default defineConfig({
           { text: 'Hot Chocolate', link: '/integrations/hotchocolate' },
         ],
       },
-      {
-        text: 'Alternatives',
-        items: [
-          { text: 'vs Vogen', link: '/alternatives/vogen' },
-          { text: 'vs StronglyTypedId', link: '/alternatives/strongly-typed-id' },
-        ],
-      },
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/iikuzmychov/SuperStrong.Types' },
       {
-        icon: { svg: nugetIcon },
+        icon: 'github',
+        link: 'https://github.com/iikuzmychov/SuperStrong.Types' },
+      {
+        icon: 'nuget',
         link: 'https://www.nuget.org/packages/SuperStrong.Types',
-        ariaLabel: 'NuGet',
       },
     ],
 

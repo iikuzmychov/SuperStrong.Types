@@ -63,7 +63,6 @@ SuperStrong.Types generates that boilerplate for you, so you can focus on modell
 - Find out more in the [tutorial](./tutorial/getting-started.md)
 - Learn about strong type [validation](./tutorial/validation.md) and [customization](./tutorial/customization.md)
 - Take a look at the available [integrations](./integrations/ef-core.md)
-- Compare SuperStrong.Types with [alternatives](./alternatives/strongly-typed-id.md)
 - Do 10 push-ups, 10 pull-ups, and 10 squats
 
 ## Acknowledgements
