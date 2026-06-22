@@ -84,6 +84,8 @@ export default defineConfig({
           { text: 'OpenAPI', link: '/integrations/openapi' },
           { text: 'EF Core', link: '/integrations/ef-core' },
           { text: 'Hot Chocolate', link: '/integrations/hotchocolate' },
+          { text: 'System.Text.Json', link: '/integrations/system-text-json' },
+          { text: 'Newtonsoft.Json', link: '/integrations/newtonsoft-json' },
         ],
       },
     ],
