@@ -1,0 +1,188 @@
+﻿{
+  openapi: 3.1.1,
+  info: {
+    title: SuperStrong.Types.AspNetCore.OpenApi.Tests | v1,
+    version: 1.0.0
+  },
+  servers: [
+    {
+      url: http://localhost/
+    }
+  ],
+  paths: {
+    /: {
+      post: {
+        tags: [
+          SuperStrong.Types.AspNetCore.OpenApi.Tests
+        ],
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                $ref: #/components/schemas/PrimitivesDto
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/PrimitivesDto
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  components: {
+    schemas: {
+      PrimitivesDto: {
+        required: [
+          bool,
+          byte,
+          sByte,
+          short,
+          uShort,
+          int,
+          uInt,
+          long,
+          uLong,
+          float,
+          double,
+          decimal,
+          string,
+          char,
+          guid,
+          dateTime,
+          dateTimeOffset,
+          dateOnly,
+          timeOnly,
+          timeSpan
+        ],
+        type: object,
+        properties: {
+          bool: {
+            type: boolean
+          },
+          byte: {
+            type: [
+              integer,
+              string
+            ],
+            format: uint8
+          },
+          sByte: {
+            type: [
+              integer,
+              string
+            ]
+          },
+          short: {
+            type: [
+              integer,
+              string
+            ],
+            format: int16
+          },
+          uShort: {
+            type: [
+              integer,
+              string
+            ],
+            format: uint16
+          },
+          int: {
+            type: [
+              integer,
+              string
+            ],
+            format: int32
+          },
+          uInt: {
+            type: [
+              integer,
+              string
+            ],
+            format: uint32
+          },
+          long: {
+            type: [
+              integer,
+              string
+            ],
+            format: int64
+          },
+          uLong: {
+            type: [
+              integer,
+              string
+            ],
+            format: uint64
+          },
+          float: {
+            type: [
+              number,
+              string
+            ],
+            format: float
+          },
+          double: {
+            type: [
+              number,
+              string
+            ],
+            format: double
+          },
+          decimal: {
+            type: [
+              number,
+              string
+            ],
+            format: double
+          },
+          string: {
+            type: string
+          },
+          char: {
+            type: string,
+            format: char
+          },
+          guid: {
+            type: string,
+            format: uuid
+          },
+          dateTime: {
+            type: string,
+            format: date-time
+          },
+          dateTimeOffset: {
+            type: string,
+            format: date-time
+          },
+          dateOnly: {
+            type: string,
+            format: date
+          },
+          timeOnly: {
+            type: string,
+            format: time
+          },
+          timeSpan: {
+            type: string
+          }
+        }
+      }
+    }
+  },
+  tags: [
+    {
+      name: SuperStrong.Types.AspNetCore.OpenApi.Tests
+    }
+  ]
+}

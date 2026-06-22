@@ -4,7 +4,7 @@ While most of the generated code can't be modified, it's possible to customize s
 
 ## String representation
 
-You can override `ToString()` manually, so the source generator will not emit a default implementation for it: 
+You can override `ToString()` manually, so the source generator will not emit a default implementation for it:
 
 ```csharp
 [StrongType<string>]

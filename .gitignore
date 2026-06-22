@@ -130,3 +130,6 @@ x86/
 node_modules/
 docs/.vitepress/cache/
 docs/.vitepress/dist/
+
+# Local clones for reference
+temp/

@@ -1,0 +1,63 @@
+﻿{
+  openapi: 3.1.1,
+  info: {
+    title: SuperStrong.Types.AspNetCore.OpenApi.Tests | v1,
+    version: 1.0.0
+  },
+  servers: [
+    {
+      url: http://localhost/
+    }
+  ],
+  paths: {
+    /{id}: {
+      get: {
+        tags: [
+          SuperStrong.Types.AspNetCore.OpenApi.Tests
+        ],
+        parameters: [
+          {
+            name: id,
+            in: path,
+            required: true,
+            schema: {
+              $ref: #/components/schemas/UserId
+            }
+          },
+          {
+            name: age,
+            in: query,
+            schema: {
+              $ref: #/components/schemas/Age
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: OK
+          }
+        }
+      }
+    }
+  },
+  components: {
+    schemas: {
+      Age: {
+        type: [
+          integer,
+          string
+        ],
+        format: int32
+      },
+      UserId: {
+        type: string,
+        format: uuid
+      }
+    }
+  },
+  tags: [
+    {
+      name: SuperStrong.Types.AspNetCore.OpenApi.Tests
+    }
+  ]
+}

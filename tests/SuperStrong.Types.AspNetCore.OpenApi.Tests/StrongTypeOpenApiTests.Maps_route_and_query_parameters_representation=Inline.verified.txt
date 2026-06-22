@@ -1,0 +1,53 @@
+﻿{
+  openapi: 3.1.1,
+  info: {
+    title: SuperStrong.Types.AspNetCore.OpenApi.Tests | v1,
+    version: 1.0.0
+  },
+  servers: [
+    {
+      url: http://localhost/
+    }
+  ],
+  paths: {
+    /{id}: {
+      get: {
+        tags: [
+          SuperStrong.Types.AspNetCore.OpenApi.Tests
+        ],
+        parameters: [
+          {
+            name: id,
+            in: path,
+            required: true,
+            schema: {
+              type: string,
+              format: uuid
+            }
+          },
+          {
+            name: age,
+            in: query,
+            schema: {
+              type: [
+                integer,
+                string
+              ],
+              format: int32
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: OK
+          }
+        }
+      }
+    }
+  },
+  tags: [
+    {
+      name: SuperStrong.Types.AspNetCore.OpenApi.Tests
+    }
+  ]
+}

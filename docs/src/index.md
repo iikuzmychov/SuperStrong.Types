@@ -22,16 +22,16 @@ You get auto-generated:
 - comparison: `<`, `<=`, `>`, `>=`, `IComparable<>`, `IComparisonOperators<,,>`
 - formatting: `ToString(...)`, `IFormattable`, `ISpanFormattable`, `IUtf8SpanFormattable`
 - parsing: `IParsable<>`, `ISpanParsable<>`, `IUtf8SpanParsable<>`
-- conversion: `IConvertible`, `TypeConverter`, `JsonConverter` 
+- conversion: `IConvertible`, `TypeConverter`, `JsonConverter`
 
 You can easily integrate it with:
 
 - ASP.NET Core
+- OpenAPI
 - EF Core
 - Hot Chocolate
+- System.Text.Json
 - Newtonsoft.Json
-
-and more coming soon: OpenAPI, Dapper, MessagePack, ...
 
 ## How to install?
 
@@ -48,7 +48,6 @@ dotnet add package SuperStrong.Types --version {{ $frontmatter.version }}
 ```
 
 :::
-
 
 This library targets **.NET 10**, so your project should target .NET 10 or higher to be compatible with SuperStrong.Types.
 

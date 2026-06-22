@@ -1,0 +1,83 @@
+﻿{
+  openapi: 3.1.1,
+  info: {
+    title: SuperStrong.Types.AspNetCore.OpenApi.Tests | v1,
+    version: 1.0.0
+  },
+  servers: [
+    {
+      url: http://localhost/
+    }
+  ],
+  paths: {
+    /: {
+      post: {
+        tags: [
+          SuperStrong.Types.AspNetCore.OpenApi.Tests
+        ],
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                $ref: #/components/schemas/DictionaryDto
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/DictionaryDto
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  components: {
+    schemas: {
+      DictionaryDto: {
+        required: [
+          tagsByName,
+          tagsByUserId
+        ],
+        type: object,
+        properties: {
+          tagsByName: {
+            type: object,
+            additionalProperties: {
+              $ref: #/components/schemas/Tag
+            }
+          },
+          tagsByUserId: {
+            propertyNames: {
+              $ref: #/components/schemas/UserId
+            },
+            type: object,
+            additionalProperties: {
+              $ref: #/components/schemas/Tag
+            }
+          }
+        }
+      },
+      Tag: {
+        type: string
+      },
+      UserId: {
+        type: string,
+        format: uuid
+      }
+    }
+  },
+  tags: [
+    {
+      name: SuperStrong.Types.AspNetCore.OpenApi.Tests
+    }
+  ]
+}

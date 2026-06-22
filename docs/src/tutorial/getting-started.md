@@ -67,7 +67,7 @@ partial class OrderId :
     public bool Equals(OrderId other) => _value.Equals(other._value);
 
     // ==, !=, <, <=, >, >=
-    
+
     // other interfaces-related members
 }
 ```

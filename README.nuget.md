@@ -26,11 +26,11 @@ You get auto-generated:
 You can easily integrate it with:
 
 - ASP.NET Core
+- OpenAPI
 - EF Core
 - Hot Chocolate
+- System.Text.Json
 - Newtonsoft.Json
-
-and more coming soon: OpenAPI, Dapper, MessagePack, ...
 
 ## How to install?
 

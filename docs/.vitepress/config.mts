@@ -81,6 +81,7 @@ export default defineConfig({
       {
         text: 'Integrations',
         items: [
+          { text: 'OpenAPI', link: '/integrations/openapi' },
           { text: 'EF Core', link: '/integrations/ef-core' },
           { text: 'Hot Chocolate', link: '/integrations/hotchocolate' },
         ],

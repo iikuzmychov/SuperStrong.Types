@@ -37,4 +37,23 @@ public sealed class JsonStrongTypeConverter<TStrongType, TPrimitive> : JsonConve
     {
         JsonSerializer.Serialize(writer, value.AsPrimitive(), options);
     }
+
+    public override TStrongType ReadAsPropertyName(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var primitiveConverter = GetPrimitiveConverter(options);
+        var primitive = primitiveConverter.ReadAsPropertyName(ref reader, typeof(TPrimitive), options);
+
+        return TStrongType.From(primitive);
+    }
+
+    public override void WriteAsPropertyName(Utf8JsonWriter writer, TStrongType value, JsonSerializerOptions options)
+    {
+        var primitiveConverter = GetPrimitiveConverter(options);
+        primitiveConverter.WriteAsPropertyName(writer, value.AsPrimitive(), options);
+    }
+
+    private static JsonConverter<TPrimitive> GetPrimitiveConverter(JsonSerializerOptions options)
+    {
+        return (JsonConverter<TPrimitive>)options.GetConverter(typeof(TPrimitive));
+    }
 }

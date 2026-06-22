@@ -35,7 +35,7 @@ You can also use the **`Quick Actions`** → **`Add Definition`**.
 Validation runs every time you create an instance. `From(...)` checks the value against the `Definition` and throws if any rule is not satisfied:
 
 ```csharp
-var age = Age.From(-1); // throws - negative
+var age = Age.From(-1); // throws: negative
 ```
 
 When invalid input is expected, for example when validating user input, use `TryFrom(...)` instead. It does not throw and returns `false` for an invalid value:
@@ -52,7 +52,7 @@ if (!Age.TryFrom(input, out var age))
 Parsing works the same way. Calling `Parse(...)` runs the validation rules too:
 
 ```csharp
-var age = Age.Parse("200"); // throws - greater than 150
+var age = Age.Parse("200"); // throws: greater than 150
 ```
 
 `TryParse(...)` does not throw and returns `false` for invalid input:

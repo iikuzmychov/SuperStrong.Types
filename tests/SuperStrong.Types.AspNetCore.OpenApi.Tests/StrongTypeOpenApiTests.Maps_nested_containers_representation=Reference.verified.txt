@@ -1,0 +1,92 @@
+﻿{
+  openapi: 3.1.1,
+  info: {
+    title: SuperStrong.Types.AspNetCore.OpenApi.Tests | v1,
+    version: 1.0.0
+  },
+  servers: [
+    {
+      url: http://localhost/
+    }
+  ],
+  paths: {
+    /: {
+      post: {
+        tags: [
+          SuperStrong.Types.AspNetCore.OpenApi.Tests
+        ],
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                $ref: #/components/schemas/NestedDto
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/NestedDto
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  components: {
+    schemas: {
+      NestedDto: {
+        required: [
+          tagGroups,
+          tagsByGroup,
+          tagMaps
+        ],
+        type: object,
+        properties: {
+          tagGroups: {
+            type: array,
+            items: {
+              type: array,
+              items: {
+                $ref: #/components/schemas/Tag
+              }
+            }
+          },
+          tagsByGroup: {
+            type: object,
+            additionalProperties: {
+              type: array,
+              items: {
+                $ref: #/components/schemas/Tag
+              }
+            }
+          },
+          tagMaps: {
+            type: array,
+            items: {
+              type: object,
+              additionalProperties: {
+                $ref: #/components/schemas/Tag
+              }
+            }
+          }
+        }
+      },
+      Tag: {
+        type: string
+      }
+    }
+  },
+  tags: [
+    {
+      name: SuperStrong.Types.AspNetCore.OpenApi.Tests
+    }
+  ]
+}

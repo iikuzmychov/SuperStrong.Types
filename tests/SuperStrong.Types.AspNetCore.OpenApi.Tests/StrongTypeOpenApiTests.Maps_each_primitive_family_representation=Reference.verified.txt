@@ -1,0 +1,248 @@
+﻿{
+  openapi: 3.1.1,
+  info: {
+    title: SuperStrong.Types.AspNetCore.OpenApi.Tests | v1,
+    version: 1.0.0
+  },
+  servers: [
+    {
+      url: http://localhost/
+    }
+  ],
+  paths: {
+    /: {
+      post: {
+        tags: [
+          SuperStrong.Types.AspNetCore.OpenApi.Tests
+        ],
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                $ref: #/components/schemas/PrimitivesDto
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/PrimitivesDto
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  components: {
+    schemas: {
+      PrimitivesDto: {
+        required: [
+          bool,
+          byte,
+          sByte,
+          short,
+          uShort,
+          int,
+          uInt,
+          long,
+          uLong,
+          float,
+          double,
+          decimal,
+          string,
+          char,
+          guid,
+          dateTime,
+          dateTimeOffset,
+          dateOnly,
+          timeOnly,
+          timeSpan
+        ],
+        type: object,
+        properties: {
+          bool: {
+            $ref: #/components/schemas/StrongBool
+          },
+          byte: {
+            $ref: #/components/schemas/StrongByte
+          },
+          sByte: {
+            $ref: #/components/schemas/StrongSByte
+          },
+          short: {
+            $ref: #/components/schemas/StrongShort
+          },
+          uShort: {
+            $ref: #/components/schemas/StrongUShort
+          },
+          int: {
+            $ref: #/components/schemas/StrongInt
+          },
+          uInt: {
+            $ref: #/components/schemas/StrongUInt
+          },
+          long: {
+            $ref: #/components/schemas/StrongLong
+          },
+          uLong: {
+            $ref: #/components/schemas/StrongULong
+          },
+          float: {
+            $ref: #/components/schemas/StrongFloat
+          },
+          double: {
+            $ref: #/components/schemas/StrongDouble
+          },
+          decimal: {
+            $ref: #/components/schemas/StrongDecimal
+          },
+          string: {
+            $ref: #/components/schemas/StrongString
+          },
+          char: {
+            $ref: #/components/schemas/StrongChar
+          },
+          guid: {
+            $ref: #/components/schemas/StrongGuid
+          },
+          dateTime: {
+            $ref: #/components/schemas/StrongDateTime
+          },
+          dateTimeOffset: {
+            $ref: #/components/schemas/StrongDateTimeOffset
+          },
+          dateOnly: {
+            $ref: #/components/schemas/StrongDateOnly
+          },
+          timeOnly: {
+            $ref: #/components/schemas/StrongTimeOnly
+          },
+          timeSpan: {
+            $ref: #/components/schemas/StrongTimeSpan
+          }
+        }
+      },
+      StrongBool: {
+        type: boolean
+      },
+      StrongByte: {
+        type: [
+          integer,
+          string
+        ],
+        format: uint8
+      },
+      StrongChar: {
+        type: string,
+        format: char
+      },
+      StrongDateOnly: {
+        type: string,
+        format: date
+      },
+      StrongDateTime: {
+        type: string,
+        format: date-time
+      },
+      StrongDateTimeOffset: {
+        type: string,
+        format: date-time
+      },
+      StrongDecimal: {
+        type: [
+          number,
+          string
+        ],
+        format: double
+      },
+      StrongDouble: {
+        type: [
+          number,
+          string
+        ],
+        format: double
+      },
+      StrongFloat: {
+        type: [
+          number,
+          string
+        ],
+        format: float
+      },
+      StrongGuid: {
+        type: string,
+        format: uuid
+      },
+      StrongInt: {
+        type: [
+          integer,
+          string
+        ],
+        format: int32
+      },
+      StrongLong: {
+        type: [
+          integer,
+          string
+        ],
+        format: int64
+      },
+      StrongSByte: {
+        type: [
+          integer,
+          string
+        ]
+      },
+      StrongShort: {
+        type: [
+          integer,
+          string
+        ],
+        format: int16
+      },
+      StrongString: {
+        type: string
+      },
+      StrongTimeOnly: {
+        type: string,
+        format: time
+      },
+      StrongTimeSpan: {
+        type: string
+      },
+      StrongUInt: {
+        type: [
+          integer,
+          string
+        ],
+        format: uint32
+      },
+      StrongULong: {
+        type: [
+          integer,
+          string
+        ],
+        format: uint64
+      },
+      StrongUShort: {
+        type: [
+          integer,
+          string
+        ],
+        format: uint16
+      }
+    }
+  },
+  tags: [
+    {
+      name: SuperStrong.Types.AspNetCore.OpenApi.Tests
+    }
+  ]
+}
