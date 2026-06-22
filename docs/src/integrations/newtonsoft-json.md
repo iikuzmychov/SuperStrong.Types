@@ -60,5 +60,5 @@ JsonConvert.DeserializeObject<OrderId>("1", settings); // OrderId.From(1)
 ```
 
 ::: tip
-When reading from the json, values go through `From(...)`, so they are always validated.
+When reading from JSON, values go through `From(...)`, so they are always validated.
 :::

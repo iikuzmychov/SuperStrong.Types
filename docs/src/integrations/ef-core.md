@@ -49,4 +49,3 @@ var users = await dbContext.Users
 ```
 
 Such queries are translated to SQL as if you used the underlying primitives directly.
-

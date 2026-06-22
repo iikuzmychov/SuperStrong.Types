@@ -1,4 +1,4 @@
-# Primitive Obsession
+# Primitive obsession
 
 Primitive obsession is the habit of modelling domain concepts with primitive types instead of giving each concept a type of its own: an id is stored as a `Guid`, a quantity as an `int`, and an email as a `string`.
 

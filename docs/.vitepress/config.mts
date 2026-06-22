@@ -66,16 +66,16 @@ export default defineConfig({
       {
         text: 'Preface',
         items: [
-          { text: 'Primitive Obsession', link: '/preface/primitive-obsession' },
+          { text: 'Primitive obsession', link: '/preface/primitive-obsession' },
         ],
       },
       {
         text: 'Tutorial',
         items: [
-          { text: 'Getting Started', link: '/tutorial/getting-started' },
+          { text: 'Getting started', link: '/tutorial/getting-started' },
           { text: 'Validation', link: '/tutorial/validation' },
           { text: 'Customization', link: '/tutorial/customization' },
-          { text: 'Null Handling', link: '/tutorial/null-handling' },
+          { text: 'Null handling', link: '/tutorial/null-handling' },
         ],
       },
       {

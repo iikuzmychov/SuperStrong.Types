@@ -120,7 +120,6 @@ They are also ordered by their underlying value, so they can be compared and sor
 OrderId.From(1) < OrderId.From(2); // true
 ```
 
-
 ## Casting to a primitive
 
 Sometimes you need to convert a strong type to its underlying primitive. You can achieve this by using `AsPrimitive()`:
