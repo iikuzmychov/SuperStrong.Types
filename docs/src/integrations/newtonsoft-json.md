@@ -37,7 +37,7 @@ or register the converter on your settings:
 ```csharp
 var settings = new JsonSerializerSettings
 {
-    Converters = [new JsonStrongTypeConverter()],
+    Converters = { new JsonStrongTypeConverter() },
 };
 ```
 
