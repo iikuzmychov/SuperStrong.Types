@@ -1,4 +1,6 @@
-﻿namespace SuperStrong.Types;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace SuperStrong.Types;
 
 public static class StrongType
 {
@@ -8,7 +10,7 @@ public static class StrongType
         return StrongTypeDefinition<TPrimitive>.Empty;
     }
 
-    public static bool IsValid<TPrimitive>(TPrimitive? value, StrongTypeDefinition<TPrimitive> definition)
+    public static bool IsValid<TPrimitive>([NotNullWhen(true)] TPrimitive? value, StrongTypeDefinition<TPrimitive> definition)
         where TPrimitive : notnull
     {
         ArgumentNullException.ThrowIfNull(definition);
