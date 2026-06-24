@@ -18,7 +18,32 @@ public abstract class JsonStrongTypeConverterTests<TStrongType, TPrimitive, TThe
         Converters = { _converter }
     };
 
-    public static TTheoryData PrimitivesData { get; } = new();
+    public static TheoryData<TPrimitive> PrimitivesData { get; } = new TTheoryData();
+    public static TheoryData<TStrongType> StrongTypesData { get; } = CreateStrongTypesData();
+    public static TheoryData<string> JsonsData { get; } = CreateJsonsData();
+    public static TheoryData<string> DictionaryJsonsData { get; } = CreateDictionaryJsonsData();
+
+    private static TheoryData<TStrongType> CreateStrongTypesData()
+    {
+        return new(PrimitivesData.Select(primitive => TStrongType.From(primitive)));
+    }
+
+    private static TheoryData<string> CreateJsonsData()
+    {
+        return new(PrimitivesData.Select(primitive => JsonSerializer.Serialize((TPrimitive)primitive, _options)));
+    }
+
+    private static TheoryData<string> CreateDictionaryJsonsData()
+    {
+        return new(
+            PrimitivesData.Select(primitive =>
+                JsonSerializer.Serialize(
+                    new Dictionary<TPrimitive, object>
+                    {
+                        [(TPrimitive)primitive] = "value"
+                    },
+                    _options)));
+    }
 
     [Fact]
     public void Converter_factory_can_convert_strong_type()
@@ -41,40 +66,37 @@ public abstract class JsonStrongTypeConverterTests<TStrongType, TPrimitive, TThe
     }
 
     [Theory]
-    [MemberData(nameof(PrimitivesData))]
-    public void Strong_type_serializes_like_its_primitive(TPrimitive primitive)
+    [MemberData(nameof(StrongTypesData))]
+    public void Strong_type_serializes_like_its_primitive(TStrongType strongType)
     {
-        var strongType = TStrongType.From(primitive);
-
-        var primitiveJson = JsonSerializer.Serialize(primitive, _options);
+        var primitiveJson = JsonSerializer.Serialize(strongType.AsPrimitive(), _options);
         var strongTypeJson = JsonSerializer.Serialize(strongType, _options);
 
         Assert.Equal(primitiveJson, strongTypeJson);
     }
 
     [Theory]
-    [MemberData(nameof(PrimitivesData))]
-    public void Strong_type_deserializes_from_its_serialized_primitive(TPrimitive primitive)
+    [MemberData(nameof(JsonsData))]
+    public void Strong_type_deserializes_from_its_serialized_primitive(string json)
     {
-        var primitiveJson = JsonSerializer.Serialize(primitive, _options);
-
-        var strongType = JsonSerializer.Deserialize<TStrongType>(primitiveJson, _options)!;
+        var primitive = JsonSerializer.Deserialize<TPrimitive>(json, _options);
+        var strongType = JsonSerializer.Deserialize<TStrongType>(json, _options)!;
 
         Assert.Equal(primitive, strongType.AsPrimitive());
     }
 
     [Theory]
-    [MemberData(nameof(PrimitivesData))]
-    public void Strong_type_serializes_as_dictionary_key_like_its_primitive(TPrimitive primitive)
+    [MemberData(nameof(StrongTypesData))]
+    public void Strong_type_serializes_as_dictionary_key_like_its_primitive(TStrongType strongType)
     {
         var primitiveKeysDictionary = new Dictionary<TPrimitive, object>()
         {
-            [primitive] = "value"
+            [strongType.AsPrimitive()] = "value"
         };
 
         var strongTypeKeysDictionary = new Dictionary<TStrongType, object>()
         {
-            [TStrongType.From(primitive)] = "value"
+            [strongType] = "value"
         };
 
         var primitiveKeysDictionaryJson = JsonSerializer.Serialize(primitiveKeysDictionary, _options);
@@ -84,24 +106,17 @@ public abstract class JsonStrongTypeConverterTests<TStrongType, TPrimitive, TThe
     }
 
     [Theory]
-    [MemberData(nameof(PrimitivesData))]
-    public void Strong_type_deserializes_from_dictionary_key_like_its_primitive(TPrimitive primitive)
+    [MemberData(nameof(DictionaryJsonsData))]
+    public void Strong_type_deserializes_from_dictionary_key_like_its_primitive(string json)
     {
-        var primitiveKeysDictionary = new Dictionary<TPrimitive, object>()
-        {
-            [primitive] = "value"
-        };
+        var primitiveKeysDictionary = JsonSerializer.Deserialize<Dictionary<TPrimitive, string>>(json, _options)!;
+        var strongTypeKeysDictionary = JsonSerializer.Deserialize<Dictionary<TStrongType, string>>(json, _options)!;
 
-        var primitiveKeysDictionaryJson = JsonSerializer.Serialize(primitiveKeysDictionary, _options);
-
-        var strongTypeKeysDictionary = JsonSerializer.Deserialize<Dictionary<TStrongType, string>>(
-            primitiveKeysDictionaryJson,
-            _options)!;
-
+        var primitiveKeysDictionaryEntry = Assert.Single(primitiveKeysDictionary);
         var strongTypeKeysDictionaryEntry = Assert.Single(strongTypeKeysDictionary);
 
-        Assert.Equal(primitive, strongTypeKeysDictionaryEntry.Key.AsPrimitive());
-        Assert.Equal("value", strongTypeKeysDictionaryEntry.Value);
+        Assert.Equal(primitiveKeysDictionaryEntry.Key, strongTypeKeysDictionaryEntry.Key.AsPrimitive());
+        Assert.Equal(primitiveKeysDictionaryEntry.Value, strongTypeKeysDictionaryEntry.Value);
     }
 
     [Fact]
