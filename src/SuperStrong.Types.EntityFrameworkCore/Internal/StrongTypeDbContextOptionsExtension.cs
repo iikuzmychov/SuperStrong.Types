@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -20,50 +20,12 @@ internal sealed class StrongTypeDbContextOptionsExtension : IDbContextOptionsExt
 
     public void ApplyServices(IServiceCollection services)
     {
-        DecorateValueConverterSelector(services);
-    }
+        // Deferred to break the cycle: IRelationalTypeMappingSource depends on its plugins.
+        services.TryAddSingleton(
+            provider => new Lazy<IRelationalTypeMappingSource>(provider.GetRequiredService<IRelationalTypeMappingSource>));
 
-    private static void DecorateValueConverterSelector(IServiceCollection services)
-    {
-        var targetDescriptor = services.FirstOrDefault(
-            descriptor => descriptor.ServiceType == typeof(IValueConverterSelector));
-
-        if (targetDescriptor is null)
-        {
-            throw new InvalidOperationException(
-                $"No {nameof(IValueConverterSelector)} is configured yet. " +
-                $"Make sure to configure a database provider first.");
-        }
-
-        services.Replace(
-            ServiceDescriptor.Describe(
-                typeof(IValueConverterSelector),
-                serviceProvider =>
-                {
-                    var inner = (IValueConverterSelector)CreateTargetInstance(serviceProvider, targetDescriptor);
-                    return new StrongTypeValueConverterSelector(inner);
-                },
-                targetDescriptor.Lifetime));
-    }
-
-    private static object CreateTargetInstance(IServiceProvider serviceProvider, ServiceDescriptor descriptor)
-    {
-        if (descriptor.ImplementationInstance is not null)
-        {
-            return descriptor.ImplementationInstance;
-        }
-
-        if (descriptor.ImplementationFactory is not null)
-        {
-            return descriptor.ImplementationFactory(serviceProvider);
-        }
-
-        if (descriptor.ImplementationType is not null)
-        {
-            return ActivatorUtilities.GetServiceOrCreateInstance(serviceProvider, descriptor.ImplementationType);
-        }
-
-        throw new InvalidOperationException("Cannot create target instance for the service descriptor.");
+        services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<IRelationalTypeMappingSourcePlugin, StrongTypeRelationalTypeMappingSourcePlugin>());
     }
 
     private sealed class ExtensionInfo(StrongTypeDbContextOptionsExtension extension)
