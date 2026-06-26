@@ -19,69 +19,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
-  <!-- Versioning configuration -->
-  <PropertyGroup>
-    <VersionMajor>1</VersionMajor>
-    <VersionMinor>0</VersionMinor>
-    <VersionSuffixName>beta</VersionSuffixName>
-  </PropertyGroup>
-
-  <!-- Package metadata -->
-  <PropertyGroup>
-    <Authors>Ihor Kuzmychov (iikuzmychov)</Authors>
-    <Description>Strong types for .NET — define once, use everywhere!</Description>
-    <PackageTags>super-strong;strong-types;strongly-typed;strongly-typed-id;value-objects;primitive-obsession;code-generators;source-generators;ddd;domain-driven-design</PackageTags>
-    <PackageProjectUrl>https://superstrong.dev</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/iikuzmychov/SuperStrong.Types</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageIcon>logo.png</PackageIcon>
-    <PackageReadmeFile>README.nuget.md</PackageReadmeFile>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)docs/public/img/logo.png" Pack="true" PackagePath="/" Visible="false" />
-    <None Include="$(MSBuildThisFileDirectory)README.nuget.md" Pack="true" PackagePath="/" Visible="false" />
-  </ItemGroup>
-
-  <!-- Decomposition of the last published version (provided by the publish pipeline) -->
-  <PropertyGroup Condition="'$(LastPublishedVersion)' != ''">
-    
-    <_LastPublishedVersionDashIndex>$(LastPublishedVersion.IndexOf('-'))</_LastPublishedVersionDashIndex>
-    
-    <_LastPublishedVersionPrefix Condition="'$(_LastPublishedVersionDashIndex)' == '-1'">$(LastPublishedVersion)</_LastPublishedVersionPrefix>
-    <_LastPublishedVersionPrefix Condition="'$(_LastPublishedVersionDashIndex)' != '-1'">$(LastPublishedVersion.Substring(0,$(_LastPublishedVersionDashIndex)))</_LastPublishedVersionPrefix>
-    
-    <_LastPublishedVersionSuffixStart Condition="'$(_LastPublishedVersionDashIndex)' != '-1'">$([MSBuild]::Add($(_LastPublishedVersionDashIndex), 1))</_LastPublishedVersionSuffixStart>
-    <_LastPublishedVersionSuffix Condition="'$(_LastPublishedVersionDashIndex)' != '-1'">$(LastPublishedVersion.Substring($(_LastPublishedVersionSuffixStart)))</_LastPublishedVersionSuffix>
-
-    <_LastPublishedVersionMajor>$([System.Version]::Parse('$(_LastPublishedVersionPrefix)').Major)</_LastPublishedVersionMajor>
-    <_LastPublishedVersionMinor>$([System.Version]::Parse('$(_LastPublishedVersionPrefix)').Minor)</_LastPublishedVersionMinor>
-    <_LastPublishedVersionPatch>$([System.Version]::Parse('$(_LastPublishedVersionPrefix)').Build)</_LastPublishedVersionPatch>
-
-    <_LastPublishedVersionSuffixDotIndex Condition="'$(_LastPublishedVersionSuffix)' != ''">$(_LastPublishedVersionSuffix.IndexOf('.'))</_LastPublishedVersionSuffixDotIndex>
-    <_LastPublishedVersionSuffixName Condition="'$(_LastPublishedVersionSuffix)' != ''">$(_LastPublishedVersionSuffix.Substring(0,$(_LastPublishedVersionSuffixDotIndex)))</_LastPublishedVersionSuffixName>
-    <_LastPublishedVersionSuffixVersionStart Condition="'$(_LastPublishedVersionSuffix)' != ''">$([MSBuild]::Add($(_LastPublishedVersionSuffixDotIndex), 1))</_LastPublishedVersionSuffixVersionStart>
-    <_LastPublishedVersionSuffixVersion Condition="'$(_LastPublishedVersionSuffix)' != ''">$(_LastPublishedVersionSuffix.Substring($(_LastPublishedVersionSuffixVersionStart)))</_LastPublishedVersionSuffixVersion>
-
-    <!-- Verstion should be auto-incremented if the last published version has the same major, minor and suffix name -->
-    <AutoIncrementVersion Condition="'$(VersionMajor)' == '$(_LastPublishedVersionMajor)' and '$(VersionMinor)' == '$(_LastPublishedVersionMinor)' and '$(VersionSuffixName)' == '$(_LastPublishedVersionSuffixName)'">true</AutoIncrementVersion>
-  
-  </PropertyGroup>
-
-  <!-- Version auto-incrementation logic -->
-  <PropertyGroup Condition="'$(AutoIncrementVersion)' == 'true'">
-    <VersionPatch Condition="'$(VersionSuffixName)' == ''">$([MSBuild]::Add($(_LastPublishedVersionPatch), 1))</VersionPatch>
-    <VersionSuffixVersion Condition="'$(VersionSuffixName)' != ''">$([MSBuild]::Add($(_LastPublishedVersionSuffixVersion), 1))</VersionSuffixVersion>
-  </PropertyGroup>
-
-  <!-- Version composition logic -->
-  <PropertyGroup>    
-    <VersionPatch Condition="'$(VersionPatch)' == ''">0</VersionPatch>
-    <VersionPrefix>$(VersionMajor).$(VersionMinor).$(VersionPatch)</VersionPrefix>
-    <VersionSuffixVersion Condition="'$(VersionSuffixVersion)' == ''">1</VersionSuffixVersion>
-    <VersionSuffix Condition="'$(VersionSuffixName)' != ''">$(VersionSuffixName).$(VersionSuffixVersion)</VersionSuffix>    
-  </PropertyGroup>
+  <Import Project="$(MSBuildThisFileDirectory)eng\Versioning.props" />
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />

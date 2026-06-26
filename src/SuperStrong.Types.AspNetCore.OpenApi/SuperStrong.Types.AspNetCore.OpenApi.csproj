@@ -1,5 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="..\..\eng\Packable.props" />
+
   <PropertyGroup>
     <PackageTags>$(PackageTags);aspnetcore;asp-net-core;openapi;open-api;swagger</PackageTags>
   </PropertyGroup>

@@ -1,4 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\eng\Packable.props" />
 
   <PropertyGroup>
     <PackageTags>$(PackageTags);newtonsoft;newtonsoft-json;json;serialization</PackageTags>

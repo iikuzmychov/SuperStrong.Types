@@ -1,0 +1,24 @@
+<Project>
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Authors>Ihor Kuzmychov (iikuzmychov)</Authors>
+    <Description>Strong types for .NET — define once, use everywhere!</Description>
+    <PackageTags>super-strong;strong-types;strongly-typed;strongly-typed-id;value-objects;primitive-obsession;code-generators;source-generators;ddd;domain-driven-design</PackageTags>
+    <PackageProjectUrl>https://superstrong.dev</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/iikuzmychov/SuperStrong.Types</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>README.nuget.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)../docs/public/img/logo.png" Pack="true" PackagePath="/" Visible="false" />
+    <None Include="$(MSBuildThisFileDirectory)../README.nuget.md" Pack="true" PackagePath="/" Visible="false" />
+  </ItemGroup>
+
+</Project>

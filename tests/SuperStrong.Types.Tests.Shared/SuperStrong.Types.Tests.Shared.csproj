@@ -1,9 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="..\..\eng\CodeAnalysisReferences.props" />
+
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <UseMicrosoftTestingPlatformRunner>false</UseMicrosoftTestingPlatformRunner>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3.extensibility.core" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\SuperStrong.Types\SuperStrong.Types.csproj" />

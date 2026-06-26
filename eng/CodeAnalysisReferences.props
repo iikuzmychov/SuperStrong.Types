@@ -1,0 +1,24 @@
+<Project>
+
+  <PropertyGroup>
+    <ReferenceGeneratorAssemblies Condition="'$(ReferenceGeneratorAssemblies)' == ''">false</ReferenceGeneratorAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference
+      Include="$(MSBuildThisFileDirectory)../src/SuperStrong.Types.CodeAnalysis.Generators/SuperStrong.Types.CodeAnalysis.Generators.csproj"
+      OutputItemType="Analyzer"
+      ReferenceOutputAssembly="$(ReferenceGeneratorAssemblies)" />
+
+    <ProjectReference
+      Include="$(MSBuildThisFileDirectory)../src/SuperStrong.Types.CodeAnalysis.CodeActions/SuperStrong.Types.CodeAnalysis.CodeActions.csproj"
+      OutputItemType="Analyzer"
+      ReferenceOutputAssembly="$(ReferenceGeneratorAssemblies)" />
+
+    <ProjectReference
+      Include="$(MSBuildThisFileDirectory)../src/SuperStrong.Types.CodeAnalysis.Analyzers/SuperStrong.Types.CodeAnalysis.Analyzers.csproj"
+      OutputItemType="Analyzer"
+      ReferenceOutputAssembly="$(ReferenceGeneratorAssemblies)" />
+  </ItemGroup>
+
+</Project>

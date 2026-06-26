@@ -14,6 +14,13 @@
     <File Path="LICENSE.md" />
     <File Path="README.md" />
   </Folder>
+  <Folder Name="/eng/">
+    <File Path="eng/Versioning.props" />
+    <File Path="eng/RoslynComponent.props" />
+    <File Path="eng/CodeAnalysisReferences.props" />
+    <File Path="eng/Packable.props" />
+    <File Path="eng/TestProject.props" />
+  </Folder>
   <Folder Name="/src/">
     <File Path="src/Directory.Build.props" />
     <Project Path="src/SuperStrong.Types.AspNetCore.OpenApi/SuperStrong.Types.AspNetCore.OpenApi.csproj" />
@@ -28,7 +35,6 @@
     <Project Path="src/SuperStrong.Types/SuperStrong.Types.csproj" />
   </Folder>
   <Folder Name="/tests/">
-    <File Path="tests/Directory.Build.props" />
     <Project Path="tests/SuperStrong.Types.AspNetCore.OpenApi.Tests/SuperStrong.Types.AspNetCore.OpenApi.Tests.csproj" />
     <Project Path="tests/SuperStrong.Types.EntityFrameworkCore.Tests/SuperStrong.Types.EntityFrameworkCore.Tests.csproj" Id="9aea7318-a774-451c-897b-f10620918846" />
     <Project Path="tests/SuperStrong.Types.HotChocolate.Tests/SuperStrong.Types.HotChocolate.Tests.csproj" />
