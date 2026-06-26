@@ -1,7 +1,6 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using SuperStrong.Types.CodeAnalysis.Generators;
-using SuperStrong.Types.Tests.CodeAnalysis;
 
 namespace SuperStrong.Types.Tests.CodeAnalysis.Analyzers;
 

@@ -15,7 +15,9 @@ public sealed class JsonStrongTypeConverter : JsonConverter
 
     public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
     {
-        return GetConverter(objectType).ReadJson(reader, objectType, existingValue, serializer);
+        var converter = GetConverter(objectType);
+        
+        return converter.ReadJson(reader, objectType, existingValue, serializer);
     }
 
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
@@ -26,7 +28,8 @@ public sealed class JsonStrongTypeConverter : JsonConverter
             return;
         }
 
-        GetConverter(value.GetType()).WriteJson(writer, value, serializer);
+        var converter = GetConverter(value.GetType());
+        converter.WriteJson(writer, value, serializer);
     }
 
     private static JsonConverter GetConverter(Type strongType)

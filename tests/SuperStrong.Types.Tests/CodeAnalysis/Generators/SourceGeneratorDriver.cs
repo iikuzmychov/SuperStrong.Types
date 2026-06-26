@@ -1,6 +1,5 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using SuperStrong.Types.Tests.CodeAnalysis;
 
 namespace SuperStrong.Types.Tests.CodeAnalysis.Generators;
 

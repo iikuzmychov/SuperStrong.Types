@@ -1,9 +1,7 @@
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
 using SuperStrong.Types.CodeAnalysis.Generators;
-using SuperStrong.Types.Tests.CodeAnalysis;
 using SuperStrong.Types.Tests.CodeAnalysis.Analyzers;
 
 namespace SuperStrong.Types.Tests.CodeAnalysis.CodeActions.CodeFixes;
