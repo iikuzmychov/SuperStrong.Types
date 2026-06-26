@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\SuperStrong.Types\SuperStrong.Types.csproj" />
     <ProjectReference Include="..\..\src\SuperStrong.Types.NewtonsoftJson\SuperStrong.Types.NewtonsoftJson.csproj" />
+    <ProjectReference Include="..\SuperStrong.Types.Tests.Shared\SuperStrong.Types.Tests.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

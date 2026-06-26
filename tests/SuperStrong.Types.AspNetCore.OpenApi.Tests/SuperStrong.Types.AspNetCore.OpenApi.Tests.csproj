@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\SuperStrong.Types.AspNetCore.OpenApi\SuperStrong.Types.AspNetCore.OpenApi.csproj" />
+    <ProjectReference Include="..\SuperStrong.Types.Tests.Shared\SuperStrong.Types.Tests.Shared.csproj" />
   </ItemGroup>
 
 </Project>

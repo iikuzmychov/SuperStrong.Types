@@ -3,7 +3,7 @@
 using System.Text.Json;
 using SuperStrong.Types.Converters;
 
-namespace SuperStrong.Types.Tests.Converters.Json;
+namespace SuperStrong.Types.Tests.Converters;
 
 public abstract class JsonStrongTypeConverterTests<TStrongType, TPrimitive, TTheoryData>
     where TStrongType : class, IStrongType<TStrongType, TPrimitive>

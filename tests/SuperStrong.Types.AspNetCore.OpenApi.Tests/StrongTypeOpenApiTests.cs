@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
+using SuperStrong.Types.Tests;
 
 namespace SuperStrong.Types.AspNetCore.OpenApi.Tests;
 
@@ -76,27 +77,6 @@ public sealed partial class StrongTypeOpenApiTests
 
         await VerifyJson(openApiJson).UseParameters(representation);
     }
-
-    [StrongType<bool>] public sealed partial class StrongBool;
-    [StrongType<byte>] public sealed partial class StrongByte;
-    [StrongType<sbyte>] public sealed partial class StrongSByte;
-    [StrongType<short>] public sealed partial class StrongShort;
-    [StrongType<ushort>] public sealed partial class StrongUShort;
-    [StrongType<int>] public sealed partial class StrongInt;
-    [StrongType<uint>] public sealed partial class StrongUInt;
-    [StrongType<long>] public sealed partial class StrongLong;
-    [StrongType<ulong>] public sealed partial class StrongULong;
-    [StrongType<float>] public sealed partial class StrongFloat;
-    [StrongType<double>] public sealed partial class StrongDouble;
-    [StrongType<decimal>] public sealed partial class StrongDecimal;
-    [StrongType<string>] public sealed partial class StrongString;
-    [StrongType<char>] public sealed partial class StrongChar;
-    [StrongType<Guid>] public sealed partial class StrongGuid;
-    [StrongType<DateTime>] public sealed partial class StrongDateTime;
-    [StrongType<DateTimeOffset>] public sealed partial class StrongDateTimeOffset;
-    [StrongType<DateOnly>] public sealed partial class StrongDateOnly;
-    [StrongType<TimeOnly>] public sealed partial class StrongTimeOnly;
-    [StrongType<TimeSpan>] public sealed partial class StrongTimeSpan;
 
     public sealed record PrimitivesDto(
         StrongBool Bool,

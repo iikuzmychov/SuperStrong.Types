@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using SuperStrong.Types.Converters;
 
-namespace SuperStrong.Types.Tests.Converters.Type;
+namespace SuperStrong.Types.Tests.Converters;
 
 public abstract class StrongTypeConverterTests<TStrongType, TPrimitive, TTheoryData>
     where TStrongType : class, IStrongType<TStrongType, TPrimitive>

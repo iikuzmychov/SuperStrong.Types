@@ -1,21 +1,4 @@
-namespace SuperStrong.Types.Tests.Converters.NewtonsoftJson;
+namespace SuperStrong.Types.Tests.Converters;
 
-public sealed partial class IntNewtonsoftJsonTests
-    : NewtonsoftJsonStrongTypeTests<
-        IntNewtonsoftJsonTests.StrongInt,
-        int,
-        IntNewtonsoftJsonTests.PrimitiveData>
-{
-    [StrongType<int>]
-    public sealed partial class StrongInt;
-
-    public sealed class PrimitiveData : TheoryData<int>
-    {
-        public PrimitiveData()
-        {
-            Add(int.MinValue);
-            Add(0);
-            Add(int.MaxValue);
-        }
-    }
-}
+public sealed class IntNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongInt, int, IntPrimitiveData>;

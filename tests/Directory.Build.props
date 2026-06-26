@@ -13,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="xunit.v3.mtp-v2" />
+    <PackageReference Include="xunit.v3.mtp-v2" Condition="'$(MSBuildProjectName)' != 'SuperStrong.Types.Tests.Shared'" />
+    <PackageReference Include="xunit.v3.extensibility.core" Condition="'$(MSBuildProjectName)' == 'SuperStrong.Types.Tests.Shared'" />
   </ItemGroup>
 
   <PropertyGroup>

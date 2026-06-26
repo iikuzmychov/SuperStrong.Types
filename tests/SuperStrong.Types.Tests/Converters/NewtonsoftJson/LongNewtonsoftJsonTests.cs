@@ -1,21 +1,4 @@
-namespace SuperStrong.Types.Tests.Converters.NewtonsoftJson;
+namespace SuperStrong.Types.Tests.Converters;
 
-public sealed partial class LongNewtonsoftJsonTests
-    : NewtonsoftJsonStrongTypeTests<
-        LongNewtonsoftJsonTests.StrongLong,
-        long,
-        LongNewtonsoftJsonTests.PrimitiveData>
-{
-    [StrongType<long>]
-    public sealed partial class StrongLong;
-
-    public sealed class PrimitiveData : TheoryData<long>
-    {
-        public PrimitiveData()
-        {
-            Add(long.MinValue);
-            Add(0);
-            Add(long.MaxValue);
-        }
-    }
-}
+public sealed class LongNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongLong, long, LongPrimitiveData>;
