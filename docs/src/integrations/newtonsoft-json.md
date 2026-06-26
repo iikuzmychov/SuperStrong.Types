@@ -24,25 +24,39 @@ dotnet add package SuperStrong.Types.NewtonsoftJson --version {{ $frontmatter.ve
 
 ## Setup
 
-Strong types aren't annotated for Newtonsoft.Json automatically, so you should either annotate the strong type manually:
+Strong types aren't annotated for Newtonsoft.Json automatically, so you need to add the converters yourself.
 
-```csharp
-[StrongType<int>]
-[JsonConverter(typeof(JsonStrongTypeConverter))] // <-- here
-public sealed partial class OrderId;
-```
-
-or register the converter on your settings:
+Register the converters on your serializer settings:
 
 ```csharp
 var settings = new JsonSerializerSettings
 {
-    Converters = { new JsonStrongTypeConverter() },
+    Converters =
+    {
+        new JsonStrongTypeConverter(),
+        new JsonStrongTypeDictionaryConverter(),
+    },
 };
 ```
 
+Alternatively, annotate a strong type or dictionary member with `[JsonConverter(...)]`:
+
+```csharp
+[StrongType<int>]
+[JsonConverter(typeof(JsonStrongTypeConverter))]
+public sealed partial class OrderId;
+```
+
+```csharp
+public sealed class OrderDto
+{
+    [JsonConverter(typeof(JsonStrongTypeDictionaryConverter))]
+    public Dictionary<OrderId, string> Tags { get; set; } = [];
+}
+```
+
 ::: warning
-Don't confuse with the System.Text.Json attribute and converter of the same name.
+Don't confuse these with the similarly named attribute and converters from `System.Text.Json`.
 :::
 
 ## Serialization
