@@ -28,7 +28,7 @@ This package includes the runtime types, a source generator, analyzers, and code
 
 ## Creating a strong type
 
-To create a strong type you need to mark a partial class with `[StrongType<...>]`:
+To create a strong type, you need to mark a partial class with `[StrongType<...>]`:
 
 ```csharp
 using SuperStrong.Types;
@@ -68,7 +68,7 @@ partial class OrderId :
 
     // ==, !=, <, <=, >, >=
 
-    // other interfaces-related members
+    // other interface members
 }
 ```
 
@@ -76,13 +76,13 @@ partial class OrderId :
 
 ## Instantiation
 
-You can create an instance of a strong type from its primitive by using `From(...)`:
+Create an instance of a strong type from its primitive by using `From(...)`:
 
 ```csharp
 var orderId = OrderId.From(1);
 ```
 
-If a strong type has [validation rules](./validation.md), you can use `TryFrom(...)` to create an instance without throwing on invalid input. It returns `false` instead of throwing:
+If a strong type has [validation rules](./validation.md), use `TryFrom(...)` to create an instance without throwing on invalid input. It returns `false` instead of throwing:
 
 ```csharp
 if (!OrderId.TryFrom(-1, out var orderId))
@@ -93,7 +93,7 @@ if (!OrderId.TryFrom(-1, out var orderId))
 
 ## Parsing
 
-You can also use `Parse(...)` and `TryParse(...)` for parsing a strong type from a string:
+Use `Parse(...)` and `TryParse(...)` for parsing a strong type from a string:
 
 ```csharp
 var orderId = OrderId.Parse("1");

@@ -4,13 +4,13 @@ When the underlying primitive is a reference type, such as `string`, `null` is n
 
 ## Instantiation
 
-Passing `null` to `From(...)` will lead to `ArgumentNullException`:
+Passing `null` to `From(...)` throws `ArgumentNullException`:
 
 ```csharp
 var username = Username.From(null!); // throws ArgumentNullException
 ```
 
-At the same time, `TryFrom(...)` will not throw on `null` and instead will return `false`:
+`TryFrom(...)` will not throw on `null` and instead will return `false`:
 
 ```csharp
 Username.TryFrom(null!, out var username); // returns false
@@ -18,7 +18,7 @@ Username.TryFrom(null!, out var username); // returns false
 
 ## Parsing
 
-Parsing follows the same rules. `Parse(...)` parses the input into the primitive and then validates it, so a `null` input leads to `ArgumentNullException`:
+Parsing follows the same rules. `Parse(...)` parses the input into the primitive and then validates it, so a `null` input throws `ArgumentNullException`:
 
 ```csharp
 var username = Username.Parse(null!); // throws ArgumentNullException

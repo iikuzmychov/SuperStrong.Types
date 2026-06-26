@@ -39,7 +39,7 @@ var settings = new JsonSerializerSettings
 };
 ```
 
-Alternatively, annotate a strong type or dictionary member with `[JsonConverter(...)]`:
+Alternatively, use `[JsonConverter(...)]` on a strong type or dictionary member:
 
 ```csharp
 [StrongType<int>]

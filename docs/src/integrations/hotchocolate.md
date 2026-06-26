@@ -34,4 +34,6 @@ builder.Services
 
 Once enabled, every strong type is automatically exposed as a scalar based on its usage, so you don't need to register anything manually.
 
-The scalar is named after the type, serialized as its underlying primitive, and its input goes through `From(...)`, so it is always validated.
+::: tip
+The scalar is named after the type and serialized as its underlying primitive. Input values go through `From(...)`, so they are always validated.
+:::

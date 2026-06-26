@@ -1,10 +1,10 @@
 # Customization
 
-While most of the generated code can't be modified, it's possible to customize some methods.
+While most of the generated code can't be modified, you can customize some methods.
 
 ## String representation
 
-You can override `ToString()` manually, so the source generator will not emit a default implementation for it:
+Override `ToString()` manually, so the source generator will not emit a default implementation for it:
 
 ```csharp
 [StrongType<string>]
@@ -29,7 +29,7 @@ You can also use the **`Quick Actions`** → **`Override ToString()`**.
 
 ## Equality
 
-You can manually implement `Equals(T)` and override `GetHashCode()`, so the source generator will not emit a default implementation for those members:
+Implement `Equals(T)` and override `GetHashCode()` manually, so the source generator will not emit a default implementation for those members:
 
 ```csharp
 [StrongType<string>]

@@ -32,7 +32,7 @@ optionsBuilder
     .UseStrongTypes();
 ```
 
-Once enabled, every strong type is automatically configured based on its usage, so you don't need to set up value converters or anything else.
+Once enabled, every strong type is automatically configured based on its usage, so you don't need to set up value converters manually.
 
 ::: tip
 When reading from the database, values go through `From(...)`, so they are always validated.
@@ -40,7 +40,7 @@ When reading from the database, values go through `From(...)`, so they are alway
 
 ## Querying
 
-You can use the `AsPrimitive()` method inside database queries, just like in normal code:
+Use the `AsPrimitive()` method inside database queries, just like in normal code:
 
 ```csharp
 var users = await dbContext.Users

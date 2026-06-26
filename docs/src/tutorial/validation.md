@@ -20,7 +20,7 @@ public sealed partial class Age
 }
 ```
 
-If you don't declare a `Definition`, the source generator emits an empty one, so every value [besides null](./null-handling.md) will be accepted.
+If you don't declare a `Definition`, the source generator emits an empty one, so every value [except null](./null-handling.md) will be accepted.
 
 :::: tip
 You can also use the **`Quick Actions`** → **`Add Definition`**.
