@@ -1,25 +1,24 @@
 <Solution>
+  <Folder Name="/.github/" />
+  <Folder Name="/.github/workflows/">
+    <File Path=".github/workflows/ci.yml" />
+    <File Path=".github/workflows/docs.yml" />
+    <File Path=".github/workflows/publish.yml" />
+  </Folder>
   <Folder Name="/items/">
     <File Path=".gitignore" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Build.targets" />
     <File Path="Directory.Packages.props" />
-    <File Path="draft.md" />
     <File Path="global.json" />
     <File Path="LICENSE.md" />
     <File Path="README.md" />
   </Folder>
-  <Folder Name="/items/.github/" />
-  <Folder Name="/items/.github/workflows/">
-    <File Path=".github/workflows/ci.yml" />
-    <File Path=".github/workflows/docs.yml" />
-    <File Path=".github/workflows/publish.yml" />
-  </Folder>
   <Folder Name="/src/">
     <File Path="src/Directory.Build.props" />
+    <Project Path="src/SuperStrong.Types.AspNetCore.OpenApi/SuperStrong.Types.AspNetCore.OpenApi.csproj" />
     <Project Path="src/SuperStrong.Types.CodeAnalysis.Analyzers/SuperStrong.Types.CodeAnalysis.Analyzers.csproj" />
     <Project Path="src/SuperStrong.Types.CodeAnalysis.CodeActions/SuperStrong.Types.CodeAnalysis.CodeActions.csproj" />
-    <Project Path="src/SuperStrong.Types.AspNetCore.OpenApi/SuperStrong.Types.AspNetCore.OpenApi.csproj" />
     <Project Path="src/SuperStrong.Types.CodeAnalysis.Generators/SuperStrong.Types.CodeAnalysis.Generators.csproj" />
     <Project Path="src/SuperStrong.Types.EntityFrameworkCore.Npgsql/SuperStrong.Types.EntityFrameworkCore.Npgsql.csproj" />
     <Project Path="src/SuperStrong.Types.EntityFrameworkCore.SqlServer/SuperStrong.Types.EntityFrameworkCore.SqlServer.csproj" />
