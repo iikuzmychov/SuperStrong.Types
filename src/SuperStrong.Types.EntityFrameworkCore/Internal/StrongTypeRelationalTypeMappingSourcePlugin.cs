@@ -14,16 +14,23 @@ internal sealed class StrongTypeRelationalTypeMappingSourcePlugin(Lazy<IRelation
             return null;
         }
 
-        var primitiveMapping = typeMappingSource.Value.FindMapping(strongTypeInfo.PrimitiveType);
+        var primitiveMapping = typeMappingSource.Value.FindMapping(
+            type: strongTypeInfo.PrimitiveType,
+            storeTypeName: mappingInfo.StoreTypeName,
+            keyOrIndex: mappingInfo.IsKeyOrIndex,
+            unicode: mappingInfo.IsUnicode,
+            size: mappingInfo.Size,
+            rowVersion: mappingInfo.IsRowVersion,
+            fixedLength: mappingInfo.IsFixedLength,
+            precision: mappingInfo.Precision,
+            scale: mappingInfo.Scale);
 
         if (primitiveMapping is null)
         {
             return null;
         }
 
-        return primitiveMapping.Clone(
-            clrType: strongTypeInfo.StrongType,
-            converter: CreateConverter(strongTypeInfo));
+        return (RelationalTypeMapping)primitiveMapping.WithComposedConverter(CreateConverter(strongTypeInfo));
     }
 
     private static ValueConverter CreateConverter(StrongTypeInfo strongTypeInfo)
