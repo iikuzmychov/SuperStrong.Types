@@ -30,7 +30,9 @@ internal sealed class StrongTypeRelationalTypeMappingSourcePlugin(Lazy<IRelation
             return null;
         }
 
-        return (RelationalTypeMapping)primitiveMapping.WithComposedConverter(CreateConverter(strongTypeInfo));
+        var converter = CreateConverter(strongTypeInfo);
+
+        return (RelationalTypeMapping)primitiveMapping.WithComposedConverter(converter);
     }
 
     private static ValueConverter CreateConverter(StrongTypeInfo strongTypeInfo)
