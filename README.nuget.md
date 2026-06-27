@@ -52,7 +52,7 @@ SuperStrong.Types generates that boilerplate for you, so you can focus on modell
 
 - Find out more in the [tutorial](https://superstrong.dev/tutorial/getting-started)
 - Learn about strong type [validation](https://superstrong.dev/tutorial/validation) and [customization](https://superstrong.dev/tutorial/customization)
-- Take a look at the available [integrations](https://superstrong.dev/integrations/ef-core)
+- Take a look at the available [integrations](https://superstrong.dev/integrations/efcore)
 
 ## Acknowledgements
 
