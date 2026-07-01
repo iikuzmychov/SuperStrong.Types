@@ -1,7 +1,7 @@
 ﻿{
   openapi: 3.1.1,
   info: {
-    title: SuperStrong.Types.AspNetCore.OpenApi.Tests | v1,
+    title: SuperStrong.Types.AspNetCore.Tests | v1,
     version: 1.0.0
   },
   servers: [
@@ -13,13 +13,13 @@
     /: {
       post: {
         tags: [
-          SuperStrong.Types.AspNetCore.OpenApi.Tests
+          SuperStrong.Types.AspNetCore.Tests
         ],
         requestBody: {
           content: {
             application/json: {
               schema: {
-                $ref: #/components/schemas/NestedDto
+                $ref: #/components/schemas/DictionaryDto
               }
             }
           },
@@ -31,7 +31,7 @@
             content: {
               application/json: {
                 schema: {
-                  $ref: #/components/schemas/NestedDto
+                  $ref: #/components/schemas/DictionaryDto
                 }
               }
             }
@@ -42,48 +42,42 @@
   },
   components: {
     schemas: {
-      NestedDto: {
+      DictionaryDto: {
         required: [
-          tagGroups,
-          tagsByGroup,
-          tagMaps
+          tagsByName,
+          tagsByUserId
         ],
         type: object,
         properties: {
-          tagGroups: {
-            type: array,
-            items: {
-              type: array,
-              items: {
-                type: string
-              }
-            }
-          },
-          tagsByGroup: {
+          tagsByName: {
             type: object,
             additionalProperties: {
-              type: array,
-              items: {
-                type: string
-              }
+              $ref: #/components/schemas/Tag
             }
           },
-          tagMaps: {
-            type: array,
-            items: {
-              type: object,
-              additionalProperties: {
-                type: string
-              }
+          tagsByUserId: {
+            propertyNames: {
+              $ref: #/components/schemas/UserId
+            },
+            type: object,
+            additionalProperties: {
+              $ref: #/components/schemas/Tag
             }
           }
         }
+      },
+      Tag: {
+        type: string
+      },
+      UserId: {
+        type: string,
+        format: uuid
       }
     }
   },
   tags: [
     {
-      name: SuperStrong.Types.AspNetCore.OpenApi.Tests
+      name: SuperStrong.Types.AspNetCore.Tests
     }
   ]
 }

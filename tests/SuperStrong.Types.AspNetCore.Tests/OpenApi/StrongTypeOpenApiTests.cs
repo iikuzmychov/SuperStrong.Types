@@ -2,9 +2,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
+using SuperStrong.Types.AspNetCore.OpenApi;
 using SuperStrong.Types.Tests;
 
-namespace SuperStrong.Types.AspNetCore.OpenApi.Tests;
+namespace SuperStrong.Types.AspNetCore.Tests.OpenApi;
 
 public sealed partial class StrongTypeOpenApiTests
 {

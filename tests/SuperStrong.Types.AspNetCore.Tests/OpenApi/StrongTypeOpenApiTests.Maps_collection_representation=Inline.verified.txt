@@ -1,7 +1,7 @@
 ﻿{
   openapi: 3.1.1,
   info: {
-    title: SuperStrong.Types.AspNetCore.OpenApi.Tests | v1,
+    title: SuperStrong.Types.AspNetCore.Tests | v1,
     version: 1.0.0
   },
   servers: [
@@ -13,13 +13,13 @@
     /: {
       post: {
         tags: [
-          SuperStrong.Types.AspNetCore.OpenApi.Tests
+          SuperStrong.Types.AspNetCore.Tests
         ],
         requestBody: {
           content: {
             application/json: {
               schema: {
-                $ref: #/components/schemas/NullableDto
+                $ref: #/components/schemas/CollectionDto
               }
             }
           },
@@ -31,7 +31,7 @@
             content: {
               application/json: {
                 schema: {
-                  $ref: #/components/schemas/NullableDto
+                  $ref: #/components/schemas/CollectionDto
                 }
               }
             }
@@ -42,33 +42,25 @@
   },
   components: {
     schemas: {
-      NullableDto: {
+      CollectionDto: {
         required: [
-          id
+          tags
         ],
         type: object,
         properties: {
-          id: {
-            oneOf: [
-              {
-                type: null
-              },
-              {
-                $ref: #/components/schemas/UserId
-              }
-            ]
+          tags: {
+            type: array,
+            items: {
+              type: string
+            }
           }
         }
-      },
-      UserId: {
-        type: string,
-        format: uuid
       }
     }
   },
   tags: [
     {
-      name: SuperStrong.Types.AspNetCore.OpenApi.Tests
+      name: SuperStrong.Types.AspNetCore.Tests
     }
   ]
 }
