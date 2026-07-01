@@ -5,10 +5,10 @@ using SuperStrong.Types.Converters;
 
 namespace SuperStrong.Types.Tests.Converters;
 
-public abstract class JsonStrongTypeConverterTests<TStrongType, TPrimitive, TTheoryData>
+public abstract class JsonStrongTypeConverterTests<TStrongType, TPrimitive, TPrimitivesData>
     where TStrongType : class, IStrongType<TStrongType, TPrimitive>
     where TPrimitive : notnull
-    where TTheoryData : notnull, TheoryData<TPrimitive>, new()
+    where TPrimitivesData : notnull, TheoryData<TPrimitive>, new()
 {
     private static readonly JsonStrongTypeConverter<TStrongType, TPrimitive> _converter = new();
     private static readonly JsonStrongTypeConverter _converterFactory = new();
@@ -18,7 +18,7 @@ public abstract class JsonStrongTypeConverterTests<TStrongType, TPrimitive, TThe
         Converters = { _converter }
     };
 
-    public static TheoryData<TPrimitive> PrimitivesData { get; } = new TTheoryData();
+    public static TheoryData<TPrimitive> PrimitivesData { get; } = new TPrimitivesData();
     public static TheoryData<TStrongType> StrongTypesData { get; } = CreateStrongTypesData();
     public static TheoryData<string> JsonsData { get; } = CreateJsonsData();
     public static TheoryData<string> DictionaryJsonsData { get; } = CreateDictionaryJsonsData();

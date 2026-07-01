@@ -7,14 +7,14 @@ using System.Collections.ObjectModel;
 
 namespace SuperStrong.Types.Tests.Converters;
 
-public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TTheoryData>
+public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPrimitivesData>
     where TStrongType : class, IStrongType<TStrongType, TPrimitive>
     where TPrimitive : notnull
-    where TTheoryData : notnull, TheoryData<TPrimitive>, new()
+    where TPrimitivesData : notnull, TheoryData<TPrimitive>, new()
 {
     private static readonly JsonSerializerSettings _settings = CreateSettings();
 
-    public static TheoryData<TPrimitive> PrimitivesData { get; } = new TTheoryData();
+    public static TheoryData<TPrimitive> PrimitivesData { get; } = new TPrimitivesData();
     public static TheoryData<TStrongType> StrongTypesData { get; } = CreateStrongTypesData();
     public static TheoryData<string> JsonsData { get; } = CreateJsonsData();
     public static TheoryData<string> DictionaryValueJsonsData { get; } = CreateDictionaryValueJsonsData();

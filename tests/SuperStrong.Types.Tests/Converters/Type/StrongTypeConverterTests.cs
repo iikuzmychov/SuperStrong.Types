@@ -6,15 +6,15 @@ using SuperStrong.Types.Converters;
 
 namespace SuperStrong.Types.Tests.Converters;
 
-public abstract class StrongTypeConverterTests<TStrongType, TPrimitive, TTheoryData>
+public abstract class StrongTypeConverterTests<TStrongType, TPrimitive, TPrimitivesData>
     where TStrongType : class, IStrongType<TStrongType, TPrimitive>
     where TPrimitive : notnull
-    where TTheoryData : notnull, TheoryData<TPrimitive>, new()
+    where TPrimitivesData : notnull, TheoryData<TPrimitive>, new()
 {
     private static readonly TypeConverter _converter = TypeDescriptor.GetConverter(typeof(TStrongType));
     private static readonly TypeConverter _primitiveConverter = TypeDescriptor.GetConverter(typeof(TPrimitive));
 
-    public static TheoryData<TPrimitive> PrimitivesData { get; } = new TTheoryData();
+    public static TheoryData<TPrimitive> PrimitivesData { get; } = new TPrimitivesData();
     public static TheoryData<TStrongType> StrongTypesData { get; } = CreateStrongTypesData();
     public static TheoryData<string> StringsData { get; } = CreateStringsData();
 
