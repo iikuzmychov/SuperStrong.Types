@@ -120,10 +120,10 @@ namespace Sample
     partial class TestStrongType : global::System.IParsable<TestStrongType>
     {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
-        static TestStrongType global::System.IParsable<TestStrongType>.Parse(string s, global::System.IFormatProvider? provider) => From(s);
+        static TestStrongType System.IParsable<TestStrongType>.Parse(string s, global::System.IFormatProvider? provider) => From(s);
 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
-        static bool global::System.IParsable<TestStrongType>.TryParse(string? s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result) => TryFrom(s, out result);
+        static bool System.IParsable<TestStrongType>.TryParse(string? s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result) => TryFrom(s, out result);
     }
 
     partial class TestStrongType : global::System.ISpanParsable<TestStrongType>

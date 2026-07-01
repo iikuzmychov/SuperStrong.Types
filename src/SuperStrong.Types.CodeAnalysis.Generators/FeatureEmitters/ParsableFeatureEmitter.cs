@@ -68,9 +68,15 @@ internal sealed class ParsableFeatureEmitter : LiftedFeatureEmitter
     {
         using (writer.Block($"partial class {model.TypeName} : {System_IParsable}<{model.TypeName}>"))
         {
-            writer.MemberLine($"static {model.TypeName} {System_IParsable}<{model.TypeName}>.Parse(string s, {System_IFormatProvider}? provider) => From(s);");
+            // The explicit IParsable member qualifier is emitted without a global:: prefix on purpose.
+            // ASP.NET Core's minimal-API binder finds the explicit TryParse by reconstructing the metadata
+            // name as "System.IParsable<...>.TryParse"; Roslyn bakes the source qualifier into that name, so a
+            // global:: prefix makes the lookup miss and route/query binding throws for string-backed strong
+            // types. See https://github.com/dotnet/aspnetcore/issues/58136. Non-string types are unaffected
+            // because they also emit a public TryParse that the binder finds by signature.
+            writer.MemberLine($"static {model.TypeName} {System_IParsable.FullyQualifiedName}<{model.TypeName}>.Parse(string s, {System_IFormatProvider}? provider) => From(s);");
             writer.Line();
-            writer.MemberLine($"static bool {System_IParsable}<{model.TypeName}>.TryParse(string? s, {System_IFormatProvider}? provider, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result) => TryFrom(s, out result);");
+            writer.MemberLine($"static bool {System_IParsable.FullyQualifiedName}<{model.TypeName}>.TryParse(string? s, {System_IFormatProvider}? provider, [{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result) => TryFrom(s, out result);");
         }
     }
 }
