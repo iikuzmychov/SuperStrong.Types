@@ -17,7 +17,7 @@ public sealed class StrongTypeConverter : TypeConverter
             ?? throw new ArgumentException($"{strongType} is not a strong type.", nameof(strongType));
 
         var converterType = typeof(StrongTypeConverter<,>)
-            .MakeGenericType(strongTypeInfo.StrongType, strongTypeInfo.PrimitiveType);
+            .MakeGenericType(strongTypeInfo.ClrType, strongTypeInfo.PrimitiveType);
 
         _converter = (TypeConverter)Activator.CreateInstance(converterType)!;
     }

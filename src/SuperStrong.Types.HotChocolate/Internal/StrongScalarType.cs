@@ -10,13 +10,13 @@ using System.Text.Json;
 
 namespace SuperStrong.Types.HotChocolate.Internal;
 
-internal sealed class StrongTypeScalarType<TStrongType, TPrimitive> : ScalarType<TStrongType>
+internal sealed class StrongScalarType<TStrongType, TPrimitive> : ScalarType<TStrongType>
     where TStrongType : IStrongType<TStrongType, TPrimitive>
     where TPrimitive : notnull
 {
     private ScalarType _primitive = null!;
 
-    public StrongTypeScalarType() : base(typeof(TStrongType).Name, BindingBehavior.Implicit)
+    public StrongScalarType() : base(typeof(TStrongType).Name, BindingBehavior.Implicit)
     {
     }
 

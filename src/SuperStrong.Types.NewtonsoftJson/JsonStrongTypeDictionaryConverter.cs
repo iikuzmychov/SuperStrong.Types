@@ -37,7 +37,7 @@ public sealed class JsonStrongTypeDictionaryConverter : JsonConverter
 
     private static bool TryGetKeyInfo(
         Type dictionaryType,
-        [NotNullWhen(true)] out Type? strongTypeKeyType,
+        [NotNullWhen(true)] out Type? keyType,
         [NotNullWhen(true)] out Type? primitiveKeyType,
         [NotNullWhen(true)] out Type? valueType)
     {
@@ -47,7 +47,7 @@ public sealed class JsonStrongTypeDictionaryConverter : JsonConverter
 
             if (arguments[0].GetStrongTypeInfo() is { } keyInfo)
             {
-                strongTypeKeyType = keyInfo.StrongType;
+                keyType = keyInfo.ClrType;
                 primitiveKeyType = keyInfo.PrimitiveType;
                 valueType = arguments[1];
 
@@ -55,7 +55,7 @@ public sealed class JsonStrongTypeDictionaryConverter : JsonConverter
             }
         }
 
-        strongTypeKeyType = null;
+        keyType = null;
         primitiveKeyType = null;
         valueType = null;
 
@@ -88,25 +88,25 @@ public sealed class JsonStrongTypeDictionaryConverter : JsonConverter
     {
         return _converterCache.GetOrAdd(dictionaryType, static type =>
         {
-            TryGetKeyInfo(type, out var strongTypeKeyType, out var primitiveKeyType, out var valueType);
+            TryGetKeyInfo(type, out var keyType, out var primitiveKeyType, out var valueType);
 
             var converterType = typeof(JsonStrongTypeDictionaryConverter<,,>)
-                .MakeGenericType(strongTypeKeyType!, primitiveKeyType!, valueType!);
+                .MakeGenericType(keyType!, primitiveKeyType!, valueType!);
 
             return (JsonConverter)Activator.CreateInstance(converterType)!;
         });
     }
 }
 
-public sealed class JsonStrongTypeDictionaryConverter<TStrongTypeKey, TPrimitiveKey, TValue> : JsonConverter
-    where TStrongTypeKey : IStrongType<TStrongTypeKey, TPrimitiveKey>
+public sealed class JsonStrongTypeDictionaryConverter<TKey, TPrimitiveKey, TValue> : JsonConverter
+    where TKey : IStrongType<TKey, TPrimitiveKey>
     where TPrimitiveKey : notnull
 {
     public override bool CanConvert(Type objectType)
     {
         return
-            typeof(IDictionary<TStrongTypeKey, TValue>).IsAssignableFrom(objectType) ||
-            typeof(IReadOnlyDictionary<TStrongTypeKey, TValue>).IsAssignableFrom(objectType);
+            typeof(IDictionary<TKey, TValue>).IsAssignableFrom(objectType) ||
+            typeof(IReadOnlyDictionary<TKey, TValue>).IsAssignableFrom(objectType);
     }
 
     public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
@@ -117,7 +117,7 @@ public sealed class JsonStrongTypeDictionaryConverter<TStrongTypeKey, TPrimitive
         }
 
         var primitiveDictionary = serializer.Deserialize<Dictionary<TPrimitiveKey, TValue>>(reader)!;
-        var dictionary = new Dictionary<TStrongTypeKey, TValue>(primitiveDictionary.Count);
+        var dictionary = new Dictionary<TKey, TValue>(primitiveDictionary.Count);
 
         foreach (var (primitiveKey, value) in primitiveDictionary)
         {
@@ -127,11 +127,11 @@ public sealed class JsonStrongTypeDictionaryConverter<TStrongTypeKey, TPrimitive
         return Materialize(objectType, dictionary);
     }
 
-    private static TStrongTypeKey CreateKey(TPrimitiveKey primitive)
+    private static TKey CreateKey(TPrimitiveKey primitive)
     {
         try
         {
-            return TStrongTypeKey.From(primitive);
+            return TKey.From(primitive);
         }
         catch (StrongTypeValidationException exception)
         {
@@ -149,7 +149,7 @@ public sealed class JsonStrongTypeDictionaryConverter<TStrongTypeKey, TPrimitive
 
         var primitiveDictionary = new Dictionary<TPrimitiveKey, TValue>();
 
-        foreach (var (strongKey, item) in (IEnumerable<KeyValuePair<TStrongTypeKey, TValue>>)value)
+        foreach (var (strongKey, item) in (IEnumerable<KeyValuePair<TKey, TValue>>)value)
         {
             primitiveDictionary[strongKey.AsPrimitive()] = item;
         }
@@ -157,33 +157,33 @@ public sealed class JsonStrongTypeDictionaryConverter<TStrongTypeKey, TPrimitive
         serializer.Serialize(writer, primitiveDictionary);
     }
 
-    private static object Materialize(Type objectType, Dictionary<TStrongTypeKey, TValue> dictionary)
+    private static object Materialize(Type objectType, Dictionary<TKey, TValue> dictionary)
     {
-        if (objectType.IsAssignableFrom(typeof(Dictionary<TStrongTypeKey, TValue>)))
+        if (objectType.IsAssignableFrom(typeof(Dictionary<TKey, TValue>)))
         {
             return dictionary;
         }
 
-        if (objectType == typeof(ImmutableDictionary<TStrongTypeKey, TValue>) ||
-            objectType == typeof(IImmutableDictionary<TStrongTypeKey, TValue>))
+        if (objectType == typeof(ImmutableDictionary<TKey, TValue>) ||
+            objectType == typeof(IImmutableDictionary<TKey, TValue>))
         {
             return ImmutableDictionary.CreateRange(dictionary);
         }
 
-        if (objectType == typeof(ImmutableSortedDictionary<TStrongTypeKey, TValue>))
+        if (objectType == typeof(ImmutableSortedDictionary<TKey, TValue>))
         {
             return ImmutableSortedDictionary.CreateRange(dictionary);
         }
 
-        if (objectType == typeof(FrozenDictionary<TStrongTypeKey, TValue>))
+        if (objectType == typeof(FrozenDictionary<TKey, TValue>))
         {
             return dictionary.ToFrozenDictionary();
         }
 
-        if (typeof(IDictionary<TStrongTypeKey, TValue>).IsAssignableFrom(objectType) &&
+        if (typeof(IDictionary<TKey, TValue>).IsAssignableFrom(objectType) &&
             objectType.GetConstructor(Type.EmptyTypes) is not null)
         {
-            var result = (IDictionary<TStrongTypeKey, TValue>)Activator.CreateInstance(objectType)!;
+            var result = (IDictionary<TKey, TValue>)Activator.CreateInstance(objectType)!;
 
             foreach (var pair in dictionary)
             {
@@ -194,8 +194,8 @@ public sealed class JsonStrongTypeDictionaryConverter<TStrongTypeKey, TPrimitive
         }
 
         var parameterizedConstructor =
-            objectType.GetConstructor([typeof(IDictionary<TStrongTypeKey, TValue>)])
-            ?? objectType.GetConstructor([typeof(IEnumerable<KeyValuePair<TStrongTypeKey, TValue>>)]);
+            objectType.GetConstructor([typeof(IDictionary<TKey, TValue>)])
+            ?? objectType.GetConstructor([typeof(IEnumerable<KeyValuePair<TKey, TValue>>)]);
 
         if (parameterizedConstructor is not null)
         {

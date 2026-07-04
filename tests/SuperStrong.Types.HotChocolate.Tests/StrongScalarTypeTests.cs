@@ -8,7 +8,7 @@ using System.Text;
 
 namespace SuperStrong.Types.HotChocolate.Tests;
 
-public sealed class StrongTypeScalarTypeTests
+public sealed class StrongScalarTypeTests
 {
     [Fact]
     public async Task Schema_exposes_strong_type_as_scalar_with_primitive_directive()

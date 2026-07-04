@@ -38,7 +38,7 @@ internal sealed class StrongTypeRelationalTypeMappingSourcePlugin(Lazy<IRelation
     private static ValueConverter CreateConverter(StrongTypeInfo strongTypeInfo)
     {
         var converterType = typeof(StrongTypeValueConverter<,>)
-            .MakeGenericType(strongTypeInfo.StrongType, strongTypeInfo.PrimitiveType);
+            .MakeGenericType(strongTypeInfo.ClrType, strongTypeInfo.PrimitiveType);
 
         return (ValueConverter)converterType
             .GetProperty(nameof(StrongTypeValueConverter<,>.Instance))!

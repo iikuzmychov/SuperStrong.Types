@@ -16,7 +16,7 @@ internal sealed class OverrideToStringCodeRefactoringProvider : CodeRefactoringP
             return;
         }
 
-        if (StrongTypeDetection.DeclaresToString(target.StrongTypeSymbol))
+        if (StrongTypeDetection.DeclaresToString(target.Symbol))
         {
             return;
         }

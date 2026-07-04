@@ -42,7 +42,7 @@ public sealed partial class TypeExtensionsTests
         var info = type.GetStrongTypeInfo();
         
         Assert.NotNull(info);
-        Assert.Equal(type, info.StrongType);
+        Assert.Equal(type, info.ClrType);
         Assert.Equal(expectedPrimitiveType, info.PrimitiveType);
         Assert.Equal(expectedTemplateType, info.TemplateType);
         Assert.Same(expectedDefinition, info.Definition);

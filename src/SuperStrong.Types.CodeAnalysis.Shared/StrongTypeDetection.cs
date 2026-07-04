@@ -8,7 +8,7 @@ internal static class StrongTypeDetection
     private const string StrongTypeAttributeName = "StrongTypeAttribute";
     private const string SuperStrongTypesNamespace = "SuperStrong.Types";
     private const string GeneratedCodeAttributeMetadataName = "System.CodeDom.Compiler.GeneratedCodeAttribute";
-    private const string StrongTypeDefinitionTypeName = "StrongTypeDefinition";
+    private const string StrongTypeDefinitionName = "StrongTypeDefinition";
     private const string DefinitionPropertyName = "Definition";
 
     private static readonly SymbolDisplayFormat _fullyQualifiedWithoutGlobalPrefix =
@@ -71,7 +71,7 @@ internal static class StrongTypeDetection
             property.IsStatic &&
             property.Name == DefinitionPropertyName &&
             property.Type is INamedTypeSymbol propertyType &&
-            propertyType.Name == StrongTypeDefinitionTypeName &&
+            propertyType.Name == StrongTypeDefinitionName &&
             propertyType.ContainingNamespace.ToDisplayString() == SuperStrongTypesNamespace;
     }
 

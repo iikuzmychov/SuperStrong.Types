@@ -5,5 +5,5 @@ namespace SuperStrong.Types.CodeAnalysis.CodeActions;
 
 internal record StrongTypeTarget(
     ClassDeclarationSyntax ClassDeclaration,
-    INamedTypeSymbol StrongTypeSymbol,
-    ITypeSymbol PrimitiveTypeSymbol);
+    INamedTypeSymbol Symbol,
+    ITypeSymbol PrimitiveSymbol);

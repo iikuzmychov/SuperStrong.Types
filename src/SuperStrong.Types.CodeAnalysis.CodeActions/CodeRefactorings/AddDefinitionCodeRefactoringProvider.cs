@@ -20,12 +20,12 @@ internal sealed class AddDefinitionCodeRefactoringProvider : CodeRefactoringProv
             return;
         }
 
-        if (StrongTypeDetection.DeclaresDefinition(target.StrongTypeSymbol))
+        if (StrongTypeDetection.DeclaresDefinition(target.Symbol))
         {
             return;
         }
 
-        var primitiveTypeName = target.PrimitiveTypeSymbol.ToDisplayString(_primitiveDisplayFormat);
+        var primitiveTypeName = target.PrimitiveSymbol.ToDisplayString(_primitiveDisplayFormat);
 
         context.RegisterRefactoring(
             CodeAction.Create(

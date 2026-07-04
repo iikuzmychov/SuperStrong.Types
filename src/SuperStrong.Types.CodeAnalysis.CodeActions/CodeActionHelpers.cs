@@ -28,7 +28,7 @@ internal static class CodeActionHelpers
             return null;
         }
 
-        return new StrongTypeTarget(classDeclaration, strongType.StrongTypeSymbol, strongType.PrimitiveTypeSymbol);
+        return new StrongTypeTarget(classDeclaration, strongType.Symbol, strongType.PrimitiveSymbol);
     }
 
     public static ClassDeclarationSyntax EnsureBlockBody(this ClassDeclarationSyntax classDecl)

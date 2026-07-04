@@ -16,8 +16,8 @@ internal sealed class OverrideEqualityCodeRefactoringProvider : CodeRefactoringP
             return;
         }
 
-        if (StrongTypeDetection.DeclaresEquals(target.StrongTypeSymbol) &&
-            StrongTypeDetection.DeclaresGetHashCode(target.StrongTypeSymbol))
+        if (StrongTypeDetection.DeclaresEquals(target.Symbol) &&
+            StrongTypeDetection.DeclaresGetHashCode(target.Symbol))
         {
             return;
         }
@@ -28,7 +28,7 @@ internal sealed class OverrideEqualityCodeRefactoringProvider : CodeRefactoringP
                 cancellationToken => AddEqualityAsync(
                     context.Document,
                     target.ClassDeclaration,
-                    target.StrongTypeSymbol,
+                    target.Symbol,
                     cancellationToken),
                 equivalenceKey: nameof(OverrideEqualityCodeRefactoringProvider),
                 priority: CodeActionPriority.High));

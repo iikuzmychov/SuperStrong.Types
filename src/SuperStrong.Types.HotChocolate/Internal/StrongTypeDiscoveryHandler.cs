@@ -19,7 +19,7 @@ internal sealed class StrongTypeDiscoveryHandler(ITypeInspector typeInspector) :
             return false;
         }
 
-        var scalarType = typeof(StrongTypeScalarType<,>).MakeGenericType(info.StrongType, info.PrimitiveType);
+        var scalarType = typeof(StrongScalarType<,>).MakeGenericType(info.ClrType, info.PrimitiveType);
         schemaTypeRefs = [typeInspector.GetTypeRef(scalarType)];
 
         return true;

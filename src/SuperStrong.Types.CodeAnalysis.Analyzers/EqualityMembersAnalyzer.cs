@@ -28,8 +28,8 @@ internal sealed class EqualityMembersAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var declaresEquals = StrongTypeDetection.DeclaresEquals(strongType.StrongTypeSymbol);
-        var declaresGetHashCode = StrongTypeDetection.DeclaresGetHashCode(strongType.StrongTypeSymbol);
+        var declaresEquals = StrongTypeDetection.DeclaresEquals(strongType.Symbol);
+        var declaresGetHashCode = StrongTypeDetection.DeclaresGetHashCode(strongType.Symbol);
         var equalityIsIncomplete = declaresEquals != declaresGetHashCode;
 
         if (equalityIsIncomplete)

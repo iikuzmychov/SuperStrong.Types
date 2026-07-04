@@ -16,7 +16,7 @@ public sealed class JsonStrongTypeConverter : JsonConverterFactory
         var strongTypeInfo = typeToConvert.GetStrongTypeInfo()!;
 
         var converterType = typeof(JsonStrongTypeConverter<,>)
-            .MakeGenericType(strongTypeInfo.StrongType, strongTypeInfo.PrimitiveType);
+            .MakeGenericType(strongTypeInfo.ClrType, strongTypeInfo.PrimitiveType);
 
         return (JsonConverter)Activator.CreateInstance(converterType)!;
     }
