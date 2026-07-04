@@ -1,0 +1,26 @@
+namespace SuperStrong.Types.Validators;
+
+public sealed class NotEmptyValidator(bool allowWhiteSpaces = false) : StrongTypeValidator<string>
+{
+    public bool AllowWhiteSpaces { get; } = allowWhiteSpaces;
+
+    public override StrongTypeValidationResult Validate(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+
+        var isInvalid = AllowWhiteSpaces
+            ? string.IsNullOrEmpty(value)
+            : string.IsNullOrWhiteSpace(value);
+
+        if (isInvalid)
+        {
+            var message = AllowWhiteSpaces
+                ? "Value must not be empty."
+                : "Value must not be empty or whitespace.";
+
+            return StrongTypeValidationResult.Invalid(message);
+        }
+
+        return StrongTypeValidationResult.Valid();
+    }
+}

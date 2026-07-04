@@ -61,8 +61,7 @@ public sealed class JsonStrongTypeConverter<TStrongType, TPrimitive> : JsonConve
         {
             if (default(TStrongType) is not null)
             {
-                throw new JsonSerializationException(
-                    $"Cannot convert null to value-type strong type '{typeof(TStrongType)}'.");
+                throw new JsonSerializationException($"Cannot convert null to '{typeof(TStrongType)}'.");
             }
 
             return default;
@@ -70,7 +69,14 @@ public sealed class JsonStrongTypeConverter<TStrongType, TPrimitive> : JsonConve
 
         var primitive = serializer.Deserialize<TPrimitive>(reader);
 
-        return TStrongType.From(primitive!);
+        try
+        {
+            return TStrongType.From(primitive!);
+        }
+        catch (StrongTypeValidationException exception)
+        {
+            throw new JsonSerializationException(exception.Message, exception);
+        }
     }
 
     public override void WriteJson(JsonWriter writer, TStrongType? value, JsonSerializer serializer)

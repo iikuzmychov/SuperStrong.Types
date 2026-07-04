@@ -21,7 +21,7 @@ namespace Sample
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
         public static TestStrongType From(global::System.DateTimeOffset value)
         {
-            global::SuperStrong.Types.StrongType.EnsureValid(value, Definition);
+            global::SuperStrong.Types.StrongType.EnsureValid<TestStrongType, global::System.DateTimeOffset>(value);
 
             return new TestStrongType(value);
         }
@@ -35,7 +35,7 @@ namespace Sample
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
         public static bool TryFrom([global::System.Diagnostics.CodeAnalysis.AllowNullAttribute] global::System.DateTimeOffset value,[global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
-            if (global::SuperStrong.Types.StrongType.IsValid(value, Definition))
+            if (global::SuperStrong.Types.StrongType.IsValid<TestStrongType, global::System.DateTimeOffset>(value))
             {
                 result = new TestStrongType(value);
                 return true;

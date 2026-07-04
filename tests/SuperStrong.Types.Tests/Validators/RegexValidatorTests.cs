@@ -12,7 +12,7 @@ public sealed class RegexValidatorTests
     }
 
     [Fact]
-    public void Exposes_the_regex()
+    public void Exposes_regex()
     {
         var regex = new Regex("^[a-z]+$");
 
@@ -22,26 +22,36 @@ public sealed class RegexValidatorTests
     }
 
     [Fact]
-    public void IsValid_returns_true_when_pattern_matches()
+    public void Validate_returns_Valid_when_pattern_matches()
     {
         var validator = new RegexValidator(new Regex("^[a-z]+$"));
 
-        Assert.True(validator.IsValid("abc"));
+        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate("abc"));
     }
 
     [Fact]
-    public void IsValid_returns_false_when_pattern_does_not_match()
+    public void Validate_returns_Invalid_when_pattern_does_not_match()
     {
         var validator = new RegexValidator(new Regex("^[a-z]+$"));
 
-        Assert.False(validator.IsValid("ABC"));
+        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("ABC"));
     }
 
     [Fact]
-    public void EnsureValid_throws_when_pattern_does_not_match()
+    public void Invalid_result_carries_an_error_message_with_the_pattern()
     {
         var validator = new RegexValidator(new Regex("^[a-z]+$"));
 
-        Assert.Throws<ArgumentException>(() => validator.EnsureValid("123"));
+        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("123"));
+        Assert.Equal("Value must match the regex pattern '^[a-z]+$'.", result.ErrorMessage);
+    }
+
+    [Fact]
+    public void Invalid_result_carries_an_error_message_with_the_regex_options()
+    {
+        var validator = new RegexValidator(new Regex("^[a-z]+$", RegexOptions.Multiline));
+
+        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("123"));
+        Assert.Equal("Value must match the regex pattern '^[a-z]+$' (Multiline).", result.ErrorMessage);
     }
 }

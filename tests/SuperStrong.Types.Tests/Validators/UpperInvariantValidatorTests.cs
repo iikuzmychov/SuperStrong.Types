@@ -9,29 +9,30 @@ public sealed class UpperInvariantValidatorTests
     [InlineData("ABC123")]
     [InlineData("A-B_C")]
     [InlineData("")]
-    public void IsValid_returns_true_when_there_are_no_lower_case_characters(string value)
+    public void Validate_returns_Valid_when_there_are_no_lower_case_characters(string value)
     {
         var validator = new UpperInvariantValidator();
 
-        Assert.True(validator.IsValid(value));
+        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate(value));
     }
 
     [Theory]
     [InlineData("Abc")]
     [InlineData("abc")]
     [InlineData("AbC")]
-    public void IsValid_returns_false_when_a_lower_case_character_is_present(string value)
+    public void Validate_returns_Invalid_when_a_lower_case_character_is_present(string value)
     {
         var validator = new UpperInvariantValidator();
 
-        Assert.False(validator.IsValid(value));
+        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(value));
     }
 
     [Fact]
-    public void EnsureValid_throws_for_a_lower_case_character()
+    public void Invalid_result_carries_an_error_message()
     {
         var validator = new UpperInvariantValidator();
 
-        Assert.Throws<ArgumentException>(() => validator.EnsureValid("aBC"));
+        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("aBC"));
+        Assert.Equal("Value must be in upper invariant case.", result.ErrorMessage);
     }
 }

@@ -2,13 +2,15 @@ namespace SuperStrong.Types.Validators;
 
 public sealed class UpperInvariantValidator : StrongTypeValidator<string>
 {
-    protected override Exception? GetValidationException(string value)
+    public override StrongTypeValidationResult Validate(string value)
     {
-        if (value != value.ToUpperInvariant())
+        ArgumentNullException.ThrowIfNull(value);
+
+        if (value.ToUpperInvariant() != value)
         {
-            return new ArgumentException("Value must be upper-case.", nameof(value));
+            return StrongTypeValidationResult.Invalid("Value must be in upper invariant case.");
         }
 
-        return null;
+        return StrongTypeValidationResult.Valid();
     }
 }

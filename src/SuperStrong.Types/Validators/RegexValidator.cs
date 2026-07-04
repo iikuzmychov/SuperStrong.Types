@@ -2,24 +2,23 @@ using System.Text.RegularExpressions;
 
 namespace SuperStrong.Types.Validators;
 
-public sealed class RegexValidator : StrongTypeValidator<string>
+public sealed class RegexValidator(Regex regex) : StrongTypeValidator<string>
 {
-    public Regex Regex { get; }
+    public Regex Regex { get; } = regex ?? throw new ArgumentNullException(nameof(regex));
 
-    public RegexValidator(Regex regex)
+    public override StrongTypeValidationResult Validate(string value)
     {
-        ArgumentNullException.ThrowIfNull(regex);
+        ArgumentNullException.ThrowIfNull(value);
 
-        Regex = regex;
-    }
-
-    protected override Exception? GetValidationException(string value)
-    {
         if (!Regex.IsMatch(value))
         {
-            return new ArgumentException($"Value does not match the required pattern '{Regex}'.", nameof(value));
+            var optionsSuffix = Regex.Options is RegexOptions.None
+                ? string.Empty
+                : $" ({Regex.Options})";
+
+            return StrongTypeValidationResult.Invalid($"Value must match the regex pattern '{Regex}'{optionsSuffix}.");
         }
 
-        return null;
+        return StrongTypeValidationResult.Valid();
     }
 }

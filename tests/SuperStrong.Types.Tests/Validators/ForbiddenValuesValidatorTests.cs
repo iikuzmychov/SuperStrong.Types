@@ -6,7 +6,7 @@ namespace SuperStrong.Types.Tests.Validators;
 public sealed class ForbiddenValuesValidatorTests
 {
     [Fact]
-    public void Constructor_throws_when_no_values_are_specified()
+    public void Constructor_throws_for_an_empty_set()
     {
         Assert.Throws<ArgumentException>(() => new ForbiddenValuesValidator<int>([]));
     }
@@ -20,34 +20,43 @@ public sealed class ForbiddenValuesValidatorTests
     }
 
     [Fact]
-    public void IsValid_returns_false_for_a_forbidden_value()
+    public void Validate_returns_Invalid_for_a_forbidden_value()
     {
         var validator = new ForbiddenValuesValidator<string>(["admin", "root"]);
 
-        Assert.False(validator.IsValid("admin"));
+        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("admin"));
     }
 
     [Fact]
-    public void IsValid_returns_true_for_a_value_outside_the_set()
+    public void Validate_returns_Valid_for_a_value_outside_the_set()
     {
         var validator = new ForbiddenValuesValidator<string>(["admin", "root"]);
 
-        Assert.True(validator.IsValid("user"));
+        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate("user"));
     }
 
     [Fact]
-    public void IsValid_honors_the_comparer_carried_by_the_set()
+    public void Validate_is_case_sensitive_for_strings()
+    {
+        var validator = new ForbiddenValuesValidator<string>(["admin"]);
+
+        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate("ADMIN"));
+    }
+
+    [Fact]
+    public void Validate_honors_the_comparer_carried_by_the_set()
     {
         var validator = new ForbiddenValuesValidator<string>(ImmutableHashSet.Create(StringComparer.OrdinalIgnoreCase, "admin"));
 
-        Assert.False(validator.IsValid("ADMIN"));
+        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("ADMIN"));
     }
 
     [Fact]
-    public void EnsureValid_throws_for_a_forbidden_value()
+    public void Invalid_result_carries_an_error_message_with_the_forbidden_values()
     {
-        var validator = new ForbiddenValuesValidator<int>([1, 2, 3]);
+        var validator = new ForbiddenValuesValidator<string>(["admin"]);
 
-        Assert.Throws<ArgumentException>(() => validator.EnsureValid(2));
+        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("admin"));
+        Assert.Equal("Value must not be one of: admin.", result.ErrorMessage);
     }
 }

@@ -6,20 +6,20 @@ public sealed class MinLengthValidator : StrongTypeValidator<string>
 
     public MinLengthValidator(int minLength)
     {
-        ArgumentOutOfRangeException.ThrowIfLessThan(minLength, 0, nameof(minLength));
+        ArgumentOutOfRangeException.ThrowIfLessThan(minLength, 0);
 
         MinLength = minLength;
     }
 
-    protected override Exception? GetValidationException(string value)
+    public override StrongTypeValidationResult Validate(string value)
     {
+        ArgumentNullException.ThrowIfNull(value);
+
         if (value.Length < MinLength)
         {
-            return new ArgumentOutOfRangeException(
-                nameof(value),
-                $"Value length must be greater than or equal to {MinLength}.");
+            return StrongTypeValidationResult.Invalid($"Value must be at least {MinLength} characters long.");
         }
 
-        return null;
+        return StrongTypeValidationResult.Valid();
     }
 }

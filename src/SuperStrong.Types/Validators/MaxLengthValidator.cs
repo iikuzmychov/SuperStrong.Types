@@ -6,20 +6,20 @@ public sealed class MaxLengthValidator : StrongTypeValidator<string>
 
     public MaxLengthValidator(int maxLength)
     {
-        ArgumentOutOfRangeException.ThrowIfLessThan(maxLength, 0, nameof(maxLength));
+        ArgumentOutOfRangeException.ThrowIfLessThan(maxLength, 0);
         
         MaxLength = maxLength;
     }
 
-    protected override Exception? GetValidationException(string value)
+    public override StrongTypeValidationResult Validate(string value)
     {
+        ArgumentNullException.ThrowIfNull(value);
+
         if (value.Length > MaxLength)
         {
-            return new ArgumentOutOfRangeException(
-                nameof(value),
-                $"Value length must be less than or equal to {MaxLength}.");
+            return StrongTypeValidationResult.Invalid($"Value must be at most {MaxLength} characters long.");
         }
 
-        return null;
+        return StrongTypeValidationResult.Valid();
     }
 }

@@ -21,26 +21,63 @@ public sealed class PredicateValidatorTests
     }
 
     [Fact]
-    public void IsValid_returns_true_when_predicate_is_satisfied()
+    public void Exposes_error_message_factory()
     {
-        var validator = new PredicateValidator<int>(value => value > 0);
+        Func<int, string?> errorMessageFactory = value => $"Bad value {value}.";
 
-        Assert.True(validator.IsValid(1));
+        var validator = new PredicateValidator<int>(value => value > 0, errorMessageFactory);
+
+        Assert.Same(errorMessageFactory, validator.ErrorMessageFactory);
     }
 
     [Fact]
-    public void IsValid_returns_false_when_predicate_is_not_satisfied()
+    public void Error_message_factory_defaults_to_null()
     {
         var validator = new PredicateValidator<int>(value => value > 0);
 
-        Assert.False(validator.IsValid(0));
+        Assert.Null(validator.ErrorMessageFactory);
     }
 
     [Fact]
-    public void EnsureValid_throws_when_predicate_is_not_satisfied()
+    public void Validate_returns_Valid_when_predicate_is_satisfied()
     {
         var validator = new PredicateValidator<int>(value => value > 0);
 
-        Assert.Throws<ArgumentException>(() => validator.EnsureValid(0));
+        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate(1));
+    }
+
+    [Fact]
+    public void Validate_returns_Invalid_when_predicate_is_not_satisfied()
+    {
+        var validator = new PredicateValidator<int>(value => value > 0);
+
+        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(0));
+    }
+
+    [Fact]
+    public void Invalid_result_carries_a_default_error_message_when_no_factory_is_given()
+    {
+        var validator = new PredicateValidator<int>(value => value > 0);
+
+        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(0));
+        Assert.Equal("Value must satisfy the predicate.", result.ErrorMessage);
+    }
+
+    [Fact]
+    public void Invalid_result_carries_the_factory_error_message()
+    {
+        var validator = new PredicateValidator<int>(value => value > 0, value => $"Value {value} is not positive.");
+
+        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(-1));
+        Assert.Equal("Value -1 is not positive.", result.ErrorMessage);
+    }
+
+    [Fact]
+    public void Invalid_result_falls_back_to_the_default_error_message_when_the_factory_returns_null()
+    {
+        var validator = new PredicateValidator<int>(value => value > 0, _ => null);
+
+        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(0));
+        Assert.Equal("Value must satisfy the predicate.", result.ErrorMessage);
     }
 }

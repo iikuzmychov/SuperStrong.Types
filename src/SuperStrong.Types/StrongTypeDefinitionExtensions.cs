@@ -10,10 +10,28 @@ public static class StrongTypeDefinitionExtensions
 {
     public static StrongTypeDefinition<TPrimitive> Satisfies<TPrimitive>(
         this StrongTypeDefinition<TPrimitive> definition,
+        Func<TPrimitive, bool> predicate,
+        Func<TPrimitive, string?>? errorMessageFactory = null)
+        where TPrimitive : notnull
+    {
+        return definition.WithValidator(new PredicateValidator<TPrimitive>(predicate, errorMessageFactory));
+    }
+
+    public static StrongTypeDefinition<TPrimitive> Satisfies<TPrimitive>(
+        this StrongTypeDefinition<TPrimitive> definition,
+        Func<TPrimitive, bool> predicate,
+        string? errorMessage = null)
+        where TPrimitive : notnull
+    {
+        return definition.Satisfies(predicate, _ => errorMessage);
+    }
+
+    public static StrongTypeDefinition<TPrimitive> Satisfies<TPrimitive>(
+        this StrongTypeDefinition<TPrimitive> definition,
         Func<TPrimitive, bool> predicate)
         where TPrimitive : notnull
     {
-        return definition.WithValidator(new PredicateValidator<TPrimitive>(predicate));
+        return definition.Satisfies(predicate, errorMessageFactory: null);
     }
 
     public static StrongTypeDefinition<TPrimitive> IsOneOf<TPrimitive>(
@@ -62,7 +80,7 @@ public static class StrongTypeDefinitionExtensions
         this StrongTypeDefinition<TPrimitive> definition,
         TPrimitive maxValue,
         bool isExclusive = false)
-        where TPrimitive : IComparisonOperators<TPrimitive, TPrimitive, bool>
+        where TPrimitive : IComparable<TPrimitive>
     {
         return definition.WithValidator(new MaxValueValidator<TPrimitive>(maxValue, isExclusive));
     }
@@ -71,37 +89,37 @@ public static class StrongTypeDefinitionExtensions
         this StrongTypeDefinition<TPrimitive> definition,
         TPrimitive minValue,
         bool isExclusive = false)
-        where TPrimitive : IComparisonOperators<TPrimitive, TPrimitive, bool>
+        where TPrimitive : IComparable<TPrimitive>
     {
         return definition.WithValidator(new MinValueValidator<TPrimitive>(minValue, isExclusive));
     }
 
     public static StrongTypeDefinition<TPrimitive> IsPositive<TPrimitive>(
         this StrongTypeDefinition<TPrimitive> definition)
-        where TPrimitive : INumberBase<TPrimitive>, IComparisonOperators<TPrimitive, TPrimitive, bool>
+        where TPrimitive : INumberBase<TPrimitive>, IComparable<TPrimitive>
     {
-        return definition.HasMinValue(TPrimitive.Zero, isExclusive: true);
+        return definition.WithValidator(new PositiveValidator<TPrimitive>());
     }
 
     public static StrongTypeDefinition<TPrimitive> IsNegative<TPrimitive>(
         this StrongTypeDefinition<TPrimitive> definition)
-        where TPrimitive : INumberBase<TPrimitive>, IComparisonOperators<TPrimitive, TPrimitive, bool>
+        where TPrimitive : INumberBase<TPrimitive>, IComparable<TPrimitive>
     {
-        return definition.HasMaxValue(TPrimitive.Zero, isExclusive: true);
+        return definition.WithValidator(new NegativeValidator<TPrimitive>());
     }
 
     public static StrongTypeDefinition<TPrimitive> IsPositiveOrZero<TPrimitive>(
         this StrongTypeDefinition<TPrimitive> definition)
-        where TPrimitive : INumberBase<TPrimitive>, IComparisonOperators<TPrimitive, TPrimitive, bool>
+        where TPrimitive : INumberBase<TPrimitive>, IComparable<TPrimitive>
     {
-        return definition.HasMinValue(TPrimitive.Zero);
+        return definition.WithValidator(new PositiveValidator<TPrimitive>(allowZero: true));
     }
 
     public static StrongTypeDefinition<TPrimitive> IsNegativeOrZero<TPrimitive>(
         this StrongTypeDefinition<TPrimitive> definition)
-        where TPrimitive : INumberBase<TPrimitive>, IComparisonOperators<TPrimitive, TPrimitive, bool>
+        where TPrimitive : INumberBase<TPrimitive>, IComparable<TPrimitive>
     {
-        return definition.HasMaxValue(TPrimitive.Zero);
+        return definition.WithValidator(new NegativeValidator<TPrimitive>(allowZero: true));
     }
 
     public static StrongTypeDefinition<string> HasMaxLength(
@@ -122,17 +140,14 @@ public static class StrongTypeDefinitionExtensions
         this StrongTypeDefinition<string> definition,
         int length)
     {
-        return definition.HasMinLength(length).HasMaxLength(length);
+        return definition.WithValidator(new ExactLengthValidator(length));
     }
 
-    public static StrongTypeDefinition<string> IsNotEmpty(this StrongTypeDefinition<string> definition)
+    public static StrongTypeDefinition<string> IsNotEmpty(
+        this StrongTypeDefinition<string> definition,
+        bool allowWhiteSpaces = false)
     {
-        return definition.HasMinLength(1);
-    }
-
-    public static StrongTypeDefinition<string> IsNotWhiteSpace(this StrongTypeDefinition<string> definition)
-    {
-        return definition.WithValidator(new NotWhiteSpaceValidator());
+        return definition.WithValidator(new NotEmptyValidator(allowWhiteSpaces));
     }
 
     public static StrongTypeDefinition<string> MatchesRegex(

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SuperStrong.Types;
 
@@ -10,19 +11,18 @@ public static class StrongType
         return StrongTypeDefinition<TPrimitive>.Empty;
     }
 
-    public static bool IsValid<TPrimitive>([NotNullWhen(true)] TPrimitive? value, StrongTypeDefinition<TPrimitive> definition)
+    public static bool IsValid<TStrongType, TPrimitive>([NotNullWhen(true)] TPrimitive? value)
+        where TStrongType : IStrongType<TStrongType, TPrimitive>
         where TPrimitive : notnull
     {
-        ArgumentNullException.ThrowIfNull(definition);
-
         if (value is null)
         {
             return false;
         }
 
-        foreach (var validator in definition.Validators)
+        foreach (var validator in TStrongType.Definition.Validators)
         {
-            if (!validator.IsValid(value))
+            if (validator.Validate(value) is StrongTypeValidationResult.Invalid)
             {
                 return false;
             }
@@ -31,15 +31,26 @@ public static class StrongType
         return true;
     }
 
-    public static void EnsureValid<TPrimitive>(TPrimitive value, StrongTypeDefinition<TPrimitive> definition)
+    public static void EnsureValid<TStrongType, TPrimitive>(TPrimitive value)
+        where TStrongType : IStrongType<TStrongType, TPrimitive>
         where TPrimitive : notnull
     {
         ArgumentNullException.ThrowIfNull(value);
-        ArgumentNullException.ThrowIfNull(definition);
 
-        foreach (var validator in definition.Validators)
+        var strongTypeDefinition = TStrongType.Definition;
+        var errorMessages = ImmutableArray.CreateBuilder<string>(initialCapacity: strongTypeDefinition.Validators.Length);
+
+        foreach (var validator in strongTypeDefinition.Validators)
         {
-            validator.EnsureValid(value);
+            if (validator.Validate(value) is StrongTypeValidationResult.Invalid invalidValidationResult)
+            {
+                errorMessages.Add(invalidValidationResult.ErrorMessage);
+            }
+        }
+
+        if (errorMessages.Count > 0)
+        {
+            throw new StrongTypeValidationException(typeof(TStrongType), value, errorMessages.ToImmutable());
         }
     }
 

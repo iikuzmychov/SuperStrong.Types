@@ -6,7 +6,7 @@ namespace SuperStrong.Types.Tests.Validators;
 public sealed class AllowedValuesValidatorTests
 {
     [Fact]
-    public void Constructor_throws_when_no_values_are_specified()
+    public void Constructor_throws_for_an_empty_set()
     {
         Assert.Throws<ArgumentException>(() => new AllowedValuesValidator<int>([]));
     }
@@ -20,42 +20,43 @@ public sealed class AllowedValuesValidatorTests
     }
 
     [Fact]
-    public void IsValid_returns_true_for_an_allowed_value()
+    public void Validate_returns_Valid_for_an_allowed_value()
     {
         var validator = new AllowedValuesValidator<string>(["red", "green", "blue"]);
 
-        Assert.True(validator.IsValid("green"));
+        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate("green"));
     }
 
     [Fact]
-    public void IsValid_returns_false_for_a_value_outside_the_set()
+    public void Validate_returns_Invalid_for_a_value_outside_the_set()
     {
         var validator = new AllowedValuesValidator<string>(["red", "green", "blue"]);
 
-        Assert.False(validator.IsValid("yellow"));
+        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("yellow"));
     }
 
     [Fact]
-    public void IsValid_is_case_sensitive_for_strings_by_default()
+    public void Validate_is_case_sensitive_for_strings()
     {
         var validator = new AllowedValuesValidator<string>(["red"]);
 
-        Assert.False(validator.IsValid("RED"));
+        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("RED"));
     }
 
     [Fact]
-    public void IsValid_honors_the_comparer_carried_by_the_set()
+    public void Validate_honors_the_comparer_carried_by_the_set()
     {
         var validator = new AllowedValuesValidator<string>(ImmutableHashSet.Create(StringComparer.OrdinalIgnoreCase, "red"));
 
-        Assert.True(validator.IsValid("RED"));
+        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate("RED"));
     }
 
     [Fact]
-    public void EnsureValid_throws_for_a_value_outside_the_set()
+    public void Invalid_result_carries_an_error_message_with_the_allowed_values()
     {
-        var validator = new AllowedValuesValidator<int>([1, 2, 3]);
+        var validator = new AllowedValuesValidator<string>(["red"]);
 
-        Assert.Throws<ArgumentException>(() => validator.EnsureValid(4));
+        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("yellow"));
+        Assert.Equal("Value must be one of: red.", result.ErrorMessage);
     }
 }

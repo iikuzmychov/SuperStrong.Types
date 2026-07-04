@@ -27,7 +27,7 @@ internal sealed class CoreFeatureEmitter : IStrongTypeFeatureEmitter
 
             using (writer.MemberBlock($"public static {model.TypeName} From({model.PrimitiveTypeName} value)"))
             {
-                writer.Line($"{SuperStrong_Types_StrongType}.EnsureValid(value, Definition);");
+                writer.Line($"{SuperStrong_Types_StrongType}.EnsureValid<{model.TypeName}, {model.PrimitiveTypeName}>(value);");
                 writer.Line();
                 writer.Line($"return new {model.TypeName}(value);");
             }
@@ -45,7 +45,7 @@ internal sealed class CoreFeatureEmitter : IStrongTypeFeatureEmitter
                 $"[{System_Diagnostics_CodeAnalysis_AllowNullAttribute}] {model.PrimitiveTypeName} value," +
                 $"[{System_Diagnostics_CodeAnalysis_MaybeNullWhenAttribute}(false)] out {model.TypeName} result)"))
             {
-                using (writer.Block($"if ({SuperStrong_Types_StrongType}.IsValid(value, Definition))"))
+                using (writer.Block($"if ({SuperStrong_Types_StrongType}.IsValid<{model.TypeName}, {model.PrimitiveTypeName}>(value))"))
                 {
                     writer.Line($"result = new {model.TypeName}(value);");
                     writer.Line("return true;");

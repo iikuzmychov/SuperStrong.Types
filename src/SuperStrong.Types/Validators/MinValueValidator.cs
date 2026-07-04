@@ -1,26 +1,28 @@
-using System.Numerics;
-
 namespace SuperStrong.Types.Validators;
 
 public sealed class MinValueValidator<TPrimitive>(TPrimitive minValue, bool isExclusive = false) : StrongTypeValidator<TPrimitive>
-    where TPrimitive : IComparisonOperators<TPrimitive, TPrimitive, bool>
+    where TPrimitive : IComparable<TPrimitive>
 {
     public TPrimitive MinValue { get; } = minValue ?? throw new ArgumentNullException(nameof(minValue));
     public bool IsExclusive { get; } = isExclusive;
 
-    protected override Exception? GetValidationException(TPrimitive value)
+    public override StrongTypeValidationResult Validate(TPrimitive value)
     {
+        ArgumentNullException.ThrowIfNull(value);
+
+        var comparisonResult = value.CompareTo(MinValue);
+
         var isBelowBound = IsExclusive
-            ? value <= MinValue
-            : value < MinValue;
+            ? comparisonResult <= 0
+            : comparisonResult < 0;
 
         if (isBelowBound)
         {
             var boundDescription = IsExclusive ? "greater than" : "greater than or equal to";
 
-            return new ArgumentOutOfRangeException($"Value must be {boundDescription} {MinValue}.");
+            return StrongTypeValidationResult.Invalid($"Value must be {boundDescription} {MinValue}.");
         }
 
-        return null;
+        return StrongTypeValidationResult.Valid();
     }
 }

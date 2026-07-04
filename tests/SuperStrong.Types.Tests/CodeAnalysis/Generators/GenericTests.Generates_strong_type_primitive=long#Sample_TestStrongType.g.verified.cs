@@ -21,7 +21,7 @@ namespace Sample
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
         public static TestStrongType From(long value)
         {
-            global::SuperStrong.Types.StrongType.EnsureValid(value, Definition);
+            global::SuperStrong.Types.StrongType.EnsureValid<TestStrongType, long>(value);
 
             return new TestStrongType(value);
         }
@@ -35,7 +35,7 @@ namespace Sample
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
         public static bool TryFrom([global::System.Diagnostics.CodeAnalysis.AllowNullAttribute] long value,[global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
-            if (global::SuperStrong.Types.StrongType.IsValid(value, Definition))
+            if (global::SuperStrong.Types.StrongType.IsValid<TestStrongType, long>(value))
             {
                 result = new TestStrongType(value);
                 return true;

@@ -14,14 +14,46 @@ public sealed class StrongTypeDefinitionExtensionsTests
 
         var validator = Assert.IsType<PredicateValidator<int>>(Assert.Single(definition.Validators));
         Assert.Same(predicate, validator.Predicate);
+        Assert.Null(validator.ErrorMessageFactory);
     }
 
     [Fact]
-    public void IsNotWhiteSpace_adds_NotWhiteSpaceValidator()
+    public void Satisfies_passes_the_error_message_factory_to_the_validator()
     {
-        var definition = StrongType.Define<string>().IsNotWhiteSpace();
+        Func<int, string?> errorMessageFactory = value => $"Bad value {value}.";
 
-        Assert.IsType<NotWhiteSpaceValidator>(Assert.Single(definition.Validators));
+        var definition = StrongType.Define<int>().Satisfies(value => value > 0, errorMessageFactory);
+
+        var validator = Assert.IsType<PredicateValidator<int>>(Assert.Single(definition.Validators));
+        Assert.Same(errorMessageFactory, validator.ErrorMessageFactory);
+    }
+
+    [Fact]
+    public void Satisfies_wraps_the_error_message_in_a_factory()
+    {
+        var definition = StrongType.Define<int>().Satisfies(value => value > 0, "Value is not positive.");
+
+        var validator = Assert.IsType<PredicateValidator<int>>(Assert.Single(definition.Validators));
+        Assert.NotNull(validator.ErrorMessageFactory);
+        Assert.Equal("Value is not positive.", validator.ErrorMessageFactory(0));
+    }
+
+    [Fact]
+    public void IsNotEmpty_adds_NotEmptyValidator()
+    {
+        var definition = StrongType.Define<string>().IsNotEmpty();
+
+        var validator = Assert.IsType<NotEmptyValidator>(Assert.Single(definition.Validators));
+        Assert.False(validator.AllowWhiteSpaces);
+    }
+
+    [Fact]
+    public void IsNotEmpty_passes_allowWhiteSpaces_to_the_validator()
+    {
+        var definition = StrongType.Define<string>().IsNotEmpty(allowWhiteSpaces: true);
+
+        var validator = Assert.IsType<NotEmptyValidator>(Assert.Single(definition.Validators));
+        Assert.True(validator.AllowWhiteSpaces);
     }
 
     [Fact]
@@ -136,62 +168,47 @@ public sealed class StrongTypeDefinitionExtensionsTests
     }
 
     [Fact]
-    public void IsNotEmpty_adds_a_MinLengthValidator_of_one()
-    {
-        var definition = StrongType.Define<string>().IsNotEmpty();
-
-        var validator = Assert.IsType<MinLengthValidator>(Assert.Single(definition.Validators));
-        Assert.Equal(1, validator.MinLength);
-    }
-
-    [Fact]
-    public void HasLength_adds_matching_MinLengthValidator_and_MaxLengthValidator()
+    public void HasLength_adds_ExactLengthValidator()
     {
         var definition = StrongType.Define<string>().HasLength(4);
 
-        Assert.Collection(
-            definition.Validators,
-            validator => Assert.Equal(4, Assert.IsType<MinLengthValidator>(validator).MinLength),
-            validator => Assert.Equal(4, Assert.IsType<MaxLengthValidator>(validator).MaxLength));
+        var validator = Assert.IsType<ExactLengthValidator>(Assert.Single(definition.Validators));
+        Assert.Equal(4, validator.Length);
     }
 
     [Fact]
-    public void IsPositive_adds_an_exclusive_MinValueValidator_of_zero()
+    public void IsPositive_adds_PositiveValidator()
     {
         var definition = StrongType.Define<int>().IsPositive();
 
-        var validator = Assert.IsType<MinValueValidator<int>>(Assert.Single(definition.Validators));
-        Assert.Equal(0, validator.MinValue);
-        Assert.True(validator.IsExclusive);
+        var validator = Assert.IsType<PositiveValidator<int>>(Assert.Single(definition.Validators));
+        Assert.False(validator.AllowZero);
     }
 
     [Fact]
-    public void IsNegative_adds_an_exclusive_MaxValueValidator_of_zero()
+    public void IsNegative_adds_NegativeValidator()
     {
         var definition = StrongType.Define<int>().IsNegative();
 
-        var validator = Assert.IsType<MaxValueValidator<int>>(Assert.Single(definition.Validators));
-        Assert.Equal(0, validator.MaxValue);
-        Assert.True(validator.IsExclusive);
+        var validator = Assert.IsType<NegativeValidator<int>>(Assert.Single(definition.Validators));
+        Assert.False(validator.AllowZero);
     }
 
     [Fact]
-    public void IsPositiveOrZero_adds_an_inclusive_MinValueValidator_of_zero()
+    public void IsPositiveOrZero_adds_PositiveValidator_allowing_zero()
     {
         var definition = StrongType.Define<int>().IsPositiveOrZero();
 
-        var validator = Assert.IsType<MinValueValidator<int>>(Assert.Single(definition.Validators));
-        Assert.Equal(0, validator.MinValue);
-        Assert.False(validator.IsExclusive);
+        var validator = Assert.IsType<PositiveValidator<int>>(Assert.Single(definition.Validators));
+        Assert.True(validator.AllowZero);
     }
 
     [Fact]
-    public void IsNegativeOrZero_adds_an_inclusive_MaxValueValidator_of_zero()
+    public void IsNegativeOrZero_adds_NegativeValidator_allowing_zero()
     {
         var definition = StrongType.Define<int>().IsNegativeOrZero();
 
-        var validator = Assert.IsType<MaxValueValidator<int>>(Assert.Single(definition.Validators));
-        Assert.Equal(0, validator.MaxValue);
-        Assert.False(validator.IsExclusive);
+        var validator = Assert.IsType<NegativeValidator<int>>(Assert.Single(definition.Validators));
+        Assert.True(validator.AllowZero);
     }
 }
