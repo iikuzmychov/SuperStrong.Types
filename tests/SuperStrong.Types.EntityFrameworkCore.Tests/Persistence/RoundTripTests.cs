@@ -4,11 +4,11 @@ using SuperStrong.Types.Tests;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Persistence;
 
-public abstract class RoundTripTests<TStrongType, TPrimitive, TData>(DatabaseHarness database)
-    : RelationalTest<RoundTripTests<TStrongType, TPrimitive, TData>.Context>(database)
+public abstract class RoundTripTests<TStrongType, TPrimitive, TSamples>(DatabaseHarness database)
+    : RelationalTest<RoundTripTests<TStrongType, TPrimitive, TSamples>.Context>(database)
     where TStrongType : class, IStrongType<TStrongType, TPrimitive>
     where TPrimitive : notnull
-    where TData : TheoryData<TPrimitive>, new()
+    where TSamples : TheoryData<TPrimitive>, new()
 {
     public sealed class Entity
     {
@@ -23,7 +23,7 @@ public abstract class RoundTripTests<TStrongType, TPrimitive, TData>(DatabaseHar
 
     protected override Context CreateDbContext(DbContextOptions<Context> options) => new(options);
 
-    public static TheoryData<TPrimitive> Primitives { get; } = new TData();
+    public static TheoryData<TPrimitive> Primitives { get; } = new TSamples();
 
     [Theory]
     [MemberData(nameof(Primitives))]

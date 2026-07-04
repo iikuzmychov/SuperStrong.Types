@@ -1,4 +1,4 @@
 namespace SuperStrong.Types.Tests.Converters;
 
 public sealed class ULongNewtonsoftJsonTests
-    : NewtonsoftJsonStrongTypeTests<StrongULong, ulong, ULongPrimitiveData>;
+    : NewtonsoftJsonStrongTypeTests<StrongULong, ulong, StrongULong.ValidPrimitiveSamples, StrongULong.InvalidPrimitiveSamples>;

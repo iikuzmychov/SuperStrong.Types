@@ -6,27 +6,29 @@ using SuperStrong.Types.Converters;
 
 namespace SuperStrong.Types.Tests.Converters;
 
-public abstract class StrongTypeConverterTests<TStrongType, TPrimitive, TPrimitivesData>
+public abstract class StrongTypeConverterTests<TStrongType, TPrimitive, TPrimitiveSamples, TInvalidPrimitiveSamples>
     where TStrongType : class, IStrongType<TStrongType, TPrimitive>
     where TPrimitive : notnull
-    where TPrimitivesData : notnull, TheoryData<TPrimitive>, new()
+    where TPrimitiveSamples : notnull, TheoryData<TPrimitive>, new()
+    where TInvalidPrimitiveSamples : notnull, TheoryData<TPrimitive>, new()
 {
     private static readonly TypeConverter _converter = TypeDescriptor.GetConverter(typeof(TStrongType));
     private static readonly TypeConverter _primitiveConverter = TypeDescriptor.GetConverter(typeof(TPrimitive));
 
-    public static TheoryData<TPrimitive> PrimitivesData { get; } = new TPrimitivesData();
-    public static TheoryData<TStrongType> StrongTypesData { get; } = CreateStrongTypesData();
-    public static TheoryData<string> StringsData { get; } = CreateStringsData();
+    public static TheoryData<TPrimitive> PrimitiveSamples { get; } = new TPrimitiveSamples();
+    public static TheoryData<TPrimitive> InvalidPrimitiveSamples { get; } = new TInvalidPrimitiveSamples();
+    public static TheoryData<TStrongType> StrongTypeSamples { get; } = CreateStrongTypeSamples();
+    public static TheoryData<string> StringSamples { get; } = CreateStringSamples();
 
-    private static TheoryData<TStrongType> CreateStrongTypesData()
+    private static TheoryData<TStrongType> CreateStrongTypeSamples()
     {
-        return new(PrimitivesData.Select(primitive => TStrongType.From(primitive)));
+        return new(PrimitiveSamples.Select(primitive => TStrongType.From(primitive)));
     }
 
-    private static TheoryData<string> CreateStringsData()
+    private static TheoryData<string> CreateStringSamples()
     {
         return new(
-            PrimitivesData.Select(primitive =>
+            PrimitiveSamples.Select(primitive =>
                 (string)_primitiveConverter.ConvertTo(null, CultureInfo.InvariantCulture, (TPrimitive)primitive, typeof(string))!));
     }
 
@@ -73,7 +75,7 @@ public abstract class StrongTypeConverterTests<TStrongType, TPrimitive, TPrimiti
     }
 
     [Theory]
-    [MemberData(nameof(PrimitivesData))]
+    [MemberData(nameof(PrimitiveSamples))]
     public void Strong_type_converts_from_its_primitive(TPrimitive primitive)
     {
         var strongType = (TStrongType)_converter.ConvertFrom(primitive)!;
@@ -81,8 +83,18 @@ public abstract class StrongTypeConverterTests<TStrongType, TPrimitive, TPrimiti
         Assert.Equal(primitive, strongType.AsPrimitive());
     }
 
+    [Theory(SkipTestWithoutData = true)]
+    [MemberData(nameof(InvalidPrimitiveSamples))]
+    public void Strong_type_does_not_convert_from_an_invalid_primitive(TPrimitive primitive)
+    {
+        var exception = Assert.Throws<StrongTypeValidationException>(() => _converter.ConvertFrom(primitive));
+
+        Assert.Equal(typeof(TStrongType), exception.StrongType);
+        Assert.Equal(primitive, exception.Value);
+    }
+
     [Theory]
-    [MemberData(nameof(StrongTypesData))]
+    [MemberData(nameof(StrongTypeSamples))]
     public void Strong_type_converts_to_its_primitive(TStrongType strongType)
     {
         var primitive = (TPrimitive)_converter.ConvertTo(strongType, typeof(TPrimitive))!;
@@ -91,7 +103,7 @@ public abstract class StrongTypeConverterTests<TStrongType, TPrimitive, TPrimiti
     }
 
     [Theory]
-    [MemberData(nameof(StrongTypesData))]
+    [MemberData(nameof(StrongTypeSamples))]
     public void Strong_type_converts_to_string_like_its_primitive(TStrongType strongType)
     {
         var primitiveText = _primitiveConverter.ConvertTo(
@@ -110,7 +122,7 @@ public abstract class StrongTypeConverterTests<TStrongType, TPrimitive, TPrimiti
     }
 
     [Theory]
-    [MemberData(nameof(StringsData))]
+    [MemberData(nameof(StringSamples))]
     public void Strong_type_converts_from_string_like_its_primitive(string text)
     {
         var primitive = _primitiveConverter.ConvertFrom(null, CultureInfo.InvariantCulture, text);

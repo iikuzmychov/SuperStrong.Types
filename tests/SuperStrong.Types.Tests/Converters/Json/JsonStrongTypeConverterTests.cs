@@ -5,10 +5,11 @@ using SuperStrong.Types.Converters;
 
 namespace SuperStrong.Types.Tests.Converters;
 
-public abstract class JsonStrongTypeConverterTests<TStrongType, TPrimitive, TPrimitivesData>
+public abstract class JsonStrongTypeConverterTests<TStrongType, TPrimitive, TPrimitiveSamples, TInvalidPrimitiveSamples>
     where TStrongType : class, IStrongType<TStrongType, TPrimitive>
     where TPrimitive : notnull
-    where TPrimitivesData : notnull, TheoryData<TPrimitive>, new()
+    where TPrimitiveSamples : notnull, TheoryData<TPrimitive>, new()
+    where TInvalidPrimitiveSamples : notnull, TheoryData<TPrimitive>, new()
 {
     private static readonly JsonStrongTypeConverter<TStrongType, TPrimitive> _converter = new();
     private static readonly JsonStrongTypeConverter _converterFactory = new();
@@ -18,25 +19,26 @@ public abstract class JsonStrongTypeConverterTests<TStrongType, TPrimitive, TPri
         Converters = { _converter }
     };
 
-    public static TheoryData<TPrimitive> PrimitivesData { get; } = new TPrimitivesData();
-    public static TheoryData<TStrongType> StrongTypesData { get; } = CreateStrongTypesData();
-    public static TheoryData<string> JsonsData { get; } = CreateJsonsData();
-    public static TheoryData<string> DictionaryJsonsData { get; } = CreateDictionaryJsonsData();
+    public static TheoryData<TPrimitive> PrimitiveSamples { get; } = new TPrimitiveSamples();
+    public static TheoryData<TPrimitive> InvalidPrimitiveSamples { get; } = new TInvalidPrimitiveSamples();
+    public static TheoryData<TStrongType> StrongTypeSamples { get; } = CreateStrongTypeSamples();
+    public static TheoryData<string> JsonSamples { get; } = CreateJsonSamples();
+    public static TheoryData<string> DictionaryJsonSamples { get; } = CreateDictionaryJsonSamples();
 
-    private static TheoryData<TStrongType> CreateStrongTypesData()
+    private static TheoryData<TStrongType> CreateStrongTypeSamples()
     {
-        return new(PrimitivesData.Select(primitive => TStrongType.From(primitive)));
+        return new(PrimitiveSamples.Select(primitive => TStrongType.From(primitive)));
     }
 
-    private static TheoryData<string> CreateJsonsData()
+    private static TheoryData<string> CreateJsonSamples()
     {
-        return new(PrimitivesData.Select(primitive => JsonSerializer.Serialize((TPrimitive)primitive, _options)));
+        return new(PrimitiveSamples.Select(primitive => JsonSerializer.Serialize((TPrimitive)primitive, _options)));
     }
 
-    private static TheoryData<string> CreateDictionaryJsonsData()
+    private static TheoryData<string> CreateDictionaryJsonSamples()
     {
         return new(
-            PrimitivesData.Select(primitive =>
+            PrimitiveSamples.Select(primitive =>
                 JsonSerializer.Serialize(
                     new Dictionary<TPrimitive, object>
                     {
@@ -66,7 +68,7 @@ public abstract class JsonStrongTypeConverterTests<TStrongType, TPrimitive, TPri
     }
 
     [Theory]
-    [MemberData(nameof(StrongTypesData))]
+    [MemberData(nameof(StrongTypeSamples))]
     public void Strong_type_serializes_like_its_primitive(TStrongType strongType)
     {
         var primitiveJson = JsonSerializer.Serialize(strongType.AsPrimitive(), _options);
@@ -76,7 +78,7 @@ public abstract class JsonStrongTypeConverterTests<TStrongType, TPrimitive, TPri
     }
 
     [Theory]
-    [MemberData(nameof(JsonsData))]
+    [MemberData(nameof(JsonSamples))]
     public void Strong_type_deserializes_from_its_serialized_primitive(string json)
     {
         var primitive = JsonSerializer.Deserialize<TPrimitive>(json, _options);
@@ -86,7 +88,7 @@ public abstract class JsonStrongTypeConverterTests<TStrongType, TPrimitive, TPri
     }
 
     [Theory]
-    [MemberData(nameof(StrongTypesData))]
+    [MemberData(nameof(StrongTypeSamples))]
     public void Strong_type_serializes_as_dictionary_key_like_its_primitive(TStrongType strongType)
     {
         var primitiveKeysDictionary = new Dictionary<TPrimitive, object>()
@@ -106,7 +108,7 @@ public abstract class JsonStrongTypeConverterTests<TStrongType, TPrimitive, TPri
     }
 
     [Theory]
-    [MemberData(nameof(DictionaryJsonsData))]
+    [MemberData(nameof(DictionaryJsonSamples))]
     public void Strong_type_deserializes_from_dictionary_key_like_its_primitive(string json)
     {
         var primitiveKeysDictionary = JsonSerializer.Deserialize<Dictionary<TPrimitive, string>>(json, _options)!;
@@ -117,6 +119,39 @@ public abstract class JsonStrongTypeConverterTests<TStrongType, TPrimitive, TPri
 
         Assert.Equal(primitiveKeysDictionaryEntry.Key, strongTypeKeysDictionaryEntry.Key.AsPrimitive());
         Assert.Equal(primitiveKeysDictionaryEntry.Value, strongTypeKeysDictionaryEntry.Value);
+    }
+
+    [Theory(SkipTestWithoutData = true)]
+    [MemberData(nameof(InvalidPrimitiveSamples))]
+    public void Strong_type_does_not_deserialize_from_an_invalid_primitive(TPrimitive primitive)
+    {
+        var json = JsonSerializer.Serialize(primitive, _options);
+
+        var exception = Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<TStrongType>(json, _options));
+
+        var validationException = Assert.IsType<StrongTypeValidationException>(exception.InnerException);
+        Assert.Equal(typeof(TStrongType), validationException.StrongType);
+        Assert.Equal(primitive, validationException.Value);
+        Assert.Equal(validationException.Message, exception.Message);
+    }
+
+    [Theory(SkipTestWithoutData = true)]
+    [MemberData(nameof(InvalidPrimitiveSamples))]
+    public void Strong_type_does_not_deserialize_from_an_invalid_dictionary_key(TPrimitive primitive)
+    {
+        var dictionary = new Dictionary<TPrimitive, object>
+        {
+            [primitive] = "value"
+        };
+
+        var json = JsonSerializer.Serialize(dictionary, _options);
+
+        var exception = Assert.Throws<JsonException>(
+            () => JsonSerializer.Deserialize<Dictionary<TStrongType, object>>(json, _options));
+
+        var validationException = Assert.IsType<StrongTypeValidationException>(exception.InnerException);
+        Assert.Equal(typeof(TStrongType), validationException.StrongType);
+        Assert.Equal(primitive, validationException.Value);
     }
 
     [Fact]

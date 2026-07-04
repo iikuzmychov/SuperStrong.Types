@@ -121,10 +121,22 @@ public sealed class JsonStrongTypeDictionaryConverter<TStrongTypeKey, TPrimitive
 
         foreach (var (primitiveKey, value) in primitiveDictionary)
         {
-            dictionary[TStrongTypeKey.From(primitiveKey)] = value;
+            dictionary[CreateKey(primitiveKey)] = value;
         }
 
         return Materialize(objectType, dictionary);
+    }
+
+    private static TStrongTypeKey CreateKey(TPrimitiveKey primitive)
+    {
+        try
+        {
+            return TStrongTypeKey.From(primitive);
+        }
+        catch (StrongTypeValidationException exception)
+        {
+            throw new JsonSerializationException(exception.Message, exception);
+        }
     }
 
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)

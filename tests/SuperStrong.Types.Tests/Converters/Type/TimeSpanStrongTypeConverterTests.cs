@@ -1,4 +1,4 @@
 namespace SuperStrong.Types.Tests.Converters;
 
 public sealed class TimeSpanStrongTypeConverterTests
-    : StrongTypeConverterTests<StrongTimeSpan, TimeSpan, TimeSpanPrimitiveData>;
+    : StrongTypeConverterTests<StrongTimeSpan, TimeSpan, StrongTimeSpan.ValidPrimitiveSamples, StrongTimeSpan.InvalidPrimitiveSamples>;

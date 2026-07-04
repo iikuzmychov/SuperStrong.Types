@@ -7,23 +7,25 @@ using System.Collections.ObjectModel;
 
 namespace SuperStrong.Types.Tests.Converters;
 
-public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPrimitivesData>
+public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPrimitiveSamples, TInvalidPrimitiveSamples>
     where TStrongType : class, IStrongType<TStrongType, TPrimitive>
     where TPrimitive : notnull
-    where TPrimitivesData : notnull, TheoryData<TPrimitive>, new()
+    where TPrimitiveSamples : notnull, TheoryData<TPrimitive>, new()
+    where TInvalidPrimitiveSamples : notnull, TheoryData<TPrimitive>, new()
 {
     private static readonly JsonSerializerSettings _settings = CreateSettings();
 
-    public static TheoryData<TPrimitive> PrimitivesData { get; } = new TPrimitivesData();
-    public static TheoryData<TStrongType> StrongTypesData { get; } = CreateStrongTypesData();
-    public static TheoryData<string> JsonsData { get; } = CreateJsonsData();
-    public static TheoryData<string> DictionaryValueJsonsData { get; } = CreateDictionaryValueJsonsData();
-    public static TheoryData<Type> StrongTypeKeyDictionaryTypesData { get; } = CreateDictionaryTypesData(typeof(TStrongType), typeof(object));
-    public static TheoryData<Type> PrimitiveKeyDictionaryTypesData { get; } = CreateDictionaryTypesData(typeof(TPrimitive), typeof(object));
-    public static TheoryData<Type> StrongTypeValueDictionaryTypesData { get; } = CreateDictionaryTypesData(typeof(object), typeof(TStrongType));
-    public static TheoryData<Type, Type, string> DictionaryDeserializationData { get; } = CreateDictionaryDeserializationData();
-    public static TheoryData<Type, Type, TStrongType> StrongTypeKeyDictionarySerializationData { get; } = CreateDictionarySerializationData(typeof(TPrimitive), typeof(object), typeof(TStrongType), typeof(object));
-    public static TheoryData<Type, Type, TStrongType> StrongTypeValueDictionarySerializationData { get; } = CreateDictionarySerializationData(typeof(object), typeof(TPrimitive), typeof(object), typeof(TStrongType));
+    public static TheoryData<TPrimitive> PrimitiveSamples { get; } = new TPrimitiveSamples();
+    public static TheoryData<TPrimitive> InvalidPrimitiveSamples { get; } = new TInvalidPrimitiveSamples();
+    public static TheoryData<TStrongType> StrongTypeSamples { get; } = CreateStrongTypeSamples();
+    public static TheoryData<string> JsonSamples { get; } = CreateJsonSamples();
+    public static TheoryData<string> DictionaryValueJsonSamples { get; } = CreateDictionaryValueJsonSamples();
+    public static TheoryData<Type> StrongTypeKeyDictionaryTypeSamples { get; } = CreateDictionaryTypeSamples(typeof(TStrongType), typeof(object));
+    public static TheoryData<Type> PrimitiveKeyDictionaryTypeSamples { get; } = CreateDictionaryTypeSamples(typeof(TPrimitive), typeof(object));
+    public static TheoryData<Type> StrongTypeValueDictionaryTypeSamples { get; } = CreateDictionaryTypeSamples(typeof(object), typeof(TStrongType));
+    public static TheoryData<Type, Type, string> DictionaryDeserializationSamples { get; } = CreateDictionaryDeserializationSamples();
+    public static TheoryData<Type, Type, TStrongType> StrongTypeKeyDictionarySerializationSamples { get; } = CreateDictionarySerializationSamples(typeof(TPrimitive), typeof(object), typeof(TStrongType), typeof(object));
+    public static TheoryData<Type, Type, TStrongType> StrongTypeValueDictionarySerializationSamples { get; } = CreateDictionarySerializationSamples(typeof(object), typeof(TPrimitive), typeof(object), typeof(TStrongType));
 
     private static JsonSerializerSettings CreateSettings()
     {
@@ -40,20 +42,20 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
         };
     }
 
-    private static TheoryData<TStrongType> CreateStrongTypesData()
+    private static TheoryData<TStrongType> CreateStrongTypeSamples()
     {
-        return new(PrimitivesData.Select(primitive => TStrongType.From(primitive)));
+        return new(PrimitiveSamples.Select(primitive => TStrongType.From(primitive)));
     }
 
-    private static TheoryData<string> CreateJsonsData()
+    private static TheoryData<string> CreateJsonSamples()
     {
-        return new(PrimitivesData.Select(primitive => JsonConvert.SerializeObject((TPrimitive)primitive)));
+        return new(PrimitiveSamples.Select(primitive => JsonConvert.SerializeObject((TPrimitive)primitive)));
     }
 
-    private static TheoryData<string> CreateDictionaryValueJsonsData()
+    private static TheoryData<string> CreateDictionaryValueJsonSamples()
     {
         return new(
-            PrimitivesData.Select(primitive =>
+            PrimitiveSamples.Select(primitive =>
                 JsonConvert.SerializeObject(
                     new Dictionary<string, TPrimitive> { ["key"] = (TPrimitive)primitive })));
     }
@@ -75,12 +77,12 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
         ];
     }
 
-    private static TheoryData<Type> CreateDictionaryTypesData(Type keyType, Type valueType)
+    private static TheoryData<Type> CreateDictionaryTypeSamples(Type keyType, Type valueType)
     {
         return new(CreateDictionaryTypeDefinitions().Select(definition => definition.MakeGenericType(keyType, valueType)));
     }
 
-    private static TheoryData<Type, Type, string> CreateDictionaryDeserializationData()
+    private static TheoryData<Type, Type, string> CreateDictionaryDeserializationSamples()
     {
         var data = new TheoryData<Type, Type, string>();
 
@@ -88,7 +90,7 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
         // reference stays a plain Dictionary; it only supplies the expected entry.
         var primitiveDictionaryType = typeof(Dictionary<TPrimitive, object>);
 
-        var jsons = PrimitivesData.Select(primitive =>
+        var jsons = PrimitiveSamples.Select(primitive =>
             JsonConvert.SerializeObject(
                 new Dictionary<TPrimitive, object> { [(TPrimitive)primitive] = "value" }));
 
@@ -105,7 +107,7 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
         return data;
     }
 
-    private static TheoryData<Type, Type, TStrongType> CreateDictionarySerializationData(
+    private static TheoryData<Type, Type, TStrongType> CreateDictionarySerializationSamples(
         Type primitiveKeyType,
         Type primitiveValueType,
         Type strongTypeKeyType,
@@ -118,7 +120,7 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
             var primitiveDictionaryType = definition.MakeGenericType(primitiveKeyType, primitiveValueType);
             var strongDictionaryType = definition.MakeGenericType(strongTypeKeyType, strongTypeValueType);
 
-            foreach (var strongTypeRow in StrongTypesData)
+            foreach (var strongTypeRow in StrongTypeSamples)
             {
                 data.Add(primitiveDictionaryType, strongDictionaryType, strongTypeRow.Data);
             }
@@ -187,7 +189,7 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
     }
 
     [Theory]
-    [MemberData(nameof(StrongTypeKeyDictionaryTypesData))]
+    [MemberData(nameof(StrongTypeKeyDictionaryTypeSamples))]
     public void Dictionary_converter_can_convert_dictionary_with_strong_type_key(Type dictionaryType)
     {
         var converter = new JsonStrongTypeDictionaryConverter();
@@ -196,7 +198,7 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
     }
 
     [Theory]
-    [MemberData(nameof(PrimitiveKeyDictionaryTypesData))]
+    [MemberData(nameof(PrimitiveKeyDictionaryTypeSamples))]
     public void Dictionary_converter_can_not_convert_dictionary_with_primitive_key(Type dictionaryType)
     {
         var converter = new JsonStrongTypeDictionaryConverter();
@@ -205,7 +207,7 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
     }
 
     [Theory]
-    [MemberData(nameof(StrongTypeValueDictionaryTypesData))]
+    [MemberData(nameof(StrongTypeValueDictionaryTypeSamples))]
     public void Dictionary_converter_can_not_convert_dictionary_with_strong_type_value(Type dictionaryType)
     {
         var converter = new JsonStrongTypeDictionaryConverter();
@@ -236,7 +238,7 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
     }
 
     [Theory]
-    [MemberData(nameof(StrongTypesData))]
+    [MemberData(nameof(StrongTypeSamples))]
     public void Strong_type_serializes_like_its_primitive(TStrongType strongType)
     {
         var primitiveJson = JsonConvert.SerializeObject(strongType.AsPrimitive(), _settings);
@@ -246,7 +248,7 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
     }
 
     [Theory]
-    [MemberData(nameof(JsonsData))]
+    [MemberData(nameof(JsonSamples))]
     public void Strong_type_deserializes_like_its_primitive(string json)
     {
         var primitive = JsonConvert.DeserializeObject<TPrimitive>(json, _settings);
@@ -255,8 +257,42 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
         Assert.Equal(primitive, strongType.AsPrimitive());
     }
 
+    [Theory(SkipTestWithoutData = true)]
+    [MemberData(nameof(InvalidPrimitiveSamples))]
+    public void Strong_type_does_not_deserialize_from_an_invalid_primitive(TPrimitive primitive)
+    {
+        var json = JsonConvert.SerializeObject(primitive);
+
+        var exception = Assert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<TStrongType>(json, _settings));
+
+        var validationException = Assert.IsType<StrongTypeValidationException>(exception.InnerException);
+        Assert.Equal(typeof(TStrongType), validationException.StrongType);
+        Assert.Equal(primitive, validationException.Value);
+        Assert.Equal(validationException.Message, exception.Message);
+    }
+
+    [Theory(SkipTestWithoutData = true)]
+    [MemberData(nameof(InvalidPrimitiveSamples))]
+    public void Strong_type_does_not_deserialize_from_an_invalid_dictionary_key(TPrimitive primitive)
+    {
+        var dictionary = new Dictionary<TPrimitive, object>
+        {
+            [primitive] = "value"
+        };
+
+        var json = JsonConvert.SerializeObject(dictionary);
+
+        var exception = Assert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<Dictionary<TStrongType, object>>(json, _settings));
+
+        var validationException = Assert.IsType<StrongTypeValidationException>(exception.InnerException);
+        Assert.Equal(typeof(TStrongType), validationException.StrongType);
+        Assert.Equal(primitive, validationException.Value);
+    }
+
     [Theory]
-    [MemberData(nameof(StrongTypeKeyDictionarySerializationData))]
+    [MemberData(nameof(StrongTypeKeyDictionarySerializationSamples))]
     public void Strong_type_serializes_as_dictionary_key_like_its_primitive(
         Type primitiveKeysDictionaryType,
         Type strongTypekeysDictionaryType,
@@ -275,7 +311,7 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
     }
 
     [Theory]
-    [MemberData(nameof(DictionaryDeserializationData))]
+    [MemberData(nameof(DictionaryDeserializationSamples))]
     public void Strong_type_deserializes_as_dictionary_key_like_its_primitive(
         Type primitiveKeysDictionaryType,
         Type strongTypeKeysDictionaryType,
@@ -302,7 +338,7 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
     }
 
     [Theory]
-    [MemberData(nameof(StrongTypeValueDictionarySerializationData))]
+    [MemberData(nameof(StrongTypeValueDictionarySerializationSamples))]
     public void Strong_type_serializes_as_dictionary_value_like_its_primitive(
         Type primitiveValuesDictionaryType,
         Type strongTypeValuesDictionaryType,
@@ -321,7 +357,7 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
     }
 
     [Theory]
-    [MemberData(nameof(DictionaryValueJsonsData))]
+    [MemberData(nameof(DictionaryValueJsonSamples))]
     public void Strong_type_deserializes_as_dictionary_value_like_its_primitive(string json)
     {
         var primitiveValuesDictionaryEntry = Assert.Single(

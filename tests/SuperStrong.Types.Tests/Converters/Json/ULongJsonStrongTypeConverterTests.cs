@@ -1,4 +1,4 @@
 namespace SuperStrong.Types.Tests.Converters;
 
 public sealed class ULongJsonStrongTypeConverterTests
-    : JsonStrongTypeConverterTests<StrongULong, ulong, ULongPrimitiveData>;
+    : JsonStrongTypeConverterTests<StrongULong, ulong, StrongULong.ValidPrimitiveSamples, StrongULong.InvalidPrimitiveSamples>;

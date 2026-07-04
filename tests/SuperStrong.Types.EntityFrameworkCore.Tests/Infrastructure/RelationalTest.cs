@@ -1,20 +1,16 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
 
-// Provider-agnostic base for a single focused scenario: it owns one small DbContext and runs on
-// every provider through a DatabaseHarness supplied by a thin per-provider subclass.
 public abstract class RelationalTest<TContext>(DatabaseHarness database) : IAsyncLifetime
     where TContext : DbContext
 {
     protected TContext CreateDbContext()
     {
-        var optionsBuilder = new DbContextOptionsBuilder<TContext>()
-            .ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.ManyServiceProvidersCreatedWarning));
+        var optionsBuilder = new DbContextOptionsBuilder<TContext>();
+        optionsBuilder.UseStrongTypes();
 
         database.Configure(optionsBuilder);
-        optionsBuilder.UseStrongTypes();
 
         return CreateDbContext(optionsBuilder.Options);
     }

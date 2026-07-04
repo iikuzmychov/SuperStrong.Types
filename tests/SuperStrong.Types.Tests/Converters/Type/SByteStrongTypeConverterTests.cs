@@ -1,4 +1,4 @@
 namespace SuperStrong.Types.Tests.Converters;
 
 public sealed class SByteStrongTypeConverterTests
-    : StrongTypeConverterTests<StrongSByte, sbyte, SBytePrimitiveData>;
+    : StrongTypeConverterTests<StrongSByte, sbyte, StrongSByte.ValidPrimitiveSamples, StrongSByte.InvalidPrimitiveSamples>;

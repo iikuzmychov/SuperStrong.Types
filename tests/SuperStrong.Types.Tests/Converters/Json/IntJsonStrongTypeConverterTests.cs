@@ -1,4 +1,4 @@
 namespace SuperStrong.Types.Tests.Converters;
 
 public sealed class IntJsonStrongTypeConverterTests
-    : JsonStrongTypeConverterTests<StrongInt, int, IntPrimitiveData>;
+    : JsonStrongTypeConverterTests<StrongInt, int, StrongInt.ValidPrimitiveSamples, StrongInt.InvalidPrimitiveSamples>;
