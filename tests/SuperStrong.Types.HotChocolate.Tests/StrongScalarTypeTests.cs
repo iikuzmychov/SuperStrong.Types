@@ -71,6 +71,30 @@ public sealed class StrongScalarTypeTests
     }
 
     [Fact]
+    public async Task Schema_registers_the_primitive_scalar_of_a_Guid_strong_type()
+    {
+        var executor = await BuildExecutorAsync();
+
+        var schema = executor.Schema.ToString();
+
+        Assert.Contains("scalar OrderId", schema);
+        Assert.Contains("@primitive(type: \"UUID\")", schema);
+    }
+
+    [Fact]
+    public async Task Guid_strong_type_output_value_is_serialized_through_the_UUID_scalar()
+    {
+        var executor = await BuildExecutorAsync();
+        var id = Guid.NewGuid();
+
+        var result = await executor.ExecuteAsync($$"""{ echoId(input: "{{id}}") }""", TestContext.Current.CancellationToken);
+        var json = ToJson(result);
+
+        Assert.DoesNotContain("errors", json);
+        Assert.Contains($"\"{id}\"", json);
+    }
+
+    [Fact]
     public async Task Input_variable_is_coerced_into_the_strong_type()
     {
         var executor = await BuildExecutorAsync();
@@ -119,6 +143,12 @@ public sealed partial class City
     public static StrongTypeDefinition<string> Definition { get; } = StrongType.Define<string>();
 }
 
+[StrongType<Guid>]
+public sealed partial class OrderId
+{
+    public static StrongTypeDefinition<Guid> Definition { get; } = StrongType.Define<Guid>();
+}
+
 public sealed class AddressInput
 {
     public City City { get; set; } = null!;
@@ -139,5 +169,10 @@ public sealed class Query
     public string Describe(AddressInput input)
     {
         return input.City.AsPrimitive();
+    }
+
+    public OrderId EchoId(OrderId input)
+    {
+        return input;
     }
 }

@@ -29,10 +29,10 @@ internal sealed class StrongScalarType<TStrongType, TPrimitive> : ScalarType<TSt
         base.OnRegisterDependencies(context, configuration);
 
         var primitiveRef = context.TypeInspector.GetTypeRef(typeof(TPrimitive));
-        configuration.Dependencies.Add(new TypeDependency(primitiveRef, TypeDependencyFulfilled.Completed));
+        context.Dependencies.Add(new TypeDependency(primitiveRef, TypeDependencyFulfilled.Completed));
 
         var directiveRef = context.TypeInspector.GetTypeRef(typeof(PrimitiveDirectiveType));
-        configuration.Dependencies.Add(new TypeDependency(directiveRef, TypeDependencyFulfilled.Completed));
+        context.Dependencies.Add(new TypeDependency(directiveRef, TypeDependencyFulfilled.Completed));
     }
 
     protected override void OnCompleteType(
