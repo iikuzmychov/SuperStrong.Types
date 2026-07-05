@@ -2,7 +2,7 @@ import { defineConfig, type HeadConfig } from 'vitepress'
 
 const hostname = 'https://superstrong.dev'
 const siteName = 'SuperStrong.Types'
-const siteDescription = 'Strong types for .NET — define once, use everywhere!'
+const siteDescription = 'Strong types for C#/.NET — define once, use everywhere!'
 const ogImage = `${hostname}/img/og-image.png`
 
 function pageUrl(relativePath: string): string {
@@ -45,6 +45,22 @@ export default defineConfig({
   lastUpdated: true,
   head: [
     ['link', { rel: 'icon', type: 'image/png', href: '/img/logo.png' }],
+    ['meta', { name: 'keywords', content: 'C#, csharp, .NET, dotnet, strong types, strongly typed, value objects, primitive obsession, source generator' }],
+    [
+      'script',
+      { type: 'application/ld+json' },
+      JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareSourceCode',
+        name: siteName,
+        description: siteDescription,
+        url: hostname,
+        programmingLanguage: 'C#',
+        runtimePlatform: '.NET',
+        license: 'https://opensource.org/license/mit',
+        codeRepository: 'https://github.com/iikuzmychov/SuperStrong.Types',
+      }),
+    ],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: siteName }],
     ['meta', { property: 'og:image', content: ogImage }],
