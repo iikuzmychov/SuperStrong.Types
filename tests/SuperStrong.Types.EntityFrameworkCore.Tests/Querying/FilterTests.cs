@@ -1,11 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql;
-using SuperStrong.Types.EntityFrameworkCore.Tests.SqlServer;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Querying;
 
-public abstract partial class FilterTests(DatabaseHarness database)
+public abstract partial class FilterTests(DatabaseFixture database)
     : RelationalTest<FilterTests.Context>(database)
 {
     [StrongType<string>] public sealed partial class Code;
@@ -22,8 +20,6 @@ public abstract partial class FilterTests(DatabaseHarness database)
     {
         public DbSet<Product> Products => Set<Product>();
     }
-
-    protected override Context CreateDbContext(DbContextOptions<Context> options) => new(options);
 
     [Fact]
     public async Task Filters_by_strong_type_equality()
@@ -78,8 +74,8 @@ public abstract partial class FilterTests(DatabaseHarness database)
     }
 }
 
-public sealed class FilterNpgsqlTests(PostgresDatabaseFixture database)
-    : FilterTests(new NpgsqlHarness(database)), IClassFixture<PostgresDatabaseFixture>;
+public sealed class FilterNpgsqlTests(NpgsqlDatabaseFixture database)
+    : FilterTests(database), IClassFixture<NpgsqlDatabaseFixture>;
 
 public sealed class FilterSqlServerTests(SqlServerDatabaseFixture database)
-    : FilterTests(new SqlServerHarness(database)), IClassFixture<SqlServerDatabaseFixture>;
+    : FilterTests(database), IClassFixture<SqlServerDatabaseFixture>;

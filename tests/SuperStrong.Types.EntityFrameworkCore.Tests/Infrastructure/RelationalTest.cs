@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
 
-public abstract class RelationalTest<TContext>(DatabaseHarness database) : IAsyncLifetime
+public abstract class RelationalTest<TContext>(DatabaseFixture database) : IAsyncLifetime
     where TContext : DbContext
 {
     protected TContext CreateDbContext()
@@ -12,10 +12,8 @@ public abstract class RelationalTest<TContext>(DatabaseHarness database) : IAsyn
 
         database.Configure(optionsBuilder);
 
-        return CreateDbContext(optionsBuilder.Options);
+        return (TContext)Activator.CreateInstance(typeof(TContext), optionsBuilder.Options)!;
     }
-
-    protected abstract TContext CreateDbContext(DbContextOptions<TContext> options);
 
     public async ValueTask InitializeAsync()
     {
@@ -25,10 +23,5 @@ public abstract class RelationalTest<TContext>(DatabaseHarness database) : IAsyn
         await database.ResetAsync();
     }
 
-    public ValueTask DisposeAsync()
-    {
-        GC.SuppressFinalize(this);
-
-        return ValueTask.CompletedTask;
-    }
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }

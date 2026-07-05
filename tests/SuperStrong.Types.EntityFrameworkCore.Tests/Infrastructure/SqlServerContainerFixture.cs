@@ -1,6 +1,6 @@
 using Testcontainers.MsSql;
 
-namespace SuperStrong.Types.EntityFrameworkCore.Tests.SqlServer;
+namespace SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
 
 public sealed class SqlServerContainerFixture : IAsyncLifetime
 {

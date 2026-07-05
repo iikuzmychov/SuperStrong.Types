@@ -1,11 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql;
-using SuperStrong.Types.EntityFrameworkCore.Tests.SqlServer;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Persistence;
 
-public abstract partial class ComplexTypeTests(DatabaseHarness database)
+public abstract partial class ComplexTypeTests(DatabaseFixture database)
     : RelationalTest<ComplexTypeTests.Context>(database)
 {
     [StrongType<decimal>] public sealed partial class Amount;
@@ -31,8 +29,6 @@ public abstract partial class ComplexTypeTests(DatabaseHarness database)
             => modelBuilder.Entity<Payment>().ComplexProperty(payment => payment.Money);
     }
 
-    protected override Context CreateDbContext(DbContextOptions<Context> options) => new(options);
-
     [Fact]
     public async Task Strong_types_inside_a_complex_type_persist_and_read_back()
     {
@@ -51,8 +47,8 @@ public abstract partial class ComplexTypeTests(DatabaseHarness database)
     }
 }
 
-public sealed class ComplexTypeNpgsqlTests(PostgresDatabaseFixture database)
-    : ComplexTypeTests(new NpgsqlHarness(database)), IClassFixture<PostgresDatabaseFixture>;
+public sealed class ComplexTypeNpgsqlTests(NpgsqlDatabaseFixture database)
+    : ComplexTypeTests(database), IClassFixture<NpgsqlDatabaseFixture>;
 
 public sealed class ComplexTypeSqlServerTests(SqlServerDatabaseFixture database)
-    : ComplexTypeTests(new SqlServerHarness(database)), IClassFixture<SqlServerDatabaseFixture>;
+    : ComplexTypeTests(database), IClassFixture<SqlServerDatabaseFixture>;

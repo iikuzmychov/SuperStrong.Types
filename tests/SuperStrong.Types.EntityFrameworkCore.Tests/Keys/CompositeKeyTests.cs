@@ -1,11 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql;
-using SuperStrong.Types.EntityFrameworkCore.Tests.SqlServer;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Keys;
 
-public abstract partial class CompositeKeyTests(DatabaseHarness database)
+public abstract partial class CompositeKeyTests(DatabaseFixture database)
     : RelationalTest<CompositeKeyTests.Context>(database)
 {
     [StrongType<int>] public sealed partial class WarehouseId;
@@ -26,8 +24,6 @@ public abstract partial class CompositeKeyTests(DatabaseHarness database)
         protected override void OnModelCreating(ModelBuilder modelBuilder)
             => modelBuilder.Entity<StockItem>().HasKey(item => new { item.WarehouseId, item.Bin });
     }
-
-    protected override Context CreateDbContext(DbContextOptions<Context> options) => new(options);
 
     [Fact]
     public async Task An_entity_with_a_composite_strong_type_key_can_be_found_by_that_key()
@@ -54,8 +50,8 @@ public abstract partial class CompositeKeyTests(DatabaseHarness database)
     }
 }
 
-public sealed class CompositeKeyNpgsqlTests(PostgresDatabaseFixture database)
-    : CompositeKeyTests(new NpgsqlHarness(database)), IClassFixture<PostgresDatabaseFixture>;
+public sealed class CompositeKeyNpgsqlTests(NpgsqlDatabaseFixture database)
+    : CompositeKeyTests(database), IClassFixture<NpgsqlDatabaseFixture>;
 
 public sealed class CompositeKeySqlServerTests(SqlServerDatabaseFixture database)
-    : CompositeKeyTests(new SqlServerHarness(database)), IClassFixture<SqlServerDatabaseFixture>;
+    : CompositeKeyTests(database), IClassFixture<SqlServerDatabaseFixture>;

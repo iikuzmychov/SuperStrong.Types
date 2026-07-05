@@ -1,11 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql;
-using SuperStrong.Types.EntityFrameworkCore.Tests.SqlServer;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Persistence;
 
-public abstract partial class CollectionTests(DatabaseHarness database)
+public abstract partial class CollectionTests(DatabaseFixture database)
     : RelationalTest<CollectionTests.Context>(database)
 {
     [StrongType<string>] public sealed partial class Tag;
@@ -20,8 +18,6 @@ public abstract partial class CollectionTests(DatabaseHarness database)
     {
         public DbSet<Article> Articles => Set<Article>();
     }
-
-    protected override Context CreateDbContext(DbContextOptions<Context> options) => new(options);
 
     [Fact]
     public async Task A_collection_of_strong_types_persists_and_reads_back_in_order()
@@ -60,8 +56,8 @@ public abstract partial class CollectionTests(DatabaseHarness database)
     }
 }
 
-public sealed class CollectionNpgsqlTests(PostgresDatabaseFixture database)
-    : CollectionTests(new NpgsqlHarness(database)), IClassFixture<PostgresDatabaseFixture>;
+public sealed class CollectionNpgsqlTests(NpgsqlDatabaseFixture database)
+    : CollectionTests(database), IClassFixture<NpgsqlDatabaseFixture>;
 
 public sealed class CollectionSqlServerTests(SqlServerDatabaseFixture database)
-    : CollectionTests(new SqlServerHarness(database)), IClassFixture<SqlServerDatabaseFixture>;
+    : CollectionTests(database), IClassFixture<SqlServerDatabaseFixture>;

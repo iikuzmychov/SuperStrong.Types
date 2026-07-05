@@ -1,11 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql;
-using SuperStrong.Types.EntityFrameworkCore.Tests.SqlServer;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Persistence;
 
-public abstract partial class OwnedTypeTests(DatabaseHarness database)
+public abstract partial class OwnedTypeTests(DatabaseFixture database)
     : RelationalTest<OwnedTypeTests.Context>(database)
 {
     [StrongType<string>] public sealed partial class City;
@@ -40,8 +38,6 @@ public abstract partial class OwnedTypeTests(DatabaseHarness database)
                 shipment.OwnsMany(entity => entity.Stops);
             });
     }
-
-    protected override Context CreateDbContext(DbContextOptions<Context> options) => new(options);
 
     [Fact]
     public async Task Strong_types_inside_an_owned_reference_persist_and_read_back()
@@ -81,8 +77,8 @@ public abstract partial class OwnedTypeTests(DatabaseHarness database)
     }
 }
 
-public sealed class OwnedTypeNpgsqlTests(PostgresDatabaseFixture database)
-    : OwnedTypeTests(new NpgsqlHarness(database)), IClassFixture<PostgresDatabaseFixture>;
+public sealed class OwnedTypeNpgsqlTests(NpgsqlDatabaseFixture database)
+    : OwnedTypeTests(database), IClassFixture<NpgsqlDatabaseFixture>;
 
 public sealed class OwnedTypeSqlServerTests(SqlServerDatabaseFixture database)
-    : OwnedTypeTests(new SqlServerHarness(database)), IClassFixture<SqlServerDatabaseFixture>;
+    : OwnedTypeTests(database), IClassFixture<SqlServerDatabaseFixture>;

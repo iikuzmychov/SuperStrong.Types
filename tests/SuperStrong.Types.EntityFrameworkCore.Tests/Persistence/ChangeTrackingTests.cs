@@ -1,11 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql;
-using SuperStrong.Types.EntityFrameworkCore.Tests.SqlServer;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Persistence;
 
-public abstract partial class ChangeTrackingTests(DatabaseHarness database)
+public abstract partial class ChangeTrackingTests(DatabaseFixture database)
     : RelationalTest<ChangeTrackingTests.Context>(database)
 {
     [StrongType<decimal>] public sealed partial class Amount;
@@ -20,8 +18,6 @@ public abstract partial class ChangeTrackingTests(DatabaseHarness database)
     {
         public DbSet<Invoice> Invoices => Set<Invoice>();
     }
-
-    protected override Context CreateDbContext(DbContextOptions<Context> options) => new(options);
 
     [Fact]
     public async Task A_modified_strong_type_property_is_detected_and_persisted()
@@ -66,8 +62,8 @@ public abstract partial class ChangeTrackingTests(DatabaseHarness database)
     }
 }
 
-public sealed class ChangeTrackingNpgsqlTests(PostgresDatabaseFixture database)
-    : ChangeTrackingTests(new NpgsqlHarness(database)), IClassFixture<PostgresDatabaseFixture>;
+public sealed class ChangeTrackingNpgsqlTests(NpgsqlDatabaseFixture database)
+    : ChangeTrackingTests(database), IClassFixture<NpgsqlDatabaseFixture>;
 
 public sealed class ChangeTrackingSqlServerTests(SqlServerDatabaseFixture database)
-    : ChangeTrackingTests(new SqlServerHarness(database)), IClassFixture<SqlServerDatabaseFixture>;
+    : ChangeTrackingTests(database), IClassFixture<SqlServerDatabaseFixture>;

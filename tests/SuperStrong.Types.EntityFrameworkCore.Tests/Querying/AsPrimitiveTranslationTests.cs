@@ -1,11 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql;
-using SuperStrong.Types.EntityFrameworkCore.Tests.SqlServer;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Querying;
 
-public abstract partial class AsPrimitiveTranslationTests(DatabaseHarness database)
+public abstract partial class AsPrimitiveTranslationTests(DatabaseFixture database)
     : RelationalTest<AsPrimitiveTranslationTests.Context>(database)
 {
     [StrongType<int>] public sealed partial class Rank;
@@ -28,8 +26,6 @@ public abstract partial class AsPrimitiveTranslationTests(DatabaseHarness databa
     {
         public DbSet<Sale> Sales => Set<Sale>();
     }
-
-    protected override Context CreateDbContext(DbContextOptions<Context> options) => new(options);
 
     [Fact]
     public async Task AsPrimitive_translates_in_filter_projection_and_ordering()
@@ -226,8 +222,8 @@ public abstract partial class AsPrimitiveTranslationTests(DatabaseHarness databa
     }
 }
 
-public sealed class AsPrimitiveTranslationNpgsqlTests(PostgresDatabaseFixture database)
-    : AsPrimitiveTranslationTests(new NpgsqlHarness(database)), IClassFixture<PostgresDatabaseFixture>;
+public sealed class AsPrimitiveTranslationNpgsqlTests(NpgsqlDatabaseFixture database)
+    : AsPrimitiveTranslationTests(database), IClassFixture<NpgsqlDatabaseFixture>;
 
 public sealed class AsPrimitiveTranslationSqlServerTests(SqlServerDatabaseFixture database)
-    : AsPrimitiveTranslationTests(new SqlServerHarness(database)), IClassFixture<SqlServerDatabaseFixture>;
+    : AsPrimitiveTranslationTests(database), IClassFixture<SqlServerDatabaseFixture>;

@@ -1,8 +1,8 @@
 using Testcontainers.PostgreSql;
 
-namespace SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql;
+namespace SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
 
-public sealed class PostgresContainerFixture : IAsyncLifetime
+public sealed class NpgsqlContainerFixture : IAsyncLifetime
 {
     public PostgreSqlContainer Container { get; } = new PostgreSqlBuilder("postgres:18").Build();
 

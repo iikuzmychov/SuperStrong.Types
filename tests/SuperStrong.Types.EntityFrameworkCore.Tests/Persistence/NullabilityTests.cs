@@ -1,12 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql;
-using SuperStrong.Types.EntityFrameworkCore.Tests.SqlServer;
 using SuperStrong.Types.Tests;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Persistence;
 
-public abstract class NullabilityTests(DatabaseHarness database)
+public abstract class NullabilityTests(DatabaseFixture database)
     : RelationalTest<NullabilityTests.Context>(database)
 {
     public sealed class Entity
@@ -19,8 +17,6 @@ public abstract class NullabilityTests(DatabaseHarness database)
     {
         public DbSet<Entity> Entities => Set<Entity>();
     }
-
-    protected override Context CreateDbContext(DbContextOptions<Context> options) => new(options);
 
     [Fact]
     public async Task A_null_strong_type_property_persists_and_reads_back_as_null()
@@ -55,8 +51,8 @@ public abstract class NullabilityTests(DatabaseHarness database)
     }
 }
 
-public sealed class NullabilityNpgsqlTests(PostgresDatabaseFixture database)
-    : NullabilityTests(new NpgsqlHarness(database)), IClassFixture<PostgresDatabaseFixture>;
+public sealed class NullabilityNpgsqlTests(NpgsqlDatabaseFixture database)
+    : NullabilityTests(database), IClassFixture<NpgsqlDatabaseFixture>;
 
 public sealed class NullabilitySqlServerTests(SqlServerDatabaseFixture database)
-    : NullabilityTests(new SqlServerHarness(database)), IClassFixture<SqlServerDatabaseFixture>;
+    : NullabilityTests(database), IClassFixture<SqlServerDatabaseFixture>;

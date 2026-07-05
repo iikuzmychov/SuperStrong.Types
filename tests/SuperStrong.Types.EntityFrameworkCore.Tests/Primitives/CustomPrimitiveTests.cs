@@ -1,11 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql;
-using SuperStrong.Types.EntityFrameworkCore.Tests.SqlServer;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Primitives;
 
-public abstract partial class CustomPrimitiveTests(DatabaseHarness database)
+public abstract partial class CustomPrimitiveTests(DatabaseFixture database)
     : RelationalTest<CustomPrimitiveTests.Context>(database)
 {
     public readonly record struct Rgb(byte R, byte G, byte B)
@@ -38,8 +36,6 @@ public abstract partial class CustomPrimitiveTests(DatabaseHarness database)
                     value => Swatch.From(Rgb.Parse(value)));
     }
 
-    protected override Context CreateDbContext(DbContextOptions<Context> options) => new(options);
-
     [Fact]
     public async Task A_strong_type_over_an_unmappable_custom_primitive_round_trips_via_a_property_converter()
     {
@@ -59,8 +55,8 @@ public abstract partial class CustomPrimitiveTests(DatabaseHarness database)
     }
 }
 
-public sealed class CustomPrimitiveNpgsqlTests(PostgresDatabaseFixture database)
-    : CustomPrimitiveTests(new NpgsqlHarness(database)), IClassFixture<PostgresDatabaseFixture>;
+public sealed class CustomPrimitiveNpgsqlTests(NpgsqlDatabaseFixture database)
+    : CustomPrimitiveTests(database), IClassFixture<NpgsqlDatabaseFixture>;
 
 public sealed class CustomPrimitiveSqlServerTests(SqlServerDatabaseFixture database)
-    : CustomPrimitiveTests(new SqlServerHarness(database)), IClassFixture<SqlServerDatabaseFixture>;
+    : CustomPrimitiveTests(database), IClassFixture<SqlServerDatabaseFixture>;

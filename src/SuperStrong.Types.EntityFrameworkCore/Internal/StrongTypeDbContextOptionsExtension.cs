@@ -20,7 +20,6 @@ internal sealed class StrongTypeDbContextOptionsExtension : IDbContextOptionsExt
 
     public void ApplyServices(IServiceCollection services)
     {
-        // Deferred to break the cycle: IRelationalTypeMappingSource depends on its plugins.
         services.TryAddSingleton(
             provider => new Lazy<IRelationalTypeMappingSource>(provider.GetRequiredService<IRelationalTypeMappingSource>));
 

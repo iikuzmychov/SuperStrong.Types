@@ -1,29 +1,25 @@
 using Microsoft.EntityFrameworkCore;
 using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql;
-using SuperStrong.Types.EntityFrameworkCore.Tests.SqlServer;
+using SuperStrong.Types.Tests;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Relationships;
 
-public abstract partial class ForeignKeyTests(DatabaseHarness database)
-    : RelationalTest<ForeignKeyTests.Context>(database)
+public abstract class ForeignKeyTests<TStrongType, TPrimitive, TSamples>(DatabaseFixture database)
+    : RelationalTest<ForeignKeyTests<TStrongType, TPrimitive, TSamples>.Context>(database)
+    where TStrongType : class, IStrongType<TStrongType, TPrimitive>
+    where TPrimitive : notnull
+    where TSamples : TheoryData<TPrimitive>, new()
 {
-    [StrongType<int>] public sealed partial class OrderId;
-    [StrongType<string>] public sealed partial class CustomerCode;
-    [StrongType<int>] public sealed partial class Quantity;
-
     public sealed class Order
     {
-        public OrderId Id { get; set; } = null!;
-        public CustomerCode Customer { get; set; } = null!;
+        public TStrongType Id { get; set; } = null!;
         public ICollection<Line> Lines { get; set; } = [];
     }
 
     public sealed class Line
     {
         public int Id { get; set; }
-        public OrderId OrderId { get; set; } = null!;
-        public Quantity Quantity { get; set; } = null!;
+        public TStrongType OrderId { get; set; } = null!;
         public Order Order { get; set; } = null!;
     }
 
@@ -33,25 +29,30 @@ public abstract partial class ForeignKeyTests(DatabaseHarness database)
         public DbSet<Line> Lines => Set<Line>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-            => modelBuilder.Entity<Order>()
+        {
+            modelBuilder.Entity<Order>().Property(order => order.Id).ValueGeneratedNever();
+
+            modelBuilder.Entity<Order>()
                 .HasMany(order => order.Lines)
                 .WithOne(line => line.Order)
                 .HasForeignKey(line => line.OrderId);
+        }
     }
 
-    protected override Context CreateDbContext(DbContextOptions<Context> options) => new(options);
+    public static TheoryData<TPrimitive> PrimitiveSamples { get; } = new TSamples();
 
-    [Fact]
-    public async Task Related_entities_are_linked_through_a_strong_type_foreign_key()
+    [Theory]
+    [MemberData(nameof(PrimitiveSamples))]
+    public async Task Related_entities_are_linked_through_a_strong_type_foreign_key(TPrimitive primitive)
     {
-        var orderId = OrderId.From(100);
+        var orderId = TStrongType.From(primitive);
 
         await using (var context = CreateDbContext())
         {
-            context.Orders.Add(new Order { Id = orderId, Customer = CustomerCode.From("a") });
+            context.Orders.Add(new Order { Id = orderId });
             context.Lines.AddRange(
-                new Line { OrderId = orderId, Quantity = Quantity.From(3) },
-                new Line { OrderId = orderId, Quantity = Quantity.From(5) });
+                new Line { OrderId = orderId },
+                new Line { OrderId = orderId });
 
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
@@ -69,13 +70,31 @@ public abstract partial class ForeignKeyTests(DatabaseHarness database)
             var line = await context.Lines
                 .Include(entity => entity.Order)
                 .FirstAsync(TestContext.Current.CancellationToken);
-            Assert.Equal(CustomerCode.From("a"), line.Order.Customer);
+            Assert.Equal(orderId, line.Order.Id);
         }
     }
 }
 
-public sealed class ForeignKeyNpgsqlTests(PostgresDatabaseFixture database)
-    : ForeignKeyTests(new NpgsqlHarness(database)), IClassFixture<PostgresDatabaseFixture>;
+public sealed class IntForeignKeyNpgsqlTests(NpgsqlDatabaseFixture database)
+    : ForeignKeyTests<StrongInt, int, StrongInt.ValidPrimitiveSamples>(database), IClassFixture<NpgsqlDatabaseFixture>;
 
-public sealed class ForeignKeySqlServerTests(SqlServerDatabaseFixture database)
-    : ForeignKeyTests(new SqlServerHarness(database)), IClassFixture<SqlServerDatabaseFixture>;
+public sealed class IntForeignKeySqlServerTests(SqlServerDatabaseFixture database)
+    : ForeignKeyTests<StrongInt, int, StrongInt.ValidPrimitiveSamples>(database), IClassFixture<SqlServerDatabaseFixture>;
+
+public sealed class LongForeignKeyNpgsqlTests(NpgsqlDatabaseFixture database)
+    : ForeignKeyTests<StrongLong, long, StrongLong.ValidPrimitiveSamples>(database), IClassFixture<NpgsqlDatabaseFixture>;
+
+public sealed class LongForeignKeySqlServerTests(SqlServerDatabaseFixture database)
+    : ForeignKeyTests<StrongLong, long, StrongLong.ValidPrimitiveSamples>(database), IClassFixture<SqlServerDatabaseFixture>;
+
+public sealed class GuidForeignKeyNpgsqlTests(NpgsqlDatabaseFixture database)
+    : ForeignKeyTests<StrongGuid, Guid, StrongGuid.ValidPrimitiveSamples>(database), IClassFixture<NpgsqlDatabaseFixture>;
+
+public sealed class GuidForeignKeySqlServerTests(SqlServerDatabaseFixture database)
+    : ForeignKeyTests<StrongGuid, Guid, StrongGuid.ValidPrimitiveSamples>(database), IClassFixture<SqlServerDatabaseFixture>;
+
+public sealed class StringForeignKeyNpgsqlTests(NpgsqlDatabaseFixture database)
+    : ForeignKeyTests<StrongString, string, StrongString.ValidPrimitiveSamples>(database), IClassFixture<NpgsqlDatabaseFixture>;
+
+public sealed class StringForeignKeySqlServerTests(SqlServerDatabaseFixture database)
+    : ForeignKeyTests<StrongString, string, StrongString.ValidPrimitiveSamples>(database), IClassFixture<SqlServerDatabaseFixture>;

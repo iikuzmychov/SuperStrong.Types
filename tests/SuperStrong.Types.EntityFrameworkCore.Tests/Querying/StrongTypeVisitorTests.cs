@@ -1,7 +1,7 @@
 using SuperStrong.Types.EntityFrameworkCore.Internal;
 using System.Linq.Expressions;
 
-namespace SuperStrong.Types.EntityFrameworkCore.Tests;
+namespace SuperStrong.Types.EntityFrameworkCore.Tests.Querying;
 
 public sealed partial class StrongTypeVisitorTests
 {

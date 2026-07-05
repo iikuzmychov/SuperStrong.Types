@@ -1,11 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Npgsql;
-using SuperStrong.Types.EntityFrameworkCore.Tests.SqlServer;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Keys;
 
-public abstract partial class AlternateKeyTests(DatabaseHarness database)
+public abstract partial class AlternateKeyTests(DatabaseFixture database)
     : RelationalTest<AlternateKeyTests.Context>(database)
 {
     [StrongType<Guid>] public sealed partial class AccountId;
@@ -29,8 +27,6 @@ public abstract partial class AlternateKeyTests(DatabaseHarness database)
             });
     }
 
-    protected override Context CreateDbContext(DbContextOptions<Context> options) => new(options);
-
     [Fact]
     public async Task An_entity_can_be_queried_by_a_strong_type_alternate_key()
     {
@@ -53,8 +49,8 @@ public abstract partial class AlternateKeyTests(DatabaseHarness database)
     }
 }
 
-public sealed class AlternateKeyNpgsqlTests(PostgresDatabaseFixture database)
-    : AlternateKeyTests(new NpgsqlHarness(database)), IClassFixture<PostgresDatabaseFixture>;
+public sealed class AlternateKeyNpgsqlTests(NpgsqlDatabaseFixture database)
+    : AlternateKeyTests(database), IClassFixture<NpgsqlDatabaseFixture>;
 
 public sealed class AlternateKeySqlServerTests(SqlServerDatabaseFixture database)
-    : AlternateKeyTests(new SqlServerHarness(database)), IClassFixture<SqlServerDatabaseFixture>;
+    : AlternateKeyTests(database), IClassFixture<SqlServerDatabaseFixture>;

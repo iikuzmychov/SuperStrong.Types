@@ -7,18 +7,20 @@ using System.Collections.ObjectModel;
 
 namespace SuperStrong.Types.Tests.Converters;
 
-public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPrimitiveSamples, TInvalidPrimitiveSamples>
+public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TValidPrimitiveSamples, TInvalidPrimitiveSamples>
     where TStrongType : class, IStrongType<TStrongType, TPrimitive>
     where TPrimitive : notnull
-    where TPrimitiveSamples : notnull, TheoryData<TPrimitive>, new()
+    where TValidPrimitiveSamples : notnull, TheoryData<TPrimitive>, new()
     where TInvalidPrimitiveSamples : notnull, TheoryData<TPrimitive>, new()
 {
     private static readonly JsonSerializerSettings _settings = CreateSettings();
 
-    public static TheoryData<TPrimitive> PrimitiveSamples { get; } = new TPrimitiveSamples();
+    public static TheoryData<TPrimitive> ValidPrimitiveSamples { get; } = new TValidPrimitiveSamples();
     public static TheoryData<TPrimitive> InvalidPrimitiveSamples { get; } = new TInvalidPrimitiveSamples();
     public static TheoryData<TStrongType> StrongTypeSamples { get; } = CreateStrongTypeSamples();
-    public static TheoryData<string> JsonSamples { get; } = CreateJsonSamples();
+    public static TheoryData<string> ValidJsonSamples { get; } = CreateJsonSamples(ValidPrimitiveSamples);
+    public static TheoryData<string> InvalidJsonSamples { get; } = CreateJsonSamples(InvalidPrimitiveSamples);
+    public static TheoryData<string> InvalidDictionaryJsonSamples { get; } = CreateDictionaryJsonSamples(InvalidPrimitiveSamples);
     public static TheoryData<string> DictionaryValueJsonSamples { get; } = CreateDictionaryValueJsonSamples();
     public static TheoryData<Type> StrongTypeKeyDictionaryTypeSamples { get; } = CreateDictionaryTypeSamples(typeof(TStrongType), typeof(object));
     public static TheoryData<Type> PrimitiveKeyDictionaryTypeSamples { get; } = CreateDictionaryTypeSamples(typeof(TPrimitive), typeof(object));
@@ -44,18 +46,26 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
 
     private static TheoryData<TStrongType> CreateStrongTypeSamples()
     {
-        return new(PrimitiveSamples.Select(primitive => TStrongType.From(primitive)));
+        return new(ValidPrimitiveSamples.Select(primitive => TStrongType.From(primitive)));
     }
 
-    private static TheoryData<string> CreateJsonSamples()
+    private static TheoryData<string> CreateJsonSamples(TheoryData<TPrimitive> primitiveSamples)
     {
-        return new(PrimitiveSamples.Select(primitive => JsonConvert.SerializeObject((TPrimitive)primitive)));
+        return new(primitiveSamples.Select(primitive => JsonConvert.SerializeObject((TPrimitive)primitive)));
+    }
+
+    private static TheoryData<string> CreateDictionaryJsonSamples(TheoryData<TPrimitive> primitiveSamples)
+    {
+        return new(
+            primitiveSamples.Select(primitive =>
+                JsonConvert.SerializeObject(
+                    new Dictionary<TPrimitive, object> { [(TPrimitive)primitive] = "value" })));
     }
 
     private static TheoryData<string> CreateDictionaryValueJsonSamples()
     {
         return new(
-            PrimitiveSamples.Select(primitive =>
+            ValidPrimitiveSamples.Select(primitive =>
                 JsonConvert.SerializeObject(
                     new Dictionary<string, TPrimitive> { ["key"] = (TPrimitive)primitive })));
     }
@@ -90,7 +100,7 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
         // reference stays a plain Dictionary; it only supplies the expected entry.
         var primitiveDictionaryType = typeof(Dictionary<TPrimitive, object>);
 
-        var jsons = PrimitiveSamples.Select(primitive =>
+        var jsons = ValidPrimitiveSamples.Select(primitive =>
             JsonConvert.SerializeObject(
                 new Dictionary<TPrimitive, object> { [(TPrimitive)primitive] = "value" }));
 
@@ -248,7 +258,7 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
     }
 
     [Theory]
-    [MemberData(nameof(JsonSamples))]
+    [MemberData(nameof(ValidJsonSamples))]
     public void Strong_type_deserializes_like_its_primitive(string json)
     {
         var primitive = JsonConvert.DeserializeObject<TPrimitive>(json, _settings);
@@ -258,10 +268,10 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
     }
 
     [Theory(SkipTestWithoutData = true)]
-    [MemberData(nameof(InvalidPrimitiveSamples))]
-    public void Strong_type_does_not_deserialize_from_an_invalid_primitive(TPrimitive primitive)
+    [MemberData(nameof(InvalidJsonSamples))]
+    public void Strong_type_does_not_deserialize_from_an_invalid_primitive(string json)
     {
-        var json = JsonConvert.SerializeObject(primitive);
+        var primitive = JsonConvert.DeserializeObject<TPrimitive>(json, _settings);
 
         var exception = Assert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<TStrongType>(json, _settings));
@@ -273,22 +283,18 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
     }
 
     [Theory(SkipTestWithoutData = true)]
-    [MemberData(nameof(InvalidPrimitiveSamples))]
-    public void Strong_type_does_not_deserialize_from_an_invalid_dictionary_key(TPrimitive primitive)
+    [MemberData(nameof(InvalidDictionaryJsonSamples))]
+    public void Strong_type_does_not_deserialize_from_an_invalid_dictionary_key(string json)
     {
-        var dictionary = new Dictionary<TPrimitive, object>
-        {
-            [primitive] = "value"
-        };
-
-        var json = JsonConvert.SerializeObject(dictionary);
+        var primitiveKeysDictionaryEntry = Assert.Single(
+            JsonConvert.DeserializeObject<Dictionary<TPrimitive, object>>(json, _settings)!);
 
         var exception = Assert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<Dictionary<TStrongType, object>>(json, _settings));
 
         var validationException = Assert.IsType<StrongTypeValidationException>(exception.InnerException);
         Assert.Equal(typeof(TStrongType), validationException.StrongType);
-        Assert.Equal(primitive, validationException.Value);
+        Assert.Equal(primitiveKeysDictionaryEntry.Key, validationException.Value);
     }
 
     [Theory]
@@ -369,3 +375,63 @@ public abstract class NewtonsoftJsonStrongTypeTests<TStrongType, TPrimitive, TPr
         Assert.Equal(primitiveValuesDictionaryEntry.Value, strongTypeValuesDictionaryEntry.Value.AsPrimitive());
     }
 }
+
+public sealed class BoolNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongBool, bool, StrongBool.ValidPrimitiveSamples, StrongBool.InvalidPrimitiveSamples>;
+
+public sealed class ByteNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongByte, byte, StrongByte.ValidPrimitiveSamples, StrongByte.InvalidPrimitiveSamples>;
+
+public sealed class SByteNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongSByte, sbyte, StrongSByte.ValidPrimitiveSamples, StrongSByte.InvalidPrimitiveSamples>;
+
+public sealed class ShortNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongShort, short, StrongShort.ValidPrimitiveSamples, StrongShort.InvalidPrimitiveSamples>;
+
+public sealed class UShortNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongUShort, ushort, StrongUShort.ValidPrimitiveSamples, StrongUShort.InvalidPrimitiveSamples>;
+
+public sealed class IntNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongInt, int, StrongInt.ValidPrimitiveSamples, StrongInt.InvalidPrimitiveSamples>;
+
+public sealed class UIntNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongUInt, uint, StrongUInt.ValidPrimitiveSamples, StrongUInt.InvalidPrimitiveSamples>;
+
+public sealed class LongNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongLong, long, StrongLong.ValidPrimitiveSamples, StrongLong.InvalidPrimitiveSamples>;
+
+public sealed class ULongNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongULong, ulong, StrongULong.ValidPrimitiveSamples, StrongULong.InvalidPrimitiveSamples>;
+
+public sealed class FloatNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongFloat, float, StrongFloat.ValidPrimitiveSamples, StrongFloat.InvalidPrimitiveSamples>;
+
+public sealed class DoubleNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongDouble, double, StrongDouble.ValidPrimitiveSamples, StrongDouble.InvalidPrimitiveSamples>;
+
+public sealed class DecimalNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongDecimal, decimal, StrongDecimal.ValidPrimitiveSamples, StrongDecimal.InvalidPrimitiveSamples>;
+
+public sealed class StringNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongString, string, StrongString.ValidPrimitiveSamples, StrongString.InvalidPrimitiveSamples>;
+
+public sealed class CharNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongChar, char, StrongChar.ValidPrimitiveSamples, StrongChar.InvalidPrimitiveSamples>;
+
+public sealed class GuidNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongGuid, Guid, StrongGuid.ValidPrimitiveSamples, StrongGuid.InvalidPrimitiveSamples>;
+
+public sealed class DateTimeNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongDateTime, DateTime, StrongDateTime.ValidPrimitiveSamples, StrongDateTime.InvalidPrimitiveSamples>;
+
+public sealed class DateTimeOffsetNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongDateTimeOffset, DateTimeOffset, StrongDateTimeOffset.ValidPrimitiveSamples, StrongDateTimeOffset.InvalidPrimitiveSamples>;
+
+public sealed class DateOnlyNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongDateOnly, DateOnly, StrongDateOnly.ValidPrimitiveSamples, StrongDateOnly.InvalidPrimitiveSamples>;
+
+public sealed class TimeOnlyNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongTimeOnly, TimeOnly, StrongTimeOnly.ValidPrimitiveSamples, StrongTimeOnly.InvalidPrimitiveSamples>;
+
+public sealed class TimeSpanNewtonsoftJsonTests
+    : NewtonsoftJsonStrongTypeTests<StrongTimeSpan, TimeSpan, StrongTimeSpan.ValidPrimitiveSamples, StrongTimeSpan.InvalidPrimitiveSamples>;
