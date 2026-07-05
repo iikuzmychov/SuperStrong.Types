@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi;
 using SuperStrong.Types.Reflection;
@@ -19,54 +21,106 @@ internal sealed class StrongTypeOperationTransformer : IOpenApiOperationTransfor
         OpenApiOperationTransformerContext context,
         CancellationToken cancellationToken)
     {
-        if (operation.Parameters is null)
+        foreach (var parameterDescription in context.Description.ParameterDescriptions)
+        {
+            if (GetStrongTypeInfo(parameterDescription) is not { } strongTypeInfo)
+            {
+                continue;
+            }
+
+            if (parameterDescription.Source == BindingSource.Body)
+            {
+                await TransformRequestBodyAsync(operation, context, strongTypeInfo, cancellationToken);
+            }
+            else
+            {
+                await TransformParameterAsync(operation, context, parameterDescription, strongTypeInfo, cancellationToken);
+            }
+        }
+    }
+
+    private static StrongTypeInfo? GetStrongTypeInfo(ApiParameterDescription parameterDescription)
+    {
+        if (parameterDescription.Type.GetStrongTypeInfo() is { } strongTypeInfo)
+        {
+            return strongTypeInfo;
+        }
+
+        // MVC's ApiExplorer describes TypeConverter-bindable parameters as plain strings,
+        // so the strong type has to be recovered from the declared parameter type
+        return parameterDescription.ParameterDescriptor.ParameterType.GetStrongTypeInfo();
+    }
+
+    private async Task TransformParameterAsync(
+        OpenApiOperation operation,
+        OpenApiOperationTransformerContext context,
+        ApiParameterDescription parameterDescription,
+        StrongTypeInfo strongTypeInfo,
+        CancellationToken cancellationToken)
+    {
+        var parameter = operation
+            .Parameters?
+            .OfType<OpenApiParameter>()
+            .FirstOrDefault(parameter => parameter.Name == parameterDescription.Name);
+
+        if (parameter is null)
         {
             return;
         }
 
-        foreach (var parameterDescription in context.Description.ParameterDescriptions)
+        parameter.Schema = await CreateSchemaAsync(context, strongTypeInfo, parameterDescription, cancellationToken);
+    }
+
+    private async Task TransformRequestBodyAsync(
+        OpenApiOperation operation,
+        OpenApiOperationTransformerContext context,
+        StrongTypeInfo strongTypeInfo,
+        CancellationToken cancellationToken)
+    {
+        if (operation.RequestBody?.Content is not { } content)
         {
-            if (parameterDescription.Type?.GetStrongTypeInfo() is not { } strongTypeInfo)
-            {
-                continue;
-            }
+            return;
+        }
 
-            var parameter = operation
-                .Parameters
-                .OfType<OpenApiParameter>()
-                .FirstOrDefault(parameter => parameter.Name == parameterDescription.Name);
+        var schema = await CreateSchemaAsync(context, strongTypeInfo, parameterDescription: null, cancellationToken);
 
-            if (parameter is null)
-            {
-                continue;
-            }
+        foreach (var mediaType in content.Values)
+        {
+            mediaType.Schema = schema;
+        }
+    }
 
-            var primitiveSchema = await context.GetOrCreateSchemaAsync(
-                strongTypeInfo.PrimitiveType,
-                parameterDescription,
-                cancellationToken);
+    private async Task<IOpenApiSchema> CreateSchemaAsync(
+        OpenApiOperationTransformerContext context,
+        StrongTypeInfo strongTypeInfo,
+        ApiParameterDescription? parameterDescription,
+        CancellationToken cancellationToken)
+    {
+        var primitiveSchema = await context.GetOrCreateSchemaAsync(
+            strongTypeInfo.PrimitiveType,
+            parameterDescription,
+            cancellationToken);
 
-            var schema = new OpenApiSchema
-            {
-                Type = primitiveSchema.Type,
-                Format = primitiveSchema.Format,
-            };
+        var schema = new OpenApiSchema
+        {
+            Type = primitiveSchema.Type,
+            Format = primitiveSchema.Format,
+        };
 
-            switch (_representation)
-            {
-                case StrongTypeOpenApiRepresentation.Inline:
-                    parameter.Schema = schema;
-                    break;
+        switch (_representation)
+        {
+            case StrongTypeOpenApiRepresentation.Inline:
+                return schema;
 
-                case StrongTypeOpenApiRepresentation.Reference:
-                    context.Document!.AddComponent(parameterDescription.Type.Name, schema);
-                    parameter.Schema = new OpenApiSchemaReference(parameterDescription.Type.Name, context.Document);
-                    break;
+            case StrongTypeOpenApiRepresentation.Reference:
+                var componentName = strongTypeInfo.ClrType.Name;
 
-                default:
-                    Debug.Fail($"Unexpected {nameof(StrongTypeOpenApiRepresentation)} value.");
-                    break;
-            }
+                context.Document!.AddComponent(componentName, schema);
+
+                return new OpenApiSchemaReference(componentName, context.Document);
+
+            default:
+                throw new UnreachableException($"Unexpected {nameof(StrongTypeOpenApiRepresentation)} value.");
         }
     }
 }

@@ -90,8 +90,7 @@ internal sealed class StrongTypeSchemaTransformer : IOpenApiSchemaTransformer
                 break;
 
             default:
-                Debug.Fail($"Unexpected {nameof(StrongTypeOpenApiRepresentation)} value.");
-                break;
+                throw new UnreachableException($"Unexpected {nameof(StrongTypeOpenApiRepresentation)} value.");
         }
 
         return elementSchema;
@@ -124,8 +123,7 @@ internal sealed class StrongTypeSchemaTransformer : IOpenApiSchemaTransformer
                 return new OpenApiSchemaReference(keyType.Name, context.Document);
 
             default:
-                Debug.Fail($"Unexpected {nameof(StrongTypeOpenApiRepresentation)} value.");
-                return default;
+                throw new UnreachableException($"Unexpected {nameof(StrongTypeOpenApiRepresentation)} value.");
         }
     }
 }

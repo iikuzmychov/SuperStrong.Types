@@ -5,6 +5,12 @@
   <PropertyGroup>
     <InterceptorsNamespaces>$(InterceptorsNamespaces);Microsoft.AspNetCore.OpenApi.Generated</InterceptorsNamespaces>
   </PropertyGroup>
+  
+  <PropertyGroup>
+    <!-- RouteHandlerAnalyzer crashes on route handlers with generic type parameters -->
+    <!-- Fixed in .NET 11 (https://github.com/dotnet/aspnetcore/issues/56831) -->
+    <NoWarn>$(NoWarn);AD0001</NoWarn>
+  </PropertyGroup>
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />

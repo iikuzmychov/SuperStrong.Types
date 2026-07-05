@@ -49,8 +49,7 @@ public static class OpenApiOptionsExtensions
                 return;
 
             default:
-                Debug.Fail($"Unexpected {nameof(StrongTypeOpenApiRepresentation)} value.");
-                break;
+                throw new UnreachableException($"Unexpected {nameof(StrongTypeOpenApiRepresentation)} value.");
         }
     }
 }

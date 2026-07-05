@@ -1,0 +1,66 @@
+﻿{
+  openapi: 3.1.1,
+  info: {
+    title: SuperStrong.Types.AspNetCore.Tests | v1,
+    version: 1.0.0
+  },
+  servers: [
+    {
+      url: http://localhost/
+    }
+  ],
+  paths: {
+    /route/{value}: {
+      get: {
+        tags: [
+          RouteController`1
+        ],
+        parameters: [
+          {
+            name: value,
+            in: path,
+            required: true,
+            schema: {
+              $ref: #/components/schemas/UserId
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              text/plain: {
+                schema: {
+                  $ref: #/components/schemas/UserId
+                }
+              },
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/UserId
+                }
+              },
+              text/json: {
+                schema: {
+                  $ref: #/components/schemas/UserId
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  components: {
+    schemas: {
+      UserId: {
+        type: string,
+        format: uuid
+      }
+    }
+  },
+  tags: [
+    {
+      name: RouteController`1
+    }
+  ]
+}
