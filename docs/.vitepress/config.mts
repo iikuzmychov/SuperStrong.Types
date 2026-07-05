@@ -81,6 +81,7 @@ export default defineConfig({
       {
         text: 'Integrations',
         items: [
+          { text: 'ASP.NET Core', link: '/integrations/aspnetcore' },
           { text: 'OpenAPI', link: '/integrations/openapi' },
           { text: 'EF Core', link: '/integrations/efcore' },
           { text: 'Hot Chocolate', link: '/integrations/hotchocolate' },
