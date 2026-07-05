@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
 using SuperStrong.Types.Tests;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Relationships;
@@ -30,9 +29,13 @@ public abstract class ForeignKeyTests<TStrongType, TPrimitive, TSamples>(Databas
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Order>().Property(order => order.Id).ValueGeneratedNever();
+            modelBuilder
+                .Entity<Order>()
+                .Property(order => order.Id)
+                .ValueGeneratedNever();
 
-            modelBuilder.Entity<Order>()
+            modelBuilder
+                .Entity<Order>()
                 .HasMany(order => order.Lines)
                 .WithOne(line => line.Order)
                 .HasForeignKey(line => line.OrderId);
@@ -49,10 +52,13 @@ public abstract class ForeignKeyTests<TStrongType, TPrimitive, TSamples>(Databas
 
         await using (var context = CreateDbContext())
         {
-            context.Orders.Add(new Order { Id = orderId });
+            context.Orders.Add(new() { Id = orderId });
+
             context.Lines.AddRange(
-                new Line { OrderId = orderId },
-                new Line { OrderId = orderId });
+            [
+                new() { OrderId = orderId },
+                new() { OrderId = orderId },
+            ]);
 
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
@@ -70,6 +76,7 @@ public abstract class ForeignKeyTests<TStrongType, TPrimitive, TSamples>(Databas
             var line = await context.Lines
                 .Include(entity => entity.Order)
                 .FirstAsync(TestContext.Current.CancellationToken);
+
             Assert.Equal(orderId, line.Order.Id);
         }
     }

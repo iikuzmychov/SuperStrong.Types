@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Querying;
 
@@ -42,8 +41,16 @@ public abstract partial class AsPrimitiveTranslationTests(DatabaseFixture databa
 
         Assert.Collection(
             results,
-            result => { Assert.Equal(3, result.Rank); Assert.Equal("bravo", result.Code); },
-            result => { Assert.Equal(2, result.Rank); Assert.Equal("alpha", result.Code); });
+            result =>
+            {
+                Assert.Equal(3, result.Rank);
+                Assert.Equal("bravo", result.Code);
+            },
+            result =>
+            {
+                Assert.Equal(2, result.Rank);
+                Assert.Equal("alpha", result.Code);
+            });
     }
 
     [Fact]
@@ -69,9 +76,12 @@ public abstract partial class AsPrimitiveTranslationTests(DatabaseFixture databa
         await using (var context = CreateDbContext())
         {
             context.Sales.AddRange(
-                NewSale(1, "a1", tenantA, 10m),
-                NewSale(2, "a2", tenantA, 15m),
-                NewSale(3, "b1", tenantB, 20m));
+            [
+                CreateSale(1, "a1", tenantA, 10m),
+                CreateSale(2, "a2", tenantA, 15m),
+                CreateSale(3, "b1", tenantB, 20m),
+            ]);
+
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 
@@ -81,19 +91,34 @@ public abstract partial class AsPrimitiveTranslationTests(DatabaseFixture databa
 
             var byPrimitive = await context.Sales
                 .GroupBy(sale => sale.Tenant.AsPrimitive())
-                .Select(group => new { group.Key, Count = group.Count(), Total = group.Sum(sale => sale.Amount.AsPrimitive()) })
+                .Select(group => new
+                {
+                    group.Key, Count = group.Count(),
+                    Total = group.Sum(sale => sale.Amount.AsPrimitive())
+                })
                 .OrderByDescending(group => group.Count)
                 .ToListAsync(cancellationToken);
+
             Assert.Collection(
                 byPrimitive,
-                group => { Assert.Equal(tenantA.AsPrimitive(), group.Key); Assert.Equal(2, group.Count); Assert.Equal(25m, group.Total); },
-                group => { Assert.Equal(tenantB.AsPrimitive(), group.Key); Assert.Equal(1, group.Count); });
+                group =>
+                {
+                    Assert.Equal(tenantA.AsPrimitive(), group.Key);
+                    Assert.Equal(2, group.Count);
+                    Assert.Equal(25m, group.Total);
+                },
+                group =>
+                {
+                    Assert.Equal(tenantB.AsPrimitive(), group.Key);
+                    Assert.Equal(1, group.Count);
+                });
 
             var byStrongType = await context.Sales
                 .GroupBy(sale => sale.Tenant)
                 .Select(group => new { group.Key, Count = group.Count() })
                 .OrderByDescending(group => group.Count)
                 .ToListAsync(cancellationToken);
+
             Assert.Equal(tenantA, byStrongType[0].Key);
             Assert.Equal(2, byStrongType[0].Count);
         }
@@ -105,9 +130,12 @@ public abstract partial class AsPrimitiveTranslationTests(DatabaseFixture databa
         await using (var context = CreateDbContext())
         {
             context.Sales.AddRange(
-                NewSale(1, "alpha", Tenant.From(Guid.Empty), 1m),
-                NewSale(2, "albatross", Tenant.From(Guid.Empty), 1m),
-                NewSale(3, "beta", Tenant.From(Guid.Empty), 1m));
+            [
+                CreateSale(1, "alpha", Tenant.From(Guid.Empty), 1m),
+                CreateSale(2, "albatross", Tenant.From(Guid.Empty), 1m),
+                CreateSale(3, "beta", Tenant.From(Guid.Empty), 1m),
+            ]);
+
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 
@@ -120,6 +148,7 @@ public abstract partial class AsPrimitiveTranslationTests(DatabaseFixture databa
                 .Select(sale => sale.Code.AsPrimitive())
                 .OrderBy(code => code)
                 .ToListAsync(cancellationToken);
+
             Assert.Equal(["albatross", "alpha"], startingWithAl);
 
             Assert.Equal(1, await context.Sales.CountAsync(sale => sale.Code.AsPrimitive().Length > 5, cancellationToken));
@@ -132,9 +161,12 @@ public abstract partial class AsPrimitiveTranslationTests(DatabaseFixture databa
         await using (var context = CreateDbContext())
         {
             context.Sales.AddRange(
-                NewSale(1, "old", Tenant.From(Guid.Empty), 1m, new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc)),
-                NewSale(2, "new", Tenant.From(Guid.Empty), 1m, new DateTime(2026, 6, 27, 0, 0, 0, DateTimeKind.Utc)),
-                NewSale(3, "pending", Tenant.From(Guid.Empty), 1m, shippedAt: null));
+            [
+                CreateSale(1, "old", Tenant.From(Guid.Empty), 1m, new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc)),
+                CreateSale(2, "new", Tenant.From(Guid.Empty), 1m, new DateTime(2026, 6, 27, 0, 0, 0, DateTimeKind.Utc)),
+                CreateSale(3, "pending", Tenant.From(Guid.Empty), 1m, shippedAt: null),
+            ]);
+
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 
@@ -147,6 +179,7 @@ public abstract partial class AsPrimitiveTranslationTests(DatabaseFixture databa
                 .Where(sale => sale.ShippedAt!.AsPrimitive() >= threshold)
                 .Select(sale => sale.Rank.AsPrimitive())
                 .ToListAsync(cancellationToken);
+
             Assert.Equal([2], recent);
         }
     }
@@ -159,6 +192,7 @@ public abstract partial class AsPrimitiveTranslationTests(DatabaseFixture databa
         await using var context = CreateDbContext();
 
         var wanted = new[] { 1, 3 };
+
         var ranks = await context.Sales
             .Where(sale => wanted.Contains(sale.Rank.AsPrimitive()))
             .Select(sale => sale.Rank.AsPrimitive())
@@ -200,23 +234,28 @@ public abstract partial class AsPrimitiveTranslationTests(DatabaseFixture databa
         Assert.Equal(2, await context.Sales.CountAsync(cancellationToken));
     }
 
-    private static Sale NewSale(int rank, string code, Tenant tenant, decimal amount, DateTime? shippedAt = null) => new()
+    private static Sale CreateSale(int rank, string code, Tenant tenant, decimal amount, DateTime? shippedAt = null)
     {
-        Rank = Rank.From(rank),
-        Code = Code.From(code),
-        Tenant = tenant,
-        Amount = Amount.From(amount),
-        ShippedAt = shippedAt is { } value ? ShippedAt.From(value) : null,
-    };
+        return new()
+        {
+            Rank = Rank.From(rank),
+            Code = Code.From(code),
+            Tenant = tenant,
+            Amount = Amount.From(amount),
+            ShippedAt = shippedAt.HasValue ? ShippedAt.From(shippedAt.Value) : null,
+        };
+    }
 
     private async Task SeedRanksAsync()
     {
         await using var context = CreateDbContext();
 
         context.Sales.AddRange(
-            NewSale(1, "charlie", Tenant.From(Guid.Empty), 30m),
-            NewSale(2, "alpha", Tenant.From(Guid.Empty), 10m),
-            NewSale(3, "bravo", Tenant.From(Guid.Empty), 20m));
+        [
+            CreateSale(1, "charlie", Tenant.From(Guid.Empty), 30m),
+            CreateSale(2, "alpha", Tenant.From(Guid.Empty), 10m),
+            CreateSale(3, "bravo", Tenant.From(Guid.Empty), 20m),
+        ]);
 
         await context.SaveChangesAsync(TestContext.Current.CancellationToken);
     }

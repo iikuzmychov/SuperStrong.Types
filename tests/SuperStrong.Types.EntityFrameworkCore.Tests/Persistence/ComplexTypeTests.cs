@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Persistence;
 
@@ -26,7 +25,11 @@ public abstract partial class ComplexTypeTests(DatabaseFixture database)
         public DbSet<Payment> Payments => Set<Payment>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-            => modelBuilder.Entity<Payment>().ComplexProperty(payment => payment.Money);
+        {
+            modelBuilder
+                .Entity<Payment>()
+                .ComplexProperty(payment => payment.Money);
+        }
     }
 
     [Fact]
@@ -34,13 +37,18 @@ public abstract partial class ComplexTypeTests(DatabaseFixture database)
     {
         await using (var context = CreateDbContext())
         {
-            context.Payments.Add(new Payment { Money = new Money { Amount = Amount.From(99.95m), Currency = Currency.From("USD") } });
+            context.Payments.Add(new()
+            {
+                Money = new Money { Amount = Amount.From(99.95m), Currency = Currency.From("USD") },
+            });
+
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 
         await using (var context = CreateDbContext())
         {
             var payment = await context.Payments.SingleAsync(TestContext.Current.CancellationToken);
+
             Assert.Equal(Amount.From(99.95m), payment.Money.Amount);
             Assert.Equal(Currency.From("USD"), payment.Money.Currency);
         }

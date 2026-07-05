@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Keys;
 
@@ -22,7 +21,11 @@ public abstract partial class CompositeKeyTests(DatabaseFixture database)
         public DbSet<StockItem> StockItems => Set<StockItem>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-            => modelBuilder.Entity<StockItem>().HasKey(item => new { item.WarehouseId, item.Bin });
+        {
+            modelBuilder
+                .Entity<StockItem>()
+                .HasKey(item => new { item.WarehouseId, item.Bin });
+        }
     }
 
     [Fact]
@@ -31,9 +34,11 @@ public abstract partial class CompositeKeyTests(DatabaseFixture database)
         await using (var context = CreateDbContext())
         {
             context.StockItems.AddRange(
-                new StockItem { WarehouseId = WarehouseId.From(1), Bin = Bin.From(10), Capacity = Capacity.From(100) },
-                new StockItem { WarehouseId = WarehouseId.From(1), Bin = Bin.From(20), Capacity = Capacity.From(200) },
-                new StockItem { WarehouseId = WarehouseId.From(2), Bin = Bin.From(10), Capacity = Capacity.From(300) });
+            [
+                new() { WarehouseId = WarehouseId.From(1), Bin = Bin.From(10), Capacity = Capacity.From(100) },
+                new() { WarehouseId = WarehouseId.From(1), Bin = Bin.From(20), Capacity = Capacity.From(200) },
+                new() { WarehouseId = WarehouseId.From(2), Bin = Bin.From(10), Capacity = Capacity.From(300) },
+            ]);
 
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }

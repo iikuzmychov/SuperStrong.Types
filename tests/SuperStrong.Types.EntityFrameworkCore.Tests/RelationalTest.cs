@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
+namespace SuperStrong.Types.EntityFrameworkCore.Tests;
 
 public abstract class RelationalTest<TContext>(DatabaseFixture database) : IAsyncLifetime
     where TContext : DbContext
@@ -23,5 +23,10 @@ public abstract class RelationalTest<TContext>(DatabaseFixture database) : IAsyn
         await database.ResetAsync();
     }
 
-    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
+    public ValueTask DisposeAsync()
+    {
+        GC.SuppressFinalize(this);
+
+        return ValueTask.CompletedTask;
+    }
 }

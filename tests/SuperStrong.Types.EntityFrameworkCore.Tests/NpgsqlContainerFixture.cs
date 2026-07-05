@@ -1,6 +1,6 @@
 using Testcontainers.PostgreSql;
 
-namespace SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
+namespace SuperStrong.Types.EntityFrameworkCore.Tests;
 
 public sealed class NpgsqlContainerFixture : IAsyncLifetime
 {

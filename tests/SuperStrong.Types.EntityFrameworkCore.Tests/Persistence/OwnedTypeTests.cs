@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Persistence;
 
@@ -32,11 +31,13 @@ public abstract partial class OwnedTypeTests(DatabaseFixture database)
         public DbSet<Shipment> Shipments => Set<Shipment>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-            => modelBuilder.Entity<Shipment>(shipment =>
+        {
+            modelBuilder.Entity<Shipment>(shipment =>
             {
                 shipment.OwnsOne(entity => entity.Origin);
                 shipment.OwnsMany(entity => entity.Stops);
             });
+        }
     }
 
     [Fact]
@@ -44,13 +45,22 @@ public abstract partial class OwnedTypeTests(DatabaseFixture database)
     {
         await using (var context = CreateDbContext())
         {
-            context.Shipments.Add(new Shipment { Origin = new Address { City = City.From("a"), Zip = Zip.From("b") } });
+            context.Shipments.Add(new()
+            {
+                Origin = new Address
+                {
+                    City = City.From("a"),
+                    Zip = Zip.From("b"),
+                },
+            });
+
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 
         await using (var context = CreateDbContext())
         {
             var shipment = await context.Shipments.SingleAsync(TestContext.Current.CancellationToken);
+
             Assert.Equal(City.From("a"), shipment.Origin.City);
             Assert.Equal(Zip.From("b"), shipment.Origin.Zip);
         }
@@ -61,17 +71,27 @@ public abstract partial class OwnedTypeTests(DatabaseFixture database)
     {
         await using (var context = CreateDbContext())
         {
-            context.Shipments.Add(new Shipment
+            context.Shipments.Add(new()
             {
-                Origin = new Address { City = City.From("a"), Zip = Zip.From("b") },
-                Stops = [new Stop { City = City.From("c") }, new Stop { City = City.From("d") }],
+                Origin = new Address
+                {
+                    City = City.From("a"),
+                    Zip = Zip.From("b"),
+                },
+                Stops =
+                [
+                    new Stop { City = City.From("c") },
+                    new Stop { City = City.From("d") },
+                ],
             });
+
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 
         await using (var context = CreateDbContext())
         {
             var shipment = await context.Shipments.SingleAsync(TestContext.Current.CancellationToken);
+
             Assert.Equal([City.From("c"), City.From("d")], shipment.Stops.Select(stop => stop.City));
         }
     }

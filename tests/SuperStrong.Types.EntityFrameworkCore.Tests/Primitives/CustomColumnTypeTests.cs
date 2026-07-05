@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Primitives;
 
@@ -19,7 +18,12 @@ public abstract partial class CustomColumnTypeTests(DatabaseFixture database)
         public DbSet<Meter> Meters => Set<Meter>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-            => modelBuilder.Entity<Meter>().Property(meter => meter.Counter).HasColumnType("bigint");
+        {
+            modelBuilder
+                .Entity<Meter>()
+                .Property(meter => meter.Counter)
+                .HasColumnType("bigint");
+        }
     }
 
     [Fact]
@@ -27,13 +31,15 @@ public abstract partial class CustomColumnTypeTests(DatabaseFixture database)
     {
         await using (var context = CreateDbContext())
         {
-            context.Meters.Add(new Meter { Counter = Counter.From(123) });
+            context.Meters.Add(new() { Counter = Counter.From(123) });
+
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 
         await using (var context = CreateDbContext())
         {
             var meter = await context.Meters.SingleAsync(TestContext.Current.CancellationToken);
+
             Assert.Equal(Counter.From(123), meter.Counter);
         }
     }

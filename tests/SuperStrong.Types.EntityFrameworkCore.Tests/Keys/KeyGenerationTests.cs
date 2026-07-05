@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
 using SuperStrong.Types.Tests;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Keys;
@@ -20,7 +19,12 @@ public abstract class KeyGenerationTests<TStrongType, TPrimitive>(DatabaseFixtur
         public DbSet<Ticket> Tickets => Set<Ticket>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-            => modelBuilder.Entity<Ticket>().Property(ticket => ticket.Id).ValueGeneratedOnAdd();
+        {
+            modelBuilder
+                .Entity<Ticket>()
+                .Property(ticket => ticket.Id)
+                .ValueGeneratedOnAdd();
+        }
     }
 
     [Fact]
@@ -30,6 +34,7 @@ public abstract class KeyGenerationTests<TStrongType, TPrimitive>(DatabaseFixtur
 
         var first = new Ticket { Subject = "a" };
         var second = new Ticket { Subject = "b" };
+
         context.Tickets.AddRange(first, second);
 
         await context.SaveChangesAsync(TestContext.Current.CancellationToken);

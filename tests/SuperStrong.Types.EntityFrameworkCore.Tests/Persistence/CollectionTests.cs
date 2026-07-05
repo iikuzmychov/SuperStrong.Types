@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Persistence;
 
@@ -24,13 +23,15 @@ public abstract partial class CollectionTests(DatabaseFixture database)
     {
         await using (var context = CreateDbContext())
         {
-            context.Articles.Add(new Article { Tags = [Tag.From("a"), Tag.From("b"), Tag.From("c")] });
+            context.Articles.Add(new() { Tags = [Tag.From("a"), Tag.From("b"), Tag.From("c")] });
+
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 
         await using (var context = CreateDbContext())
         {
             var article = await context.Articles.SingleAsync(TestContext.Current.CancellationToken);
+
             Assert.Equal([Tag.From("a"), Tag.From("b"), Tag.From("c")], article.Tags);
         }
     }
@@ -40,17 +41,22 @@ public abstract partial class CollectionTests(DatabaseFixture database)
     {
         await using (var context = CreateDbContext())
         {
-            context.Articles.Add(new Article { Tags = [Tag.From("a"), Tag.From("b")] });
-            context.Articles.Add(new Article { Tags = [Tag.From("c")] });
+            context.Articles.AddRange(
+            [
+                new() { Tags = [Tag.From("a"), Tag.From("b")] },
+                new() { Tags = [Tag.From("c")] },
+            ]);
+
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 
         await using (var context = CreateDbContext())
         {
-            // Translates only if the elements are stored as an inline, converted primitive
-            // collection (not a navigation or an opaque blob).
             var matches = await context.Articles
-                .CountAsync(article => article.Tags.Contains(Tag.From("b")), TestContext.Current.CancellationToken);
+                .CountAsync(
+                    article => article.Tags.Contains(Tag.From("b")),
+                    TestContext.Current.CancellationToken);
+
             Assert.Equal(1, matches);
         }
     }

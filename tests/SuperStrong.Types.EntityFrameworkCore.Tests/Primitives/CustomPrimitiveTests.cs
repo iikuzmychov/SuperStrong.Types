@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Primitives;
 
@@ -10,10 +9,13 @@ public abstract partial class CustomPrimitiveTests(DatabaseFixture database)
     {
         public override string ToString() => $"{R:X2}{G:X2}{B:X2}";
 
-        public static Rgb Parse(string value) => new(
-            Convert.ToByte(value.Substring(0, 2), 16),
-            Convert.ToByte(value.Substring(2, 2), 16),
-            Convert.ToByte(value.Substring(4, 2), 16));
+        public static Rgb Parse(string value)
+        {
+            return new(
+                Convert.ToByte(value.Substring(0, 2), 16),
+                Convert.ToByte(value.Substring(2, 2), 16),
+                Convert.ToByte(value.Substring(4, 2), 16));
+        }
     }
 
     [StrongType<Rgb>] public sealed partial class Swatch;
@@ -29,11 +31,14 @@ public abstract partial class CustomPrimitiveTests(DatabaseFixture database)
         public DbSet<Palette> Palettes => Set<Palette>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-            => modelBuilder.Entity<Palette>()
+        {
+            modelBuilder
+                .Entity<Palette>()
                 .Property(palette => palette.Primary)
                 .HasConversion(
                     swatch => swatch.AsPrimitive().ToString(),
                     value => Swatch.From(Rgb.Parse(value)));
+        }
     }
 
     [Fact]
@@ -43,13 +48,15 @@ public abstract partial class CustomPrimitiveTests(DatabaseFixture database)
 
         await using (var context = CreateDbContext())
         {
-            context.Palettes.Add(new Palette { Primary = swatch });
+            context.Palettes.Add(new() { Primary = swatch });
+
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 
         await using (var context = CreateDbContext())
         {
             var palette = await context.Palettes.SingleAsync(TestContext.Current.CancellationToken);
+
             Assert.Equal(swatch, palette.Primary);
         }
     }

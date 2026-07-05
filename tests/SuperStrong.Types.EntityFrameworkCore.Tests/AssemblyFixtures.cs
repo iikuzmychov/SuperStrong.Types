@@ -1,4 +1,4 @@
-using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
+using SuperStrong.Types.EntityFrameworkCore.Tests;
 
 [assembly: AssemblyFixture(typeof(NpgsqlContainerFixture))]
 [assembly: AssemblyFixture(typeof(SqlServerContainerFixture))]

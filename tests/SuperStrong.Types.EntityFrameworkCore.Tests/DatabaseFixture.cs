@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Respawn;
 using System.Data.Common;
 
-namespace SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
+namespace SuperStrong.Types.EntityFrameworkCore.Tests;
 
 public abstract class DatabaseFixture : IAsyncLifetime
 {
@@ -17,8 +17,11 @@ public abstract class DatabaseFixture : IAsyncLifetime
     protected abstract IDbAdapter DbAdapter { get; }
 
     protected abstract DbConnection CreateConnection(string connectionString);
+
     protected abstract string GetDatabaseConnectionString(string adminConnectionString, string databaseName);
+
     protected abstract string GetCreateDatabaseCommandText(string databaseName);
+
     protected abstract string GetDropDatabaseCommandText(string databaseName);
 
     public async ValueTask InitializeAsync()

@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Persistence;
 
@@ -24,13 +23,15 @@ public abstract partial class ChangeTrackingTests(DatabaseFixture database)
     {
         await using (var context = CreateDbContext())
         {
-            context.Invoices.Add(new Invoice { Total = Amount.From(10m) });
+            context.Invoices.Add(new() { Total = Amount.From(10m) });
+
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 
         await using (var context = CreateDbContext())
         {
             var invoice = await context.Invoices.SingleAsync(TestContext.Current.CancellationToken);
+
             invoice.Total = Amount.From(42.50m);
 
             Assert.Equal(1, await context.SaveChangesAsync(TestContext.Current.CancellationToken));
@@ -39,6 +40,7 @@ public abstract partial class ChangeTrackingTests(DatabaseFixture database)
         await using (var context = CreateDbContext())
         {
             var invoice = await context.Invoices.SingleAsync(TestContext.Current.CancellationToken);
+
             Assert.Equal(Amount.From(42.50m), invoice.Total);
         }
     }
@@ -48,13 +50,15 @@ public abstract partial class ChangeTrackingTests(DatabaseFixture database)
     {
         await using (var context = CreateDbContext())
         {
-            context.Invoices.Add(new Invoice { Total = Amount.From(10m) });
+            context.Invoices.Add(new() { Total = Amount.From(10m) });
+
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 
         await using (var context = CreateDbContext())
         {
             var invoice = await context.Invoices.SingleAsync(TestContext.Current.CancellationToken);
+
             invoice.Total = Amount.From(10m); // same value, new instance
 
             Assert.Equal(0, await context.SaveChangesAsync(TestContext.Current.CancellationToken));

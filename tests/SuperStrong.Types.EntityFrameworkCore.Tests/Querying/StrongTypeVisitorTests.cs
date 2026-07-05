@@ -8,8 +8,8 @@ public sealed partial class StrongTypeVisitorTests
     [Fact]
     public void Visitor_replaces_AsPrimitive_call_with_cast_to_underlying_type()
     {
-        Expression<Func<StrongTypedInt, int>> expression = strongTypedInt => strongTypedInt.AsPrimitive();
-        Expression<Func<StrongTypedInt, int>> expectedExpression = strongTypedInt => (int)(object)strongTypedInt;
+        Expression<Func<StrongInt, int>> expression = strongTypedInt => strongTypedInt.AsPrimitive();
+        Expression<Func<StrongInt, int>> expectedExpression = strongTypedInt => (int)(object)strongTypedInt;
 
         var visitedExpression = StrongTypeVisitor.Instance.Visit(expression);
 
@@ -32,7 +32,7 @@ public sealed partial class StrongTypeVisitorTests
     }
 
     [StrongType<int>]
-    private sealed partial class StrongTypedInt
+    private sealed partial class StrongInt
     {
         public static StrongTypeDefinition<int> Definition { get; } = StrongType.Define<int>();
     }

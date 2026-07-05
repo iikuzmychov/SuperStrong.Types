@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
 using SuperStrong.Types.Tests;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Persistence;
@@ -29,13 +28,15 @@ public abstract class RoundTripTests<TStrongType, TPrimitive, TSamples>(Database
     {
         await using (var context = CreateDbContext())
         {
-            context.Entities.Add(new Entity { Value = TStrongType.From(primitive) });
+            context.Entities.Add(new() { Value = TStrongType.From(primitive) });
+
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 
         await using (var context = CreateDbContext())
         {
             var entity = await context.Entities.SingleAsync(TestContext.Current.CancellationToken);
+
             Assert.Equal(primitive, entity.Value.AsPrimitive());
         }
     }

@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
 using SuperStrong.Types.Tests;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Persistence;
@@ -23,13 +22,15 @@ public abstract class NullabilityTests(DatabaseFixture database)
     {
         await using (var context = CreateDbContext())
         {
-            context.Entities.Add(new Entity { Value = null });
+            context.Entities.Add(new() { Value = null });
+
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 
         await using (var context = CreateDbContext())
         {
             var entity = await context.Entities.SingleAsync(TestContext.Current.CancellationToken);
+
             Assert.Null(entity.Value);
         }
     }
@@ -39,13 +40,15 @@ public abstract class NullabilityTests(DatabaseFixture database)
     {
         await using (var context = CreateDbContext())
         {
-            context.Entities.Add(new Entity { Value = StrongString.From("value") });
+            context.Entities.Add(new() { Value = StrongString.From("value") });
+
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 
         await using (var context = CreateDbContext())
         {
             var entity = await context.Entities.SingleAsync(TestContext.Current.CancellationToken);
+
             Assert.Equal(StrongString.From("value"), entity.Value);
         }
     }

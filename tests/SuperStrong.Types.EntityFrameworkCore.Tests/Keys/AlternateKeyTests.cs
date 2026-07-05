@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Keys;
 
@@ -20,11 +19,13 @@ public abstract partial class AlternateKeyTests(DatabaseFixture database)
         public DbSet<Account> Accounts => Set<Account>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-            => modelBuilder.Entity<Account>(account =>
+        {
+            modelBuilder.Entity<Account>(account =>
             {
                 account.HasAlternateKey(entity => entity.ExternalRef);
                 account.Property(entity => entity.ExternalRef).HasMaxLength(32);
             });
+        }
     }
 
     [Fact]
@@ -34,7 +35,8 @@ public abstract partial class AlternateKeyTests(DatabaseFixture database)
 
         await using (var context = CreateDbContext())
         {
-            context.Accounts.Add(new Account { Id = id, ExternalRef = ExternalRef.From("a") });
+            context.Accounts.Add(new() { Id = id, ExternalRef = ExternalRef.From("a") });
+
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 

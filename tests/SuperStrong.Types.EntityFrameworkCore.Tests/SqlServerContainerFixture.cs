@@ -1,11 +1,10 @@
 using Testcontainers.MsSql;
 
-namespace SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
+namespace SuperStrong.Types.EntityFrameworkCore.Tests;
 
 public sealed class SqlServerContainerFixture : IAsyncLifetime
 {
-    public MsSqlContainer Container { get; } =
-        new MsSqlBuilder("mcr.microsoft.com/mssql/server:2022-CU14-ubuntu-22.04").Build();
+    public MsSqlContainer Container { get; } = new MsSqlBuilder("mcr.microsoft.com/mssql/server:2022-CU14-ubuntu-22.04").Build();
 
     public async ValueTask InitializeAsync() => await Container.StartAsync();
 

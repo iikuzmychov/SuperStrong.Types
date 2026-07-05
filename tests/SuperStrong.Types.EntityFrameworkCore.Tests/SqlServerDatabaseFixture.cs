@@ -3,12 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Respawn;
 using System.Data.Common;
 
-namespace SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
+namespace SuperStrong.Types.EntityFrameworkCore.Tests;
 
 public sealed class SqlServerDatabaseFixture(SqlServerContainerFixture container) : DatabaseFixture
 {
-    public override void Configure(DbContextOptionsBuilder builder)
-        => builder.UseSqlServer(ConnectionString);
+    public override void Configure(DbContextOptionsBuilder builder) => builder.UseSqlServer(ConnectionString);
 
     protected override string AdminConnectionString => container.Container.GetConnectionString();
     protected override IDbAdapter DbAdapter => Respawn.DbAdapter.SqlServer;

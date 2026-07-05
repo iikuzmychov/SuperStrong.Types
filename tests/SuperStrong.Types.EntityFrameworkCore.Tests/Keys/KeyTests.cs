@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
 using SuperStrong.Types.Tests;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Keys;
@@ -21,7 +20,12 @@ public abstract class KeyTests<TStrongType, TPrimitive, TSamples>(DatabaseFixtur
         public DbSet<Entity> Entities => Set<Entity>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-            => modelBuilder.Entity<Entity>().Property(entity => entity.Id).ValueGeneratedNever();
+        {
+            modelBuilder
+                .Entity<Entity>()
+                .Property(entity => entity.Id)
+                .ValueGeneratedNever();
+        }
     }
 
     public static TheoryData<TPrimitive> PrimitiveSamples { get; } = new TSamples();
@@ -34,7 +38,8 @@ public abstract class KeyTests<TStrongType, TPrimitive, TSamples>(DatabaseFixtur
 
         await using (var context = CreateDbContext())
         {
-            context.Entities.Add(new Entity { Id = id, Name = "a" });
+            context.Entities.Add(new() { Id = id, Name = "a" });
+
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 
@@ -55,7 +60,8 @@ public abstract class KeyTests<TStrongType, TPrimitive, TSamples>(DatabaseFixtur
 
         await using (var context = CreateDbContext())
         {
-            context.Entities.Add(new Entity { Id = id, Name = "a" });
+            context.Entities.Add(new() { Id = id, Name = "a" });
+
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 
@@ -63,6 +69,7 @@ public abstract class KeyTests<TStrongType, TPrimitive, TSamples>(DatabaseFixtur
         {
             var entity = await context.Entities.FindAsync([id], TestContext.Current.CancellationToken);
             context.Entities.Remove(entity!);
+
             await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         }
 

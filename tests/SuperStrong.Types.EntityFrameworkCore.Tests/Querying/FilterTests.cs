@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SuperStrong.Types.EntityFrameworkCore.Tests.Infrastructure;
 
 namespace SuperStrong.Types.EntityFrameworkCore.Tests.Querying;
 
@@ -54,6 +53,7 @@ public abstract partial class FilterTests(DatabaseFixture database)
         await using var context = CreateDbContext();
 
         var wanted = new[] { Code.From("a"), Code.From("c") };
+
         var count = await context.Products
             .Where(entity => wanted.Contains(entity.Code))
             .CountAsync(TestContext.Current.CancellationToken);
@@ -66,9 +66,11 @@ public abstract partial class FilterTests(DatabaseFixture database)
         await using var context = CreateDbContext();
 
         context.Products.AddRange(
-            new Product { Code = Code.From("a"), Price = Price.From(10m) },
-            new Product { Code = Code.From("b"), Price = Price.From(20m) },
-            new Product { Code = Code.From("c"), Price = Price.From(30m) });
+        [
+            new() { Code = Code.From("a"), Price = Price.From(10m) },
+            new() { Code = Code.From("b"), Price = Price.From(20m) },
+            new() { Code = Code.From("c"), Price = Price.From(30m) },
+        ]);
 
         await context.SaveChangesAsync(TestContext.Current.CancellationToken);
     }
