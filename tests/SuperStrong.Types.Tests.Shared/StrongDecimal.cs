@@ -5,7 +5,7 @@ public sealed partial class StrongDecimal
 {
     public static readonly decimal ForbiddenValue = 123_456_789.123m;
 
-    public static StrongTypeDefinition<decimal> Definition { get; } = StrongType.Define<decimal>().IsNot(ForbiddenValue);
+    public static StrongTypeDefinition<decimal> Define() => StrongType.Define<decimal>().IsNot(ForbiddenValue);
 
     public sealed class ValidPrimitiveSamples : TheoryData<decimal>
     {

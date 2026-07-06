@@ -20,7 +20,9 @@ public static class StrongType
             return false;
         }
 
-        foreach (var validator in TStrongType.Definition.Validators)
+        var strongTypeDefinition = GetDefinition<TStrongType, TPrimitive>();
+
+        foreach (var validator in strongTypeDefinition.Validators)
         {
             if (validator.Validate(value) is StrongTypeValidationResult.Invalid)
             {
@@ -37,7 +39,7 @@ public static class StrongType
     {
         ArgumentNullException.ThrowIfNull(value);
 
-        var strongTypeDefinition = TStrongType.Definition;
+        var strongTypeDefinition = GetDefinition<TStrongType, TPrimitive>();
         var errorMessages = ImmutableArray.CreateBuilder<string>(initialCapacity: strongTypeDefinition.Validators.Length);
 
         foreach (var validator in strongTypeDefinition.Validators)
@@ -58,13 +60,27 @@ public static class StrongType
         where TStrongType : IStrongType<TStrongType, TPrimitive>
         where TPrimitive : notnull
     {
-        return TStrongType.Definition;
+        return DefinitionCache<TStrongType, TPrimitive>.Definition;
     }
 
     public static StrongTypeDefinition<TPrimitive> GetTemplateDefinition<TTemplate, TPrimitive>()
         where TTemplate : IStrongTypeTemplate<TPrimitive>
         where TPrimitive : notnull
     {
-        return TTemplate.Definition;
+        return TemplateDefinitionCache<TTemplate, TPrimitive>.Definition;
+    }
+
+    private static class DefinitionCache<TStrongType, TPrimitive>
+        where TStrongType : IStrongType<TStrongType, TPrimitive>
+        where TPrimitive : notnull
+    {
+        public static readonly StrongTypeDefinition<TPrimitive> Definition = TStrongType.Define();
+    }
+
+    private static class TemplateDefinitionCache<TTemplate, TPrimitive>
+        where TTemplate : IStrongTypeTemplate<TPrimitive>
+        where TPrimitive : notnull
+    {
+        public static readonly StrongTypeDefinition<TPrimitive> Definition = TTemplate.Define();
     }
 }

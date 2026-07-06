@@ -9,7 +9,8 @@ internal static class StrongTypeDetection
     private const string SuperStrongTypesNamespace = "SuperStrong.Types";
     private const string GeneratedCodeAttributeMetadataName = "System.CodeDom.Compiler.GeneratedCodeAttribute";
     private const string StrongTypeDefinitionName = "StrongTypeDefinition";
-    private const string DefinitionPropertyName = "Definition";
+    private const string StrongTypeInterfaceName = "IStrongType";
+    private const string DefineMethodName = "Define";
 
     private static readonly SymbolDisplayFormat _fullyQualifiedWithoutGlobalPrefix =
         SymbolDisplayFormat.FullyQualifiedFormat.WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted);
@@ -65,23 +66,39 @@ internal static class StrongTypeDetection
         return null;
     }
 
-    public static bool IsDefinitionProperty(IPropertySymbol property)
+    public static bool DeclaresDefine(INamedTypeSymbol typeSymbol, ITypeSymbol primitiveSymbol)
     {
-        return
-            property.IsStatic &&
-            property.Name == DefinitionPropertyName &&
-            property.Type is INamedTypeSymbol propertyType &&
-            propertyType.Name == StrongTypeDefinitionName &&
-            propertyType.ContainingNamespace.ToDisplayString() == SuperStrongTypesNamespace;
+        return DeclaresDefineImplicitly(typeSymbol, primitiveSymbol) || DeclaresDefineExplicitly(typeSymbol);
     }
 
-    public static bool DeclaresDefinition(INamedTypeSymbol typeSymbol)
+    private static bool DeclaresDefineImplicitly(INamedTypeSymbol typeSymbol, ITypeSymbol primitiveSymbol)
     {
         return typeSymbol
-            .GetMembers(DefinitionPropertyName)
-            .OfType<IPropertySymbol>()
+            .GetMembers(DefineMethodName)
+            .OfType<IMethodSymbol>()
             .Where(IsUserDeclared)
-            .Any(property => property.IsStatic);
+            .Any(method =>
+                method.IsStatic &&
+                method.Parameters.Length == 0 &&
+                method.TypeParameters.Length == 0 &&
+                method.ReturnType is INamedTypeSymbol returnType &&
+                returnType.Name == StrongTypeDefinitionName &&
+                returnType.ContainingNamespace.ToDisplayString() == SuperStrongTypesNamespace &&
+                returnType.TypeArguments.Length == 1 &&
+                SymbolEqualityComparer.Default.Equals(returnType.TypeArguments[0], primitiveSymbol));
+    }
+
+    private static bool DeclaresDefineExplicitly(INamedTypeSymbol typeSymbol)
+    {
+        return typeSymbol
+            .GetMembers()
+            .OfType<IMethodSymbol>()
+            .Where(IsUserDeclared)
+            .SelectMany(method => method.ExplicitInterfaceImplementations)
+            .Any(implemented =>
+                implemented.Name == DefineMethodName &&
+                implemented.ContainingType.Name == StrongTypeInterfaceName &&
+                implemented.ContainingType.ContainingNamespace.ToDisplayString() == SuperStrongTypesNamespace);
     }
 
     public static bool DeclaresToString(INamedTypeSymbol typeSymbol)

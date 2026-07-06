@@ -136,7 +136,7 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             ? null
             : typeSymbol.ContainingNamespace.ToDisplayString();
 
-        var userDeclaresDefinition = StrongTypeDetection.DeclaresDefinition(typeSymbol);
+        var userDeclaresDefine = StrongTypeDetection.DeclaresDefine(typeSymbol, primitiveTypeSymbol);
         var userOverridesToString = StrongTypeDetection.DeclaresToString(typeSymbol);
         var userOverridesEquals = StrongTypeDetection.DeclaresEquals(typeSymbol);
         var userOverridesGetHashCode = StrongTypeDetection.DeclaresGetHashCode(typeSymbol);
@@ -152,7 +152,7 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             Ancestors = ancestors.ToImmutable(),
             PrimitiveTypeName = primitiveType,
             TemplateTypeName = templateType,
-            UserDeclaresDefinition = userDeclaresDefinition,
+            UserDeclaresDefine = userDeclaresDefine,
             UserOverridesToString = userOverridesToString,
             UserOverridesEquals = userOverridesEquals,
             UserOverridesGetHashCode = userOverridesGetHashCode,

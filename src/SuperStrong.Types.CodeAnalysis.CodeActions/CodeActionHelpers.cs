@@ -84,14 +84,13 @@ internal static class CodeActionHelpers
         return document.WithSyntaxRoot(newRoot);
     }
 
-    public static int GetDefinitionInsertionIndex(this ClassDeclarationSyntax classDeclaration)
+    public static int GetDefineInsertionIndex(this ClassDeclarationSyntax classDeclaration)
     {
         Func<MemberDeclarationSyntax, bool>[] anchorsByPriority =
         [
-            static member => member is PropertyDeclarationSyntax property && IsPublic(property) && IsStatic(property),
-            static member => member is PropertyDeclarationSyntax property && IsPublic(property),
-            static member => member is PropertyDeclarationSyntax,
-            static member => member is FieldDeclarationSyntax or EventFieldDeclarationSyntax,
+            static member => member is MethodDeclarationSyntax method && IsPublic(method) && IsStatic(method),
+            static member => member is MethodDeclarationSyntax method && IsStatic(method),
+            static member => member is MethodDeclarationSyntax,
         ];
 
         foreach (var isAnchor in anchorsByPriority)
@@ -104,7 +103,7 @@ internal static class CodeActionHelpers
             }
         }
 
-        return 0;
+        return classDeclaration.Members.Count;
     }
 
     private static int LastMemberIndex(ClassDeclarationSyntax classDeclaration, Func<MemberDeclarationSyntax, bool> predicate)
@@ -122,13 +121,13 @@ internal static class CodeActionHelpers
         return index;
     }
 
-    private static bool IsPublic(PropertyDeclarationSyntax property)
+    private static bool IsPublic(MemberDeclarationSyntax member)
     {
-        return property.Modifiers.Any(SyntaxKind.PublicKeyword);
+        return member.Modifiers.Any(SyntaxKind.PublicKeyword);
     }
 
-    private static bool IsStatic(PropertyDeclarationSyntax property)
+    private static bool IsStatic(MemberDeclarationSyntax member)
     {
-        return property.Modifiers.Any(SyntaxKind.StaticKeyword);
+        return member.Modifiers.Any(SyntaxKind.StaticKeyword);
     }
 }

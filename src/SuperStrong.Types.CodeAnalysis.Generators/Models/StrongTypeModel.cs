@@ -10,7 +10,7 @@ internal sealed record StrongTypeModel
     public required ImmutableArray<AncestorInfo> Ancestors { get; init; }
     public required string PrimitiveTypeName { get; init; }
     public required string? TemplateTypeName { get; init; }
-    public required bool UserDeclaresDefinition { get; init; }
+    public required bool UserDeclaresDefine { get; init; }
     public required bool UserOverridesToString { get; init; }
     public required bool UserOverridesEquals { get; init; }
     public required bool UserOverridesGetHashCode { get; init; }

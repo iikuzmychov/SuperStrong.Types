@@ -1,0 +1,15 @@
+﻿using SuperStrong.Types;
+
+namespace Sample;
+
+[StrongType<int>]
+public sealed partial class TestStrongType
+{
+    public string Name { get; } = "";
+
+    public void Refresh()
+    {
+    }
+
+    public static StrongTypeDefinition<int> Define() => StrongType.Define<int>();
+}

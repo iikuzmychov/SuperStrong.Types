@@ -5,7 +5,7 @@ public sealed partial class StrongGuid
 {
     public static readonly Guid ForbiddenValue = Guid.Parse("dddddddd-dddd-dddd-dddd-dddddddddddd");
 
-    public static StrongTypeDefinition<Guid> Definition { get; } = StrongType.Define<Guid>().IsNot(ForbiddenValue);
+    public static StrongTypeDefinition<Guid> Define() => StrongType.Define<Guid>().IsNot(ForbiddenValue);
 
     public sealed class ValidPrimitiveSamples : TheoryData<Guid>
     {

@@ -7,7 +7,7 @@ using SuperStrong.Types.CodeAnalysis.Shared;
 
 namespace SuperStrong.Types.CodeAnalysis.CodeActions;
 
-internal sealed class AddDefinitionCodeRefactoringProvider : CodeRefactoringProvider
+internal sealed class AddDefineCodeRefactoringProvider : CodeRefactoringProvider
 {
     private static readonly SymbolDisplayFormat _primitiveDisplayFormat =
         SymbolDisplayFormat.FullyQualifiedFormat.WithMiscellaneousOptions(
@@ -20,7 +20,7 @@ internal sealed class AddDefinitionCodeRefactoringProvider : CodeRefactoringProv
             return;
         }
 
-        if (StrongTypeDetection.DeclaresDefinition(target.Symbol))
+        if (StrongTypeDetection.DeclaresDefine(target.Symbol, target.PrimitiveSymbol))
         {
             return;
         }
@@ -29,29 +29,29 @@ internal sealed class AddDefinitionCodeRefactoringProvider : CodeRefactoringProv
 
         context.RegisterRefactoring(
             CodeAction.Create(
-                "Add Definition",
-                cancellationToken => AddDefinitionAsync(
+                "Add Define",
+                cancellationToken => AddDefineAsync(
                     context.Document,
                     target.ClassDeclaration,
                     primitiveTypeName,
                     cancellationToken),
-                equivalenceKey: nameof(AddDefinitionCodeRefactoringProvider),
+                equivalenceKey: nameof(AddDefineCodeRefactoringProvider),
                 priority: CodeActionPriority.High));
     }
 
-    private static Task<Document> AddDefinitionAsync(
+    private static Task<Document> AddDefineAsync(
         Document document,
         ClassDeclarationSyntax classDeclaration,
         string primitiveTypeName,
         CancellationToken cancellationToken)
     {
         var memberDeclaration = SyntaxFactory.ParseMemberDeclaration(
-            $"public static global::SuperStrong.Types.StrongTypeDefinition<{primitiveTypeName}> Definition {{ get; }} " +
-            $"= global::SuperStrong.Types.StrongType.Define<{primitiveTypeName}>();")!;
+            $"public static global::SuperStrong.Types.StrongTypeDefinition<{primitiveTypeName}> Define() " +
+            $"=> global::SuperStrong.Types.StrongType.Define<{primitiveTypeName}>();")!;
 
         var blockClassDeclaration = classDeclaration.EnsureBlockBody();
-        var insertionIndex = blockClassDeclaration.GetDefinitionInsertionIndex();
-        
+        var insertionIndex = blockClassDeclaration.GetDefineInsertionIndex();
+
         var newClassDeclaration = blockClassDeclaration.InsertMembers(
             insertionIndex,
             [memberDeclaration.WithElasticSpacing()]);

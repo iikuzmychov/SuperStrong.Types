@@ -5,7 +5,7 @@ public sealed partial class StrongChar
 {
     public static readonly char ForbiddenValue = '☠';
 
-    public static StrongTypeDefinition<char> Definition { get; } = StrongType.Define<char>().IsNot(ForbiddenValue);
+    public static StrongTypeDefinition<char> Define() => StrongType.Define<char>().IsNot(ForbiddenValue);
 
     public sealed class ValidPrimitiveSamples : TheoryData<char>
     {

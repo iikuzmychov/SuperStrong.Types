@@ -5,37 +5,37 @@
 namespace Sample
 {
     [global::System.Diagnostics.DebuggerDisplayAttribute("{_value}")]
-    [global::System.ComponentModel.TypeConverterAttribute(typeof(global::SuperStrong.Types.Converters.StrongTypeConverter<TestStrongType, float>))]
-    [global::System.Text.Json.Serialization.JsonConverterAttribute(typeof(global::SuperStrong.Types.Converters.JsonStrongTypeConverter<TestStrongType, float>))]
-    partial class TestStrongType : global::SuperStrong.Types.IStrongType<TestStrongType, float>
+    [global::System.ComponentModel.TypeConverterAttribute(typeof(global::SuperStrong.Types.Converters.StrongTypeConverter<TestStrongType, int>))]
+    [global::System.Text.Json.Serialization.JsonConverterAttribute(typeof(global::SuperStrong.Types.Converters.JsonStrongTypeConverter<TestStrongType, int>))]
+    partial class TestStrongType : global::SuperStrong.Types.IStrongType<TestStrongType, int>
     {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
-        private readonly float _value;
+        private readonly int _value;
 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
-        private TestStrongType(float value)
+        private TestStrongType(int value)
         {
             _value = value;
         }
 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
-        public static TestStrongType From(float value)
+        public static TestStrongType From(int value)
         {
-            global::SuperStrong.Types.StrongType.EnsureValid<TestStrongType, float>(value);
+            global::SuperStrong.Types.StrongType.EnsureValid<TestStrongType, int>(value);
 
             return new TestStrongType(value);
         }
 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
-        static TestStrongType global::SuperStrong.Types.IStrongType<TestStrongType, float>.From(float value)
+        static TestStrongType global::SuperStrong.Types.IStrongType<TestStrongType, int>.From(int value)
         {
             return From(value);
         }
 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
-        public static bool TryFrom([global::System.Diagnostics.CodeAnalysis.AllowNullAttribute] float value,[global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
+        public static bool TryFrom([global::System.Diagnostics.CodeAnalysis.AllowNullAttribute] int value,[global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
-            if (global::SuperStrong.Types.StrongType.IsValid<TestStrongType, float>(value))
+            if (global::SuperStrong.Types.StrongType.IsValid<TestStrongType, int>(value))
             {
                 result = new TestStrongType(value);
                 return true;
@@ -46,25 +46,19 @@ namespace Sample
         }
 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
-        static bool global::SuperStrong.Types.IStrongType<TestStrongType, float>.TryFrom([global::System.Diagnostics.CodeAnalysis.AllowNullAttribute] float value,[global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
+        static bool global::SuperStrong.Types.IStrongType<TestStrongType, int>.TryFrom([global::System.Diagnostics.CodeAnalysis.AllowNullAttribute] int value,[global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
             return TryFrom(value, out result);
         }
 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
-        public float AsPrimitive() => _value;
+        public int AsPrimitive() => _value;
 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
-        float global::SuperStrong.Types.IStrongType<TestStrongType, float>.AsPrimitive()
+        int global::SuperStrong.Types.IStrongType<TestStrongType, int>.AsPrimitive()
         {
             return AsPrimitive();
         }
-    }
-
-    partial class TestStrongType
-    {
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
-        static global::SuperStrong.Types.StrongTypeDefinition<float> global::SuperStrong.Types.IStrongType<TestStrongType, float>.Define() => global::SuperStrong.Types.StrongType.Define<float>();
     }
 
     partial class TestStrongType : global::System.IEquatable<TestStrongType>, global::System.Numerics.IEqualityOperators<TestStrongType, TestStrongType, bool>
@@ -122,7 +116,7 @@ namespace Sample
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
         public static TestStrongType Parse(string s, global::System.IFormatProvider? provider)
         {
-            return From(InvokeParse<float>(s, provider));
+            return From(InvokeParse<int>(s, provider));
 
             static T InvokeParse<T>(string s, global::System.IFormatProvider? provider) where T : global::System.IParsable<T>
             {
@@ -139,7 +133,7 @@ namespace Sample
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
         public static bool TryParse([global::System.Diagnostics.CodeAnalysis.NotNullWhenAttribute(true)] string? s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
-            if (InvokeTryParse<float>(s, provider, out var primitive))
+            if (InvokeTryParse<int>(s, provider, out var primitive))
             {
                 return TryFrom(primitive, out result);
             }
@@ -165,7 +159,7 @@ namespace Sample
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
         public static TestStrongType Parse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider)
         {
-            return From(InvokeParse<float>(s, provider));
+            return From(InvokeParse<int>(s, provider));
 
             static T InvokeParse<T>(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider) where T : global::System.ISpanParsable<T>
             {
@@ -182,7 +176,7 @@ namespace Sample
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
         public static bool TryParse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
-            if (InvokeTryParse<float>(s, provider, out var primitive))
+            if (InvokeTryParse<int>(s, provider, out var primitive))
             {
                 return TryFrom(primitive, out result);
             }
@@ -208,7 +202,7 @@ namespace Sample
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
         public static TestStrongType Parse(global::System.ReadOnlySpan<byte> utf8Text, global::System.IFormatProvider? provider)
         {
-            return From(InvokeParse<float>(utf8Text, provider));
+            return From(InvokeParse<int>(utf8Text, provider));
 
             static T InvokeParse<T>(global::System.ReadOnlySpan<byte> utf8Text, global::System.IFormatProvider? provider) where T : global::System.IUtf8SpanParsable<T>
             {
@@ -225,7 +219,7 @@ namespace Sample
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
         public static bool TryParse(global::System.ReadOnlySpan<byte> utf8Text, global::System.IFormatProvider? provider, [global::System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute(false)] out TestStrongType result)
         {
-            if (InvokeTryParse<float>(utf8Text, provider, out var primitive))
+            if (InvokeTryParse<int>(utf8Text, provider, out var primitive))
             {
                 return TryFrom(primitive, out result);
             }
@@ -251,7 +245,7 @@ namespace Sample
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
         public string ToString(string? format, global::System.IFormatProvider? formatProvider)
         {
-            return InvokeToString<float>(_value, format, formatProvider);
+            return InvokeToString<int>(_value, format, formatProvider);
 
             static string InvokeToString<T>(T value, string? format, global::System.IFormatProvider? formatProvider) where T : global::System.IFormattable
             {
@@ -271,7 +265,7 @@ namespace Sample
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
         public bool TryFormat(global::System.Span<char> destination, out int charsWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider)
         {
-            return InvokeTryFormat<float>(_value, destination, out charsWritten, format, provider);
+            return InvokeTryFormat<int>(_value, destination, out charsWritten, format, provider);
 
             static bool InvokeTryFormat<T>(T value, global::System.Span<char> destination, out int charsWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider) where T : global::System.ISpanFormattable
             {
@@ -291,7 +285,7 @@ namespace Sample
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
         public bool TryFormat(global::System.Span<byte> utf8Destination, out int bytesWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider)
         {
-            return InvokeTryFormat<float>(_value, utf8Destination, out bytesWritten, format, provider);
+            return InvokeTryFormat<int>(_value, utf8Destination, out bytesWritten, format, provider);
 
             static bool InvokeTryFormat<T>(T value, global::System.Span<byte> utf8Destination, out int bytesWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider) where T : global::System.IUtf8SpanFormattable
             {
@@ -316,7 +310,7 @@ namespace Sample
                 return 1;
             }
 
-            return InvokeCompareTo<float>(_value, other._value);
+            return InvokeCompareTo<int>(_value, other._value);
 
             static int InvokeCompareTo<T>(T value, T other) where T : global::System.IComparable<T>
             {
@@ -339,7 +333,7 @@ namespace Sample
             global::System.ArgumentNullException.ThrowIfNull(left);
             global::System.ArgumentNullException.ThrowIfNull(right);
 
-            return InvokeLessThan<float>(left._value, right._value);
+            return InvokeLessThan<int>(left._value, right._value);
 
             static bool InvokeLessThan<T>(T left, T right) where T : global::System.Numerics.IComparisonOperators<T, T, bool>
             {
@@ -356,7 +350,7 @@ namespace Sample
             global::System.ArgumentNullException.ThrowIfNull(left);
             global::System.ArgumentNullException.ThrowIfNull(right);
 
-            return InvokeLessThanOrEqual<float>(left._value, right._value);
+            return InvokeLessThanOrEqual<int>(left._value, right._value);
 
             static bool InvokeLessThanOrEqual<T>(T left, T right) where T : global::System.Numerics.IComparisonOperators<T, T, bool>
             {
@@ -373,7 +367,7 @@ namespace Sample
             global::System.ArgumentNullException.ThrowIfNull(left);
             global::System.ArgumentNullException.ThrowIfNull(right);
 
-            return InvokeGreaterThan<float>(left._value, right._value);
+            return InvokeGreaterThan<int>(left._value, right._value);
 
             static bool InvokeGreaterThan<T>(T left, T right) where T : global::System.Numerics.IComparisonOperators<T, T, bool>
             {
@@ -390,7 +384,7 @@ namespace Sample
             global::System.ArgumentNullException.ThrowIfNull(left);
             global::System.ArgumentNullException.ThrowIfNull(right);
 
-            return InvokeGreaterThanOrEqual<float>(left._value, right._value);
+            return InvokeGreaterThanOrEqual<int>(left._value, right._value);
 
             static bool InvokeGreaterThanOrEqual<T>(T left, T right) where T : global::System.Numerics.IComparisonOperators<T, T, bool>
             {

@@ -38,16 +38,8 @@ internal static class StrongTypeDiagnostics
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
 
-    public static readonly DiagnosticDescriptor DefinitionProperty = new(
-        id: "SST005",
-        title: "Prefer get-only Definition property",
-        messageFormat: "Use '{ get; }' for Definition instead of expression-bodied property",
-        category: Category,
-        defaultSeverity: DiagnosticSeverity.Warning,
-        isEnabledByDefault: true);
-
     public static readonly DiagnosticDescriptor EqualityMembers = new(
-        id: "SST006",
+        id: "SST005",
         title: "Override Equals and GetHashCode together",
         messageFormat: "Override Equals(T) and GetHashCode() together",
         category: Category,

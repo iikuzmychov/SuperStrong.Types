@@ -64,10 +64,7 @@ namespace Sample
     partial class TestStrongType
     {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
-        public static global::SuperStrong.Types.StrongTypeDefinition<global::System.TimeSpan> Definition { get; } = global::SuperStrong.Types.StrongType.Define<global::System.TimeSpan>();
-
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
-        static global::SuperStrong.Types.StrongTypeDefinition<global::System.TimeSpan> global::SuperStrong.Types.IStrongType<TestStrongType, global::System.TimeSpan>.Definition => Definition;
+        static global::SuperStrong.Types.StrongTypeDefinition<global::System.TimeSpan> global::SuperStrong.Types.IStrongType<TestStrongType, global::System.TimeSpan>.Define() => global::SuperStrong.Types.StrongType.Define<global::System.TimeSpan>();
     }
 
     partial class TestStrongType : global::System.IEquatable<TestStrongType>, global::System.Numerics.IEqualityOperators<TestStrongType, TestStrongType, bool>

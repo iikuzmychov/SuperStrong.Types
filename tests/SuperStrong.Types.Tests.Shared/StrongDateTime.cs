@@ -5,7 +5,7 @@ public sealed partial class StrongDateTime
 {
     public static readonly DateTime ForbiddenValue = new DateTime(1234, 5, 6, 7, 8, 9);
 
-    public static StrongTypeDefinition<DateTime> Definition { get; } = StrongType.Define<DateTime>().IsNot(ForbiddenValue);
+    public static StrongTypeDefinition<DateTime> Define() => StrongType.Define<DateTime>().IsNot(ForbiddenValue);
 
     public sealed class ValidPrimitiveSamples : TheoryData<DateTime>
     {

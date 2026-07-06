@@ -35,7 +35,7 @@ public sealed class OverrideToStringCodeRefactoringProviderTests
 
             public sealed class TestTemplate : IStrongTypeTemplate<int>
             {
-                public static StrongTypeDefinition<int> Definition => StrongType.Define<int>();
+                public static StrongTypeDefinition<int> Define() => StrongType.Define<int>();
             }
 
             [StrongType<int, TestTemplate>]

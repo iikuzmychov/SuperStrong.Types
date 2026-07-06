@@ -9,6 +9,7 @@ public sealed partial class TestStrongType
 
     public static string DisplayName => "Test";
 
-    public static StrongTypeDefinition<int> Definition { get; } = StrongType.Define<int>();
     public string Description { get; } = "";
+
+    public static StrongTypeDefinition<int> Define() => StrongType.Define<int>();
 }

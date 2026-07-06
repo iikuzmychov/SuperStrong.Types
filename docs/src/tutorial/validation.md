@@ -5,7 +5,7 @@ You can configure such rules with a definition.
 
 ## Definition
 
-To configure validation rules, you need to declare a `Definition` property on your strong type. You build it with `StrongType.Define<...>()` and chain validation rules onto it:
+To configure validation rules, you need to declare a `Define()` method on your strong type. You build the definition with `StrongType.Define<...>()` and chain validation rules onto it:
 
 ```csharp
 using SuperStrong.Types;
@@ -13,20 +13,20 @@ using SuperStrong.Types;
 [StrongType<int>]
 public sealed partial class Age
 {
-    public static StrongTypeDefinition<int> Definition { get; } = StrongType
+    public static StrongTypeDefinition<int> Define() => StrongType
         .Define<int>()
         .IsPositive()
         .HasMaxValue(150);
 }
 ```
 
-If you don't declare a `Definition`, the source generator emits an empty one, so every value [except null](./null-handling.md) will be accepted.
+If you don't declare a `Define()` method, the source generator emits an empty definition, so every value [except null](./null-handling.md) will be accepted.
 
 :::: tip
-You can also use the **`Quick Actions`** → **`Add Definition`**.
+You can also use the **`Quick Actions`** → **`Add Define`**.
 
 ::: details Screenshot
-![Add Definition quick action](/img/code-action-add-definition.png)
+![Add Define quick action](/img/code-action-add-definition.png)
 :::
 ::::
 

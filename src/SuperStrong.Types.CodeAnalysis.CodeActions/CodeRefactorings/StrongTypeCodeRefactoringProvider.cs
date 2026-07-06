@@ -10,7 +10,7 @@ internal sealed class StrongTypeCodeRefactoringProvider : CodeRefactoringProvide
 {
     private static readonly CodeRefactoringProvider[] _providers =
     [
-        new AddDefinitionCodeRefactoringProvider(),
+        new AddDefineCodeRefactoringProvider(),
         new OverrideEqualityCodeRefactoringProvider(),
         new OverrideToStringCodeRefactoringProvider(),
     ];

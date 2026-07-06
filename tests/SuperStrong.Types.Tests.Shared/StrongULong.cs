@@ -5,7 +5,7 @@ public sealed partial class StrongULong
 {
     public static readonly ulong ForbiddenValue = 12_345_678_901_234_567_890;
 
-    public static StrongTypeDefinition<ulong> Definition { get; } = StrongType.Define<ulong>().IsNot(ForbiddenValue);
+    public static StrongTypeDefinition<ulong> Define() => StrongType.Define<ulong>().IsNot(ForbiddenValue);
 
     public sealed class ValidPrimitiveSamples : TheoryData<ulong>
     {

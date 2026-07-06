@@ -5,7 +5,7 @@ public sealed partial class StrongInt
 {
     public static readonly int ForbiddenValue = 123_456_789;
 
-    public static StrongTypeDefinition<int> Definition { get; } = StrongType.Define<int>().IsNot(ForbiddenValue);
+    public static StrongTypeDefinition<int> Define() => StrongType.Define<int>().IsNot(ForbiddenValue);
 
     public sealed class ValidPrimitiveSamples : TheoryData<int>
     {
