@@ -8,10 +8,15 @@ namespace SuperStrong.Types.Tests.CodeAnalysis.CodeActions.CodeRefactorings;
 
 internal static class CodeRefactoringDriver
 {
-    public static async Task<string> ApplyAsync(CodeRefactoringProvider refactoring, string source)
+    public static async Task<string> ApplyAsync(CodeRefactoringProvider refactoring, string source, string? actionTitle = null)
     {
         var (document, classDeclaration) = CreateContext(source);
         var actions = await ComputeActionsAsync(refactoring, document, classDeclaration);
+
+        if (actionTitle is not null)
+        {
+            actions = actions.Where(action => action.Title == actionTitle).ToList();
+        }
 
         if (actions.Count == 0)
         {

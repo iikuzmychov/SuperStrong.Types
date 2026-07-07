@@ -23,10 +23,33 @@ public sealed partial class Age
 If you don't implement `Define()`, the source generator emits an empty definition, so every value [except null](./null-handling.md) will be accepted.
 
 :::: tip
-You can also use the **`Quick Actions`** → **`Add Define()`**.
+You can also use the **`Quick Actions`** → **`Implement Define()`**.
 
 ::: details Screenshot
-<AddDefineQuickAction />
+<ImplementDefineQuickAction />
+:::
+::::
+
+If you don't want `Define()` to be a part of your type's public API, you can implement it explicitly:
+
+```csharp
+using SuperStrong.Types;
+
+[StrongType<int>]
+public sealed partial class Age
+{
+    static StrongTypeDefinition<int> IStrongType<Age, int>.Define() => StrongType
+        .Define<int>()
+        .IsPositive()
+        .HasMaxValue(150);
+}
+```
+
+:::: tip
+You can also use the **`Quick Actions`** → **`Implement Define() explicitly`**.
+
+::: details Screenshot
+<ImplementDefineExplicitlyQuickAction />
 :::
 ::::
 

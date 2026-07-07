@@ -2,8 +2,25 @@ using SuperStrong.Types.CodeAnalysis.CodeActions;
 
 namespace SuperStrong.Types.Tests.CodeAnalysis.CodeActions.CodeRefactorings;
 
-public sealed class AddDefineCodeRefactoringProviderTests
+public sealed class ImplementDefineCodeRefactoringProviderTests
 {
+    [Fact]
+    public async Task Offers_partial_and_explicit_implement_actions()
+    {
+        var source = """
+            using SuperStrong.Types;
+
+            namespace Sample;
+
+            [StrongType<int>]
+            public sealed partial class TestStrongType;
+            """;
+
+        var actions = await CodeRefactoringDriver.GetActionsAsync(new ImplementDefineCodeRefactoringProvider(), source);
+
+        Assert.Equal(["Implement Define()", "Implement Define() explicitly"], actions.Select(action => action.Title));
+    }
+
     [Theory]
     [InlineData("int", false)]
     [InlineData("int", true)]
@@ -21,9 +38,26 @@ public sealed class AddDefineCodeRefactoringProviderTests
             public sealed partial class TestStrongType{{typeBody}}
             """;
 
-        var result = await CodeRefactoringDriver.ApplyAsync(new AddDefineCodeRefactoringProvider(), source);
+        var result = await CodeRefactoringDriver.ApplyAsync(new ImplementDefineCodeRefactoringProvider(), source, "Implement Define()");
 
         await Verify(result).UseParameters(primitive, hasBlockBody);
+    }
+
+    [Fact]
+    public async Task Inserts_explicit_Define_implementation()
+    {
+        var source = """
+            using SuperStrong.Types;
+
+            namespace Sample;
+
+            [StrongType<int>]
+            public sealed partial class TestStrongType;
+            """;
+
+        var result = await CodeRefactoringDriver.ApplyAsync(new ImplementDefineCodeRefactoringProvider(), source, "Implement Define() explicitly");
+
+        await Verify(result);
     }
 
     [Fact]
@@ -45,7 +79,7 @@ public sealed class AddDefineCodeRefactoringProviderTests
             }
             """;
 
-        var result = await CodeRefactoringDriver.ApplyAsync(new AddDefineCodeRefactoringProvider(), source);
+        var result = await CodeRefactoringDriver.ApplyAsync(new ImplementDefineCodeRefactoringProvider(), source, "Implement Define()");
 
         await Verify(result);
     }
@@ -69,7 +103,7 @@ public sealed class AddDefineCodeRefactoringProviderTests
             }
             """;
 
-        var result = await CodeRefactoringDriver.ApplyAsync(new AddDefineCodeRefactoringProvider(), source);
+        var result = await CodeRefactoringDriver.ApplyAsync(new ImplementDefineCodeRefactoringProvider(), source, "Implement Define()");
 
         await Verify(result);
     }
@@ -93,7 +127,7 @@ public sealed class AddDefineCodeRefactoringProviderTests
             }
             """;
 
-        var result = await CodeRefactoringDriver.ApplyAsync(new AddDefineCodeRefactoringProvider(), source);
+        var result = await CodeRefactoringDriver.ApplyAsync(new ImplementDefineCodeRefactoringProvider(), source, "Implement Define()");
 
         await Verify(result);
     }
@@ -113,7 +147,7 @@ public sealed class AddDefineCodeRefactoringProviderTests
             }
             """;
 
-        var result = await CodeRefactoringDriver.ApplyAsync(new AddDefineCodeRefactoringProvider(), source);
+        var result = await CodeRefactoringDriver.ApplyAsync(new ImplementDefineCodeRefactoringProvider(), source, "Implement Define()");
 
         await Verify(result);
     }
@@ -133,7 +167,7 @@ public sealed class AddDefineCodeRefactoringProviderTests
             }
             """;
 
-        var isRefactoringOffered = await CodeRefactoringDriver.OffersRefactoringAsync(new AddDefineCodeRefactoringProvider(), source);
+        var isRefactoringOffered = await CodeRefactoringDriver.OffersRefactoringAsync(new ImplementDefineCodeRefactoringProvider(), source);
 
         Assert.False(isRefactoringOffered);
     }
@@ -153,7 +187,7 @@ public sealed class AddDefineCodeRefactoringProviderTests
             }
             """;
 
-        var isRefactoringOffered = await CodeRefactoringDriver.OffersRefactoringAsync(new AddDefineCodeRefactoringProvider(), source);
+        var isRefactoringOffered = await CodeRefactoringDriver.OffersRefactoringAsync(new ImplementDefineCodeRefactoringProvider(), source);
 
         Assert.False(isRefactoringOffered);
     }
@@ -173,7 +207,7 @@ public sealed class AddDefineCodeRefactoringProviderTests
             }
             """;
 
-        var isRefactoringOffered = await CodeRefactoringDriver.OffersRefactoringAsync(new AddDefineCodeRefactoringProvider(), source);
+        var isRefactoringOffered = await CodeRefactoringDriver.OffersRefactoringAsync(new ImplementDefineCodeRefactoringProvider(), source);
 
         Assert.False(isRefactoringOffered);
     }

@@ -7,15 +7,14 @@ import QuickActionMockup from './QuickActionMockup.vue'
     primitive="string"
     class-name="Currency"
     :menu="[
+      { label: 'Generate constructor from members...' },
       { label: `Generate constructor 'Currency()'` },
+      { label: 'Extract interface...' },
       { label: 'Extract base class...' },
-      { label: 'Move type to Currency.cs' },
-      { label: 'Move to namespace...' },
-      { label: 'Generate overrides...' },
-      { label: 'Add Define()' },
+      { label: 'Implement Define()' },
+      { label: 'Implement Define() explicitly' },
       { label: 'Override Equals(T) and GetHashCode()', selected: true },
       { label: 'Override ToString()' },
-      { label: `Add 'DebuggerDisplay' attribute` },
     ]"
   >
     <div class="line indent-4 added"><span class="plus">+</span><span class="keyword">public bool</span> <span class="method">Equals</span>(<span class="type">Currency</span>? other) => other <span class="keyword">is not null</span> &amp;&amp; _value.<span class="method">Equals</span>(other._value);</div>

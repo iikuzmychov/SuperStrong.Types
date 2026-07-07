@@ -1,0 +1,9 @@
+﻿using SuperStrong.Types;
+
+namespace Sample;
+
+[StrongType<int>]
+public sealed partial class TestStrongType
+{
+    static StrongTypeDefinition<int> IStrongType<TestStrongType, int>.Define() => StrongType.Define<int>();
+}
