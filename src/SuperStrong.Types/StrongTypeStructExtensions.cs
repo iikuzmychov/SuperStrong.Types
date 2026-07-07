@@ -16,7 +16,7 @@ public static class StrongTypeStructExtensions
             return TStrongType.From(value.Value);
         }
 
-        public static bool TryFrom(TPrimitive? value, out TStrongType? result)
+        public static bool TryFromNullable(TPrimitive? value, out TStrongType? result)
         {
             if (value is null)
             {
@@ -49,7 +49,7 @@ public static class StrongTypeStructExtensions
             return TStrongType.From(value);
         }
 
-        public static bool TryFrom(TPrimitive? value, out TStrongType? result)
+        public static bool TryFromNullable(TPrimitive? value, out TStrongType? result)
         {
             if (value is null)
             {
