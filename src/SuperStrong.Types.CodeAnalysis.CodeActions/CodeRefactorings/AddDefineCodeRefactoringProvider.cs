@@ -29,7 +29,7 @@ internal sealed class AddDefineCodeRefactoringProvider : CodeRefactoringProvider
 
         context.RegisterRefactoring(
             CodeAction.Create(
-                "Add Define",
+                "Add Define()",
                 cancellationToken => AddDefineAsync(
                     context.Document,
                     target.ClassDeclaration,
@@ -46,7 +46,7 @@ internal sealed class AddDefineCodeRefactoringProvider : CodeRefactoringProvider
         CancellationToken cancellationToken)
     {
         var memberDeclaration = SyntaxFactory.ParseMemberDeclaration(
-            $"public static global::SuperStrong.Types.StrongTypeDefinition<{primitiveTypeName}> Define() " +
+            $"public static partial global::SuperStrong.Types.StrongTypeDefinition<{primitiveTypeName}> Define() " +
             $"=> global::SuperStrong.Types.StrongType.Define<{primitiveTypeName}>();")!;
 
         var blockClassDeclaration = classDeclaration.EnsureBlockBody();

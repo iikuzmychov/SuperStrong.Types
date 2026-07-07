@@ -12,7 +12,7 @@ import QuickActionMockup from './QuickActionMockup.vue'
       { label: 'Move type to Currency.cs' },
       { label: 'Move to namespace...' },
       { label: 'Generate overrides...' },
-      { label: 'Add Define' },
+      { label: 'Add Define()' },
       { label: 'Override Equals(T) and GetHashCode()', selected: true },
       { label: 'Override ToString()' },
       { label: `Add 'DebuggerDisplay' attribute` },

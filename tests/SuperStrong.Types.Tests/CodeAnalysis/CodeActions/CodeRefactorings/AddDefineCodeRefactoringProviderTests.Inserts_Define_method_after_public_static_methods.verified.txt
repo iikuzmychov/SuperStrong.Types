@@ -6,7 +6,7 @@ namespace Sample;
 public sealed partial class TestStrongType
 {
     public static string Describe() => "Test";
-    public static StrongTypeDefinition<int> Define() => StrongType.Define<int>();
+    public static partial StrongTypeDefinition<int> Define() => StrongType.Define<int>();
 
     public void Refresh()
     {

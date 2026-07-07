@@ -5,7 +5,7 @@ public sealed partial class StrongUShort
 {
     public static readonly ushort ForbiddenValue = 12_345;
 
-    public static StrongTypeDefinition<ushort> Define() => StrongType.Define<ushort>().IsNot(ForbiddenValue);
+    public static partial StrongTypeDefinition<ushort> Define() => StrongType.Define<ushort>().IsNot(ForbiddenValue);
 
     public sealed class ValidPrimitiveSamples : TheoryData<ushort>
     {

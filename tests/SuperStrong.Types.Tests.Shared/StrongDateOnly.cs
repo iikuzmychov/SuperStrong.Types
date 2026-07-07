@@ -5,7 +5,7 @@ public sealed partial class StrongDateOnly
 {
     public static readonly DateOnly ForbiddenValue = new DateOnly(1234, 5, 6);
 
-    public static StrongTypeDefinition<DateOnly> Define() => StrongType.Define<DateOnly>().IsNot(ForbiddenValue);
+    public static partial StrongTypeDefinition<DateOnly> Define() => StrongType.Define<DateOnly>().IsNot(ForbiddenValue);
 
     public sealed class ValidPrimitiveSamples : TheoryData<DateOnly>
     {

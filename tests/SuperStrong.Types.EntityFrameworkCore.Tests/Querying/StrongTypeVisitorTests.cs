@@ -34,6 +34,6 @@ public sealed partial class StrongTypeVisitorTests
     [StrongType<int>]
     private sealed partial class StrongInt
     {
-        public static StrongTypeDefinition<int> Define() => StrongType.Define<int>();
+        public static partial StrongTypeDefinition<int> Define() => StrongType.Define<int>();
     }
 }

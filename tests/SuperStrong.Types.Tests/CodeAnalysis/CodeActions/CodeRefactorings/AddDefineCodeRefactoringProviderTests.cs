@@ -139,6 +139,26 @@ public sealed class AddDefineCodeRefactoringProviderTests
     }
 
     [Fact]
+    public async Task Does_not_offer_refactoring_when_Define_is_declared_partially()
+    {
+        var source = """
+            using SuperStrong.Types;
+
+            namespace Sample;
+
+            [StrongType<int>]
+            public sealed partial class TestStrongType
+            {
+                public static partial StrongTypeDefinition<int> Define() => StrongType.Define<int>();
+            }
+            """;
+
+        var isRefactoringOffered = await CodeRefactoringDriver.OffersRefactoringAsync(new AddDefineCodeRefactoringProvider(), source);
+
+        Assert.False(isRefactoringOffered);
+    }
+
+    [Fact]
     public async Task Does_not_offer_refactoring_when_Define_is_implemented_explicitly()
     {
         var source = """

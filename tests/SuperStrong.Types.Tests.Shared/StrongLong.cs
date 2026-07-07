@@ -5,7 +5,7 @@ public sealed partial class StrongLong
 {
     public static readonly long ForbiddenValue = 1_234_567_890_123_456_789;
 
-    public static StrongTypeDefinition<long> Define() => StrongType.Define<long>().IsNot(ForbiddenValue);
+    public static partial StrongTypeDefinition<long> Define() => StrongType.Define<long>().IsNot(ForbiddenValue);
 
     public sealed class ValidPrimitiveSamples : TheoryData<long>
     {

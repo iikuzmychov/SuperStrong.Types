@@ -61,6 +61,11 @@ namespace Sample
         }
     }
 
+    partial class TestStrongType
+    {
+        public static partial global::SuperStrong.Types.StrongTypeDefinition<int> Define();
+    }
+
     partial class TestStrongType : global::System.IEquatable<TestStrongType>, global::System.Numerics.IEqualityOperators<TestStrongType, TestStrongType, bool>
     {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]

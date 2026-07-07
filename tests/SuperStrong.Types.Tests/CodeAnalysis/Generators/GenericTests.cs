@@ -79,26 +79,6 @@ public sealed class GenericTests
     }
 
     [Fact]
-    public Task Uses_Define_method_when_user_declares_it()
-    {
-        var source = """
-            using SuperStrong.Types;
-
-            namespace Sample;
-
-            [StrongType<int>]
-            public sealed partial class TestStrongType
-            {
-                public static StrongTypeDefinition<int> Define() => StrongType.Define<int>();
-            }
-            """;
-
-        var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
-
-        return Verify(driver);
-    }
-
-    [Fact]
     public Task Uses_explicitly_implemented_Define()
     {
         var source = """
@@ -110,6 +90,46 @@ public sealed class GenericTests
             public sealed partial class TestStrongType
             {
                 static StrongTypeDefinition<int> IStrongType<TestStrongType, int>.Define() => StrongType.Define<int>();
+            }
+            """;
+
+        var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
+
+        return Verify(driver);
+    }
+
+    [Fact]
+    public Task Emits_defining_declaration_for_partial_Define()
+    {
+        var source = """
+            using SuperStrong.Types;
+
+            namespace Sample;
+
+            [StrongType<int>]
+            public sealed partial class TestStrongType
+            {
+                public static partial StrongTypeDefinition<int> Define() => StrongType.Define<int>();
+            }
+            """;
+
+        var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
+
+        return Verify(driver);
+    }
+
+    [Fact]
+    public Task Emits_defining_declaration_for_non_partial_Define_so_it_does_not_compile()
+    {
+        var source = """
+            using SuperStrong.Types;
+
+            namespace Sample;
+
+            [StrongType<int>]
+            public sealed partial class TestStrongType
+            {
+                public static StrongTypeDefinition<int> Define() => StrongType.Define<int>();
             }
             """;
 

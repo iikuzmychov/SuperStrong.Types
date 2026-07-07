@@ -7,6 +7,6 @@ public partial class Container
     [StrongType<int>]
     public sealed partial class Inner
     {
-        public static StrongTypeDefinition<int> Define() => StrongType.Define<int>();
+        public static partial StrongTypeDefinition<int> Define() => StrongType.Define<int>();
     }
 }

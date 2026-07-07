@@ -5,7 +5,7 @@ public sealed partial class StrongFloat
 {
     public static readonly float ForbiddenValue = 123_456.75f;
 
-    public static StrongTypeDefinition<float> Define() => StrongType.Define<float>().IsNot(ForbiddenValue);
+    public static partial StrongTypeDefinition<float> Define() => StrongType.Define<float>().IsNot(ForbiddenValue);
 
     public sealed class ValidPrimitiveSamples : TheoryData<float>
     {

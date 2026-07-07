@@ -5,5 +5,5 @@ namespace Sample;
 [StrongType<int>]
 public sealed partial class TestStrongType
 {
-    public static StrongTypeDefinition<int> Define() => StrongType.Define<int>();
+    public static partial StrongTypeDefinition<int> Define() => StrongType.Define<int>();
 }

@@ -5,7 +5,7 @@ public sealed partial class StrongString
 {
     public static readonly string ForbiddenValue = "!forbidden!";
 
-    public static StrongTypeDefinition<string> Define() => StrongType.Define<string>().IsNot(ForbiddenValue);
+    public static partial StrongTypeDefinition<string> Define() => StrongType.Define<string>().IsNot(ForbiddenValue);
 
     public sealed class ValidPrimitiveSamples : TheoryData<string>
     {

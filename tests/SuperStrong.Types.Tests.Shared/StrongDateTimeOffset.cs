@@ -5,7 +5,7 @@ public sealed partial class StrongDateTimeOffset
 {
     public static readonly DateTimeOffset ForbiddenValue = new DateTimeOffset(1234, 5, 6, 7, 8, 9, TimeSpan.FromHours(1));
 
-    public static StrongTypeDefinition<DateTimeOffset> Define() => StrongType.Define<DateTimeOffset>().IsNot(ForbiddenValue);
+    public static partial StrongTypeDefinition<DateTimeOffset> Define() => StrongType.Define<DateTimeOffset>().IsNot(ForbiddenValue);
 
     public sealed class ValidPrimitiveSamples : TheoryData<DateTimeOffset>
     {

@@ -12,7 +12,7 @@ import QuickActionMockup from './QuickActionMockup.vue'
       { label: 'Move type to Password.cs' },
       { label: 'Move to namespace...' },
       { label: 'Generate overrides...' },
-      { label: 'Add Define' },
+      { label: 'Add Define()' },
       { label: 'Override Equals(T) and GetHashCode()' },
       { label: 'Override ToString()', selected: true },
       { label: `Add 'DebuggerDisplay' attribute` },

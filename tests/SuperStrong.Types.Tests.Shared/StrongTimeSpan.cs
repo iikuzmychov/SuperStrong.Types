@@ -5,7 +5,7 @@ public sealed partial class StrongTimeSpan
 {
     public static readonly TimeSpan ForbiddenValue = new TimeSpan(12, 34, 56);
 
-    public static StrongTypeDefinition<TimeSpan> Define() => StrongType.Define<TimeSpan>().IsNot(ForbiddenValue);
+    public static partial StrongTypeDefinition<TimeSpan> Define() => StrongType.Define<TimeSpan>().IsNot(ForbiddenValue);
 
     public sealed class ValidPrimitiveSamples : TheoryData<TimeSpan>
     {

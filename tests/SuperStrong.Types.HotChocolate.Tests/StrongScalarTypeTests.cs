@@ -134,19 +134,19 @@ public sealed class StrongScalarTypeTests
 [StrongType<string>]
 public sealed partial class Username
 {
-    public static StrongTypeDefinition<string> Define() => StrongType.Define<string>();
+    public static partial StrongTypeDefinition<string> Define() => StrongType.Define<string>();
 }
 
 [StrongType<string>]
 public sealed partial class City
 {
-    public static StrongTypeDefinition<string> Define() => StrongType.Define<string>();
+    public static partial StrongTypeDefinition<string> Define() => StrongType.Define<string>();
 }
 
 [StrongType<Guid>]
 public sealed partial class OrderId
 {
-    public static StrongTypeDefinition<Guid> Define() => StrongType.Define<Guid>();
+    public static partial StrongTypeDefinition<Guid> Define() => StrongType.Define<Guid>();
 }
 
 public sealed class AddressInput

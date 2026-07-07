@@ -12,12 +12,12 @@ import QuickActionMockup from './QuickActionMockup.vue'
       { label: 'Move type to Age.cs' },
       { label: 'Move to namespace...' },
       { label: 'Generate overrides...' },
-      { label: 'Add Define', selected: true },
+      { label: 'Add Define()', selected: true },
       { label: 'Override Equals(T) and GetHashCode()' },
       { label: 'Override ToString()' },
       { label: `Add 'DebuggerDisplay' attribute` },
     ]"
   >
-    <div class="line indent-4 added"><span class="plus">+</span><span class="keyword">public static</span> <span class="type">StrongTypeDefinition</span>&lt;<span class="keyword">int</span>&gt; <span class="method">Define</span>() => <span class="type">StrongType</span>.<span class="method">Define</span>&lt;<span class="keyword">int</span>&gt;();</div>
+    <div class="line indent-4 added"><span class="plus">+</span><span class="keyword">public static partial</span> <span class="type">StrongTypeDefinition</span>&lt;<span class="keyword">int</span>&gt; <span class="method">Define</span>() => <span class="type">StrongType</span>.<span class="method">Define</span>&lt;<span class="keyword">int</span>&gt;();</div>
   </QuickActionMockup>
 </template>

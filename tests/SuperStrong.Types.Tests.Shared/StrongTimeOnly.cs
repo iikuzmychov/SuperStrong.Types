@@ -5,7 +5,7 @@ public sealed partial class StrongTimeOnly
 {
     public static readonly TimeOnly ForbiddenValue = new TimeOnly(1, 23, 45);
 
-    public static StrongTypeDefinition<TimeOnly> Define() => StrongType.Define<TimeOnly>().IsNot(ForbiddenValue);
+    public static partial StrongTypeDefinition<TimeOnly> Define() => StrongType.Define<TimeOnly>().IsNot(ForbiddenValue);
 
     public sealed class ValidPrimitiveSamples : TheoryData<TimeOnly>
     {

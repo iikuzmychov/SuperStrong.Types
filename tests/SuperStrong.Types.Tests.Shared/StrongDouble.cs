@@ -5,7 +5,7 @@ public sealed partial class StrongDouble
 {
     public static readonly double ForbiddenValue = 123_456_789.123;
 
-    public static StrongTypeDefinition<double> Define() => StrongType.Define<double>().IsNot(ForbiddenValue);
+    public static partial StrongTypeDefinition<double> Define() => StrongType.Define<double>().IsNot(ForbiddenValue);
 
     public sealed class ValidPrimitiveSamples : TheoryData<double>
     {

@@ -5,7 +5,7 @@ public sealed partial class StrongTypeTests
     [StrongType<string>]
     private sealed partial class ValidatedLowerCaseString
     {
-        public static StrongTypeDefinition<string> Define() => StrongType
+        public static partial StrongTypeDefinition<string> Define() => StrongType
             .Define<string>()
             .HasMinLength(3)
             .IsLowerInvariant();

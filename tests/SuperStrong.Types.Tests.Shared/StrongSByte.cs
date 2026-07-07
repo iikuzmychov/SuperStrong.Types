@@ -5,7 +5,7 @@ public sealed partial class StrongSByte
 {
     public static readonly sbyte ForbiddenValue = -123;
 
-    public static StrongTypeDefinition<sbyte> Define() => StrongType.Define<sbyte>().IsNot(ForbiddenValue);
+    public static partial StrongTypeDefinition<sbyte> Define() => StrongType.Define<sbyte>().IsNot(ForbiddenValue);
 
     public sealed class ValidPrimitiveSamples : TheoryData<sbyte>
     {
