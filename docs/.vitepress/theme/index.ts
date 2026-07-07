@@ -2,8 +2,8 @@ import DefaultTheme from 'vitepress/theme'
 import type { Theme } from 'vitepress'
 import ImplementDefineQuickAction from './components/ImplementDefineQuickAction.vue'
 import ImplementDefineExplicitlyQuickAction from './components/ImplementDefineExplicitlyQuickAction.vue'
-import OverrideToStringQuickAction from './components/OverrideToStringQuickAction.vue'
-import OverrideEqualsAndGetHashCodeQuickAction from './components/OverrideEqualsAndGetHashCodeQuickAction.vue'
+import GenerateToStringQuickAction from './components/GenerateToStringQuickAction.vue'
+import GenerateEqualsAndGetHashCodeQuickAction from './components/GenerateEqualsAndGetHashCodeQuickAction.vue'
 import './custom.css'
 
 export default {
@@ -11,7 +11,7 @@ export default {
   enhanceApp({ app }) {
     app.component('ImplementDefineQuickAction', ImplementDefineQuickAction)
     app.component('ImplementDefineExplicitlyQuickAction', ImplementDefineExplicitlyQuickAction)
-    app.component('OverrideToStringQuickAction', OverrideToStringQuickAction)
-    app.component('OverrideEqualsAndGetHashCodeQuickAction', OverrideEqualsAndGetHashCodeQuickAction)
+    app.component('GenerateToStringQuickAction', GenerateToStringQuickAction)
+    app.component('GenerateEqualsAndGetHashCodeQuickAction', GenerateEqualsAndGetHashCodeQuickAction)
   },
 } satisfies Theme

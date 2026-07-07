@@ -2,7 +2,7 @@ using SuperStrong.Types.CodeAnalysis.CodeActions;
 
 namespace SuperStrong.Types.Tests.CodeAnalysis.CodeActions.CodeRefactorings;
 
-public sealed class OverrideEqualityCodeRefactoringProviderTests
+public sealed class GenerateEqualityCodeRefactoringProviderTests
 {
     [Theory]
     [InlineData(false)]
@@ -20,7 +20,7 @@ public sealed class OverrideEqualityCodeRefactoringProviderTests
             public sealed partial class TestStrongType{{typeBody}}
             """;
 
-        var result = await CodeRefactoringDriver.ApplyAsync(new OverrideEqualityCodeRefactoringProvider(), source);
+        var result = await CodeRefactoringDriver.ApplyAsync(new GenerateEqualityCodeRefactoringProvider(), source);
 
         await Verify(result).UseParameters(hasBlockBody);
     }
@@ -42,7 +42,7 @@ public sealed class OverrideEqualityCodeRefactoringProviderTests
             }
             """;
 
-        var result = await CodeRefactoringDriver.ApplyAsync(new OverrideEqualityCodeRefactoringProvider(), source);
+        var result = await CodeRefactoringDriver.ApplyAsync(new GenerateEqualityCodeRefactoringProvider(), source);
 
         await Verify(result);
     }
@@ -62,7 +62,7 @@ public sealed class OverrideEqualityCodeRefactoringProviderTests
             }
             """;
 
-        var result = await CodeRefactoringDriver.ApplyAsync(new OverrideEqualityCodeRefactoringProvider(), source);
+        var result = await CodeRefactoringDriver.ApplyAsync(new GenerateEqualityCodeRefactoringProvider(), source);
 
         await Verify(result);
     }
@@ -82,7 +82,7 @@ public sealed class OverrideEqualityCodeRefactoringProviderTests
             }
             """;
 
-        var result = await CodeRefactoringDriver.ApplyAsync(new OverrideEqualityCodeRefactoringProvider(), source);
+        var result = await CodeRefactoringDriver.ApplyAsync(new GenerateEqualityCodeRefactoringProvider(), source);
 
         await Verify(result);
     }
@@ -104,7 +104,7 @@ public sealed class OverrideEqualityCodeRefactoringProviderTests
             public sealed partial class TestStrongType;
             """;
 
-        var result = await CodeRefactoringDriver.ApplyAsync(new OverrideEqualityCodeRefactoringProvider(), source);
+        var result = await CodeRefactoringDriver.ApplyAsync(new GenerateEqualityCodeRefactoringProvider(), source);
 
         await Verify(result);
     }
@@ -120,11 +120,11 @@ public sealed class OverrideEqualityCodeRefactoringProviderTests
             [StrongType<int>]
             public sealed partial class TestStrongType
             {
-                public bool Equals(TestStrongType? other) => other is not null;
+                public partial bool Equals(TestStrongType? other) => other is not null;
             }
             """;
 
-        var result = await CodeRefactoringDriver.ApplyAsync(new OverrideEqualityCodeRefactoringProvider(), source);
+        var result = await CodeRefactoringDriver.ApplyAsync(new GenerateEqualityCodeRefactoringProvider(), source);
 
         await Verify(result);
     }
@@ -140,12 +140,12 @@ public sealed class OverrideEqualityCodeRefactoringProviderTests
             [StrongType<int>]
             public sealed partial class TestStrongType
             {
-                public bool Equals(TestStrongType? other) => other is not null;
+                public partial bool Equals(TestStrongType? other) => other is not null;
                 public override int GetHashCode() => 0;
             }
             """;
 
-        var isRefactoringOffered = await CodeRefactoringDriver.OffersRefactoringAsync(new OverrideEqualityCodeRefactoringProvider(), source);
+        var isRefactoringOffered = await CodeRefactoringDriver.OffersRefactoringAsync(new GenerateEqualityCodeRefactoringProvider(), source);
 
         Assert.False(isRefactoringOffered);
     }

@@ -139,7 +139,7 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
         var userDeclaresDefineImplicitly = StrongTypeDetection.DeclaresDefineImplicitly(typeSymbol, primitiveTypeSymbol);
         var userDeclaresDefineExplicitly = StrongTypeDetection.DeclaresDefineExplicitly(typeSymbol);
         var userOverridesToString = StrongTypeDetection.DeclaresToString(typeSymbol);
-        var userOverridesEquals = StrongTypeDetection.DeclaresEquals(typeSymbol);
+        var userDeclaresEquals = StrongTypeDetection.DeclaresEquals(typeSymbol);
         var userOverridesGetHashCode = StrongTypeDetection.DeclaresGetHashCode(typeSymbol);
 
         var optionalFeatures = FeatureRegistry.Optional
@@ -156,7 +156,7 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             UserDeclaresDefineImplicitly = userDeclaresDefineImplicitly,
             UserDeclaresDefineExplicitly = userDeclaresDefineExplicitly,
             UserOverridesToString = userOverridesToString,
-            UserOverridesEquals = userOverridesEquals,
+            UserDeclaresEquals = userDeclaresEquals,
             UserOverridesGetHashCode = userOverridesGetHashCode,
             OptionalFeatures = optionalFeatures,
         };

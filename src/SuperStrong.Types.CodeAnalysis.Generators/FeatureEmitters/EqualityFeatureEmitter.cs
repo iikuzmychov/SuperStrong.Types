@@ -13,11 +13,16 @@ internal sealed class EqualityFeatureEmitter : IStrongTypeFeatureEmitter
 
         using (writer.Block($"partial class {model.TypeName} : {System_IEquatable}<{model.TypeName}>, {equalityOperatorsInterface}"))
         {
-            if (!model.UserOverridesEquals)
+            if (model.UserDeclaresEquals)
+            {
+                writer.Line($"public partial bool Equals({model.TypeName}? other);");
+            }
+            else
             {
                 writer.MemberLine($"public bool Equals({model.TypeName}? other) => other is not null && _value.Equals(other._value);");
-                writer.Line();
             }
+
+            writer.Line();
 
             using (writer.MemberBlock($"bool {System_IEquatable}<{model.TypeName}>.Equals({model.TypeName}? other)"))
             {

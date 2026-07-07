@@ -11,8 +11,8 @@ internal sealed class StrongTypeCodeRefactoringProvider : CodeRefactoringProvide
     private static readonly CodeRefactoringProvider[] _providers =
     [
         new ImplementDefineCodeRefactoringProvider(),
-        new OverrideEqualityCodeRefactoringProvider(),
-        new OverrideToStringCodeRefactoringProvider(),
+        new GenerateEqualityCodeRefactoringProvider(),
+        new GenerateToStringCodeRefactoringProvider(),
     ];
 
     public override async Task ComputeRefactoringsAsync(CodeRefactoringContext context)

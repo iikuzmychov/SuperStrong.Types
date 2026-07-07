@@ -139,7 +139,31 @@ public sealed class GenericTests
     }
 
     [Fact]
-    public Task Skips_Equals_generating_when_user_declares_it()
+    public Task Emits_defining_declaration_for_partial_Equals()
+    {
+        var source = """
+            using SuperStrong.Types;
+
+            namespace Sample;
+
+            [StrongType<string>]
+            public sealed partial class TestStrongType
+            {
+                public partial bool Equals(TestStrongType? other)
+                {
+                    // custom equality logic
+                    throw new NotImplementedException();
+                }
+            }
+            """;
+
+        var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
+
+        return Verify(driver);
+    }
+
+    [Fact]
+    public Task Emits_defining_declaration_for_non_partial_Equals_so_it_does_not_compile()
     {
         var source = """
             using SuperStrong.Types;

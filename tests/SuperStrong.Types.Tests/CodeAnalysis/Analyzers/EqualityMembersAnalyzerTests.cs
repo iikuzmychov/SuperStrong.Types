@@ -25,7 +25,7 @@ public sealed class EqualityMembersAnalyzerTests
     }
 
     [Fact]
-    public async Task Reports_warning_when_only_Equals_is_overridden()
+    public async Task Reports_warning_when_only_Equals_is_declared()
     {
         var source = """
             using SuperStrong.Types;
@@ -35,7 +35,7 @@ public sealed class EqualityMembersAnalyzerTests
             [StrongType<int>]
             public sealed partial class TestStrongType
             {
-                public bool Equals(TestStrongType? other) => other is not null && _value.Equals(other._value);
+                public partial bool Equals(TestStrongType? other) => other is not null && _value.Equals(other._value);
             }
             """;
 
@@ -68,7 +68,7 @@ public sealed class EqualityMembersAnalyzerTests
     }
 
     [Fact]
-    public async Task Does_not_report_warning_when_Equals_and_GetHashCode_are_both_overridden()
+    public async Task Does_not_report_warning_when_Equals_and_GetHashCode_are_both_declared()
     {
         var source = """
             using SuperStrong.Types;
@@ -78,7 +78,7 @@ public sealed class EqualityMembersAnalyzerTests
             [StrongType<int>]
             public sealed partial class TestStrongType
             {
-                public bool Equals(TestStrongType? other) => other is not null && _value.Equals(other._value);
+                public partial bool Equals(TestStrongType? other) => other is not null && _value.Equals(other._value);
 
                 public override int GetHashCode() => _value.GetHashCode();
             }
@@ -90,7 +90,7 @@ public sealed class EqualityMembersAnalyzerTests
     }
 
     [Fact]
-    public async Task Does_not_report_warning_when_neither_Equals_nor_GetHashCode_is_overridden()
+    public async Task Does_not_report_warning_when_neither_Equals_nor_GetHashCode_is_declared()
     {
         var source = """
             using SuperStrong.Types;

@@ -5,6 +5,6 @@ namespace Sample;
 [StrongType<int>]
 public sealed partial class TestStrongType
 {
-    public bool Equals(TestStrongType? other) => other is not null && _value.Equals(other._value);
+    public partial bool Equals(TestStrongType? other) => other is not null && _value.Equals(other._value);
     public override int GetHashCode() => _value.GetHashCode();
 }

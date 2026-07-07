@@ -45,8 +45,8 @@ internal sealed class EqualityMembersCodeFixProvider : CodeFixProvider
 
         context.RegisterCodeFix(
             CodeAction.Create(
-                "Override Equals(T) and GetHashCode()",
-                cancellationToken => OverrideEqualityCodeRefactoringProvider.AddEqualityAsync(
+                "Generate Equals(T) and GetHashCode()",
+                cancellationToken => GenerateEqualityCodeRefactoringProvider.GenerateEqualityAsync(
                     context.Document,
                     classDeclaration,
                     strongTypeSymbol,

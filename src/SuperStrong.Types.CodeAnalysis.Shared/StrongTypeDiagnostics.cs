@@ -40,8 +40,8 @@ internal static class StrongTypeDiagnostics
 
     public static readonly DiagnosticDescriptor EqualityMembers = new(
         id: "SST005",
-        title: "Override Equals and GetHashCode together",
-        messageFormat: "Override Equals(T) and GetHashCode() together",
+        title: "Implement Equals and GetHashCode together",
+        messageFormat: "Implement Equals(T) and GetHashCode() together",
         category: Category,
         defaultSeverity: DiagnosticSeverity.Warning,
         isEnabledByDefault: true);

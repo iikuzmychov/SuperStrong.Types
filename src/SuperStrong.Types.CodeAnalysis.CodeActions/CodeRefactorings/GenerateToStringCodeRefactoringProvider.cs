@@ -7,7 +7,7 @@ using SuperStrong.Types.CodeAnalysis.Shared;
 
 namespace SuperStrong.Types.CodeAnalysis.CodeActions;
 
-internal sealed class OverrideToStringCodeRefactoringProvider : CodeRefactoringProvider
+internal sealed class GenerateToStringCodeRefactoringProvider : CodeRefactoringProvider
 {
     public override async Task ComputeRefactoringsAsync(CodeRefactoringContext context)
     {
@@ -23,13 +23,13 @@ internal sealed class OverrideToStringCodeRefactoringProvider : CodeRefactoringP
 
         context.RegisterRefactoring(
             CodeAction.Create(
-                "Override ToString()",
-                cancellationToken => AddToStringAsync(context.Document, target.ClassDeclaration, cancellationToken),
-                equivalenceKey: nameof(OverrideToStringCodeRefactoringProvider),
+                "Generate ToString()",
+                cancellationToken => GenerateToStringAsync(context.Document, target.ClassDeclaration, cancellationToken),
+                equivalenceKey: nameof(GenerateToStringCodeRefactoringProvider),
                 priority: CodeActionPriority.High));
     }
 
-    private static Task<Document> AddToStringAsync(
+    private static Task<Document> GenerateToStringAsync(
         Document document,
         ClassDeclarationSyntax classDeclaration,
         CancellationToken cancellationToken)

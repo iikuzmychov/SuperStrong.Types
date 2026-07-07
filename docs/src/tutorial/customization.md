@@ -20,22 +20,22 @@ Console.WriteLine(password); // prints "secret"
 ```
 
 :::: tip
-You can also use the **`Quick Actions`** → **`Override ToString()`**.
+You can also use the **`Quick Actions`** → **`Generate ToString()`**.
 
 ::: details Screenshot
-<OverrideToStringQuickAction />
+<GenerateToStringQuickAction />
 :::
 ::::
 
 ## Equality
 
-Implement `Equals(T)` and override `GetHashCode()` manually, so the source generator will not emit a default implementation for those members:
+Implement the partial `Equals(T)` method and override `GetHashCode()` manually, so the source generator will not emit a default implementation for those members:
 
 ```csharp
 [StrongType<string>]
 public sealed partial class Currency
 {
-    public bool Equals(Currency? other) =>
+    public partial bool Equals(Currency? other) =>
         other is not null &&
         string.Equals(_value, other._value, StringComparison.OrdinalIgnoreCase);
 
@@ -48,12 +48,12 @@ public sealed partial class Currency
 Currency.From("USD") == Currency.From("usd") // true
 ```
 
-While you can override the two methods separately, it's better to override them both.
+While you can implement the two methods separately, it's better to implement them both.
 
 :::: tip
-You can also use the **`Quick Actions`** → **`Override Equals(T) and GetHashCode()`**.
+You can also use the **`Quick Actions`** → **`Generate Equals(T) and GetHashCode()`**.
 
 ::: details Screenshot
-<OverrideEqualsAndGetHashCodeQuickAction />
+<GenerateEqualsAndGetHashCodeQuickAction />
 :::
 ::::

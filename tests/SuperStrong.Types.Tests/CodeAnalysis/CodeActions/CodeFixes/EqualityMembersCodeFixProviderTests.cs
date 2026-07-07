@@ -26,7 +26,7 @@ public sealed class EqualityMembersCodeFixProviderTests
     }
 
     [Fact]
-    public async Task Adds_GetHashCode_when_only_Equals_is_overridden()
+    public async Task Adds_GetHashCode_when_only_Equals_is_declared()
     {
         var source = """
             using SuperStrong.Types;
@@ -36,7 +36,7 @@ public sealed class EqualityMembersCodeFixProviderTests
             [StrongType<int>]
             public sealed partial class TestStrongType
             {
-                public bool Equals(TestStrongType? other) => other is not null && _value.Equals(other._value);
+                public partial bool Equals(TestStrongType? other) => other is not null && _value.Equals(other._value);
             }
             """;
 

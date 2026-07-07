@@ -2,7 +2,7 @@ using SuperStrong.Types.CodeAnalysis.CodeActions;
 
 namespace SuperStrong.Types.Tests.CodeAnalysis.CodeActions.CodeRefactorings;
 
-public sealed class OverrideToStringCodeRefactoringProviderTests
+public sealed class GenerateToStringCodeRefactoringProviderTests
 {
     [Theory]
     [InlineData(false)]
@@ -20,7 +20,7 @@ public sealed class OverrideToStringCodeRefactoringProviderTests
             public sealed partial class TestStrongType{{typeBody}}
             """;
 
-        var result = await CodeRefactoringDriver.ApplyAsync(new OverrideToStringCodeRefactoringProvider(), source);
+        var result = await CodeRefactoringDriver.ApplyAsync(new GenerateToStringCodeRefactoringProvider(), source);
 
         await Verify(result).UseParameters(hasBlockBody);
     }
@@ -42,7 +42,7 @@ public sealed class OverrideToStringCodeRefactoringProviderTests
             public sealed partial class TestStrongType;
             """;
 
-        var result = await CodeRefactoringDriver.ApplyAsync(new OverrideToStringCodeRefactoringProvider(), source);
+        var result = await CodeRefactoringDriver.ApplyAsync(new GenerateToStringCodeRefactoringProvider(), source);
 
         await Verify(result);
     }
@@ -62,7 +62,7 @@ public sealed class OverrideToStringCodeRefactoringProviderTests
             }
             """;
 
-        var isRefactoringOffered = await CodeRefactoringDriver.OffersRefactoringAsync(new OverrideToStringCodeRefactoringProvider(), source);
+        var isRefactoringOffered = await CodeRefactoringDriver.OffersRefactoringAsync(new GenerateToStringCodeRefactoringProvider(), source);
 
         Assert.False(isRefactoringOffered);
     }
@@ -84,7 +84,7 @@ public sealed class OverrideToStringCodeRefactoringProviderTests
             }
             """;
 
-        var result = await CodeRefactoringDriver.ApplyAsync(new OverrideToStringCodeRefactoringProvider(), source);
+        var result = await CodeRefactoringDriver.ApplyAsync(new GenerateToStringCodeRefactoringProvider(), source);
 
         await Verify(result);
     }
@@ -104,7 +104,7 @@ public sealed class OverrideToStringCodeRefactoringProviderTests
             }
             """;
 
-        var result = await CodeRefactoringDriver.ApplyAsync(new OverrideToStringCodeRefactoringProvider(), source);
+        var result = await CodeRefactoringDriver.ApplyAsync(new GenerateToStringCodeRefactoringProvider(), source);
 
         await Verify(result);
     }
@@ -118,7 +118,7 @@ public sealed class OverrideToStringCodeRefactoringProviderTests
             public sealed partial class NotAStrongType;
             """;
 
-        var isRefactoringOffered = await CodeRefactoringDriver.OffersRefactoringAsync(new OverrideToStringCodeRefactoringProvider(), source);
+        var isRefactoringOffered = await CodeRefactoringDriver.OffersRefactoringAsync(new GenerateToStringCodeRefactoringProvider(), source);
 
         Assert.False(isRefactoringOffered);
     }

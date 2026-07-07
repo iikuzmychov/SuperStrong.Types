@@ -13,7 +13,7 @@ internal sealed record StrongTypeModel
     public required bool UserDeclaresDefineImplicitly { get; init; }
     public required bool UserDeclaresDefineExplicitly { get; init; }
     public required bool UserOverridesToString { get; init; }
-    public required bool UserOverridesEquals { get; init; }
+    public required bool UserDeclaresEquals { get; init; }
     public required bool UserOverridesGetHashCode { get; init; }
     public required ImmutableArray<OptionalFeatureState> OptionalFeatures { get; init; }
 

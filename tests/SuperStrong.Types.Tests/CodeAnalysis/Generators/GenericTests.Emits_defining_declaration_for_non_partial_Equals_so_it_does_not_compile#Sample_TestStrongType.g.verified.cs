@@ -69,6 +69,8 @@ namespace Sample
 
     partial class TestStrongType : global::System.IEquatable<TestStrongType>, global::System.Numerics.IEqualityOperators<TestStrongType, TestStrongType, bool>
     {
+        public partial bool Equals(TestStrongType? other);
+
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("SuperStrong.Types.CodeAnalysis.Generators", "1.0.0.0")]
         bool global::System.IEquatable<TestStrongType>.Equals(TestStrongType? other)
         {
