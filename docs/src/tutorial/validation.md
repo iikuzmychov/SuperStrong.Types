@@ -26,7 +26,7 @@ If you don't declare a `Define()` method, the source generator emits an empty de
 You can also use the **`Quick Actions`** → **`Add Define`**.
 
 ::: details Screenshot
-![Add Define quick action](/img/code-action-add-definition.png)
+<AddDefineQuickAction />
 :::
 ::::
 

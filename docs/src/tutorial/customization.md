@@ -2,7 +2,7 @@
 
 While most of the generated code can't be modified, you can customize some methods.
 
-## String representation
+## ToString()
 
 Override `ToString()` manually, so the source generator will not emit a default implementation for it:
 
@@ -23,7 +23,7 @@ Console.WriteLine(password); // prints "secret"
 You can also use the **`Quick Actions`** → **`Override ToString()`**.
 
 ::: details Screenshot
-![Override ToString() quick action](/img/code-action-override-tostring.png)
+<OverrideToStringQuickAction />
 :::
 ::::
 
@@ -54,6 +54,6 @@ While you can override the two methods separately, it's better to override them 
 You can also use the **`Quick Actions`** → **`Override Equals(T) and GetHashCode()`**.
 
 ::: details Screenshot
-![Override Equals(T) and GetHashCode() quick action](/img/code-action-override-equals-and-gethashcode.png)
+<OverrideEqualsAndGetHashCodeQuickAction />
 :::
 ::::
