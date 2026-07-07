@@ -96,6 +96,14 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
                     Location: LocationInfo.From(context.Node)));
         }
 
+        if (typeSymbol.IsAbstract)
+        {
+            return GeneratorOutput.FromAbstract(
+                new AbstractDeclarationInfo(
+                    TypeFullName: typeSymbol.ToDisplayString(),
+                    Location: LocationInfo.From(context.Node)));
+        }
+
         if (typeSymbol.BaseType is { SpecialType: not SpecialType.System_Object } baseType)
         {
             return GeneratorOutput.FromHasBaseType(
@@ -215,6 +223,14 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
                         StrongTypeDiagnostics.HasBaseType,
                         location: hasBaseType.Location?.ToLocation(),
                         messageArgs: [hasBaseType.TypeFullName, hasBaseType.BaseTypeFullName]));
+            },
+            onAbstract: @abstract =>
+            {
+                context.ReportDiagnostic(
+                    Diagnostic.Create(
+                        StrongTypeDiagnostics.AbstractDeclaration,
+                        location: @abstract.Location?.ToLocation(),
+                        messageArgs: @abstract.TypeFullName));
             });
     }
 }

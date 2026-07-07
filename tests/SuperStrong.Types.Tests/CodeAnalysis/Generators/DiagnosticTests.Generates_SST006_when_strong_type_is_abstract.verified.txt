@@ -1,0 +1,17 @@
+﻿{
+  Diagnostics: [
+    {
+      Location: : (4,0)-(5,45),
+      Message: Type 'Sample.TestStrongType' is annotated with [StrongType<...>] but is declared abstract. Remove the 'abstract' modifier.,
+      Severity: Error,
+      Descriptor: {
+        Id: SST006,
+        Title: Strong type cannot be abstract,
+        MessageFormat: Type '{0}' is annotated with [StrongType<...>] but is declared abstract. Remove the 'abstract' modifier.,
+        Category: SuperStrong,
+        DefaultSeverity: Error,
+        IsEnabledByDefault: true
+      }
+    }
+  ]
+}

@@ -45,4 +45,12 @@ internal static class StrongTypeDiagnostics
         category: Category,
         defaultSeverity: DiagnosticSeverity.Warning,
         isEnabledByDefault: true);
+
+    public static readonly DiagnosticDescriptor AbstractDeclaration = new(
+        id: "SST006",
+        title: "Strong type cannot be abstract",
+        messageFormat: "Type '{0}' is annotated with [StrongType<...>] but is declared abstract. Remove the 'abstract' modifier.",
+        category: Category,
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true);
 }

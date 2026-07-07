@@ -79,4 +79,21 @@ public sealed class DiagnosticTests
 
         return Verify(driver);
     }
+
+    [Fact]
+    public Task Generates_SST006_when_strong_type_is_abstract()
+    {
+        var source = """
+            using SuperStrong.Types;
+
+            namespace Sample;
+
+            [StrongType<int>]
+            public abstract partial class TestStrongType;
+            """;
+
+        var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
+
+        return Verify(driver);
+    }
 }
