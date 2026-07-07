@@ -1,6 +1,6 @@
 using SuperStrong.Types.CodeAnalysis.Analyzers;
 
-namespace SuperStrong.Types.Tests.CodeAnalysis.Analyzers;
+namespace SuperStrong.Types.CodeAnalysis.Tests.Analyzers;
 
 public sealed class EqualityMembersAnalyzerTests
 {

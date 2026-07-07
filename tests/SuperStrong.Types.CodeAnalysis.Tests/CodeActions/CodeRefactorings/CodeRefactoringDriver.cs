@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SuperStrong.Types.CodeAnalysis.Generators;
 
-namespace SuperStrong.Types.Tests.CodeAnalysis.CodeActions.CodeRefactorings;
+namespace SuperStrong.Types.CodeAnalysis.Tests.CodeActions.CodeRefactorings;
 
 internal static class CodeRefactoringDriver
 {

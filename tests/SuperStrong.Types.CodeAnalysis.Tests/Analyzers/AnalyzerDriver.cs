@@ -2,7 +2,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using SuperStrong.Types.CodeAnalysis.Generators;
 
-namespace SuperStrong.Types.Tests.CodeAnalysis.Analyzers;
+namespace SuperStrong.Types.CodeAnalysis.Tests.Analyzers;
 
 internal static class AnalyzerDriver
 {

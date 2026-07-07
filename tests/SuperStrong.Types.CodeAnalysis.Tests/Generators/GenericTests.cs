@@ -1,6 +1,6 @@
 using SuperStrong.Types.CodeAnalysis.Generators;
 
-namespace SuperStrong.Types.Tests.CodeAnalysis.Generators;
+namespace SuperStrong.Types.CodeAnalysis.Tests.Generators;
 
 public sealed class GenericTests
 {

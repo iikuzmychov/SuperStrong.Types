@@ -2,9 +2,9 @@ using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
 using SuperStrong.Types.CodeAnalysis.Generators;
-using SuperStrong.Types.Tests.CodeAnalysis.Analyzers;
+using SuperStrong.Types.CodeAnalysis.Tests.Analyzers;
 
-namespace SuperStrong.Types.Tests.CodeAnalysis.CodeActions.CodeFixes;
+namespace SuperStrong.Types.CodeAnalysis.Tests.CodeActions.CodeFixes;
 
 internal static class CodeFixDriver
 {

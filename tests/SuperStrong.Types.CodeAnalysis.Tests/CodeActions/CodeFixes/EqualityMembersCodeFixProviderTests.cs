@@ -1,7 +1,7 @@
 using SuperStrong.Types.CodeAnalysis.Analyzers;
 using SuperStrong.Types.CodeAnalysis.CodeActions;
 
-namespace SuperStrong.Types.Tests.CodeAnalysis.CodeActions.CodeFixes;
+namespace SuperStrong.Types.CodeAnalysis.Tests.CodeActions.CodeFixes;
 
 public sealed class EqualityMembersCodeFixProviderTests
 {

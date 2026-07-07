@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
 
-namespace SuperStrong.Types.Tests.CodeAnalysis;
+namespace SuperStrong.Types.CodeAnalysis.Tests;
 
 internal static class TestWorkspace
 {

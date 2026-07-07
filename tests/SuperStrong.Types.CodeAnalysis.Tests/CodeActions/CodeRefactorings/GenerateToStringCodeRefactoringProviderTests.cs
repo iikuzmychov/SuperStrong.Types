@@ -1,6 +1,6 @@
 using SuperStrong.Types.CodeAnalysis.CodeActions;
 
-namespace SuperStrong.Types.Tests.CodeAnalysis.CodeActions.CodeRefactorings;
+namespace SuperStrong.Types.CodeAnalysis.Tests.CodeActions.CodeRefactorings;
 
 public sealed class GenerateToStringCodeRefactoringProviderTests
 {

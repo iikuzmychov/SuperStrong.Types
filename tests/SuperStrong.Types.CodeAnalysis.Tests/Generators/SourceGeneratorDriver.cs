@@ -1,7 +1,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace SuperStrong.Types.Tests.CodeAnalysis.Generators;
+namespace SuperStrong.Types.CodeAnalysis.Tests.Generators;
 
 internal static class SourceGeneratorDriver
 {
