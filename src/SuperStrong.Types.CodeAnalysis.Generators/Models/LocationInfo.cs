@@ -7,9 +7,8 @@ internal sealed record LocationInfo(string FilePath, TextSpan TextSpan, LinePosi
 {
     public Location ToLocation() => Location.Create(FilePath, TextSpan, LineSpan);
 
-    public static LocationInfo? From(SyntaxNode node)
+    public static LocationInfo? From(Location location)
     {
-        var location = node.GetLocation();
         var sourceTree = location.SourceTree;
 
         if (sourceTree is null)

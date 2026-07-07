@@ -69,12 +69,14 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             return null;
         }
 
+        var typeDeclaration = (TypeDeclarationSyntax)context.Node;
+
         if (strongTypeAttributes.Count > 1)
         {
             return GeneratorOutput.FromConflict(
                 new ConflictingAttributesInfo(
                     TypeFullName: typeSymbol.ToDisplayString(),
-                    Location: LocationInfo.From(context.Node)));
+                    Location: LocationInfo.From(typeDeclaration.Identifier.GetLocation())));
         }
 
         if (context.Node is RecordDeclarationSyntax)
@@ -82,10 +84,9 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             return GeneratorOutput.FromRecord(
                 new RecordDeclarationInfo(
                     TypeFullName: typeSymbol.ToDisplayString(),
-                    Location: LocationInfo.From(context.Node)));
+                    Location: LocationInfo.From(typeDeclaration.Identifier.GetLocation())));
         }
 
-        var typeDeclaration = (TypeDeclarationSyntax)context.Node;
         var isPartial = typeDeclaration.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.PartialKeyword));
 
         if (!isPartial)
@@ -93,7 +94,7 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             return GeneratorOutput.FromNotPartial(
                 new NotPartialInfo(
                     TypeFullName: typeSymbol.ToDisplayString(),
-                    Location: LocationInfo.From(context.Node)));
+                    Location: LocationInfo.From(typeDeclaration.Identifier.GetLocation())));
         }
 
         if (typeSymbol.IsAbstract)
@@ -101,7 +102,7 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
             return GeneratorOutput.FromAbstract(
                 new AbstractDeclarationInfo(
                     TypeFullName: typeSymbol.ToDisplayString(),
-                    Location: LocationInfo.From(context.Node)));
+                    Location: LocationInfo.From(typeDeclaration.Identifier.GetLocation())));
         }
 
         if (typeSymbol.BaseType is { SpecialType: not SpecialType.System_Object } baseType)
@@ -110,7 +111,7 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
                 new HasBaseTypeInfo(
                     TypeFullName: typeSymbol.ToDisplayString(),
                     BaseTypeFullName: baseType.ToDisplayString(),
-                    Location: LocationInfo.From(context.Node)));
+                    Location: LocationInfo.From(typeDeclaration.Identifier.GetLocation())));
         }
 
         var model = BuildModel(typeSymbol, strongTypeAttributes.Single(), context.SemanticModel.Compilation);

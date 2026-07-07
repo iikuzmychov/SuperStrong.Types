@@ -1,13 +1,13 @@
 ﻿{
   Diagnostics: [
     {
-      Location: : (4,0)-(5,35),
-      Message: Type 'Sample.TestStrongType' is annotated with [StrongType<...>] but is not declared partial. Add the 'partial' modifier so the generator can extend it.,
+      Location: : (5,20)-(5,34),
+      Message: Strong type 'Sample.TestStrongType' must be partial,
       Severity: Error,
       Descriptor: {
         Id: SST002,
         Title: Strong type must be partial,
-        MessageFormat: Type '{0}' is annotated with [StrongType<...>] but is not declared partial. Add the 'partial' modifier so the generator can extend it.,
+        MessageFormat: Strong type '{0}' must be partial,
         Category: SuperStrong,
         DefaultSeverity: Error,
         IsEnabledByDefault: true

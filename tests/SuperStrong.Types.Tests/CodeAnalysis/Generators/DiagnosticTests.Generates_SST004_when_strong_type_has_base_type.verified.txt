@@ -1,13 +1,13 @@
 ﻿{
   Diagnostics: [
     {
-      Location: : (6,0)-(7,59),
-      Message: Type 'Sample.TestStrongType' is annotated with [StrongType<...>] but inherits from 'Sample.TestBaseClass'. Remove the base type.,
+      Location: : (7,28)-(7,42),
+      Message: Strong type 'Sample.TestStrongType' cannot inherit from 'Sample.TestBaseClass',
       Severity: Error,
       Descriptor: {
         Id: SST004,
         Title: Strong type cannot inherit from another type,
-        MessageFormat: Type '{0}' is annotated with [StrongType<...>] but inherits from '{1}'. Remove the base type.,
+        MessageFormat: Strong type '{0}' cannot inherit from '{1}',
         Category: SuperStrong,
         DefaultSeverity: Error,
         IsEnabledByDefault: true
