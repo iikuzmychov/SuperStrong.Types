@@ -15,8 +15,6 @@ public sealed partial class TypeExtensionsTests
     [InlineData(typeof(int?))]
     [InlineData(typeof(string))]
     [InlineData(typeof(NotAStrongType))]
-    //[InlineData(typeof(StrongIntStruct?))] // todo: uncomment, once generator will work with structs too
-    //[InlineData(typeof(StrongTemplatedIntStruct?))] // todo: uncomment, once generator will work with structs too
     public void GetStrongTypeInfo_returns_null_for_non_strong_type(Type type)
     {
         Assert.Null(type.GetStrongTypeInfo());
@@ -25,10 +23,8 @@ public sealed partial class TypeExtensionsTests
     public static TheoryData<Type, Type, Type?, StrongTypeDefinition> StrongTypeFixtures => new()
     {
         { typeof(StrongIntClass), typeof(int), null, StrongType.GetDefinition<StrongIntClass, int>() },
-        //{ typeof(StrongIntStruct), typeof(int), null, StrongType.GetDefinition<StrongIntStruct, int>() }, // todo: uncomment, once generator will work with structs too
         { typeof(StrongStringClass), typeof(string), null, StrongType.GetDefinition<StrongStringClass, string>() },
         { typeof(StrongTemplatedIntClass), typeof(int), typeof(StrongIntTemplate), StrongType.GetDefinition<StrongTemplatedIntClass, int>() },
-        //{ typeof(StrongTemplatedIntStruct), typeof(int), typeof(StrongIntTemplate), StrongType.GetDefinition<StrongTemplatedIntStruct, int>() }, // todo: uncomment, once generator will work with structs too
     };
 
     [Theory]
@@ -56,13 +52,6 @@ public sealed partial class TypeExtensionsTests
         public static partial StrongTypeDefinition<int> Define() => StrongType.Define<int>().HasMinValue(1);
     }
 
-    // todo: uncomment, once generator will work with structs too
-    //[StrongType<int>]
-    //private readonly partial struct StrongIntStruct
-    //{
-    //    public static partial StrongTypeDefinition<int> Define() => StrongType.Define<int>().HasMinValue(2);
-    //}
-
     [StrongType<string>]
     private sealed partial class StrongStringClass
     {
@@ -71,10 +60,6 @@ public sealed partial class TypeExtensionsTests
 
     [StrongType<int, StrongIntTemplate>]
     private sealed partial class StrongTemplatedIntClass;
-
-    // todo: uncomment, once generator will work with structs too
-    //[StrongType<int, StrongIntTemplate>]
-    //private readonly partial struct StrongTemplatedIntStruct;
 
     private sealed class StrongStringTemplate : IStrongTypeTemplate<string>
     {
