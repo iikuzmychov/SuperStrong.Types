@@ -5,6 +5,7 @@ using HotChocolate.Language;
 using HotChocolate.Text.Json;
 using HotChocolate.Types;
 using HotChocolate.Types.Descriptors.Configurations;
+using HotChocolate.Utilities;
 using SuperStrong.Types.HotChocolate.Directives;
 using System.Text.Json;
 
@@ -31,7 +32,7 @@ internal sealed class StrongScalarType<TStrongType, TPrimitive> : ScalarType<TSt
         var primitiveRef = context.TypeInspector.GetTypeRef(typeof(TPrimitive));
         context.Dependencies.Add(new TypeDependency(primitiveRef, TypeDependencyFulfilled.Completed));
 
-        var directiveRef = context.TypeInspector.GetTypeRef(typeof(PrimitiveDirectiveType));
+        var directiveRef = context.TypeInspector.GetTypeRef(typeof(StrongTypeDirectiveType));
         context.Dependencies.Add(new TypeDependency(directiveRef, TypeDependencyFulfilled.Completed));
     }
 
@@ -44,32 +45,64 @@ internal sealed class StrongScalarType<TStrongType, TPrimitive> : ScalarType<TSt
         var primitiveRef = context.TypeInspector.GetTypeRef(typeof(TPrimitive));
         _primitive = (ScalarType)context.GetType<IType>(primitiveRef).NamedType();
 
-        configuration.AddDirective(PrimitiveDirective.From(_primitive.Name), context.TypeInspector);
+        configuration.AddDirective(StrongTypeDirective.From(_primitive.Name), context.TypeInspector);
+    }
+
+    public override bool IsValueCompatible(IValueNode valueLiteral)
+    {
+        return _primitive.IsValueCompatible(valueLiteral);
+    }
+
+    public override bool IsValueCompatible(JsonElement inputValue)
+    {
+        return _primitive.IsValueCompatible(inputValue);
     }
 
     public override object CoerceInputLiteral(IValueNode valueLiteral)
     {
         ArgumentNullException.ThrowIfNull(valueLiteral);
 
-        var primitive = (TPrimitive)_primitive.CoerceInputLiteral(valueLiteral);
-
-        return TStrongType.From(primitive);
+        return TStrongType.From(ToPrimitive(_primitive.CoerceInputLiteral(valueLiteral)));
     }
 
     public override object CoerceInputValue(JsonElement inputValue, IFeatureProvider context)
     {
-        var primitive = (TPrimitive)_primitive.CoerceInputValue(inputValue, context);
-
-        return TStrongType.From(primitive);
+        return TStrongType.From(ToPrimitive(_primitive.CoerceInputValue(inputValue, context)));
     }
 
     protected override IValueNode OnValueToLiteral(TStrongType runtimeValue)
     {
-        return _primitive.ValueToLiteral(runtimeValue.AsPrimitive());
+        return _primitive.ValueToLiteral(ToScalarRuntimeValue(runtimeValue.AsPrimitive()));
     }
 
     protected override void OnCoerceOutputValue(TStrongType runtimeValue, ResultElement resultValue)
     {
-        _primitive.CoerceOutputValue(runtimeValue.AsPrimitive(), resultValue);
+        _primitive.CoerceOutputValue(ToScalarRuntimeValue(runtimeValue.AsPrimitive()), resultValue);
+    }
+
+    private TPrimitive ToPrimitive(object scalarRuntimeValue)
+    {
+        if (scalarRuntimeValue is TPrimitive primitive ||
+            Converter.TryConvert(scalarRuntimeValue, out primitive))
+        {
+            return primitive;
+        }
+
+        throw new LeafCoercionException(
+            $"The scalar '{Name}' cannot convert a value of type '{scalarRuntimeValue.GetType()}' to '{typeof(TPrimitive)}'.",
+            this);
+    }
+
+    private object ToScalarRuntimeValue(TPrimitive primitive)
+    {
+        object runtimeValue = primitive;
+
+        if (!_primitive.RuntimeType.IsInstanceOfType(runtimeValue) &&
+            Converter.TryConvert(_primitive.RuntimeType, runtimeValue, out var converted))
+        {
+            runtimeValue = converted;
+        }
+
+        return runtimeValue;
     }
 }

@@ -11,7 +11,7 @@ public static class RequestExecutorBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.AddDirectiveType(typeof(PrimitiveDirectiveType));
+        builder.AddDirectiveType(typeof(StrongTypeDirectiveType));
         builder.AddTypeDiscoveryHandler(context => new StrongTypeDiscoveryHandler(context.TypeInspector));
 
         return builder;
