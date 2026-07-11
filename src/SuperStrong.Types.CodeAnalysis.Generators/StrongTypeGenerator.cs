@@ -4,7 +4,6 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using SuperStrong.Types.CodeAnalysis.Shared;
 using SuperStrong.Types.CodeAnalysis.Generators.FeatureEmitters;
-using SuperStrong.Types.CodeAnalysis.Generators.Helpers;
 using SuperStrong.Types.CodeAnalysis.Generators.Models;
 using System.Collections.Immutable;
 using System.Text;
@@ -20,6 +19,15 @@ internal sealed class StrongTypeGenerator : IIncrementalGenerator
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
+        context.RegisterPostInitializationOutput(static postInitializationContext =>
+        {
+            postInitializationContext.AddEmbeddedAttributeDefinition();
+
+            postInitializationContext.AddSource(
+                EmbeddedSources.StrongTypeAttributesHintName,
+                SourceText.From(EmbeddedSources.StrongTypeAttributes, Encoding.UTF8));
+        });
+
         var outputs = context.SyntaxProvider
             .CreateSyntaxProvider(
                 predicate: static (node, _) => IsCandidate(node),

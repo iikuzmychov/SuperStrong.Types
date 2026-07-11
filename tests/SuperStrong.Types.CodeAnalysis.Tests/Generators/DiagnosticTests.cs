@@ -24,7 +24,7 @@ public sealed class DiagnosticTests
 
         var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
-        return Verify(driver);
+        return Verify(driver).IgnoreGeneratedResult(SourceGeneratorDriver.IsPostInitializationSource);
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public sealed class DiagnosticTests
 
         var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
-        return Verify(driver);
+        return Verify(driver).IgnoreGeneratedResult(SourceGeneratorDriver.IsPostInitializationSource);
     }
 
     [Fact]
@@ -58,7 +58,7 @@ public sealed class DiagnosticTests
 
         var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
-        return Verify(driver);
+        return Verify(driver).IgnoreGeneratedResult(SourceGeneratorDriver.IsPostInitializationSource);
     }
 
     [Fact]
@@ -77,7 +77,7 @@ public sealed class DiagnosticTests
 
         var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
-        return Verify(driver);
+        return Verify(driver).IgnoreGeneratedResult(SourceGeneratorDriver.IsPostInitializationSource);
     }
 
     [Fact]
@@ -94,6 +94,6 @@ public sealed class DiagnosticTests
 
         var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
-        return Verify(driver);
+        return Verify(driver).IgnoreGeneratedResult(SourceGeneratorDriver.IsPostInitializationSource);
     }
 }

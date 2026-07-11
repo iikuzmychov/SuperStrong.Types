@@ -4,16 +4,34 @@ namespace SuperStrong.Types.CodeAnalysis.Tests.Generators;
 
 public sealed class GenericTests
 {
+    [Fact]
+    public Task Emits_embedded_strong_type_attributes()
+    {
+        var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), string.Empty);
+
+        return Verify(driver).IgnoreGeneratedResult(source => !SourceGeneratorDriver.IsPostInitializationSource(source));
+    }
+
     [Theory]
+    [InlineData("bool")]
+    [InlineData("byte")]
+    [InlineData("sbyte")]
+    [InlineData("short")]
+    [InlineData("ushort")]
     [InlineData("int")]
+    [InlineData("uint")]
     [InlineData("long")]
+    [InlineData("ulong")]
     [InlineData("decimal")]
     [InlineData("double")]
     [InlineData("float")]
+    [InlineData("char")]
     [InlineData("string")]
     [InlineData("Guid")]
     [InlineData("DateTime")]
     [InlineData("DateTimeOffset")]
+    [InlineData("DateOnly")]
+    [InlineData("TimeOnly")]
     [InlineData("TimeSpan")]
     public Task Generates_strong_type(string primitive)
     {
@@ -29,7 +47,7 @@ public sealed class GenericTests
 
         var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
-        return Verify(driver).UseParameters(primitive);
+        return Verify(driver).IgnoreGeneratedResult(SourceGeneratorDriver.IsPostInitializationSource).UseParameters(primitive);
     }
 
     [Theory]
@@ -53,7 +71,7 @@ public sealed class GenericTests
 
         var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
-        return Verify(driver).UseParameters(ancestorKeyword.Replace(' ', '_'));
+        return Verify(driver).IgnoreGeneratedResult(SourceGeneratorDriver.IsPostInitializationSource).UseParameters(ancestorKeyword.Replace(' ', '_'));
     }
 
     [Fact]
@@ -75,7 +93,7 @@ public sealed class GenericTests
 
         var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
-        return Verify(driver);
+        return Verify(driver).IgnoreGeneratedResult(SourceGeneratorDriver.IsPostInitializationSource);
     }
 
     [Fact]
@@ -95,7 +113,7 @@ public sealed class GenericTests
 
         var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
-        return Verify(driver);
+        return Verify(driver).IgnoreGeneratedResult(SourceGeneratorDriver.IsPostInitializationSource);
     }
 
     [Fact]
@@ -115,7 +133,7 @@ public sealed class GenericTests
 
         var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
-        return Verify(driver);
+        return Verify(driver).IgnoreGeneratedResult(SourceGeneratorDriver.IsPostInitializationSource);
     }
 
     [Fact]
@@ -135,7 +153,7 @@ public sealed class GenericTests
 
         var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
-        return Verify(driver);
+        return Verify(driver).IgnoreGeneratedResult(SourceGeneratorDriver.IsPostInitializationSource);
     }
 
     [Fact]
@@ -159,7 +177,7 @@ public sealed class GenericTests
 
         var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
-        return Verify(driver);
+        return Verify(driver).IgnoreGeneratedResult(SourceGeneratorDriver.IsPostInitializationSource);
     }
 
     [Fact]
@@ -183,7 +201,7 @@ public sealed class GenericTests
 
         var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
-        return Verify(driver);
+        return Verify(driver).IgnoreGeneratedResult(SourceGeneratorDriver.IsPostInitializationSource);
     }
 
     [Fact]
@@ -207,6 +225,6 @@ public sealed class GenericTests
 
         var driver = SourceGeneratorDriver.Run(new StrongTypeGenerator(), source);
 
-        return Verify(driver);
+        return Verify(driver).IgnoreGeneratedResult(SourceGeneratorDriver.IsPostInitializationSource);
     }
 }

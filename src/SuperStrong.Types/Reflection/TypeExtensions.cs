@@ -5,6 +5,9 @@ namespace SuperStrong.Types.Reflection;
 
 public static class TypeExtensions
 {
+    private const string StrongTypesNamespace = "SuperStrong.Types";
+    private const string StrongTypeAttributeName = "StrongTypeAttribute";
+
     private static readonly ConcurrentDictionary<Type, StrongTypeInfo?> _strongTypeInfoCache = new();
 
     public static StrongTypeInfo? GetStrongTypeInfo(this Type type)
@@ -18,10 +21,7 @@ public static class TypeExtensions
     {
         var strongTypeAttributes = type
             .CustomAttributes
-            .Where(attribute => attribute.AttributeType.IsGenericType)
-            .Where(attribute =>
-                attribute.AttributeType.GetGenericTypeDefinition() == typeof(StrongTypeAttribute<>) ||
-                attribute.AttributeType.GetGenericTypeDefinition() == typeof(StrongTypeAttribute<,>))
+            .Where(IsStrongTypeAttribute)
             .ToList();
 
         if (strongTypeAttributes.Count == 0)
@@ -31,7 +31,7 @@ public static class TypeExtensions
 
         if (strongTypeAttributes.Count > 1)
         {
-            throw new InvalidOperationException($"{type} has multiple [{nameof(StrongTypeAttribute<>)}] declarations.");
+            throw new InvalidOperationException($"{type} has multiple [{StrongTypeAttributeName}] declarations.");
         }
 
         var attributeGenericArguments = strongTypeAttributes[0].AttributeType.GetGenericArguments();
@@ -50,5 +50,19 @@ public static class TypeExtensions
             .Invoke(null, null)!;
 
         return new StrongTypeInfo(type, primitiveType, templateType, definition);
+    }
+
+    private static bool IsStrongTypeAttribute(CustomAttributeData attribute)
+    {
+        if (!attribute.AttributeType.IsGenericType)
+        {
+            return false;
+        }
+
+        var definition = attribute.AttributeType.GetGenericTypeDefinition();
+
+        return
+            definition.Namespace == StrongTypesNamespace &&
+            definition.Name is $"{StrongTypeAttributeName}`1" or $"{StrongTypeAttributeName}`2";
     }
 }
