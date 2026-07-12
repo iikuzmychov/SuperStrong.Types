@@ -2,19 +2,32 @@ using HotChocolate.Execution;
 using HotChocolate.Transport.Formatters;
 using Microsoft.Extensions.DependencyInjection;
 using System.Buffers;
+using System.Collections.Concurrent;
 using System.Text.Json;
 
 namespace SuperStrong.Types.HotChocolate.Tests;
 
 internal static class GraphQLTest
 {
-    public static async Task<IRequestExecutor> CreateExecutorAsync<TQuery>()
+    private static readonly ConcurrentDictionary<(Type QueryType, StrongTypeGraphQLRepresentation Representation), Lazy<Task<IRequestExecutor>>> _executors = new();
+
+    public static Task<IRequestExecutor> GetExecutorAsync<TQuery>(StrongTypeGraphQLRepresentation representation)
+        where TQuery : class
+    {
+        return _executors
+            .GetOrAdd(
+                (typeof(TQuery), representation),
+                _ => new Lazy<Task<IRequestExecutor>>(() => CreateExecutorAsync<TQuery>(representation)))
+            .Value;
+    }
+
+    private static async Task<IRequestExecutor> CreateExecutorAsync<TQuery>(StrongTypeGraphQLRepresentation representation)
         where TQuery : class
     {
         return await new ServiceCollection()
             .AddGraphQL()
             .AddQueryType<TQuery>()
-            .AddStrongTypes()
+            .AddStrongTypes(representation)
             .BuildRequestExecutorAsync();
     }
 

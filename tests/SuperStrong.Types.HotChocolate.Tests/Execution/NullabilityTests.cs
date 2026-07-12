@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace SuperStrong.Types.HotChocolate.Tests.Execution;
 
-public sealed class NullabilityTests
+public abstract class NullabilityTests(StrongTypeGraphQLRepresentation representation)
 {
     public sealed class Query
     {
@@ -19,12 +19,10 @@ public sealed class NullabilityTests
         }
     }
 
-    private static readonly Lazy<Task<IRequestExecutor>> _executor = new(GraphQLTest.CreateExecutorAsync<Query>);
-
     [Fact]
     public async Task A_null_strong_type_output_is_serialized_as_null()
     {
-        var executor = await _executor.Value;
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(representation);
 
         var result = await executor.ExecuteAsync("{ missing }", TestContext.Current.CancellationToken);
         using var response = GraphQLTest.ToJsonDocument(result);
@@ -35,7 +33,7 @@ public sealed class NullabilityTests
     [Fact]
     public async Task A_null_literal_argument_is_coerced_to_null()
     {
-        var executor = await _executor.Value;
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(representation);
 
         var result = await executor.ExecuteAsync("{ length(input: null) }", TestContext.Current.CancellationToken);
         using var response = GraphQLTest.ToJsonDocument(result);
@@ -46,7 +44,7 @@ public sealed class NullabilityTests
     [Fact]
     public async Task An_omitted_optional_argument_is_coerced_to_null()
     {
-        var executor = await _executor.Value;
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(representation);
 
         var result = await executor.ExecuteAsync("{ length }", TestContext.Current.CancellationToken);
         using var response = GraphQLTest.ToJsonDocument(result);
@@ -54,3 +52,7 @@ public sealed class NullabilityTests
         Assert.Equal(-1, GraphQLTest.GetData(response, "length").GetInt32());
     }
 }
+
+public sealed class ScalarNullabilityTests() : NullabilityTests(StrongTypeGraphQLRepresentation.Scalar);
+
+public sealed class PrimitiveNullabilityTests() : NullabilityTests(StrongTypeGraphQLRepresentation.Primitive);

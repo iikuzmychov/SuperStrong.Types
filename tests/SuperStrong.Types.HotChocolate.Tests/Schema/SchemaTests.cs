@@ -2,35 +2,35 @@ using SuperStrong.Types.Tests;
 
 namespace SuperStrong.Types.HotChocolate.Tests.Schema;
 
-public sealed class SchemaTests
+public sealed class AddressInput
 {
-    public sealed class AddressInput
+    public StrongString City { get; set; } = null!;
+}
+
+public sealed class Query
+{
+    public int Value(StrongInt input)
     {
-        public StrongString City { get; set; } = null!;
+        return input.AsPrimitive();
     }
 
-    public sealed class Query
+    public bool Exists(StrongGuid id)
     {
-        public int Value(StrongInt input)
-        {
-            return input.AsPrimitive();
-        }
-
-        public bool Exists(StrongGuid id)
-        {
-            return id.AsPrimitive() != Guid.Empty;
-        }
-
-        public string Describe(AddressInput input)
-        {
-            return input.City.AsPrimitive();
-        }
+        return id.AsPrimitive() != Guid.Empty;
     }
 
+    public string Describe(AddressInput input)
+    {
+        return input.City.AsPrimitive();
+    }
+}
+
+public sealed class ScalarSchemaTests
+{
     [Fact]
     public async Task A_strong_type_is_exposed_as_a_scalar_with_the_strong_type_directive()
     {
-        var executor = await GraphQLTest.CreateExecutorAsync<Query>();
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.Scalar);
 
         var schema = executor.Schema.ToString();
 
@@ -41,7 +41,7 @@ public sealed class SchemaTests
     [Fact]
     public async Task A_Guid_strong_type_maps_to_the_UUID_scalar()
     {
-        var executor = await GraphQLTest.CreateExecutorAsync<Query>();
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.Scalar);
 
         var schema = executor.Schema.ToString();
 
@@ -52,7 +52,7 @@ public sealed class SchemaTests
     [Fact]
     public async Task A_string_strong_type_maps_to_the_String_scalar()
     {
-        var executor = await GraphQLTest.CreateExecutorAsync<Query>();
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.Scalar);
 
         var schema = executor.Schema.ToString();
 
@@ -63,7 +63,7 @@ public sealed class SchemaTests
     [Fact]
     public async Task A_strong_type_reachable_only_through_an_input_object_is_a_scalar_not_an_object()
     {
-        var executor = await GraphQLTest.CreateExecutorAsync<Query>();
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.Scalar);
 
         var schema = executor.Schema.ToString();
 
@@ -71,5 +71,43 @@ public sealed class SchemaTests
         Assert.Contains("scalar StrongString", schema);
         Assert.DoesNotContain("type StrongString", schema);
         Assert.DoesNotContain("input StrongString", schema);
+    }
+}
+
+public sealed class PrimitiveSchemaTests
+{
+    [Fact]
+    public async Task A_strong_type_is_exposed_as_its_primitive_scalar()
+    {
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.Primitive);
+
+        var schema = executor.Schema.ToString();
+
+        Assert.Contains("value(input: Int!): Int!", schema);
+        Assert.DoesNotContain("StrongInt", schema);
+        Assert.DoesNotContain("@strongType", schema);
+    }
+
+    [Fact]
+    public async Task A_Guid_strong_type_maps_to_the_UUID_scalar()
+    {
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.Primitive);
+
+        var schema = executor.Schema.ToString();
+
+        Assert.Contains("exists(id: UUID!): Boolean!", schema);
+        Assert.DoesNotContain("StrongGuid", schema);
+    }
+
+    [Fact]
+    public async Task A_strong_type_inside_an_input_object_is_exposed_as_its_primitive_scalar()
+    {
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.Primitive);
+
+        var schema = executor.Schema.ToString();
+
+        Assert.Contains("input AddressInput", schema);
+        Assert.Contains("city: String!", schema);
+        Assert.DoesNotContain("StrongString", schema);
     }
 }

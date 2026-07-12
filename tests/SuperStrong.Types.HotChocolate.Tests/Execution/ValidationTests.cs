@@ -1,9 +1,10 @@
 using HotChocolate.Execution;
+using HotChocolate.Types;
 using SuperStrong.Types.Tests;
 
 namespace SuperStrong.Types.HotChocolate.Tests.Execution;
 
-public sealed class ValidationTests
+public abstract class ValidationTests(StrongTypeGraphQLRepresentation representation)
 {
     public sealed class Query
     {
@@ -18,12 +19,10 @@ public sealed class ValidationTests
         }
     }
 
-    private static readonly Lazy<Task<IRequestExecutor>> _executor = new(GraphQLTest.CreateExecutorAsync<Query>);
-
     [Fact]
     public async Task A_valid_literal_passes_validation_and_the_query_executes()
     {
-        var executor = await _executor.Value;
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(representation);
 
         var result = await executor.ExecuteAsync("""{ length(input: "alice") }""", TestContext.Current.CancellationToken);
         using var response = GraphQLTest.ToJsonDocument(result);
@@ -34,7 +33,7 @@ public sealed class ValidationTests
     [Fact]
     public async Task An_invalid_string_literal_produces_an_error_instead_of_data()
     {
-        var executor = await _executor.Value;
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(representation);
 
         var result = await executor.ExecuteAsync(
             $$"""{ length(input: "{{StrongString.ForbiddenValue}}") }""",
@@ -47,10 +46,11 @@ public sealed class ValidationTests
     [Fact]
     public async Task An_invalid_string_variable_produces_an_error_instead_of_data()
     {
-        var executor = await _executor.Value;
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(representation);
+        var inputTypeName = executor.Schema.QueryType.Fields["length"].Arguments["input"].Type.NamedType().Name;
 
         var request = OperationRequestBuilder.New()
-            .SetDocument("query($input: StrongString!) { length(input: $input) }")
+            .SetDocument($"query($input: {inputTypeName}!) {{ length(input: $input) }}")
             .SetVariableValues(new Dictionary<string, object?> { ["input"] = StrongString.ForbiddenValue })
             .Build();
 
@@ -63,7 +63,7 @@ public sealed class ValidationTests
     [Fact]
     public async Task An_invalid_int_literal_produces_an_error_instead_of_data()
     {
-        var executor = await _executor.Value;
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(representation);
 
         var result = await executor.ExecuteAsync(
             $"{{ value(input: {StrongInt.ForbiddenValue}) }}",
@@ -73,3 +73,7 @@ public sealed class ValidationTests
         GraphQLTest.GetErrors(response);
     }
 }
+
+public sealed class ScalarValidationTests() : ValidationTests(StrongTypeGraphQLRepresentation.Scalar);
+
+public sealed class PrimitiveValidationTests() : ValidationTests(StrongTypeGraphQLRepresentation.Primitive);

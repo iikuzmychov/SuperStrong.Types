@@ -1,6 +1,6 @@
 # Hot Chocolate
 
-SuperStrong.Types integrates with [Hot Chocolate](https://chillicream.com/docs/hotchocolate). Strong types are exposed as custom GraphQL scalars.
+SuperStrong.Types integrates with [Hot Chocolate](https://chillicream.com/docs/hotchocolate). Strong types are represented in the schema by their underlying primitive scalar or as named custom scalars.
 
 ## Requirements
 
@@ -24,16 +24,42 @@ dotnet add package SuperStrong.Types.HotChocolate --version {{ $frontmatter.vers
 
 ## Setup
 
-To enable the integration, call `AddStrongTypes()` on the GraphQL server:
+To enable the integration, call `AddStrongTypes(...)` on the GraphQL server. The representation is required, so the choice is always explicit:
 
 ```csharp
 builder.Services
     .AddGraphQL()
-    .AddStrongTypes();
+    .AddStrongTypes(StrongTypeGraphQLRepresentation.Scalar);
 ```
 
-Once enabled, every strong type is automatically exposed as a scalar based on its usage, so you don't need to register anything manually.
+Once enabled, every strong type is handled automatically based on its usage, so you don't need to register anything manually.
+
+## Representation
+
+A strong type can be represented in two ways. Pick the one that fits your clients.
+
+`Primitive` replaces the strong type with the scalar of its underlying primitive everywhere it is used (fields, arguments, input object fields, and collection elements):
+
+```graphql
+type Query {
+  user(id: UUID!): User
+}
+```
+
+Clients see plain scalars and the strong types stay invisible in the schema. This is the safe choice when the frontend isn't ready for distinct types.
+
+`Scalar` exposes each strong type as a named scalar and references it everywhere the strong type is used:
+
+```graphql
+scalar UserId @strongType(primitiveType: "UUID")
+
+type Query {
+  user(id: UserId!): User
+}
+```
+
+Client code generation can turn it into a distinct type, so strong typing carries over to the frontend.
 
 ::: tip
-The scalar is named after the type and serialized as its underlying primitive. Input values go through `From(...)`, so they are always validated.
+In both representations input values go through `From(...)`, so they are always validated.
 :::
