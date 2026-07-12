@@ -23,12 +23,12 @@ public static class RequestExecutorBuilderExtensions
 
         switch (representation)
         {
-            case StrongTypeGraphQLRepresentation.Primitive:
-                builder.TryAddTypeInterceptor<PrimitiveRepresentationTypeInterceptor>();
+            case StrongTypeGraphQLRepresentation.PrimitiveType:
+                builder.TryAddTypeInterceptor<PrimitiveTypeRepresentationInterceptor>();
                 builder.AddTypeConverter<StrongTypeChangeTypeProvider>();
                 break;
 
-            case StrongTypeGraphQLRepresentation.Scalar:
+            case StrongTypeGraphQLRepresentation.StrongType:
                 builder.AddDirectiveType(typeof(StrongTypeDirectiveType));
                 builder.AddTypeDiscoveryHandler(context => new StrongTypeDiscoveryHandler(context.TypeInspector));
                 break;

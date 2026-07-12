@@ -78,10 +78,10 @@ internal sealed class StrongTypeSchemaTransformer : IOpenApiSchemaTransformer
 
         switch (_representation)
         {
-            case StrongTypeOpenApiRepresentation.Inline:
+            case StrongTypeOpenApiRepresentation.PrimitiveType:
                 break;
 
-            case StrongTypeOpenApiRepresentation.Reference:
+            case StrongTypeOpenApiRepresentation.StrongType:
                 elementSchema.Metadata = new Dictionary<string, object>
                 {
                     // makes the resolution pass replace this element with a `$ref` to a component named after the strong type
@@ -115,10 +115,10 @@ internal sealed class StrongTypeSchemaTransformer : IOpenApiSchemaTransformer
 
         switch (_representation)
         {
-            case StrongTypeOpenApiRepresentation.Inline:
+            case StrongTypeOpenApiRepresentation.PrimitiveType:
                 return keySchema;
 
-            case StrongTypeOpenApiRepresentation.Reference:
+            case StrongTypeOpenApiRepresentation.StrongType:
                 context.Document!.AddComponent(keyType.Name, keySchema);
                 return new OpenApiSchemaReference(keyType.Name, context.Document);
 

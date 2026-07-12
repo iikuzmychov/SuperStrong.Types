@@ -53,6 +53,6 @@ public abstract class NullabilityTests(StrongTypeGraphQLRepresentation represent
     }
 }
 
-public sealed class ScalarNullabilityTests() : NullabilityTests(StrongTypeGraphQLRepresentation.Scalar);
+public sealed class StrongTypeNullabilityTests() : NullabilityTests(StrongTypeGraphQLRepresentation.StrongType);
 
-public sealed class PrimitiveNullabilityTests() : NullabilityTests(StrongTypeGraphQLRepresentation.Primitive);
+public sealed class PrimitiveTypeNullabilityTests() : NullabilityTests(StrongTypeGraphQLRepresentation.PrimitiveType);

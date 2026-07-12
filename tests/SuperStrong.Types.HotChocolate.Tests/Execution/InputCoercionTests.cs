@@ -107,6 +107,6 @@ public abstract class InputCoercionTests(StrongTypeGraphQLRepresentation represe
     }
 }
 
-public sealed class ScalarInputCoercionTests() : InputCoercionTests(StrongTypeGraphQLRepresentation.Scalar);
+public sealed class StrongTypeInputCoercionTests() : InputCoercionTests(StrongTypeGraphQLRepresentation.StrongType);
 
-public sealed class PrimitiveInputCoercionTests() : InputCoercionTests(StrongTypeGraphQLRepresentation.Primitive);
+public sealed class PrimitiveTypeInputCoercionTests() : InputCoercionTests(StrongTypeGraphQLRepresentation.PrimitiveType);

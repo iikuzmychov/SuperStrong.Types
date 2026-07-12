@@ -17,7 +17,7 @@ public abstract class SchemaTests<TStrongType, TPrimitive>
     public async Task Maps_a_body_property_to_the_primitive_schema_when_inline()
     {
         var document = await GetDocumentAsync(
-            StrongTypeOpenApiRepresentation.Inline,
+            StrongTypeOpenApiRepresentation.PrimitiveType,
             app => app.MapPost("/", (Dto body) => body));
 
         var properties = GetRequestBodySchema(document).Properties!;
@@ -30,7 +30,7 @@ public abstract class SchemaTests<TStrongType, TPrimitive>
     public async Task Maps_a_body_property_to_a_primitive_schema_reference()
     {
         var document = await GetDocumentAsync(
-            StrongTypeOpenApiRepresentation.Reference,
+            StrongTypeOpenApiRepresentation.StrongType,
             app => app.MapPost("/", (Dto body) => body));
 
         var properties = GetRequestBodySchema(document).Properties!;
@@ -43,7 +43,7 @@ public abstract class SchemaTests<TStrongType, TPrimitive>
     public async Task Maps_route_and_query_parameters_to_the_primitive_schema_when_inline()
     {
         var document = await GetDocumentAsync(
-            StrongTypeOpenApiRepresentation.Inline,
+            StrongTypeOpenApiRepresentation.PrimitiveType,
             app => app.MapGet("/{route}", (TStrongType route, TStrongType query, TPrimitive primitive) => Results.Ok()));
 
         var primitiveSchema = GetParameterSchema(document, "primitive");
@@ -58,7 +58,7 @@ public abstract class SchemaTests<TStrongType, TPrimitive>
     public async Task Maps_route_and_query_parameters_to_primitive_schema_references()
     {
         var document = await GetDocumentAsync(
-            StrongTypeOpenApiRepresentation.Reference,
+            StrongTypeOpenApiRepresentation.StrongType,
             app => app.MapGet("/{route}", (TStrongType route, TStrongType query, TPrimitive primitive) => Results.Ok()));
 
         var primitiveSchema = GetParameterSchema(document, "primitive");

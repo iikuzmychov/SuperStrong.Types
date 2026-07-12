@@ -29,7 +29,7 @@ To enable the integration, call `AddStrongTypes(...)` on the GraphQL server. The
 ```csharp
 builder.Services
     .AddGraphQL()
-    .AddStrongTypes(StrongTypeGraphQLRepresentation.Scalar);
+    .AddStrongTypes(StrongTypeGraphQLRepresentation.StrongType);
 ```
 
 Once enabled, every strong type is handled automatically based on its usage, so you don't need to register anything manually.
@@ -38,7 +38,7 @@ Once enabled, every strong type is handled automatically based on its usage, so 
 
 A strong type can be represented in two ways. Pick the one that fits your clients.
 
-`Primitive` replaces the strong type with the scalar of its underlying primitive everywhere it is used (fields, arguments, input object fields, and collection elements):
+`PrimitiveType` replaces the strong type with the scalar of its underlying primitive everywhere it is used (fields, arguments, input object fields, and collection elements):
 
 ```graphql
 type Query {
@@ -48,7 +48,7 @@ type Query {
 
 Clients see plain scalars and the strong types stay invisible in the schema. This is the safe choice when the frontend isn't ready for distinct types.
 
-`Scalar` exposes each strong type as a named scalar and references it everywhere the strong type is used:
+`StrongType` exposes each strong type as a named scalar and references it everywhere the strong type is used:
 
 ```graphql
 scalar UserId @strongType(primitiveType: "UUID")

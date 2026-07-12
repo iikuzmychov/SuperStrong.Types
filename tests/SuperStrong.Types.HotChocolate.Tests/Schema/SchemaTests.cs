@@ -25,12 +25,12 @@ public sealed class Query
     }
 }
 
-public sealed class ScalarSchemaTests
+public sealed class StrongTypeSchemaTests
 {
     [Fact]
     public async Task A_strong_type_is_exposed_as_a_scalar_with_the_strong_type_directive()
     {
-        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.Scalar);
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.StrongType);
 
         var schema = executor.Schema.ToString();
 
@@ -41,7 +41,7 @@ public sealed class ScalarSchemaTests
     [Fact]
     public async Task A_Guid_strong_type_maps_to_the_UUID_scalar()
     {
-        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.Scalar);
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.StrongType);
 
         var schema = executor.Schema.ToString();
 
@@ -52,7 +52,7 @@ public sealed class ScalarSchemaTests
     [Fact]
     public async Task A_string_strong_type_maps_to_the_String_scalar()
     {
-        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.Scalar);
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.StrongType);
 
         var schema = executor.Schema.ToString();
 
@@ -63,7 +63,7 @@ public sealed class ScalarSchemaTests
     [Fact]
     public async Task A_strong_type_reachable_only_through_an_input_object_is_a_scalar_not_an_object()
     {
-        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.Scalar);
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.StrongType);
 
         var schema = executor.Schema.ToString();
 
@@ -74,12 +74,12 @@ public sealed class ScalarSchemaTests
     }
 }
 
-public sealed class PrimitiveSchemaTests
+public sealed class PrimitiveTypeSchemaTests
 {
     [Fact]
     public async Task A_strong_type_is_exposed_as_its_primitive_scalar()
     {
-        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.Primitive);
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.PrimitiveType);
 
         var schema = executor.Schema.ToString();
 
@@ -91,7 +91,7 @@ public sealed class PrimitiveSchemaTests
     [Fact]
     public async Task A_Guid_strong_type_maps_to_the_UUID_scalar()
     {
-        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.Primitive);
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.PrimitiveType);
 
         var schema = executor.Schema.ToString();
 
@@ -102,7 +102,7 @@ public sealed class PrimitiveSchemaTests
     [Fact]
     public async Task A_strong_type_inside_an_input_object_is_exposed_as_its_primitive_scalar()
     {
-        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.Primitive);
+        var executor = await GraphQLTest.GetExecutorAsync<Query>(StrongTypeGraphQLRepresentation.PrimitiveType);
 
         var schema = executor.Schema.ToString();
 

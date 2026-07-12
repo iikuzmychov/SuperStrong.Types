@@ -28,14 +28,14 @@ To enable the integration, call `AddStrongTypes(...)` when configuring OpenAPI. 
 
 ```csharp
 builder.Services.AddOpenApi(options =>
-    options.AddStrongTypes(StrongTypeOpenApiRepresentation.Reference));
+    options.AddStrongTypes(StrongTypeOpenApiRepresentation.StrongType));
 ```
 
 ## Representation
 
 A strong type can be represented in two ways. Pick the one that fits your frontend.
 
-`Inline` replaces the strong type with its underlying primitive everywhere it is used (properties, collection elements, dictionary keys and values, parameters, and any nesting of those):
+`PrimitiveType` replaces the strong type with its underlying primitive everywhere it is used (properties, collection elements, dictionary keys and values, parameters, and any nesting of those):
 
 ```json
 { "type": "string", "format": "uuid" }
@@ -43,7 +43,7 @@ A strong type can be represented in two ways. Pick the one that fits your fronte
 
 The generated client sees a plain primitive. This is the safe choice when the frontend isn't ready for distinct types.
 
-`Reference` emits a named schema component and references it everywhere the strong type is used:
+`StrongType` emits a named schema component and references it everywhere the strong type is used:
 
 ```json
 { "$ref": "#/components/schemas/UserId" }

@@ -5,7 +5,7 @@ using SuperStrong.Types.Reflection;
 
 namespace SuperStrong.Types.HotChocolate.Internal;
 
-internal sealed class PrimitiveRepresentationTypeInterceptor : TypeInterceptor
+internal sealed class PrimitiveTypeRepresentationInterceptor : TypeInterceptor
 {
     public override void OnBeforeRegisterDependencies(
         ITypeDiscoveryContext discoveryContext,

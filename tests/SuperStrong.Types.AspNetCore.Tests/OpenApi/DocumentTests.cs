@@ -10,8 +10,8 @@ public sealed partial class DocumentTests
 {
     public static TheoryData<StrongTypeOpenApiRepresentation> Representations { get; } =
     [
-        StrongTypeOpenApiRepresentation.Inline,
-        StrongTypeOpenApiRepresentation.Reference,
+        StrongTypeOpenApiRepresentation.PrimitiveType,
+        StrongTypeOpenApiRepresentation.StrongType,
     ];
 
     [Theory]

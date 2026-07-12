@@ -33,7 +33,7 @@ public static class OpenApiOptionsExtensions
     {
         switch (representation)
         {
-            case StrongTypeOpenApiRepresentation.Inline:
+            case StrongTypeOpenApiRepresentation.PrimitiveType:
                 var createPrimitiveSchemaReferenceId = options.CreateSchemaReferenceId;
 
                 options.CreateSchemaReferenceId = jsonTypeInfo =>
@@ -45,7 +45,7 @@ public static class OpenApiOptionsExtensions
 
                 break;
 
-            case StrongTypeOpenApiRepresentation.Reference:
+            case StrongTypeOpenApiRepresentation.StrongType:
                 return;
 
             default:

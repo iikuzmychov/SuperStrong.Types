@@ -109,10 +109,10 @@ internal sealed class StrongTypeOperationTransformer : IOpenApiOperationTransfor
 
         switch (_representation)
         {
-            case StrongTypeOpenApiRepresentation.Inline:
+            case StrongTypeOpenApiRepresentation.PrimitiveType:
                 return schema;
 
-            case StrongTypeOpenApiRepresentation.Reference:
+            case StrongTypeOpenApiRepresentation.StrongType:
                 var componentName = strongTypeInfo.ClrType.Name;
 
                 context.Document!.AddComponent(componentName, schema);

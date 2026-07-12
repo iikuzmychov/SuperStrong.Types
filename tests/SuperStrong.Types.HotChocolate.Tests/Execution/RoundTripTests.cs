@@ -57,92 +57,92 @@ public abstract class RoundTripTests<TStrongType, TPrimitive, TSamples>(StrongTy
 
 // char, sbyte, ushort, uint and ulong are omitted: HotChocolate has no default scalar for those CLR types.
 
-public sealed class BoolScalarRoundTripTests()
-    : RoundTripTests<StrongBool, bool, StrongBool.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Scalar);
+public sealed class BoolStrongTypeRoundTripTests()
+    : RoundTripTests<StrongBool, bool, StrongBool.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.StrongType);
 
-public sealed class ByteScalarRoundTripTests()
-    : RoundTripTests<StrongByte, byte, StrongByte.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Scalar);
+public sealed class ByteStrongTypeRoundTripTests()
+    : RoundTripTests<StrongByte, byte, StrongByte.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.StrongType);
 
-public sealed class ShortScalarRoundTripTests()
-    : RoundTripTests<StrongShort, short, StrongShort.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Scalar);
+public sealed class ShortStrongTypeRoundTripTests()
+    : RoundTripTests<StrongShort, short, StrongShort.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.StrongType);
 
-public sealed class IntScalarRoundTripTests()
-    : RoundTripTests<StrongInt, int, StrongInt.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Scalar);
+public sealed class IntStrongTypeRoundTripTests()
+    : RoundTripTests<StrongInt, int, StrongInt.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.StrongType);
 
-public sealed class LongScalarRoundTripTests()
-    : RoundTripTests<StrongLong, long, StrongLong.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Scalar);
+public sealed class LongStrongTypeRoundTripTests()
+    : RoundTripTests<StrongLong, long, StrongLong.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.StrongType);
 
-public sealed class FloatScalarRoundTripTests()
-    : RoundTripTests<StrongFloat, float, StrongFloat.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Scalar);
+public sealed class FloatStrongTypeRoundTripTests()
+    : RoundTripTests<StrongFloat, float, StrongFloat.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.StrongType);
 
-public sealed class DoubleScalarRoundTripTests()
-    : RoundTripTests<StrongDouble, double, StrongDouble.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Scalar);
+public sealed class DoubleStrongTypeRoundTripTests()
+    : RoundTripTests<StrongDouble, double, StrongDouble.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.StrongType);
 
-public sealed class DecimalScalarRoundTripTests()
-    : RoundTripTests<StrongDecimal, decimal, StrongDecimal.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Scalar);
+public sealed class DecimalStrongTypeRoundTripTests()
+    : RoundTripTests<StrongDecimal, decimal, StrongDecimal.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.StrongType);
 
-public sealed class StringScalarRoundTripTests()
-    : RoundTripTests<StrongString, string, StrongString.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Scalar);
+public sealed class StringStrongTypeRoundTripTests()
+    : RoundTripTests<StrongString, string, StrongString.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.StrongType);
 
-public sealed class GuidScalarRoundTripTests()
-    : RoundTripTests<StrongGuid, Guid, StrongGuid.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Scalar);
+public sealed class GuidStrongTypeRoundTripTests()
+    : RoundTripTests<StrongGuid, Guid, StrongGuid.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.StrongType);
 
-public sealed class DateTimeScalarRoundTripTests()
-    : RoundTripTests<StrongDateTime, DateTime, StrongDateTime.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Scalar);
+public sealed class DateTimeStrongTypeRoundTripTests()
+    : RoundTripTests<StrongDateTime, DateTime, StrongDateTime.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.StrongType);
 
-public sealed class DateTimeOffsetScalarRoundTripTests()
-    : RoundTripTests<StrongDateTimeOffset, DateTimeOffset, StrongDateTimeOffset.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Scalar);
+public sealed class DateTimeOffsetStrongTypeRoundTripTests()
+    : RoundTripTests<StrongDateTimeOffset, DateTimeOffset, StrongDateTimeOffset.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.StrongType);
 
-public sealed class DateOnlyScalarRoundTripTests()
-    : RoundTripTests<StrongDateOnly, DateOnly, StrongDateOnly.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Scalar);
+public sealed class DateOnlyStrongTypeRoundTripTests()
+    : RoundTripTests<StrongDateOnly, DateOnly, StrongDateOnly.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.StrongType);
 
-public sealed class TimeOnlyScalarRoundTripTests()
-    : RoundTripTests<StrongTimeOnly, TimeOnly, StrongTimeOnly.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Scalar);
+public sealed class TimeOnlyStrongTypeRoundTripTests()
+    : RoundTripTests<StrongTimeOnly, TimeOnly, StrongTimeOnly.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.StrongType);
 
-public sealed class TimeSpanScalarRoundTripTests()
-    : RoundTripTests<StrongTimeSpan, TimeSpan, StrongTimeSpan.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Scalar);
+public sealed class TimeSpanStrongTypeRoundTripTests()
+    : RoundTripTests<StrongTimeSpan, TimeSpan, StrongTimeSpan.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.StrongType);
 
-public sealed class BoolPrimitiveRoundTripTests()
-    : RoundTripTests<StrongBool, bool, StrongBool.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Primitive);
+public sealed class BoolPrimitiveTypeRoundTripTests()
+    : RoundTripTests<StrongBool, bool, StrongBool.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.PrimitiveType);
 
-public sealed class BytePrimitiveRoundTripTests()
-    : RoundTripTests<StrongByte, byte, StrongByte.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Primitive);
+public sealed class BytePrimitiveTypeRoundTripTests()
+    : RoundTripTests<StrongByte, byte, StrongByte.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.PrimitiveType);
 
-public sealed class ShortPrimitiveRoundTripTests()
-    : RoundTripTests<StrongShort, short, StrongShort.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Primitive);
+public sealed class ShortPrimitiveTypeRoundTripTests()
+    : RoundTripTests<StrongShort, short, StrongShort.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.PrimitiveType);
 
-public sealed class IntPrimitiveRoundTripTests()
-    : RoundTripTests<StrongInt, int, StrongInt.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Primitive);
+public sealed class IntPrimitiveTypeRoundTripTests()
+    : RoundTripTests<StrongInt, int, StrongInt.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.PrimitiveType);
 
-public sealed class LongPrimitiveRoundTripTests()
-    : RoundTripTests<StrongLong, long, StrongLong.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Primitive);
+public sealed class LongPrimitiveTypeRoundTripTests()
+    : RoundTripTests<StrongLong, long, StrongLong.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.PrimitiveType);
 
-public sealed class FloatPrimitiveRoundTripTests()
-    : RoundTripTests<StrongFloat, float, StrongFloat.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Primitive);
+public sealed class FloatPrimitiveTypeRoundTripTests()
+    : RoundTripTests<StrongFloat, float, StrongFloat.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.PrimitiveType);
 
-public sealed class DoublePrimitiveRoundTripTests()
-    : RoundTripTests<StrongDouble, double, StrongDouble.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Primitive);
+public sealed class DoublePrimitiveTypeRoundTripTests()
+    : RoundTripTests<StrongDouble, double, StrongDouble.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.PrimitiveType);
 
-public sealed class DecimalPrimitiveRoundTripTests()
-    : RoundTripTests<StrongDecimal, decimal, StrongDecimal.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Primitive);
+public sealed class DecimalPrimitiveTypeRoundTripTests()
+    : RoundTripTests<StrongDecimal, decimal, StrongDecimal.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.PrimitiveType);
 
-public sealed class StringPrimitiveRoundTripTests()
-    : RoundTripTests<StrongString, string, StrongString.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Primitive);
+public sealed class StringPrimitiveTypeRoundTripTests()
+    : RoundTripTests<StrongString, string, StrongString.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.PrimitiveType);
 
-public sealed class GuidPrimitiveRoundTripTests()
-    : RoundTripTests<StrongGuid, Guid, StrongGuid.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Primitive);
+public sealed class GuidPrimitiveTypeRoundTripTests()
+    : RoundTripTests<StrongGuid, Guid, StrongGuid.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.PrimitiveType);
 
-public sealed class DateTimePrimitiveRoundTripTests()
-    : RoundTripTests<StrongDateTime, DateTime, StrongDateTime.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Primitive);
+public sealed class DateTimePrimitiveTypeRoundTripTests()
+    : RoundTripTests<StrongDateTime, DateTime, StrongDateTime.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.PrimitiveType);
 
-public sealed class DateTimeOffsetPrimitiveRoundTripTests()
-    : RoundTripTests<StrongDateTimeOffset, DateTimeOffset, StrongDateTimeOffset.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Primitive);
+public sealed class DateTimeOffsetPrimitiveTypeRoundTripTests()
+    : RoundTripTests<StrongDateTimeOffset, DateTimeOffset, StrongDateTimeOffset.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.PrimitiveType);
 
-public sealed class DateOnlyPrimitiveRoundTripTests()
-    : RoundTripTests<StrongDateOnly, DateOnly, StrongDateOnly.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Primitive);
+public sealed class DateOnlyPrimitiveTypeRoundTripTests()
+    : RoundTripTests<StrongDateOnly, DateOnly, StrongDateOnly.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.PrimitiveType);
 
-public sealed class TimeOnlyPrimitiveRoundTripTests()
-    : RoundTripTests<StrongTimeOnly, TimeOnly, StrongTimeOnly.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Primitive);
+public sealed class TimeOnlyPrimitiveTypeRoundTripTests()
+    : RoundTripTests<StrongTimeOnly, TimeOnly, StrongTimeOnly.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.PrimitiveType);
 
-public sealed class TimeSpanPrimitiveRoundTripTests()
-    : RoundTripTests<StrongTimeSpan, TimeSpan, StrongTimeSpan.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.Primitive);
+public sealed class TimeSpanPrimitiveTypeRoundTripTests()
+    : RoundTripTests<StrongTimeSpan, TimeSpan, StrongTimeSpan.ValidPrimitiveSamples>(StrongTypeGraphQLRepresentation.PrimitiveType);

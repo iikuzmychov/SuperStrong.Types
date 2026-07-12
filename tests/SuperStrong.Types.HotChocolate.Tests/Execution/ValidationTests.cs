@@ -74,6 +74,6 @@ public abstract class ValidationTests(StrongTypeGraphQLRepresentation representa
     }
 }
 
-public sealed class ScalarValidationTests() : ValidationTests(StrongTypeGraphQLRepresentation.Scalar);
+public sealed class StrongTypeValidationTests() : ValidationTests(StrongTypeGraphQLRepresentation.StrongType);
 
-public sealed class PrimitiveValidationTests() : ValidationTests(StrongTypeGraphQLRepresentation.Primitive);
+public sealed class PrimitiveTypeValidationTests() : ValidationTests(StrongTypeGraphQLRepresentation.PrimitiveType);
