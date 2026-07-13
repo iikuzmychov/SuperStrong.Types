@@ -11,15 +11,15 @@ public sealed class MinLengthValidator : StrongTypeValidator<string>
         MinLength = minLength;
     }
 
-    public override StrongTypeValidationResult Validate(string value)
+    public override StrongTypeValidatorResult Validate(string value)
     {
         ArgumentNullException.ThrowIfNull(value);
 
         if (value.Length < MinLength)
         {
-            return StrongTypeValidationResult.Invalid($"Value must be at least {MinLength} characters long.");
+            return StrongTypeValidatorResult.Invalid($"Value must be at least {MinLength} characters long.");
         }
 
-        return StrongTypeValidationResult.Valid();
+        return StrongTypeValidatorResult.Valid();
     }
 }

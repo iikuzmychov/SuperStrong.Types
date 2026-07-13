@@ -11,15 +11,15 @@ public sealed class ExactLengthValidator : StrongTypeValidator<string>
         Length = length;
     }
 
-    public override StrongTypeValidationResult Validate(string value)
+    public override StrongTypeValidatorResult Validate(string value)
     {
         ArgumentNullException.ThrowIfNull(value);
 
         if (value.Length != Length)
         {
-            return StrongTypeValidationResult.Invalid($"Value must be exactly {Length} characters long.");
+            return StrongTypeValidatorResult.Invalid($"Value must be exactly {Length} characters long.");
         }
 
-        return StrongTypeValidationResult.Valid();
+        return StrongTypeValidatorResult.Valid();
     }
 }

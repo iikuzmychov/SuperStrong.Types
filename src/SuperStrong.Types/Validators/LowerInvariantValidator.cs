@@ -2,15 +2,15 @@ namespace SuperStrong.Types.Validators;
 
 public sealed class LowerInvariantValidator : StrongTypeValidator<string>
 {
-    public override StrongTypeValidationResult Validate(string value)
+    public override StrongTypeValidatorResult Validate(string value)
     {
         ArgumentNullException.ThrowIfNull(value);
 
         if (value.ToLowerInvariant() != value)
         {
-            return StrongTypeValidationResult.Invalid("Value must be in lower invariant case.");
+            return StrongTypeValidatorResult.Invalid("Value must be in lower invariant case.");
         }
 
-        return StrongTypeValidationResult.Valid();
+        return StrongTypeValidatorResult.Valid();
     }
 }

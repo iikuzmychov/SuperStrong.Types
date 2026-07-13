@@ -11,15 +11,15 @@ public sealed class MaxLengthValidator : StrongTypeValidator<string>
         MaxLength = maxLength;
     }
 
-    public override StrongTypeValidationResult Validate(string value)
+    public override StrongTypeValidatorResult Validate(string value)
     {
         ArgumentNullException.ThrowIfNull(value);
 
         if (value.Length > MaxLength)
         {
-            return StrongTypeValidationResult.Invalid($"Value must be at most {MaxLength} characters long.");
+            return StrongTypeValidatorResult.Invalid($"Value must be at most {MaxLength} characters long.");
         }
 
-        return StrongTypeValidationResult.Valid();
+        return StrongTypeValidatorResult.Valid();
     }
 }

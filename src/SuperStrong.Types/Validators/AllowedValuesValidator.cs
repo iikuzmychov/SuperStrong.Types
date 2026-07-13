@@ -17,15 +17,15 @@ public sealed class AllowedValuesValidator<TPrimitive> : StrongTypeValidator<TPr
         AllowedValues = allowedValues;
     }
 
-    public override StrongTypeValidationResult Validate(TPrimitive value)
+    public override StrongTypeValidatorResult Validate(TPrimitive value)
     {
         ArgumentNullException.ThrowIfNull(value);
 
         if (!AllowedValues.Contains(value))
         {
-            return StrongTypeValidationResult.Invalid($"Value must be one of: {string.Join(", ", AllowedValues)}.");
+            return StrongTypeValidatorResult.Invalid($"Value must be one of: {string.Join(", ", AllowedValues)}.");
         }
 
-        return StrongTypeValidationResult.Valid();
+        return StrongTypeValidatorResult.Valid();
     }
 }

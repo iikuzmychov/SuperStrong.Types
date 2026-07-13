@@ -6,7 +6,7 @@ public sealed class RegexValidator(Regex regex) : StrongTypeValidator<string>
 {
     public Regex Regex { get; } = regex ?? throw new ArgumentNullException(nameof(regex));
 
-    public override StrongTypeValidationResult Validate(string value)
+    public override StrongTypeValidatorResult Validate(string value)
     {
         ArgumentNullException.ThrowIfNull(value);
 
@@ -16,9 +16,9 @@ public sealed class RegexValidator(Regex regex) : StrongTypeValidator<string>
                 ? string.Empty
                 : $" ({Regex.Options})";
 
-            return StrongTypeValidationResult.Invalid($"Value must match the regex pattern '{Regex}'{optionsSuffix}.");
+            return StrongTypeValidatorResult.Invalid($"Value must match the regex pattern '{Regex}'{optionsSuffix}.");
         }
 
-        return StrongTypeValidationResult.Valid();
+        return StrongTypeValidatorResult.Valid();
     }
 }

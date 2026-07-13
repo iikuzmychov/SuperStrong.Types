@@ -6,7 +6,7 @@ public sealed class MinValueValidator<TPrimitive>(TPrimitive minValue, bool isEx
     public TPrimitive MinValue { get; } = minValue ?? throw new ArgumentNullException(nameof(minValue));
     public bool IsExclusive { get; } = isExclusive;
 
-    public override StrongTypeValidationResult Validate(TPrimitive value)
+    public override StrongTypeValidatorResult Validate(TPrimitive value)
     {
         ArgumentNullException.ThrowIfNull(value);
 
@@ -20,9 +20,9 @@ public sealed class MinValueValidator<TPrimitive>(TPrimitive minValue, bool isEx
         {
             var boundDescription = IsExclusive ? "greater than" : "greater than or equal to";
 
-            return StrongTypeValidationResult.Invalid($"Value must be {boundDescription} {MinValue}.");
+            return StrongTypeValidatorResult.Invalid($"Value must be {boundDescription} {MinValue}.");
         }
 
-        return StrongTypeValidationResult.Valid();
+        return StrongTypeValidatorResult.Valid();
     }
 }

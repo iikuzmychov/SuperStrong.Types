@@ -10,5 +10,5 @@ public abstract class StrongTypeValidator
 public abstract class StrongTypeValidator<TPrimitive> : StrongTypeValidator
     where TPrimitive : notnull
 {
-    public abstract StrongTypeValidationResult Validate(TPrimitive value);
+    public abstract StrongTypeValidatorResult Validate(TPrimitive value);
 }

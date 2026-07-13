@@ -17,15 +17,15 @@ public sealed class ForbiddenValuesValidator<TPrimitive> : StrongTypeValidator<T
         ForbiddenValues = forbiddenValues;
     }
 
-    public override StrongTypeValidationResult Validate(TPrimitive value)
+    public override StrongTypeValidatorResult Validate(TPrimitive value)
     {
         ArgumentNullException.ThrowIfNull(value);
 
         if (ForbiddenValues.Contains(value))
         {
-            return StrongTypeValidationResult.Invalid($"Value must not be one of: {string.Join(", ", ForbiddenValues)}.");
+            return StrongTypeValidatorResult.Invalid($"Value must not be one of: {string.Join(", ", ForbiddenValues)}.");
         }
 
-        return StrongTypeValidationResult.Valid();
+        return StrongTypeValidatorResult.Valid();
     }
 }

@@ -9,7 +9,7 @@ public sealed class PredicateValidator<TPrimitive>(
     public Func<TPrimitive, bool> Predicate { get; } = predicate ?? throw new ArgumentNullException(nameof(predicate));
     public Func<TPrimitive, string?>? ErrorMessageFactory { get; } = errorMessageFactory;
 
-    public override StrongTypeValidationResult Validate(TPrimitive value)
+    public override StrongTypeValidatorResult Validate(TPrimitive value)
     {
         ArgumentNullException.ThrowIfNull(value);
 
@@ -17,9 +17,9 @@ public sealed class PredicateValidator<TPrimitive>(
         {
             var errorMessage = ErrorMessageFactory?.Invoke(value) ?? "Value must satisfy the predicate.";
 
-            return StrongTypeValidationResult.Invalid(errorMessage);
+            return StrongTypeValidatorResult.Invalid(errorMessage);
         }
 
-        return StrongTypeValidationResult.Valid();
+        return StrongTypeValidatorResult.Valid();
     }
 }

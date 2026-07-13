@@ -6,7 +6,7 @@ public sealed class MaxValueValidator<TPrimitive>(TPrimitive maxValue, bool isEx
     public TPrimitive MaxValue { get; } = maxValue ?? throw new ArgumentNullException(nameof(maxValue));
     public bool IsExclusive { get; } = isExclusive;
 
-    public override StrongTypeValidationResult Validate(TPrimitive value)
+    public override StrongTypeValidatorResult Validate(TPrimitive value)
     {
         ArgumentNullException.ThrowIfNull(value);
 
@@ -20,9 +20,9 @@ public sealed class MaxValueValidator<TPrimitive>(TPrimitive maxValue, bool isEx
         {
             var boundDescription = IsExclusive ? "less than" : "less than or equal to";
 
-            return StrongTypeValidationResult.Invalid($"Value must be {boundDescription} {MaxValue}.");
+            return StrongTypeValidatorResult.Invalid($"Value must be {boundDescription} {MaxValue}.");
         }
 
-        return StrongTypeValidationResult.Valid();
+        return StrongTypeValidatorResult.Valid();
     }
 }

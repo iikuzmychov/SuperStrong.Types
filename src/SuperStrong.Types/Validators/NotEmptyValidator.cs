@@ -4,7 +4,7 @@ public sealed class NotEmptyValidator(bool allowWhiteSpaces = false) : StrongTyp
 {
     public bool AllowWhiteSpaces { get; } = allowWhiteSpaces;
 
-    public override StrongTypeValidationResult Validate(string value)
+    public override StrongTypeValidatorResult Validate(string value)
     {
         ArgumentNullException.ThrowIfNull(value);
 
@@ -18,9 +18,9 @@ public sealed class NotEmptyValidator(bool allowWhiteSpaces = false) : StrongTyp
                 ? "Value must not be empty."
                 : "Value must not be empty or whitespace.";
 
-            return StrongTypeValidationResult.Invalid(message);
+            return StrongTypeValidatorResult.Invalid(message);
         }
 
-        return StrongTypeValidationResult.Valid();
+        return StrongTypeValidatorResult.Valid();
     }
 }

@@ -7,7 +7,7 @@ public sealed class NegativeValidator<TPrimitive>(bool allowZero = false) : Stro
 {
     public bool AllowZero { get; } = allowZero;
 
-    public override StrongTypeValidationResult Validate(TPrimitive value)
+    public override StrongTypeValidatorResult Validate(TPrimitive value)
     {
         ArgumentNullException.ThrowIfNull(value);
 
@@ -23,9 +23,9 @@ public sealed class NegativeValidator<TPrimitive>(bool allowZero = false) : Stro
                 ? "Value must be negative or zero."
                 : "Value must be negative.";
 
-            return StrongTypeValidationResult.Invalid(message);
+            return StrongTypeValidatorResult.Invalid(message);
         }
 
-        return StrongTypeValidationResult.Valid();
+        return StrongTypeValidatorResult.Valid();
     }
 }
