@@ -13,7 +13,7 @@ public sealed class UpperInvariantValidatorTests
     {
         var validator = new UpperInvariantValidator();
 
-        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate(value));
+        Assert.True(validator.Validate(value).IsValid);
     }
 
     [Theory]
@@ -24,7 +24,7 @@ public sealed class UpperInvariantValidatorTests
     {
         var validator = new UpperInvariantValidator();
 
-        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(value));
+        Assert.False(validator.Validate(value).IsValid);
     }
 
     [Fact]
@@ -32,7 +32,9 @@ public sealed class UpperInvariantValidatorTests
     {
         var validator = new UpperInvariantValidator();
 
-        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("aBC"));
+        var result = validator.Validate("aBC");
+
+        Assert.False(result.IsValid);
         Assert.Equal("Value must be in upper invariant case.", result.ErrorMessage);
     }
 }

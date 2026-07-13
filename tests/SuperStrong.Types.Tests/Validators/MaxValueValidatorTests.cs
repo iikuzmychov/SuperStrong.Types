@@ -17,7 +17,7 @@ public sealed class MaxValueValidatorTests
     {
         var validator = new MaxValueValidator<int>(5);
 
-        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate(5));
+        Assert.True(validator.Validate(5).IsValid);
     }
 
     [Fact]
@@ -25,7 +25,7 @@ public sealed class MaxValueValidatorTests
     {
         var validator = new MaxValueValidator<int>(5, isExclusive: true);
 
-        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(5));
+        Assert.False(validator.Validate(5).IsValid);
     }
 
     [Fact]
@@ -33,7 +33,7 @@ public sealed class MaxValueValidatorTests
     {
         var validator = new MaxValueValidator<int>(5, isExclusive: true);
 
-        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate(4));
+        Assert.True(validator.Validate(4).IsValid);
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public sealed class MaxValueValidatorTests
     {
         var validator = new MaxValueValidator<int>(5);
 
-        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(6));
+        Assert.False(validator.Validate(6).IsValid);
     }
 
     [Fact]
@@ -49,7 +49,9 @@ public sealed class MaxValueValidatorTests
     {
         var validator = new MaxValueValidator<int>(5);
 
-        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(6));
+        var result = validator.Validate(6);
+
+        Assert.False(result.IsValid);
         Assert.Equal("Value must be less than or equal to 5.", result.ErrorMessage);
     }
 
@@ -58,7 +60,9 @@ public sealed class MaxValueValidatorTests
     {
         var validator = new MaxValueValidator<int>(5, isExclusive: true);
 
-        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(5));
+        var result = validator.Validate(5);
+
+        Assert.False(result.IsValid);
         Assert.Equal("Value must be less than 5.", result.ErrorMessage);
     }
 }

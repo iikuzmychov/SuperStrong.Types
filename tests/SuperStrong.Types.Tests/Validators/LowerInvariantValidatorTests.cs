@@ -13,7 +13,7 @@ public sealed class LowerInvariantValidatorTests
     {
         var validator = new LowerInvariantValidator();
 
-        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate(value));
+        Assert.True(validator.Validate(value).IsValid);
     }
 
     [Theory]
@@ -24,7 +24,7 @@ public sealed class LowerInvariantValidatorTests
     {
         var validator = new LowerInvariantValidator();
 
-        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(value));
+        Assert.False(validator.Validate(value).IsValid);
     }
 
     [Fact]
@@ -32,7 +32,9 @@ public sealed class LowerInvariantValidatorTests
     {
         var validator = new LowerInvariantValidator();
 
-        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("Abc"));
+        var result = validator.Validate("Abc");
+
+        Assert.False(result.IsValid);
         Assert.Equal("Value must be in lower invariant case.", result.ErrorMessage);
     }
 }

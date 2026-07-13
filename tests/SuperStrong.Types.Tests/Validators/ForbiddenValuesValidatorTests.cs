@@ -24,7 +24,7 @@ public sealed class ForbiddenValuesValidatorTests
     {
         var validator = new ForbiddenValuesValidator<string>(["admin", "root"]);
 
-        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("admin"));
+        Assert.False(validator.Validate("admin").IsValid);
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public sealed class ForbiddenValuesValidatorTests
     {
         var validator = new ForbiddenValuesValidator<string>(["admin", "root"]);
 
-        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate("user"));
+        Assert.True(validator.Validate("user").IsValid);
     }
 
     [Fact]
@@ -40,7 +40,7 @@ public sealed class ForbiddenValuesValidatorTests
     {
         var validator = new ForbiddenValuesValidator<string>(["admin"]);
 
-        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate("ADMIN"));
+        Assert.True(validator.Validate("ADMIN").IsValid);
     }
 
     [Fact]
@@ -48,7 +48,7 @@ public sealed class ForbiddenValuesValidatorTests
     {
         var validator = new ForbiddenValuesValidator<string>(ImmutableHashSet.Create(StringComparer.OrdinalIgnoreCase, "admin"));
 
-        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("ADMIN"));
+        Assert.False(validator.Validate("ADMIN").IsValid);
     }
 
     [Fact]
@@ -56,7 +56,9 @@ public sealed class ForbiddenValuesValidatorTests
     {
         var validator = new ForbiddenValuesValidator<string>(["admin"]);
 
-        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("admin"));
+        var result = validator.Validate("admin");
+
+        Assert.False(result.IsValid);
         Assert.Equal("Value must not be one of: admin.", result.ErrorMessage);
     }
 }

@@ -17,7 +17,7 @@ public sealed class NegativeValidatorTests
     {
         var validator = new NegativeValidator<int>();
 
-        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate(-1));
+        Assert.True(validator.Validate(-1).IsValid);
     }
 
     [Theory]
@@ -27,7 +27,7 @@ public sealed class NegativeValidatorTests
     {
         var validator = new NegativeValidator<int>();
 
-        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(value));
+        Assert.False(validator.Validate(value).IsValid);
     }
 
     [Theory]
@@ -37,7 +37,7 @@ public sealed class NegativeValidatorTests
     {
         var validator = new NegativeValidator<int>(allowZero: true);
 
-        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate(value));
+        Assert.True(validator.Validate(value).IsValid);
     }
 
     [Fact]
@@ -45,7 +45,7 @@ public sealed class NegativeValidatorTests
     {
         var validator = new NegativeValidator<int>(allowZero: true);
 
-        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(1));
+        Assert.False(validator.Validate(1).IsValid);
     }
 
     [Fact]
@@ -53,7 +53,9 @@ public sealed class NegativeValidatorTests
     {
         var validator = new NegativeValidator<int>();
 
-        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(0));
+        var result = validator.Validate(0);
+
+        Assert.False(result.IsValid);
         Assert.Equal("Value must be negative.", result.ErrorMessage);
     }
 
@@ -62,7 +64,9 @@ public sealed class NegativeValidatorTests
     {
         var validator = new NegativeValidator<int>(allowZero: true);
 
-        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(1));
+        var result = validator.Validate(1);
+
+        Assert.False(result.IsValid);
         Assert.Equal("Value must be negative or zero.", result.ErrorMessage);
     }
 }

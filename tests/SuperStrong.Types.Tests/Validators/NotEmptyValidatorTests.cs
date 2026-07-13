@@ -21,7 +21,7 @@ public sealed class NotEmptyValidatorTests
     {
         var validator = new NotEmptyValidator();
 
-        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(value));
+        Assert.False(validator.Validate(value).IsValid);
     }
 
     [Theory]
@@ -32,7 +32,7 @@ public sealed class NotEmptyValidatorTests
     {
         var validator = new NotEmptyValidator();
 
-        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate(value));
+        Assert.True(validator.Validate(value).IsValid);
     }
 
     [Fact]
@@ -40,7 +40,7 @@ public sealed class NotEmptyValidatorTests
     {
         var validator = new NotEmptyValidator(allowWhiteSpaces: true);
 
-        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(""));
+        Assert.False(validator.Validate("").IsValid);
     }
 
     [Theory]
@@ -51,7 +51,7 @@ public sealed class NotEmptyValidatorTests
     {
         var validator = new NotEmptyValidator(allowWhiteSpaces: true);
 
-        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate(value));
+        Assert.True(validator.Validate(value).IsValid);
     }
 
     [Fact]
@@ -59,7 +59,9 @@ public sealed class NotEmptyValidatorTests
     {
         var validator = new NotEmptyValidator();
 
-        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(" "));
+        var result = validator.Validate(" ");
+
+        Assert.False(result.IsValid);
         Assert.Equal("Value must not be empty or whitespace.", result.ErrorMessage);
     }
 
@@ -68,7 +70,9 @@ public sealed class NotEmptyValidatorTests
     {
         var validator = new NotEmptyValidator(allowWhiteSpaces: true);
 
-        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(""));
+        var result = validator.Validate("");
+
+        Assert.False(result.IsValid);
         Assert.Equal("Value must not be empty.", result.ErrorMessage);
     }
 }

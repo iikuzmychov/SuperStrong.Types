@@ -23,7 +23,7 @@ public sealed class ExactLengthValidatorTests
     {
         var validator = new ExactLengthValidator(3);
 
-        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate("abc"));
+        Assert.True(validator.Validate("abc").IsValid);
     }
 
     [Theory]
@@ -34,7 +34,7 @@ public sealed class ExactLengthValidatorTests
     {
         var validator = new ExactLengthValidator(3);
 
-        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(value));
+        Assert.False(validator.Validate(value).IsValid);
     }
 
     [Fact]
@@ -42,7 +42,9 @@ public sealed class ExactLengthValidatorTests
     {
         var validator = new ExactLengthValidator(3);
 
-        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("abcd"));
+        var result = validator.Validate("abcd");
+
+        Assert.False(result.IsValid);
         Assert.Equal("Value must be exactly 3 characters long.", result.ErrorMessage);
     }
 }

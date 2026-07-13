@@ -1,31 +1,28 @@
-using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SuperStrong.Types;
 
-public abstract record StrongTypeValidationResult
+public sealed record StrongTypeValidationResult
 {
-    private StrongTypeValidationResult()
+    private static readonly StrongTypeValidationResult ValidResult = new(errorMessage: null);
+
+    [MemberNotNullWhen(false, nameof(ErrorMessage))]
+    public bool IsValid { get; }
+
+    public string? ErrorMessage { get; }
+
+    private StrongTypeValidationResult(string? errorMessage)
     {
+        IsValid = errorMessage is null;
+        ErrorMessage = errorMessage;
     }
 
-    public sealed record Valid : StrongTypeValidationResult
+    public static StrongTypeValidationResult Valid() => ValidResult;
+
+    public static StrongTypeValidationResult Invalid(string errorMessage)
     {
-        internal static readonly Valid Instance = new();
+        ArgumentNullException.ThrowIfNull(errorMessage);
 
-        private Valid()
-        {
-        }
-    }
-
-    public sealed record Invalid : StrongTypeValidationResult
-    {
-        public string ErrorMessage { get; }
-
-        internal Invalid(string errorMessage)
-        {
-            Debug.Assert(errorMessage is not null);
-
-            ErrorMessage = errorMessage;
-        }
+        return new StrongTypeValidationResult(errorMessage);
     }
 }

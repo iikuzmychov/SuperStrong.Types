@@ -43,7 +43,7 @@ public sealed class PredicateValidatorTests
     {
         var validator = new PredicateValidator<int>(value => value > 0);
 
-        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate(1));
+        Assert.True(validator.Validate(1).IsValid);
     }
 
     [Fact]
@@ -51,7 +51,7 @@ public sealed class PredicateValidatorTests
     {
         var validator = new PredicateValidator<int>(value => value > 0);
 
-        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(0));
+        Assert.False(validator.Validate(0).IsValid);
     }
 
     [Fact]
@@ -59,7 +59,9 @@ public sealed class PredicateValidatorTests
     {
         var validator = new PredicateValidator<int>(value => value > 0);
 
-        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(0));
+        var result = validator.Validate(0);
+
+        Assert.False(result.IsValid);
         Assert.Equal("Value must satisfy the predicate.", result.ErrorMessage);
     }
 
@@ -68,7 +70,9 @@ public sealed class PredicateValidatorTests
     {
         var validator = new PredicateValidator<int>(value => value > 0, value => $"Value {value} is not positive.");
 
-        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(-1));
+        var result = validator.Validate(-1);
+
+        Assert.False(result.IsValid);
         Assert.Equal("Value -1 is not positive.", result.ErrorMessage);
     }
 
@@ -77,7 +81,9 @@ public sealed class PredicateValidatorTests
     {
         var validator = new PredicateValidator<int>(value => value > 0, _ => null);
 
-        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(0));
+        var result = validator.Validate(0);
+
+        Assert.False(result.IsValid);
         Assert.Equal("Value must satisfy the predicate.", result.ErrorMessage);
     }
 }

@@ -25,7 +25,7 @@ public sealed class MinLengthValidatorTests
     {
         var validator = new MinLengthValidator(3);
 
-        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate(value));
+        Assert.True(validator.Validate(value).IsValid);
     }
 
     [Theory]
@@ -35,7 +35,7 @@ public sealed class MinLengthValidatorTests
     {
         var validator = new MinLengthValidator(3);
 
-        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate(value));
+        Assert.False(validator.Validate(value).IsValid);
     }
 
     [Fact]
@@ -43,7 +43,9 @@ public sealed class MinLengthValidatorTests
     {
         var validator = new MinLengthValidator(3);
 
-        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("ab"));
+        var result = validator.Validate("ab");
+
+        Assert.False(result.IsValid);
         Assert.Equal("Value must be at least 3 characters long.", result.ErrorMessage);
     }
 }

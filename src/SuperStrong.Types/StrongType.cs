@@ -24,7 +24,7 @@ public static class StrongType
 
         foreach (var validator in strongTypeDefinition.Validators)
         {
-            if (validator.Validate(value) is StrongTypeValidationResult.Invalid)
+            if (validator.Validate(value) is { IsValid: false })
             {
                 return false;
             }
@@ -44,7 +44,7 @@ public static class StrongType
 
         foreach (var validator in strongTypeDefinition.Validators)
         {
-            if (validator.Validate(value) is StrongTypeValidationResult.Invalid invalidValidationResult)
+            if (validator.Validate(value) is { IsValid: false } invalidValidationResult)
             {
                 errorMessages.Add(invalidValidationResult.ErrorMessage);
             }

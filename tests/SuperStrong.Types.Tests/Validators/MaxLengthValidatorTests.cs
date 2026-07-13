@@ -25,7 +25,7 @@ public sealed class MaxLengthValidatorTests
     {
         var validator = new MaxLengthValidator(3);
 
-        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate(value));
+        Assert.True(validator.Validate(value).IsValid);
     }
 
     [Fact]
@@ -33,7 +33,7 @@ public sealed class MaxLengthValidatorTests
     {
         var validator = new MaxLengthValidator(3);
 
-        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("abcd"));
+        Assert.False(validator.Validate("abcd").IsValid);
     }
 
     [Fact]
@@ -41,7 +41,9 @@ public sealed class MaxLengthValidatorTests
     {
         var validator = new MaxLengthValidator(3);
 
-        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("abcd"));
+        var result = validator.Validate("abcd");
+
+        Assert.False(result.IsValid);
         Assert.Equal("Value must be at most 3 characters long.", result.ErrorMessage);
     }
 }

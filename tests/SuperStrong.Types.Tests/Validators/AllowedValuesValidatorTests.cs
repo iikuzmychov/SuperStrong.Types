@@ -24,7 +24,7 @@ public sealed class AllowedValuesValidatorTests
     {
         var validator = new AllowedValuesValidator<string>(["red", "green", "blue"]);
 
-        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate("green"));
+        Assert.True(validator.Validate("green").IsValid);
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public sealed class AllowedValuesValidatorTests
     {
         var validator = new AllowedValuesValidator<string>(["red", "green", "blue"]);
 
-        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("yellow"));
+        Assert.False(validator.Validate("yellow").IsValid);
     }
 
     [Fact]
@@ -40,7 +40,7 @@ public sealed class AllowedValuesValidatorTests
     {
         var validator = new AllowedValuesValidator<string>(["red"]);
 
-        Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("RED"));
+        Assert.False(validator.Validate("RED").IsValid);
     }
 
     [Fact]
@@ -48,7 +48,7 @@ public sealed class AllowedValuesValidatorTests
     {
         var validator = new AllowedValuesValidator<string>(ImmutableHashSet.Create(StringComparer.OrdinalIgnoreCase, "red"));
 
-        Assert.IsType<StrongTypeValidationResult.Valid>(validator.Validate("RED"));
+        Assert.True(validator.Validate("RED").IsValid);
     }
 
     [Fact]
@@ -56,7 +56,9 @@ public sealed class AllowedValuesValidatorTests
     {
         var validator = new AllowedValuesValidator<string>(["red"]);
 
-        var result = Assert.IsType<StrongTypeValidationResult.Invalid>(validator.Validate("yellow"));
+        var result = validator.Validate("yellow");
+
+        Assert.False(result.IsValid);
         Assert.Equal("Value must be one of: red.", result.ErrorMessage);
     }
 }
