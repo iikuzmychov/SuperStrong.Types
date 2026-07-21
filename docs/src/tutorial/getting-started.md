@@ -1,9 +1,5 @@
 # Getting started
 
-::: warning
-SuperStrong.Types is in **beta**: the API and features are not in final shape yet.
-:::
-
 ## Requirements
 
 This library targets **.NET 10**, so your project should target .NET 10 or higher to be compatible with SuperStrong.Types.

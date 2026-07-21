@@ -12,9 +12,6 @@
 
 </div>
 
-> [!WARNING]
-> SuperStrong.Types is in beta: the API and features are not in final shape yet.
-
 ## What does this library do?
 
 You write this:
@@ -47,7 +44,7 @@ You can easily integrate it with:
 Install the package from [NuGet](https://www.nuget.org/packages/SuperStrong.Types):
 
 ```sh
-dotnet add package SuperStrong.Types --preview
+dotnet add package SuperStrong.Types
 ```
 
 This library targets **.NET 10**, so your project should target .NET 10 or higher to be compatible with SuperStrong.Types.

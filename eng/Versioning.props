@@ -3,7 +3,7 @@
   <PropertyGroup>
     <VersionMajor>1</VersionMajor>
     <VersionMinor>0</VersionMinor>
-    <VersionSuffixName>beta</VersionSuffixName>
+    <VersionSuffixName></VersionSuffixName>
   </PropertyGroup>
 
   <!-- Decomposition of the last published version (provided by the publish pipeline) -->
