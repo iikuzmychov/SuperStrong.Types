@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageVersion Include="HotChocolate" Version="[16.0.0,17.0.0)" />
     <PackageVersion Include="HotChocolate.Types" Version="[16.0.0,17.0.0)" />
-    <PackageVersion Include="Meziantou.Polyfill" Version="1.0.140" />
+    <PackageVersion Include="Meziantou.Polyfill" Version="1.0.166" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="[10.0.0,11.0.0)" />
     <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="[10.0.0,11.0.0)" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="5.3.0" />
@@ -19,16 +19,16 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="[10.0.0,11.0.0)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="[10.0.0,11.0.0)" />
     <PackageVersion Include="Microsoft.OpenApi" Version="[2.9.0,3.0.0)" />
-    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.300" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.402" />
     <PackageVersion Include="Newtonsoft.Json" Version="[13.0.2,14.0.0)" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="[10.0.0,11.0.0)" />
     <PackageVersion Include="Respawn" Version="7.0.0" />
-    <PackageVersion Include="Testcontainers.MsSql" Version="4.12.0" />
-    <PackageVersion Include="Testcontainers.PostgreSql" Version="4.12.0" />
+    <PackageVersion Include="Testcontainers.MsSql" Version="4.16.0" />
+    <PackageVersion Include="Testcontainers.PostgreSql" Version="4.16.0" />
     <PackageVersion Include="Verify.SourceGenerators" Version="2.5.0" />
     <PackageVersion Include="Verify.XunitV3" Version="31.19.0" />
-    <PackageVersion Include="xunit.v3.extensibility.core" Version="3.2.2" />
-    <PackageVersion Include="xunit.v3.mtp-v2" Version="3.2.2" />
+    <PackageVersion Include="xunit.v3.extensibility.core" Version="4.0.2" />
+    <PackageVersion Include="xunit.v3.mtp-v2" Version="4.0.2" />
   </ItemGroup>
   
 </Project>
