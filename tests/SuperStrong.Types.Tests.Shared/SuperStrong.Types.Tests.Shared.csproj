@@ -3,7 +3,6 @@
   <Import Project="..\..\eng\CodeAnalysisReferences.props" />
 
   <PropertyGroup>
-    <OutputType>Library</OutputType>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 

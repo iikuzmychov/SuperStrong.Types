@@ -16,4 +16,10 @@
     <PackageReference Include="xunit.v3.mtp-v2" />
   </ItemGroup>
 
+  <!-- Test runner arguments -->
+  <PropertyGroup>
+    <_MtpResultsDirectory>$(ArtifactsPath)/TestResults/$(MSBuildProjectName)</_MtpResultsDirectory>
+    <TestingPlatformCommandLineArguments>$(TestingPlatformCommandLineArguments) --results-directory "$(_MtpResultsDirectory)"</TestingPlatformCommandLineArguments>
+  </PropertyGroup>
+
 </Project>
