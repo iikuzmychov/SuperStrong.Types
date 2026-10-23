@@ -35,15 +35,15 @@ Username.TryParse(null, out var username); // returns false
 When a strong type is a reference type, the instance itself can be `null`. The ordering operators (`<`, `<=`, `>`, `>=`) require both operands to be non-null and throw `ArgumentNullException` otherwise:
 
 ```csharp
-Username? name = null;
-name < Username.From("bob"); // throws ArgumentNullException
+Age? age = null;
+age < Age.From(25); // throws ArgumentNullException
 ```
 
 The equality operators (`==` and `!=`) treat `null` as a normal value and never throw:
 
 ```csharp
-Username? name = null;
-name == Username.From("bob"); // false
+Age? age = null;
+age == Age.From(25); // false
 ```
 
 ## Null propagation
