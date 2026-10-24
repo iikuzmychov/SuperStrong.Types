@@ -32,6 +32,13 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="$(_EntityFrameworkCoreVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(_EntityFrameworkCoreVersion)" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(_EntityFrameworkCoreVersion)" />
+    
+    <!--
+      Microsoft.EntityFrameworkCore.SqlServer 10.x.x depends on vulnerable version 
+      of System.Security.Cryptography.Pkcs 9.x.x, so its version is explicitly pinned
+      to the lowest non-vulnerable one
+    -->
+    <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="9.0.21" />
   </ItemGroup>
   
   <!-- Newtonsoft.Json -->
