@@ -14,6 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)../src/SuperStrong.Types.CodeAnalysis.Shared/AnalyzerReleases.Shipped.md" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)../src/SuperStrong.Types.CodeAnalysis.Shared/AnalyzerReleases.Unshipped.md" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Meziantou.Polyfill" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
