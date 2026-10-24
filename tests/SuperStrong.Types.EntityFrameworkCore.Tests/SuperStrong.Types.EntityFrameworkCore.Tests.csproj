@@ -2,6 +2,10 @@
 
   <Import Project="..\..\eng\TestProject.props" />
 
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);EF1001</NoWarn>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
     <PackageReference Include="Respawn" />
