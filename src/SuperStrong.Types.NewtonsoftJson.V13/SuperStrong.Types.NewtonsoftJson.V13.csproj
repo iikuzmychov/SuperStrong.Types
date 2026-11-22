@@ -3,15 +3,16 @@
   <Import Project="..\..\eng\Packable.props" />
 
   <PropertyGroup>
-    <PackageTags>$(PackageTags);hc;hotchocolate;hot-chocolate;graphql;graphql-platform;chillicream</PackageTags>
+    <RootNamespace>SuperStrong.Types.NewtonsoftJson</RootNamespace>
+    <PackageTags>$(PackageTags);newtonsoft;newtonsoft-json;json;serialization</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HotChocolate.Types" />
+    <PackageReference Include="Newtonsoft.Json" VersionOverride="[13.0.2,14.0.0)" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\SuperStrong.Types\SuperStrong.Types.csproj" />
   </ItemGroup>
-
+  
 </Project>

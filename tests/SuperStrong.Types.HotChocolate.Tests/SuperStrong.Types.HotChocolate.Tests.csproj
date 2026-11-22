@@ -3,11 +3,11 @@
   <Import Project="..\..\eng\TestProject.props" />
 
   <ItemGroup>
-    <PackageReference Include="HotChocolate" />
+    <PackageReference Include="HotChocolate" VersionOverride="16.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\SuperStrong.Types.HotChocolate\SuperStrong.Types.HotChocolate.csproj" />
+    <ProjectReference Include="..\..\src\SuperStrong.Types.HotChocolate.V16\SuperStrong.Types.HotChocolate.V16.csproj" />
     <ProjectReference Include="..\SuperStrong.Types.Tests.Shared\SuperStrong.Types.Tests.Shared.csproj" />
   </ItemGroup>
 

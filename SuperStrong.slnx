@@ -23,15 +23,13 @@
   </Folder>
   <Folder Name="/src/">
     <File Path="src/Directory.Build.props" />
-    <Project Path="src/SuperStrong.Types.AspNetCore.OpenApi/SuperStrong.Types.AspNetCore.OpenApi.csproj" />
+    <Project Path="src/SuperStrong.Types.AspNetCore.OpenApi.V10/SuperStrong.Types.AspNetCore.OpenApi.V10.csproj" />
     <Project Path="src/SuperStrong.Types.CodeAnalysis.Analyzers/SuperStrong.Types.CodeAnalysis.Analyzers.csproj" />
     <Project Path="src/SuperStrong.Types.CodeAnalysis.CodeActions/SuperStrong.Types.CodeAnalysis.CodeActions.csproj" />
     <Project Path="src/SuperStrong.Types.CodeAnalysis.Generators/SuperStrong.Types.CodeAnalysis.Generators.csproj" />
-    <Project Path="src/SuperStrong.Types.EntityFrameworkCore.Npgsql/SuperStrong.Types.EntityFrameworkCore.Npgsql.csproj" />
-    <Project Path="src/SuperStrong.Types.EntityFrameworkCore.SqlServer/SuperStrong.Types.EntityFrameworkCore.SqlServer.csproj" />
-    <Project Path="src/SuperStrong.Types.EntityFrameworkCore/SuperStrong.Types.EntityFrameworkCore.csproj" />
-    <Project Path="src/SuperStrong.Types.HotChocolate/SuperStrong.Types.HotChocolate.csproj" />
-    <Project Path="src/SuperStrong.Types.NewtonsoftJson/SuperStrong.Types.NewtonsoftJson.csproj" Id="e87f9fac-6f30-40e9-a06c-2623fbe7b829" />
+    <Project Path="src/SuperStrong.Types.EntityFrameworkCore.V10/SuperStrong.Types.EntityFrameworkCore.V10.csproj" />
+    <Project Path="src/SuperStrong.Types.HotChocolate.V16/SuperStrong.Types.HotChocolate.V16.csproj" />
+    <Project Path="src/SuperStrong.Types.NewtonsoftJson.V13/SuperStrong.Types.NewtonsoftJson.V13.csproj" Id="e87f9fac-6f30-40e9-a06c-2623fbe7b829" />
     <Project Path="src/SuperStrong.Types/SuperStrong.Types.csproj" />
   </Folder>
   <Folder Name="/tests/">
@@ -39,7 +37,7 @@
     <Project Path="tests/SuperStrong.Types.CodeAnalysis.Tests/SuperStrong.Types.CodeAnalysis.Tests.csproj" />
     <Project Path="tests/SuperStrong.Types.EntityFrameworkCore.Tests/SuperStrong.Types.EntityFrameworkCore.Tests.csproj" Id="9aea7318-a774-451c-897b-f10620918846" />
     <Project Path="tests/SuperStrong.Types.HotChocolate.Tests/SuperStrong.Types.HotChocolate.Tests.csproj" />
-    <Project Path="tests/SuperStrong.Types.Tests/SuperStrong.Types.Tests.csproj" />
     <Project Path="tests/SuperStrong.Types.Tests.Shared/SuperStrong.Types.Tests.Shared.csproj" />
+    <Project Path="tests/SuperStrong.Types.Tests/SuperStrong.Types.Tests.csproj" />
   </Folder>
 </Solution>

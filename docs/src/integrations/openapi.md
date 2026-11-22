@@ -8,16 +8,16 @@ This integration targets **ASP.NET Core 10**, so make sure your project uses it.
 
 ## Installation
 
-First, install the package from [NuGet](https://www.nuget.org/packages/SuperStrong.Types.AspNetCore.OpenApi):
+First, install the package from [NuGet](https://www.nuget.org/packages/SuperStrong.Types.AspNetCore.OpenApi.V10):
 
 ::: code-group
 
 ```sh-vue [.NET CLI]
-dotnet add package SuperStrong.Types.AspNetCore.OpenApi --version {{ $frontmatter.version }}
+dotnet add package SuperStrong.Types.AspNetCore.OpenApi.V10 --version {{ $frontmatter.version }}
 ```
 
 ```xml-vue [PackageReference]
-<PackageReference Include="SuperStrong.Types.AspNetCore.OpenApi" Version="{{ $frontmatter.version }}" />
+<PackageReference Include="SuperStrong.Types.AspNetCore.OpenApi.V10" Version="{{ $frontmatter.version }}" />
 ```
 
 :::

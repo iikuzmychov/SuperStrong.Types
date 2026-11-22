@@ -3,6 +3,7 @@
   <Import Project="..\..\eng\Packable.props" />
 
   <PropertyGroup>
+    <RootNamespace>SuperStrong.Types.AspNetCore.OpenApi</RootNamespace>
     <PackageTags>$(PackageTags);aspnetcore;asp-net-core;openapi;open-api;swagger</PackageTags>
   </PropertyGroup>
 
@@ -11,7 +12,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" VersionOverride="[10.0.0,11.0.0)" />
+    <PackageReference Include="Microsoft.OpenApi" VersionOverride="[2.9.0,3.0.0)" />
   </ItemGroup>
 
   <ItemGroup>

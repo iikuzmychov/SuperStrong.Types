@@ -8,16 +8,16 @@ This integration targets **Newtonsoft.Json 13**, so make sure your project uses 
 
 ## Installation
 
-First, install the package from [NuGet](https://www.nuget.org/packages/SuperStrong.Types.NewtonsoftJson):
+First, install the package from [NuGet](https://www.nuget.org/packages/SuperStrong.Types.NewtonsoftJson.V13):
 
 ::: code-group
 
 ```sh-vue [.NET CLI]
-dotnet add package SuperStrong.Types.NewtonsoftJson --version {{ $frontmatter.version }}
+dotnet add package SuperStrong.Types.NewtonsoftJson.V13 --version {{ $frontmatter.version }}
 ```
 
 ```xml-vue [PackageReference]
-<PackageReference Include="SuperStrong.Types.NewtonsoftJson" Version="{{ $frontmatter.version }}" />
+<PackageReference Include="SuperStrong.Types.NewtonsoftJson.V13" Version="{{ $frontmatter.version }}" />
 ```
 
 :::

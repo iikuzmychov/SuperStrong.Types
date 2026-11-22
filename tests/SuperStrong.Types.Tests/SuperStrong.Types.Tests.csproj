@@ -4,7 +4,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\SuperStrong.Types\SuperStrong.Types.csproj" />
-    <ProjectReference Include="..\..\src\SuperStrong.Types.NewtonsoftJson\SuperStrong.Types.NewtonsoftJson.csproj" />
+    <ProjectReference Include="..\..\src\SuperStrong.Types.NewtonsoftJson.V13\SuperStrong.Types.NewtonsoftJson.V13.csproj" />
     <ProjectReference Include="..\SuperStrong.Types.Tests.Shared\SuperStrong.Types.Tests.Shared.csproj" />
   </ItemGroup>
 

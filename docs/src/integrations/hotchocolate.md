@@ -8,16 +8,16 @@ This integration targets **Hot Chocolate 16**, so make sure your project uses it
 
 ## Installation
 
-First, install the package from [NuGet](https://www.nuget.org/packages/SuperStrong.Types.HotChocolate):
+First, install the package from [NuGet](https://www.nuget.org/packages/SuperStrong.Types.HotChocolate.V16):
 
 ::: code-group
 
 ```sh-vue [.NET CLI]
-dotnet add package SuperStrong.Types.HotChocolate --version {{ $frontmatter.version }}
+dotnet add package SuperStrong.Types.HotChocolate.V16 --version {{ $frontmatter.version }}
 ```
 
 ```xml-vue [PackageReference]
-<PackageReference Include="SuperStrong.Types.HotChocolate" Version="{{ $frontmatter.version }}" />
+<PackageReference Include="SuperStrong.Types.HotChocolate.V16" Version="{{ $frontmatter.version }}" />
 ```
 
 :::
